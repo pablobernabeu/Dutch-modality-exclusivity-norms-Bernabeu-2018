@@ -1,0 +1,14 @@
+---
+title: "Modality exclusivity norms in Dutch"
+author: "Pablo Bernabeu"
+date: "July 2016"
+output: html_document
+---
+
+```{r cache=FALSE, echo=FALSE}
+knitr::read_chunk('norms.R')
+```
+
+```{r norms.R, eval=FALSE}
+
+```
