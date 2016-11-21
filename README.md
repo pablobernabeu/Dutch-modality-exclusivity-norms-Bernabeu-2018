@@ -1,4 +1,4 @@
-# Modality-exclusivity-norms-747-Dutch-English-replication
+# Modality exclusivity norms for 747 Dutch 747 properties and concepts in Dutch: a replication of English (Bernabeu, Louwerse, & Willems, in prep.)
 
 This folder contains all experimental data, including each response survey in raw, the compilation of those (all.csv), and the analysis R code (norms.R). The working paper (Bernabeu, Louwerse, & Willems, in prep.) is the pdf 'Modality exclusivity norms for 747 properties and concepts in Dutch: a replication of English.' It is supervised by Max Louwerse and Roel Willems. 
 
