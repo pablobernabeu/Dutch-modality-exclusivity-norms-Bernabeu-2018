@@ -37,7 +37,7 @@
 # Translation-dependent results
 # Critical results
 # 	Modality
-#     Sound-symbolism
+#    Sound-symbolism
 
 
 # _____________________ ---  START  --- _____________________
@@ -81,7 +81,6 @@ library(contrast)
 library(pastecs)
 library(scales)
 library(ggplot2)
-library(psych)
 library(reshape)
 library(arules)
 library(plyr)
@@ -853,7 +852,7 @@ NLprops <- ggplot(props,
 NLprops  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOT
 
 
-#  Now to save, run first line below and return to keep running. See your folder.
+# Now to save, run first line below and return to keep running. See your folder.
 png(file="NLprops_highres.png", units="in", width=13, height=13, res=900)
 plot(NLprops)
 # warning normal: just removing English properties not used in Dutch
@@ -998,7 +997,7 @@ NLconcs <- ggplot(concs,
 #+ fig.width=7, fig.height=7
 NLconcs  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOT
 
-#  Now to save, run first line below and return to keep running. See your folder.
+# Now to save, run first line below and return to keep running. See your folder.
 png(file="NLconcs_highres.png", units="in", width=13, height=13, res=900)
 plot(NLconcs)
 # warning normal: just removing English concepts not used in Dutch
@@ -1244,7 +1243,7 @@ props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_letters_props$residuals, norm = TRUE)
-#  same; go back
+# same; go back
 fit_letters_props <- lm(props$s_letters ~ props$s_Auditory + props$s_Haptic + 
 props$s_Visual, data = props)
 
@@ -1276,7 +1275,7 @@ fit_phonemes_DUTCHPOND_props <- lm(props$log_s_phonemes_DUTCHPOND ~ props$s_Audi
 
 # check residuals again
 stat.desc(fit_phonemes_DUTCHPOND_props$residuals, norm = TRUE)
-#  worse; back
+# worse; back
 fit_phonemes_DUTCHPOND_props <- lm(props$s_phonemes_DUTCHPOND ~ props$s_Auditory + 
 props$s_Haptic + props$s_Visual, data = props)
 
@@ -1310,7 +1309,7 @@ props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_orth_neighbours_DUTCHPOND_props$residuals, norm = TRUE)
-#  quite better
+# quite better
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
@@ -1344,7 +1343,7 @@ props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_phon_neighbours_DUTCHPOND_props$residuals, norm = TRUE)
-#  quite better
+# quite better
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
@@ -1377,7 +1376,7 @@ props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_freq_lg10CD_SUBTLEXNL_props$residuals, norm = TRUE)
-#  quite better
+# quite better
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
@@ -1409,7 +1408,7 @@ props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_freq_lg10WF_SUBTLEXNL_props$residuals, norm = TRUE)
-#  quite better
+# quite better
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
@@ -1441,7 +1440,7 @@ props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_freq_CELEX_lem_props$residuals, norm = TRUE)
-#  same; go back
+# same; go back
 fit_freq_CELEX_lem_props <- lm(props$s_freq_CELEX_lem ~ props$s_Auditory + 
 props$s_Haptic + props$s_Visual, data = props)
 
@@ -1505,7 +1504,7 @@ props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_RC3_lexicals_props$residuals, norm = TRUE)
-#  quite better
+# quite better
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
