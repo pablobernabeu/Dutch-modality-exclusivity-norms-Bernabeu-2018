@@ -213,6 +213,22 @@ nrow(concs)  # 411 Dutch + a few from Lynott&Connell for comparison
 
 
 
+# Descriptives: perceptual strength
+# Dutch
+summaryBy(Perceptualstrength ~ cat, FUN=stat.desc, data=all)
+
+# English
+summaryBy(perceptualstrength_eng ~ cat, FUN=stat.desc, 
+data=all[!is.na(all$perceptualstrength_eng),])
+
+# The differences make sense considering the sampling method applied in the different
+# norms. The difference between the English and the Dutch norms is a bit larger for 
+# the concept norms because these norms were sampled differently. While the concepts
+# tested in the English norms were compiled regardless of their potential modalities,
+# the Dutch norms were entirely compiled  with a view to potential modality.
+
+
+
 # Correlations
 
 # PROPERTIES
