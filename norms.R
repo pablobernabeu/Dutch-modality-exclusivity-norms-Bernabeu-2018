@@ -1,9 +1,4 @@
-#' ---
-#' title: "Modality exclusivity norms in Dutch: code with results"
-#' author: "Pablo Bernabeu"
-#' date: "August 2016"
-#' ---
-
+#
 # Code for a psycholinguistic study about conceptual modality, part of P. Bernabeu's
 # MPhil thesis. 'Modality exclusivity norms for 747 properties and concepts in Dutch:
 # a replication of English'. More info at: https://goo.gl/Je4JGO. 
@@ -11,6 +6,7 @@
 
 
 # READ-ME
+# Ctrl+f may be used to search for specific parts of this code (for instance, PCA).
 # The 'all.csv' file, created outside of R, in Excel, compiles all individual ratings.
 # Dutch and English data are described in separate columns. All analyses separate for 
 # properties and concepts, except for a translation check. 
@@ -37,12 +33,12 @@
 # Translation-dependent results
 # Critical results
 # 	Modality
-#    Sound-symbolism
+#     Sound-symbolism
 
 
 # _____________________ ---  START  --- _____________________
 
-# Set your working directory here, to yield figures output:
+# Set your working directory here:
 # setwd('C:/.../.../...') 
 
 install.packages("gdata")
@@ -198,8 +194,7 @@ psych::alpha(v_props)
 
 # TRANSLATION-DEPENDENT RESULTS
 
-# Read in the general norms file, 'all' (all seemed right, seeing as we have Dutch 
-# and English properties and concepts)
+# Read in the general norms file, 'all'
 
 all <- read.csv('all.csv')
 
@@ -643,8 +638,8 @@ Engprops <- ggplot(eng_props,
 	margin=margin(15,15,15,15)),
          axis.text.x  = element_text(size=16),
 	   axis.text.y  = element_text(size=16)) +
-  labs(x = "Rotated PCA factor 1", y = "Rotated PCA factor 2") +
-    theme(plot.title = element_text(size = 32, face = "bold", 
+  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
+    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
 	margin=margin(15,15,15,15)))
 
 #+ fig.width=7, fig.height=7
@@ -677,8 +672,8 @@ Engprops4 <- ggplot(eng_props,
 	margin=margin(15,15,15,15)),
          axis.text.x  = element_text(size=16),
 	   axis.text.y  = element_text(size=16)) +
-  labs(x = "", y = "Rotated PCA factor 2") +
-    theme(plot.title = element_text(size = 32, face = "bold", 
+  labs(x = "", y = "Varimax-rotated Principal Component 2") +
+    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
 	margin=margin(15,15,15,15)))
 
 
@@ -762,8 +757,8 @@ Engconcs <- ggplot(eng_concs,
 	margin=margin(15,15,15,15)),
          axis.text.x  = element_text(size=16),
 	   axis.text.y  = element_text(size=16)) +
-  labs(x = "Rotated PCA factor 1", y = "Rotated PCA factor 2") +
-    theme(plot.title = element_text(size = 32, face = "bold", 
+  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
+    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
 	margin=margin(15,15,15,15)))
 
 #+ fig.width=7, fig.height=7
@@ -860,8 +855,8 @@ NLprops <- ggplot(props,
 	margin=margin(15,15,15,15)),
          axis.text.x  = element_text(size=16),
 	   axis.text.y  = element_text(size=16)) +
-  labs(x = "Rotated PCA factor 1", y = "Rotated PCA factor 2") +
-    theme(plot.title = element_text(size = 32, face = "bold", 
+  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
+    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
 	margin=margin(15,15,15,15)))
 
 #+ fig.width=7, fig.height=7
@@ -896,8 +891,8 @@ NLprops2 <- ggplot(props,
 	margin=margin(15,15,15,15)),
          axis.text.x  = element_text(size=16),
 	   axis.text.y  = element_text(size=16)) +
-  labs(x = "Rotated PCA factor 1", y = "") +
-    theme(plot.title = element_text(size = 32, face = "bold", 
+  labs(x = "Varimax-rotated Principal Component 1", y = "") +
+    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
 	margin=margin(15,15,15,15)))
 
 # Next:
@@ -922,7 +917,7 @@ NLprops4 <- ggplot(props,
          axis.text.x  = element_text(size=16),
 	   axis.text.y  = element_text(size=16)) +
   labs(x = "", y = "") +
-    theme(plot.title = element_text(size = 32, face = "bold", 
+    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
 	margin=margin(15,15,15,15)))
 
 
@@ -964,13 +959,13 @@ plot(pc1_conc$values, type = "b")
 
 # Now with varimax rotation, Kaiser-normalized (by default):
 # Always preferable because it captures explained variance best. 
-# Compare eigenvalues w/ 1 & 2 factors
+# Compare eigenvalues w/ 1 & 2 Principal Components
 
 pc2_conc <- psych::principal(conc, nfactors = 2, rotate = "varimax", scores = TRUE)
 pc2_conc
 pc2_conc$loadings
 
-# good to extract 2 factors, as they both explain quite the same variance, 
+# good to extract 2 Principal Components, as they both explain quite the same variance, 
 # and both surpass 1 eigenvalue
 
 pc2_conc$residual
@@ -1006,8 +1001,8 @@ NLconcs <- ggplot(concs,
 	margin=margin(15,15,15,15)),
          axis.text.x  = element_text(size=16),
 	   axis.text.y  = element_text(size=16)) +
-  labs(x = "Rotated PCA factor 1", y = "Rotated PCA factor 2") +
-    theme(plot.title = element_text(size = 32, face = "bold", 
+  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
+    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
 	margin=margin(15,15,15,15)))
 
 #+ fig.width=7, fig.height=7
@@ -1041,8 +1036,8 @@ NLconcs2 <- ggplot(concs,
 	margin=margin(15,15,15,15)),
          axis.text.x  = element_text(size=16),
 	   axis.text.y  = element_text(size=16)) +
-  labs(x = "Rotated PCA factor 1", y = "") +
-    theme(plot.title = element_text(size = 32, face = "bold", 
+  labs(x = "Varimax-rotated Principal Component 1", y = "") +
+    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
 	margin=margin(15,15,15,15)))
 
 
@@ -1052,7 +1047,7 @@ NLconcs2 <- ggplot(concs,
 # Below, run first line, get back and run next.  
 # High resolution (may be changed at 'res='). Beware of high memory usage.
 
-png(file="allfour_highres.png", units="in", width=19, height=19, res=1200)
+png(file="allfour_highres.png", units="in", width=18, height=18, res=1000)
 multiplot(Engprops4, Engconcs, NLprops4, NLconcs2, cols = 2)
 # warning normal: just those English items that were not used in Dutch
 dev.off()
