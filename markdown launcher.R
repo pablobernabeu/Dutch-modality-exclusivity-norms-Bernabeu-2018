@@ -1,4 +1,3 @@
-# Pablo Bernabeu (pcbernabeu@gmail.com)
 
 # This script is for the creation of Word and PDF documents via RMarkdown.
 # Pandoc and Miktex were previously installed. Where this is a good way to 
@@ -9,7 +8,7 @@ install.packages('rmarkdown')
 library(markdown)
 
 # Run code below. If library error, just try running again
-rmarkdown::render("norms.R", c("word_document", "pdf_document"))
+rmarkdown::render("norms.R", c("word_document", "pdf_document"), output_file='Code with output')
 
 # rendering takes a few minutes
 # at the end, find norms pdf in your working directory
