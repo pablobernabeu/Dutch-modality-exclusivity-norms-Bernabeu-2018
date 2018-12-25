@@ -8,4 +8,4 @@ This study is a cross-linguistic, conceptual replication of Lynott and Connellâ€
 
 See a longer summary here: https://www.linkedin.com/pulse/modality-exclusivity-norms-336-properties-411-dutch-english-bernabeu 
 
-(The relation among auditory, haptic, and visual modalities in property and concept words, in English and Dutch.)[../allfour_highres.png]
+[![The relation among auditory, haptic, and visual modalities in property and concept words, in English and Dutch.](/allfour_highres.png)](https://www.linkedin.com/pulse/modality-exclusivity-norms-336-properties-411-dutch-english-bernabeu/)
