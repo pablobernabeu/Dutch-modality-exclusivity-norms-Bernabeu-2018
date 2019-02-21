@@ -36,10 +36,9 @@
 #     Sound-symbolism
 
 
-# _____________________ ---  START  --- _____________________
 
-# Set your working directory here:
-# setwd('C:/.../.../...') 
+
+setwd('C:/Users/Pablo/Dropbox/STUDIES/R/Experiment Data/Modality norms')
 
 install.packages("gdata")
 install.packages("GPArotation")
@@ -68,6 +67,10 @@ install.packages('gdata')
 install.packages('gtools')
 install.packages('Hmisc')
 install.packages('png')
+install.packages('ggrepel')
+install.packages('irr')
+install.packages('tibble')
+
 library(ltm)
 library(lattice)
 library(psych)
@@ -92,6 +95,9 @@ library(dplyr)
 library(gtools)
 library(Hmisc)
 library(png)
+library(ggrepel)
+library(irr)
+library(tibble)
 
 
 # Calculate average percentange of unresponded items, i.e., unknown. Since there are 
@@ -106,90 +112,200 @@ file4 <- read.csv('file4_gral.csv')
 file5 <- read.csv('file5_gral.csv')
 file6 <- read.csv('file6_gral.csv')
 
-(((100 * (sum(is.na(file1)))) / (sum(!is.na(file1[,-1])) + sum(is.na(file1))) /3) +
-# 0.29
 
-((100 * (sum(is.na(file2)))) / (sum(!is.na(file2[,-1])) + sum(is.na(file2))) /3) +
-# 1.42
 
-((100 * (sum(is.na(file3)))) / (sum(!is.na(file3[,-1])) + sum(is.na(file3))) /3) +
-# 0.41
+# What percentage of modality ratings was not provided by respondents? Missing divided by total:
 
-# N.B. First participant is ignored because she completed only the first half of the 
-# survey.
-((100 * (sum(is.na(file4[,-c(1:4)])))) / (sum(!is.na(file4[,-c(1:4)])) + 
-sum(is.na(file4[,-c(1:4)]))) /3) +
-# 2.85
+ ( sum(is.na(file1)) + sum(is.na(file2)) + sum(is.na(file3)) +
+   sum(is.na(file4[,-c(1:4)])) +   # first participant removed because they completed only first half survey
+   sum(is.na(file5)) + sum(is.na(file6)) ) /
 
-((100 * (sum(is.na(file5)))) / (sum(!is.na(file5[,-1])) + sum(is.na(file5))) /3) +
-# 1.38
+ ( ncol(file1[,-1]) * nrow(file1[,-1]) +
+   ncol(file2[,-1]) * nrow(file2[,-1]) +
+   ncol(file3[,-1]) * nrow(file3[,-1]) +
+   ncol(file4[,-c(1:4)]) * nrow(file4[,-c(1:4)]) +	# first participant removed as above
+   ncol(file5[,-1]) * nrow(file5[,-1]) +
+   ncol(file6[,-1]) * nrow(file6[,-1]) ) *
 
-((100 * (sum(is.na(file6)))) / (sum(!is.na(file6[,-1])) + sum(is.na(file6))) /3)) /6
-# 1.50
-# /6 = 1.31% = average unknown
+ 100	 # percentage
+
+# 3.82% missing ratings
+
+
+
+
 #_________________________________________________________________________________
 
+
+
 # Preprocessing:
-# There were 9 files with different items (mostly unrepeated) for concepts and 
-# 10 files for properties. They were completed in different proportions, with an
+# There were 9 files with different items (mostly unrepeated) for concepts and 10
+# files for properties. They were completed in different proportions, with an
 # average of eight participants per file. 
 
 # RELIABILITY ANALYSIS: In putting together the ratings from each respondent, this 
 # analysis allows to calculate the fit among those. In other words, is the mean 
 # realistic or forced? Two measures are provided. First, interitem consistency 
 # provides the fit among items independently of raters. Second, interrater 
-# reliability measures the fit among raters, independently of items. A standard 
-# minimum for both is alpha = .70.
+# reliability measures the fit among raters, independently of items. Interrater
+# reliability is first calculated on the modality scores, and then at the level 
+# of dominant modalities.
 
 # Concepts
+
 all <- read.csv('all.csv')
 concs <- all[all$cat == 'conc',]
+a_concs <- concs[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10')]
+h_concs <- concs[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'a10')]
+v_concs <- concs[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'a10')]
 
-# There were 
-a_concs<-concs[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9')] 
-psych::alpha(a_concs)
-
-h_concs<-concs[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9')]
-psych::alpha(h_concs)
-
-v_concs<-concs[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9')] 
-psych::alpha(v_concs)
-
-# RESULTS good. Lower than L&C, but they had more participants.
 # Interitem consistency
+
+psych::alpha(a_concs)
+psych::alpha(h_concs)
+psych::alpha(v_concs)
 # a: .74
 # h: .72
 # v: .70
 
-# Interrater reliability
-# a: .75
-# h: .74
-# v: .72
+# Interrater reliability (Koo & Li, 2016)
+
+a_concs <- concs[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9')]
+h_concs <- concs[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9')]
+v_concs <- concs[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9')]
+
+icc(a_concs, "oneway", "consistency")
+icc(h_concs, "oneway", "consistency")
+icc(v_concs, "oneway", "consistency")
+
+
+
+# Now, look at the inter-rater agreement on the basis of the highest modality score for each word, namely
+# the dominant modality. Wherever a tie occurs among several modalities, one of them is randomly selected.
+
+all.Dutch = all[!is.na(all$word),]
+
+rater = NA
+id = NA  # i.e., word ID
+result = NA
+results = data.frame(rater, id, result)
+
+
+# Safer version of sample(), for use below
+resample <- function(x, ...) x[sample.int(length(x), ...)]
+
+
+getMain =
+function(rater, i.col){
+
+ for(i.row in 1:nrow(all.Dutch)){
+
+    # For cases in which no rating was provided to any modality, assign NA
+    if( length(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)]))) == 0) {
+	result = NA
+    
+    # For tied modalities, randomly select one of them
+    } else if( !length(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)]))) > 1) {
+	result = ifelse( sample(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])), size=1) == 1, 'a',
+	  ifelse( sample(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])), size=1) == 2, 'h',
+	    'v' ) )
+    
+    # For plain cases with one dominant modality, assign that modality
+    } else{
+	result = ifelse( which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])) == 1, 'a',
+	  ifelse( which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])) == 2, 'h',
+	    'v' ) )
+    }
+
+  results = rbind(results, c(rater, as.character(all.Dutch[i.row, 'id']), result))
+ }
+ results <<- results[!is.na(results$rater),]
+}
+
+
+getMain(1, c('a1','h1','v1'))
+getMain(2, c('a2','h2','v2'))
+getMain(3, c('a3','h3','v3'))
+getMain(4, c('a4','h4','v4'))
+getMain(5, c('a5','h5','v5'))
+getMain(6, c('a6','h6','v6'))
+getMain(7, c('a7','h7','v7'))
+getMain(8, c('a8','h8','v8'))
+getMain(9, c('a9','h9','v9'))
+getMain(10, c('a10','h10','v10'))
+
+all = merge(all, results[results$rater==1, c('id', 'result')], by='id')
+colnames(all)[colnames(all)=="result"] = 'main1'
+
+all = merge(all, results[results$rater==2, c('id', 'result')], by='id')
+colnames(all)[colnames(all)=="result"] = 'main2'
+
+all = merge(all, results[results$rater==3, c('id', 'result')], by='id')
+colnames(all)[colnames(all)=="result"] = 'main3'
+
+all = merge(all, results[results$rater==4, c('id', 'result')], by='id')
+colnames(all)[colnames(all)=="result"] = 'main4'
+
+all = merge(all, results[results$rater==5, c('id', 'result')], by='id')
+colnames(all)[colnames(all)=="result"] = 'main5'
+
+all = merge(all, results[results$rater==6, c('id', 'result')], by='id')
+colnames(all)[colnames(all)=="result"] = 'main6'
+
+all = merge(all, results[results$rater==7, c('id', 'result')], by='id')
+colnames(all)[colnames(all)=="result"] = 'main7'
+
+all = merge(all, results[results$rater==8, c('id', 'result')], by='id')
+colnames(all)[colnames(all)=="result"] = 'main8'
+
+all = merge(all, results[results$rater==9, c('id', 'result')], by='id')
+colnames(all)[colnames(all)=="result"] = 'main9'
+
+all = merge(all, results[results$rater==10, c('id', 'result')], by='id')
+colnames(all)[colnames(all)=="result"] = 'main10'
+
+# Order columns
+names(all)
+all = all[,c(1:58, 67:76, 59:66)]
+
+# Fleiss' Kappa (Fleiss, 1971)
+kappam.fleiss(all[,c('main1', 'main2', 'main3', 'main4', 'main5', 'main6', 'main7', 
+   'main8', 'main9', 'main10')], detail=TRUE)
+
+
 
 
 # Properties
-props <- all[all$cat == 'prop',]
 
-a_props<-props[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10')]
-psych::alpha(a_props)
-
-h_props<-props[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'h10')]
-psych::alpha(h_props)
-
-v_props<-props[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10')]
-psych::alpha(v_props)
-
-# RESULTS: good. Lower than L&C, but they did have a few more participants.
 # Interitem consistency
+
+props <- all[all$cat == 'prop',]
+a_props <- props[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10')]
+h_props <- props[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'h10')]
+v_props <- props[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10')]
+
+psych::alpha(a_props)
+psych::alpha(h_props)
+psych::alpha(v_props)
 # a: .78
 # h: .70
 # v: .85
 
-# Interrater reliability
-# a: .89
-# h: .83
-# v: .87
+# Interrater reliability (Koo & Li, 2016)
+
+a_props <- props[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8')]
+h_props <- props[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8')]
+v_props <- props[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8')]
+
+icc(a_props, "oneway", "consistency")
+icc(h_props, "oneway", "consistency")
+icc(v_props, "oneway", "consistency")
+
+
 # _______________________________________________________________________________
+
+
+
 
 
 # TRANSLATION-DEPENDENT RESULTS
@@ -304,6 +420,8 @@ nrow(props[concs$main=='a' & !is.na(concs$Exclusivity),])
 nrow(props[concs$main=='h' & !is.na(concs$Exclusivity),])
 nrow(props[concs$main=='v' & !is.na(concs$Exclusivity),])
 # _______________________________________________________________
+
+
 
 
 # CRITICAL RESULTS: not translation-influenced
@@ -547,22 +665,24 @@ t.test(concs$exc_eng, mu = 0.29)
 # dz = t/vn = 0.83
 # ___________________________________________________________________________
 
+
+
 # RELATION AMONG MODALITIES
 
-# Below, very informative plots based on Principal Components Analysis (PCA), 
-# as in Lynott and Connell (2009, 2013)
-# Firstly it is performed on the Dutch norms, then on the English ones, leaving out 
-# gustatory and olfactory scores and words. At the end, Dutch and English plots are 
-# compared.
+# Below is a Principal Components Analysis (PCA) with plots. Firstly it is performed 
+# on the Dutch norms, and then on Lynott and Connell's (2009, 2013) English norms 
+# (leaving out gustatory and olfactory scores and words). 
 
 all <- read.csv('all.csv')
-nrow(all) # 747 used in Dutch norms + English not used
+nrow(all)   # 747 used in Dutch norms + 12 from English not used
 
 # ON ENGLISH NORMS
-# PCA plotting on the English norms, as based on Lynott and Connell's 
-# supplementary materials (http://www.lancaster.ac.uk/people/connelll/lab/norms.html). 
+# PCA plotting on the English norms, as based on Lynott and Connell's supplementary materials 
+# (http://www.lancaster.ac.uk/people/connelll/lab/norms.html). 
 
-# ENG PROPERTIES
+
+# ENGLISH PROPERTIES
+
 # check conditions for a PCA
 # matrix
 
@@ -585,7 +705,7 @@ KMO(eng_prop_matrix)
 
 # check determinant
 det(eng_prop_matrix)
-# GOOD: >0.00001
+# GOOD: > 0.00001
 
 # start off with unrotated PCA
 pc1_eng_prop <- psych::principal(eng_prop, nfactors = 3, rotate = "none")
@@ -609,8 +729,7 @@ pc2_eng_prop$fit
 pc2_eng_prop$communality
 # Results based on a Kaiser-normalizalized orthogonal (varimax) rotation
 # (by default in psych::stats). Residuals bad: more than 50% have absolute 
-# values > 0.05. Model fit good, > .90. Communalities good, 
-# all > .7. 
+# values > 0.05. Model fit good, > .90. Communalities good, all > .7. 
 
 # subset and add PCs
 eng_props <- all[all$cat == 'prop', ]
@@ -618,66 +737,67 @@ nrow(eng_props)
 eng_props <- cbind(eng_props, pc2_eng_prop$scores)
 nrow(eng_props)
 
-# Finally, plot
-Engprops <- ggplot(eng_props,
-  aes(RC1, RC2, label = as.character(main_eng))) +
-  aes (x = RC1, y = RC2, by = main_eng) + stat_density2d (color = "gray87") +
-  geom_text(size = 7) +
-    ggtitle ('English properties') +
-    theme_bw() +    # theme with white background
-    theme(    # clear background, gridlines, chart border
-    plot.background = element_blank()
-   ,panel.grid.major = element_blank()
-   ,panel.grid.minor = element_blank()
-   ,panel.border = element_blank()
-  ) +
-  theme(axis.line = element_line(color = 'black')) +  # draw x and y lines
-    theme(axis.title.x = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.title.y = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.text.x  = element_text(size=16),
-	   axis.text.y  = element_text(size=16)) +
-  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
-	margin=margin(15,15,15,15)))
+head(eng_props)
 
-#+ fig.width=7, fig.height=7
-plot(Engprops)  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOT + THEN
-# THE COMBINED PLOTS
+# Finally, plot
+
+# Set sample words to show on plot (first word in each modality)
+auditory_w = as.character(sort(eng_props[eng_props$main_eng=='a', 'word_eng'])[1])
+haptic_w = as.character(sort(eng_props[eng_props$main_eng=='h', 'word_eng'])[1])
+visual_w = as.character(sort(eng_props[eng_props$main_eng=='v', 'word_eng'])[1])
+w_set = c(auditory_w, haptic_w, visual_w)
+
+Engprops <- ggplot(eng_props,
+  aes(RC1, RC2, label = as.character(main_eng))) + stat_density2d (color = "gray87") +
+  geom_text(size = ifelse(eng_props$word_eng %in% w_set, 12, 7),
+	fontface = ifelse(eng_props$word_eng %in% w_set, 'bold', 'plain')) +
+  geom_point(data=eng_props[eng_props$word_eng %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
+  labs(subtitle='(Data from Lynott & Connell, 2009)', x = "Varimax-rotated Principal Component 1", 
+	y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+	panel.grid.minor = element_blank(), panel.border = element_blank(),
+  	axis.line = element_line(color = 'black'),
+	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
+	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
+	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
+  geom_label_repel(data = eng_props[eng_props$word_eng %in% w_set,], aes(label = word_eng), size = 8, 
+	alpha = 0.77, color = 'black', box.padding = 1.5 )
+
+plot(Engprops)  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 
 # Now to save, run first line below and return to keep running. See your folder.
-png(file="Engprops_highres.png", units="in", width=13, height=13, res=900)
-plot(Engprops)
-dev.off()
+#png(file="Engprops_highres.png", units="in", width=13, height=13, res=900)
+#plot(Engprops)
+#dev.off()
 
 # Adjust for combined plots:
 
 Engprops4 <- ggplot(eng_props,
-  aes(RC1, RC2, label = as.character(main_eng))) +
-  aes (x = RC1, y = RC2, by = main_eng) + stat_density2d (color = "gray87") +
-  geom_text(size = 7) +
-    ggtitle ('English properties') +
-    theme_bw() +    # theme with white background
-    theme(    # clear background, gridlines, chart border
-    plot.background = element_blank()
-   ,panel.grid.major = element_blank()
-   ,panel.grid.minor = element_blank()
-   ,panel.border = element_blank()
-  ) +
-  theme(axis.line = element_line(color = 'black')) +  # draw x and y lines
-    theme(axis.title.x = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.title.y = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.text.x  = element_text(size=16),
-	   axis.text.y  = element_text(size=16)) +
-  labs(x = "", y = "Varimax-rotated Principal Component 2") +
-    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
-	margin=margin(15,15,15,15)))
+  aes(RC1, RC2, label = as.character(main_eng))) + stat_density2d (color = "gray87") +
+  geom_text(size = ifelse(eng_props$word_eng %in% w_set, 12, 7),
+	fontface = ifelse(eng_props$word_eng %in% w_set, 'bold', 'plain')) +
+  geom_point(data=eng_props[eng_props$word_eng %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
+  ggtitle('English properties') + 
+  labs(subtitle='(Data from Lynott & Connell, 2009)', x = "", 
+	y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+	panel.grid.minor = element_blank(), panel.border = element_blank(),
+  	axis.line = element_line(color = 'black'),
+	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
+	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
+	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
+  geom_label_repel(data = eng_props[eng_props$word_eng %in% w_set,], aes(label = word_eng), size = 8, 
+	alpha = 0.77, color = 'black', box.padding = 1.5 )
 
 
-# ENG CONCEPTS
+
+
+# ENGLISH CONCEPTS
+
 # check conditions for a PCA
 # matrix
 eng_conc <- all[all$cat == 'conc', c('Aud_eng', 'Hap_eng', 'Vis_eng')]
@@ -699,7 +819,7 @@ KMO(eng_conc_matrix)
 
 # check determinant
 det(eng_conc_matrix)
-# GOOD: >0.00001
+# GOOD: > 0.00001
 
 # start off with unrotated PCA
 pc1_eng_conc <- psych::principal(eng_conc, nfactors = 3, rotate = "none")
@@ -738,46 +858,49 @@ summary(eng_concs$RC1, eng_concs$RC2)
 
 
 # Finally, plot
-Engconcs <- ggplot(eng_concs,
-  aes(RC1, RC2, label = as.character(main_eng))) +
-  aes (x = RC1, y = RC2, by = main_eng) + stat_density2d (color = "gray87") +
-  geom_text(size = 7) +
-    ggtitle ('English concepts') +
-    theme_bw() +    # theme with white background
-    theme(    # clear background, gridlines, chart border
-    plot.background = element_blank()
-   ,panel.grid.major = element_blank()
-   ,panel.grid.minor = element_blank()
-   ,panel.border = element_blank()
-  ) +
-  theme(axis.line = element_line(color = 'black')) +  # draw x and y lines
-    theme(axis.title.x = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.title.y = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.text.x  = element_text(size=16),
-	   axis.text.y  = element_text(size=16)) +
-  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
-	margin=margin(15,15,15,15)))
 
-#+ fig.width=7, fig.height=7
-Engconcs  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOT
+# Set sample words to show on plot (first word in each modality)
+auditory_w = as.character(sort(eng_concs[eng_concs$main_eng=='a', 'word_eng'])[1])
+haptic_w = as.character(sort(eng_concs[eng_concs$main_eng=='h', 'word_eng'])[1])
+visual_w = as.character(sort(eng_concs[eng_concs$main_eng=='v', 'word_eng'])[1])
+w_set = c(auditory_w, haptic_w, visual_w)
+
+Engconcs <- ggplot(eng_concs,
+  aes(RC1, RC2, label = as.character(main_eng))) + stat_density2d (color = "gray87") +
+  geom_text(size = ifelse(eng_concs$word_eng %in% w_set, 12, 7),
+	fontface = ifelse(eng_concs$word_eng %in% w_set, 'bold', 'plain')) +
+  geom_point(data=eng_concs[eng_concs$word_eng %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
+  ggtitle('English concepts') + 
+  labs(subtitle='(Data from Lynott & Connell, 2013)', x = "Varimax-rotated Principal Component 1", 
+	y = "Varimax-rotated Principal Component 2") +	theme_bw() +
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+	panel.grid.minor = element_blank(), panel.border = element_blank(),
+  	axis.line = element_line(color = 'black'),
+	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
+	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
+	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
+  geom_label_repel(data = eng_concs[eng_concs$word_eng %in% w_set,], aes(label = word_eng), size = 8, 
+	alpha = 0.77, color = 'black', box.padding = 1.5 )
+
+Engconcs  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 
 # Now to save, run first line below and return to keep running. See your folder.
-png(file="Engconcs_highres.png", units="in", width=13, height=13, res=900)
-plot(Engconcs)
-dev.off()
+#png(file="Engconcs_highres.png", units="in", width=13, height=13, res=900)
+#plot(Engconcs)
+#dev.off()
+
 
 
 
 # ON DUTCH NORMS
 
-# properties
+# Properties
 # check conditions for a PCA
 
 # matrix
-prop <- all[all$cat == 'prop', c('Auditory', 'Haptic', 'Visual')]
+prop <- all[all$cat == 'prop' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
 nrow(prop)
 prop_matrix <- cor(prop, use = 'complete.obs')
 prop_matrix
@@ -796,7 +919,7 @@ KMO(prop_matrix)
 
 # check determinant
 det(prop_matrix)
-# GOOD: >0.00001
+# GOOD: > 0.00001
 
 # start off with unrotated PCA
 pc1_prop <- psych::principal(prop, nfactors = 3, rotate = "none")
@@ -829,103 +952,94 @@ pc2_prop$communality
 # Communalities good, all > .7 (av = .83). 
 
 # subset and add PCs
-props <- all[all$cat == 'prop', ]
+props <- all[all$cat == 'prop' & !is.na(all$word), ]
 nrow(props)
 props <- cbind(props, pc2_prop$scores)
 nrow(props)
 
 # Finally, plot: letters+density (cf. Lynott & Connell, 2009, 2013)
 
-NLprops <- ggplot(props,
-  aes(RC1, RC2, label = as.character(main))) +
-  aes (x = RC1, y = RC2, by = main) + stat_density2d (color = "gray87") +
-  geom_text(size = 7) +
-    ggtitle ('Dutch properties') +
-    theme_bw() +    # theme with white background
-    theme(    # clear background, gridlines, chart border
-    plot.background = element_blank()
-   ,panel.grid.major = element_blank()
-   ,panel.grid.minor = element_blank()
-   ,panel.border = element_blank()
-  ) +
-  theme(axis.line = element_line(color = 'black')) +  # draw x and y lines
-    theme(axis.title.x = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.title.y = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.text.x  = element_text(size=16),
-	   axis.text.y  = element_text(size=16)) +
-  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
-	margin=margin(15,15,15,15)))
+# Set sample words to show on plot (first word in each modality)
+auditory_w = as.character(sort(props[props$main=='a', 'word'])[1])
+haptic_w = as.character(sort(props[props$main=='h', 'word'])[1])
+visual_w = as.character(sort(props[props$main=='v', 'word'])[1])
+w_set = c(auditory_w, haptic_w, visual_w)
 
-#+ fig.width=7, fig.height=7
-NLprops  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOT
+NLprops <- ggplot(props,
+  aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
+  geom_text(size = ifelse(props$word %in% w_set, 12, 7),
+	fontface = ifelse(props$word %in% w_set, 'bold', 'plain')) +
+  geom_point(data=props[props$word %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
+  ggtitle('Dutch properties') +
+  labs(subtitle='', x = "Varimax-rotated Principal Component 1", 
+	y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+	panel.grid.minor = element_blank(), panel.border = element_blank(),
+  	axis.line = element_line(color = 'black'),
+	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
+	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
+	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
+  geom_label_repel(data = props[props$word %in% w_set,], aes(label = word), size = 8, 
+	alpha = 0.77, color = 'black', box.padding = 1.5 )
+
+NLprops  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 
 
 # Now to save, run first line below and return to keep running. See your folder.
-png(file="NLprops_highres.png", units="in", width=13, height=13, res=900)
-plot(NLprops)
-# warning normal: just removing English properties not used in Dutch
-dev.off()
+#png(file="NLprops_highres.png", units="in", width=13, height=13, res=900)
+#plot(NLprops)
+#dev.off()
 
 
 # Adjust for combined plots:
 
 NLprops2 <- ggplot(props,
-  aes(RC1, RC2, label = as.character(main))) +
-  aes (x = RC1, y = RC2, by = main) + stat_density2d (color = "gray87") +
-  geom_text(size = 7) +
-    ggtitle ('Dutch properties') +
-    theme_bw() +    # theme with white background
-    theme(    # clear background, gridlines, chart border
-    plot.background = element_blank()
-   ,panel.grid.major = element_blank()
-   ,panel.grid.minor = element_blank()
-   ,panel.border = element_blank()
-  ) +
-  theme(axis.line = element_line(color = 'black')) +  # draw x and y lines
-    theme(axis.title.x = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.title.y = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.text.x  = element_text(size=16),
-	   axis.text.y  = element_text(size=16)) +
-  labs(x = "Varimax-rotated Principal Component 1", y = "") +
-    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
-	margin=margin(15,15,15,15)))
+  aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
+  geom_text(size = ifelse(props$word %in% w_set, 12, 7),
+	fontface = ifelse(props$word %in% w_set, 'bold', 'plain')) +
+  geom_point(data=props[props$word %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
+  ggtitle('Dutch properties') +  labs(subtitle='', x = "", y = "") +  theme_bw() +   
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+	panel.grid.minor = element_blank(), panel.border = element_blank(),
+  	axis.line = element_line(color = 'black'),
+	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
+	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
+	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
+  geom_label_repel(data = props[props$word %in% w_set,], aes(label = word), size = 8, 
+	alpha = 0.77, color = 'black', box.padding = 1.5 )
+
 
 # Next:
 
 NLprops4 <- ggplot(props,
-  aes(RC1, RC2, label = as.character(main))) +
-  aes (x = RC1, y = RC2, by = main) + stat_density2d (color = "gray87") +
-  geom_text(size = 7) +
-    ggtitle ('Dutch properties') +
-    theme_bw() +    # theme with white background
-    theme(    # clear background, gridlines, chart border
-    plot.background = element_blank()
-   ,panel.grid.major = element_blank()
-   ,panel.grid.minor = element_blank()
-   ,panel.border = element_blank()
-  ) +
-  theme(axis.line = element_line(color = 'black')) +  # draw x and y lines
-    theme(axis.title.x = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.title.y = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.text.x  = element_text(size=16),
-	   axis.text.y  = element_text(size=16)) +
-  labs(x = "", y = "") +
-    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
-	margin=margin(15,15,15,15)))
+  aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
+  geom_text(size = ifelse(props$word %in% w_set, 12, 7),
+	fontface = ifelse(props$word %in% w_set, 'bold', 'plain')) +
+  geom_point(data=props[props$word %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
+  ggtitle('Dutch properties') +  labs(subtitle='', x = "", y = "") +  theme_bw() +   
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+	panel.grid.minor = element_blank(), panel.border = element_blank(),
+  	axis.line = element_line(color = 'black'),
+	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
+	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
+	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
+  geom_label_repel(data = props[props$word %in% w_set,], aes(label = word), size = 8, 
+	alpha = 0.77, color = 'black', box.padding = 1.5 )
+
 
 
 
 # CONCEPTS
+
 # check conditions for a PCA
 # matrix
-conc <- all[all$cat == 'conc', c('Auditory', 'Haptic', 'Visual')]
+conc <- all[all$cat == 'conc' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
 nrow(conc)
 conc_matrix <- cor(conc, use = 'complete.obs')
 conc_matrix
@@ -944,7 +1058,7 @@ KMO(conc_matrix)
 
 # check determinant
 det(conc_matrix)
-# GOOD: >0.00001
+# GOOD: > 0.00001
 
 # start off with unrotated PCA
 pc1_conc <- psych::principal(conc, nfactors = 3, rotate = "none")
@@ -976,69 +1090,65 @@ pc2_conc$communality
 # values > 0.05. Model fit good, > .90. Communalities good, all > .7 (av = .82). 
 
 # subset and add PCs
-concs <- all[all$cat == 'conc', ]
+concs <- all[all$cat == 'conc' & !is.na(all$word), ]
 nrow(concs)
 concs <- cbind(concs, pc2_conc$scores)
 nrow(concs)
 
 # Finally, plot
-NLconcs <- ggplot(concs,
-  aes(RC1, RC2, label = as.character(main))) +
-  aes (x = RC1, y = RC2, by = main) + stat_density2d (color = "gray87") +
-  geom_text(size = 7) +
-    ggtitle ('Dutch concepts') +
-    theme_bw() +    # theme with white background
-    theme(    # clear background, gridlines, chart border
-    plot.background = element_blank()
-   ,panel.grid.major = element_blank()
-   ,panel.grid.minor = element_blank()
-   ,panel.border = element_blank()
-  ) +
-  theme(axis.line = element_line(color = 'black')) +  # draw x and y lines
-    theme(axis.title.x = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.title.y = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.text.x  = element_text(size=16),
-	   axis.text.y  = element_text(size=16)) +
-  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
-	margin=margin(15,15,15,15)))
 
-#+ fig.width=7, fig.height=7
-NLconcs  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOT
+# Set sample words to show on plot (first word in each modality)
+auditory_w = as.character(sort(concs[concs$main=='a', 'word'])[1])
+haptic_w = as.character(sort(concs[concs$main=='h', 'word'])[1])
+visual_w = as.character(sort(concs[concs$main=='v', 'word'])[1])
+w_set = c(auditory_w, haptic_w, visual_w)
+
+NLconcs <- ggplot(concs,
+  aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
+  geom_text(size = ifelse(concs$word %in% w_set, 12, 7),
+	fontface = ifelse(concs$word %in% w_set, 'bold', 'plain')) +
+  geom_point(data=concs[concs$word %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
+  ggtitle('Dutch concepts') +
+  labs(subtitle='', x = "Varimax-rotated Principal Component 1", y = "") +  theme_bw() +   
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+	panel.grid.minor = element_blank(), panel.border = element_blank(),
+  	axis.line = element_line(color = 'black'),
+	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
+	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
+	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
+  geom_label_repel(data = concs[concs$word %in% w_set,], aes(label = word), size = 8, 
+	alpha = 0.77, color = 'black', box.padding = 1.5 )
+
+NLconcs  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 
 # Now to save, run first line below and return to keep running. See your folder.
-png(file="NLconcs_highres.png", units="in", width=13, height=13, res=900)
-plot(NLconcs)
-# warning normal: just removing English concepts not used in Dutch
-dev.off()
+#png(file="NLconcs_highres.png", units="in", width=13, height=13, res=900)
+#plot(NLconcs)
+#dev.off()
 
 
 # Adjust for combined plots:
 
 NLconcs2 <- ggplot(concs,
-  aes(RC1, RC2, label = as.character(main))) +
-  aes (x = RC1, y = RC2, by = main) + stat_density2d (color = "gray87") +
-  geom_text(size = 7) +
-    ggtitle ('Dutch concepts') +
-    theme_bw() +    # theme with white background
-    theme(    # clear background, gridlines, chart border
-    plot.background = element_blank()
-   ,panel.grid.major = element_blank()
-   ,panel.grid.minor = element_blank()
-   ,panel.border = element_blank()
-  ) +
-  theme(axis.line = element_line(color = 'black')) +  # draw x and y lines
-    theme(axis.title.x = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.title.y = element_text(colour = 'black', size = 23, 
-	margin=margin(15,15,15,15)),
-         axis.text.x  = element_text(size=16),
-	   axis.text.y  = element_text(size=16)) +
-  labs(x = "Varimax-rotated Principal Component 1", y = "") +
-    theme(plot.title = element_text(hjust = 0.5, size = 32, face = "bold", 
-	margin=margin(15,15,15,15)))
+  aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
+  geom_text(size = ifelse(concs$word %in% w_set, 12, 7),
+	fontface = ifelse(concs$word %in% w_set, 'bold', 'plain')) +
+  geom_point(data=concs[concs$word %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
+  ggtitle('Dutch concepts') +
+  labs(subtitle='', x = "Varimax-rotated Principal Component 1", y = "") +  theme_bw() +   
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+	panel.grid.minor = element_blank(), panel.border = element_blank(),
+  	axis.line = element_line(color = 'black'),
+	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
+	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
+	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
+  geom_label_repel(data = concs[concs$word %in% w_set,], aes(label = word), size = 8, 
+	alpha = 0.77, color = 'black', box.padding = 1.5 )
+
 
 
 
@@ -1049,17 +1159,18 @@ NLconcs2 <- ggplot(concs,
 
 png(file="allfour_highres.png", units="in", width=18, height=18, res=1000)
 multiplot(Engprops4, Engconcs, NLprops4, NLconcs2, cols = 2)
-# warning normal: just those English items that were not used in Dutch
+dev.off()
+
+png(file="allfour_lowres.png", units="in", width=18, height=18, res=200)
+multiplot(Engprops4, Engconcs, NLprops4, NLconcs2, cols = 2)
 dev.off()
 
 png(file="proppair_highres.png", units="in", width=18, height=9, res=1000)
 multiplot(Engprops, NLprops2, cols = 2)
-# warning normal: just those English items that were not used in Dutch
 dev.off()
 
 png(file="concpair_highres.png", units="in", width=18, height=9, res=1000)
 multiplot(Engconcs, NLconcs2, cols = 2)
-# warning normal: just those English items that were not used in Dutch
 dev.off()
 
 # Find all plots in your working directory
