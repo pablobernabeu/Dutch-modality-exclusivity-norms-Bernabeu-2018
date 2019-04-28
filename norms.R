@@ -483,13 +483,13 @@ rcor.test(props[, c('Aud_eng', 'Hap_eng', 'Vis_eng', 'exc_eng')], use =
 'complete.obs')
 corr3 = rcor.test(props[, c('Aud_eng', 'Hap_eng', 'Vis_eng', 'exc_eng')], 
 use = 'complete.obs')
-write.csv(corr3$cor.mat, file = "corr3.csv",na="") # saved for manuscript
+#write.csv(corr3$cor.mat, file = "corr3.csv",na="") # saved for manuscript
 
 # CONCEPTS
 rcor.test(concs[, c('Aud_eng', 'Hap_eng', 'Vis_eng', 'exc_eng')], use = 'complete.obs')
 corr4 = rcor.test(concs[, c('Aud_eng', 'Hap_eng', 'Vis_eng', 'exc_eng')], use = 
 'complete.obs')
-write.csv(corr4$cor.mat, file = "corr4.csv",na="") # saved for manuscript
+#write.csv(corr4$cor.mat, file = "corr4.csv",na="") # saved for manuscript
 
 
 # DUTCH
@@ -498,14 +498,14 @@ rcor.test(props[, c('Auditory', 'Haptic', 'Visual', 'Exclusivity')], use =
 'complete.obs')
 corr1 = rcor.test(props[, c('Auditory', 'Haptic', 'Visual', 'Exclusivity')], 
 use = 'complete.obs')
-write.csv(corr1$cor.mat, file = "corr1.csv",na="") # saved for manuscript
+#write.csv(corr1$cor.mat, file = "corr1.csv",na="") # saved for manuscript
 
 # CONCEPTS
 rcor.test(concs[, c('Auditory', 'Haptic', 'Visual', 'Exclusivity')], use = 
 'complete.obs')
 corr2 = rcor.test(concs[, c('Auditory', 'Haptic', 'Visual', 'Exclusivity')], use = 
 'complete.obs')
-write.csv(corr2$cor.mat, file = "corr2.csv",na="") # saved for manuscript
+#write.csv(corr2$cor.mat, file = "corr2.csv",na="") # saved for manuscript
 
 
 # Statistical tests for those differences
@@ -566,7 +566,7 @@ summary.lm(fitt)
 
 # SAME PLOT-WISE:
 # Barplot of exclusivity percentiles within modalities for Dutch items (as in 
-# van Dantzig et al., 2011, but separately for properties and concepts)
+# Van Dantzig et al., 2011, but separately for properties and concepts)
 
 all<-read.csv('all.csv')
 
@@ -664,6 +664,12 @@ t.test(concs$exc_eng, mu = 0.29)
 # The difference is considerable, t(734) = 18.8, p < .001
 # dz = t/vn = 0.83
 # ___________________________________________________________________________
+
+
+
+
+
+
 
 
 
@@ -1146,7 +1152,7 @@ NLconcs2 <- ggplot(concs,
 	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
 	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
 	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
-  geom_label_repel(data = concs[concs$word %in% w_set,], aes(label = word), size = 8, 
+  geom_label_repel(data = concs[concs$word %in% w_set,], aes(label = word), size = 8,
 	alpha = 0.77, color = 'black', box.padding = 1.5 )
 
 
@@ -1188,6 +1194,10 @@ dev.off()
 
 
 
+
+
+
+
 # ICONICITY
 
 # Last tests: iconicity/sound symbolism on concepts and properties separately.
@@ -1220,7 +1230,7 @@ props <- subset(all, subset = cat == 'prop')
 nrow(props)
 
 # There aren't lexical data for every single word.
-# Nr of properties per lexical variable (from the Dutch items only of course)
+# Number of properties per lexical variable (from the Dutch items only of course)
 describe(complete.cases(props[complete.cases(props$Exclusivity),]
 $phonemes_DUTCHPOND))
 describe(complete.cases(props[complete.cases(props$Exclusivity),]
@@ -1259,12 +1269,12 @@ mat_lexicals_props <- as.matrix(props[c('letters', 'phonemes_DUTCHPOND',
 
 rcor.test(mat_lexicals_props, use='complete.obs')
 corrs_props = rcor.test(mat_lexicals_props, use='complete.obs')
-write.csv(corrs_props$cor.mat, file = "corrs_props.csv",na="") # find table in folder
+#write.csv(corrs_props$cor.mat, file = "corrs_props.csv",na="") # find table in folder
 # (saved just for the manuscript)
 
 
-# go on to PCA. This does not include age of acquisition or concreteness for a 
-# better comparison with the English data, and because no correlations > .7 (i.e. half
+# Go on to PCA. This PCA does not include age of acquisition or concreteness, to allow a 
+# better comparison with the English data, and because no correlations > .7 (i.e. half 
 # of variance explained)
 
 lexicals_props <- props[c('letters', 'phonemes_DUTCHPOND', 'orth_neighbours_DUTCHPOND', 
@@ -1781,11 +1791,11 @@ mat_lexicals_concs <- as.matrix(concs[c('letters', 'phonemes_DUTCHPOND',
 
 rcor.test(mat_lexicals_concs, use='complete.obs')
 corrs_concs = rcor.test(mat_lexicals_concs, use='complete.obs')
-write.csv(corrs_concs$cor.mat, file = "corrs_concs.csv",na="") # find table in folder
+#write.csv(corrs_concs$cor.mat, file = "corrs_concs.csv",na="") # find table in folder
 
 
-# go on to PCA. This does not include age of acquisition or concreteness for a 
-# better comparison with the English data, and because no correlations > .7 (i.e. half
+# Go on to PCA. This PCA does not include age of acquisition or concreteness, to allow a 
+# better comparison with the English data, and because no correlations > .7 (i.e. half 
 # of variance explained)
 
 lexicals_concs <- concs[c('letters', 'phonemes_DUTCHPOND', 'orth_neighbours_DUTCHPOND', 
