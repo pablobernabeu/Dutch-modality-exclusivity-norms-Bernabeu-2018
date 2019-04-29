@@ -1,5 +1,5 @@
 ---
-title: "Dutch modality exclusivity norms (Bernabeu et al., in prep.)"
+title: "Dutch modality exclusivity norms (Bernabeu et al., 2017)"
 output:
   flexdashboard::flex_dashboard:
     orientation: columns
@@ -20,8 +20,7 @@ runtime: shiny
 
 
 
-
-```{r global, include=FALSE}
+```{r global, include = FALSE}
 
 library(ltm)
 library(lattice)
@@ -50,6 +49,7 @@ library(MASS)
 library(qpcR)
 library(gtools)
 library(Hmisc)
+library(RCurl)
 library(png)
 library(grid)
 library(ggrepel)
@@ -259,7 +259,6 @@ concs$Exclusivity = concs$Exclusivity * 100
 
 colours = c('firebrick1', 'dodgerblue', 'forestgreen')
 
-
 ```
 
 
@@ -271,6 +270,13 @@ Properties
 Column {.sidebar}
 -----------------------------------------------------------------------
 
+<div style = "text-align: justify"> <font color = "#959494">
+
+Tabs may be selected above. Zooming may be done on the plot.
+
+</div> </font>
+
+
 ```{r}
 
 # Highlight words
@@ -280,7 +286,7 @@ selectizeInput("highlighted_properties", label = "Highlighted words", choices = 
 
 # Modality exclusivity %
 
-sliderInput("properties_Exclusivity", "Modality Exclusivity %", min = 0, max = 100, value = c(0, 100))
+sliderInput("properties_Exclusivity", "Modality Exclusivity (%)", min = 0, max = 100, value = c(0, 100))
 
 
 # Perceptual strength
@@ -309,6 +315,13 @@ sliderInput("properties_Freq", "Word Frequency", min = 0, max = 5, value = c(0, 
 
 ```
 
+<br />
+
+<center> <font color = "#959494">
+
+[**See Info tab**](#section-info)
+
+</center> </font>
 
 
 
@@ -344,12 +357,14 @@ renderPlot({
 
   ggplot(selected_props(),
                     aes(RC1, RC2, color = main, label = as.character(word),
-                        text = paste( '<b>', capitalize(word), '</b><br> Main modality:<b>', main,
-                               '</b><br> Principal Component 1:<b>', RC1, '</b><br> Principal Component 2:<b>', RC2,
-                               '</b><br> Auditory:<b>', Auditory, '</b><br> Haptic:<b>', Haptic, '</b><br> Visual:<b>', Visual,
-                               '</b><br> Perceptual strength:<b>', Perceptualstrength, '</b><br> Exclusivity:<b>', Exclusivity,
-					 '</b><br> Word frequency (lg10WF-SUBTLEXNL):<b>', freq_lg10WF_SUBTLEXNL, '<b>' ) )) +
-  geom_text(size = ifelse(selected_props()$word %in% highlighted_properties(), 7, 3),
+                        text = paste0( ' <b><span style="font-size:2em;">', capitalize(word), '</b></span> ',	# Html tags used for format
+					 '<br></br> Main modality: <b>', main, ' ', '</b><br> Principal Component 1: <b>', RC1, ' ', 
+					 '</br></b> Principal Component 2: <b>', RC2, ' ', '</b><br> Auditory: <b>', Auditory, ' ', 
+					 '</b><br> Haptic: <b>', Haptic, ' ', '</b><br> Visual: <b>', Visual, ' ',
+                               '</b><br> Perceptual strength: <b>', Perceptualstrength, ' ', '</b><br> Exclusivity: <b>', Exclusivity, '% ',
+					 '</b><br> Word frequency (lg10WF-SUBTLEXNL): <b>', freq_lg10WF_SUBTLEXNL, '<b>', ' ' ) )) +
+  geom_text(size = ifelse(selected_props()$word %in% highlighted_properties(), 7,
+			    ifelse(is.null(highlighted_properties()), 3, 2.8)),
             fontface = ifelse(selected_props()$word %in% highlighted_properties(), 'bold', 'plain')) +
   scale_colour_manual(values = colours) +  ggtitle('Property words') + theme_bw() +
   labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
@@ -377,13 +392,18 @@ renderPlot({
 
 
 
-
-
 Concepts
 =======================================================================
 
 Column {.sidebar}
 -----------------------------------------------------------------------
+
+<div style = "text-align: justify"> <font color = "#959494">
+
+Tabs may be selected above. Zooming may be done on the plot.
+
+</div> </font>
+
 
 ```{r}
 
@@ -394,7 +414,7 @@ selectizeInput("highlighted_concepts", label = "Highlighted words", choices = so
 
 # Modality exclusivity %
 
-sliderInput("concepts_Exclusivity", "Modality Exclusivity %", min = 0, max = 100, value = c(0, 100))
+sliderInput("concepts_Exclusivity", "Modality Exclusivity (%)", min = 0, max = 100, value = c(0, 100))
 
 
 # Perceptual strength
@@ -422,6 +442,15 @@ sliderInput("concepts_Visual", "Visual score", min = 0, max = 5, value = c(0, 5)
 sliderInput("concepts_Freq", "Word Frequency", min = 0, max = 5, value = c(0, 5), step = 0.3)
 
 ```
+
+<br />
+
+
+<center> <font color = "#959494">
+
+[**See Info tab**](#section-info)
+
+</center> </font>
 
 
 
@@ -514,9 +543,13 @@ Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The 
 
 ### Contact
 
-Pablo Bernabeu. [Website](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu). p.bernabeu@lancaster.ac.uk.
+Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
+
+[Personal webpage](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu)
 
 </div>
+
+<br /> <br />
 
 
 Column {data-width = 400}
@@ -526,12 +559,14 @@ Column {data-width = 400}
 
 ```{r fig.width = 5, fig.height = 5, echo = FALSE}
 
-img <- readPNG('C:/Users/Pablo/Dropbox/STUDIES/R/Experiment Data/Modality norms/allfour_lowres.png')
+img = readPNG(getURLContent(
+        'https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png' ))
 grid.raster(img)
 
 ```
 
 </div>
 
+<br /> <br />
 
 
