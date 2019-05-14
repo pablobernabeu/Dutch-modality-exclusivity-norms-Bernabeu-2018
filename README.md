@@ -21,13 +21,13 @@ A longer summary is available here: https://www.linkedin.com/pulse/modality-excl
 ![The relation among auditory, haptic, and visual modalities in property and concept words, in English and Dutch.](/allfour_lowres.png)
 
 
-#### **Definitions** (as in Lynott & Connell, 2009, 2013).
+#### **Definitions** (as in Lynott & Connell, 2009, 2013)
 
-**Dominant modality:** Highest-rated modality.
+- Dominant modality: Highest-rated modality.
 
-**Modality exclusivity:** Range of the three modality ratings divided by the sum.
+- Modality exclusivity: Range of the three modality ratings divided by the sum.
 
-**Perceptual strength:** Highest rating across modalities.
+- Perceptual strength: Highest rating across modalities.
 
 
 #### Corpus measures used
