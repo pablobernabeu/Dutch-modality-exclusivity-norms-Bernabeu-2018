@@ -1,6 +1,14 @@
 # Modality exclusivity norms for 747 Dutch 747 properties and concepts in Dutch: a replication of English (Bernabeu, Louwerse, & Willems, in prep.)
 
-This folder contains all experimental data, including each response survey in raw, the compilation of those alongside English norms data from Lynott and Connell (2009, 2013) (all.csv), the analysis code in R (norms.R), and the Dutch norms themselves (norms.xlsx).
+This repository contains all experimental data, including each response survey in raw, the compilation of those alongside English norms data from Lynott and Connell (2009, 2013) (all.csv), the analysis code in R (norms.R), and the Dutch norms themselves (norms.xlsx).
+
+The norms were created to facilitate research about language. On average, each word was rated by eight respondents, with a minimum of five and a maximum of nine respondents per word (overall *N* = 42). The instructions were similar to those in Lynott and Connell (2009, 2013), but three modalities were elicited instead of five.
+
+> <span style = "font-size: 13px;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </span>
+
+These norms were validated in a [conceptual modality switch experiment](https://mindmodeling.org/cogsci2017/papers/0318/index.html). The results revealed that switches across trials with different primary modalities incurred measurable effects in semantic processing. Further analyses of the norms' data are due to be reported in a forthcoming paper. All data and analysis code, as well as some further report, are [available here](https://osf.io/brkjw/wiki/home/). All of these materials are available for re-use, provided acknowledgment of the following publication ([CC-By licence](https://creativecommons.org/licenses/by/4.0/)).
+
+> <span style = "font-size: 13px;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs. In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society. </span>
 
 **Abstract**
 
@@ -8,16 +16,12 @@ This study is a cross-linguistic, conceptual replication of Lynott and Connellâ€
 
 [A dashboard is available for exploring the data and the analyses performed](https://pablobernabeu.shinyapps.io/dutch-modality-exclusivity-norms/).
 
-![](/screenshot dashboard norms.png)
-
 A longer summary is available here: https://www.linkedin.com/pulse/modality-exclusivity-norms-336-properties-411-dutch-english-bernabeu 
 
 ![The relation among auditory, haptic, and visual modalities in property and concept words, in English and Dutch.](/allfour_lowres.png)
 
 
-#### **Definitions**
-
-(All as in [Lynott & Connell, 2009, 2013](#info)).
+#### **Definitions** (as in Lynott & Connell, 2009, 2013).
 
 **Dominant modality:** Highest-rated modality.
 
