@@ -1,4 +1,4 @@
-# Modality exclusivity norms for 747 Dutch 747 properties and concepts in Dutch: a replication of English (Bernabeu, Louwerse, & Willems, in prep.)
+# Modality exclusivity norms for 747 Dutch properties and concepts in Dutch: a replication of English
 
 This repository contains all experimental data, including each response survey in raw, the compilation of those alongside English norms data from Lynott and Connell (2009, 2013) (all.csv), the analysis code in R (norms.R), and the Dutch norms themselves (norms.xlsx).
 
