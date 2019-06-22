@@ -1,0 +1,3352 @@
+---
+title: Dutch modality exclusivity norms
+author: '(Bernabeu et al., 2017)'
+output:
+  flexdashboard::flex_dashboard:
+    theme : 'spacelab'
+    orientation: columns
+    source_code: embed
+    favicon: https://i.ibb.co/bB9fCfr/norms-favicon.png
+runtime: shiny
+---
+
+
+
+```{r packages, include = FALSE}
+
+library(arules)
+library(car)
+library(contrast)
+library(corpcor)
+library(doBy)
+library(dplyr)
+library(flexdashboard)
+library(gdata)
+library(ggplot2)
+library(ggrepel)
+library(GPArotation)
+library(grid)
+library(gridExtra)
+library(gtools)
+library(Hmisc)
+library(irr)
+library(kableExtra)
+library(knitr)
+library(lattice)
+library(leaflet)
+library(ltm)
+library(MASS)
+library(pastecs)
+library(plotly)
+library(plyr)
+library(png)
+library(psych)
+library(qpcR)
+library(QuantPsyc)
+library(RColorBrewer)
+library(RCurl)
+library(reshape)
+library(Rmisc)
+library(rsconnect)
+library(scales)
+library(shiny)
+library(stringr)
+library(tibble)
+library(tidyr)
+
+```
+
+
+
+<!-- Define CSS style to specify output to screen sizes -->
+
+<style type = "text/css"> 
+
+  .mobileShow {display: none;}
+  /* Smartphone Portrait and Landscape */
+  @media only screen
+    and (max-width : 765px){
+      .mobileShow {display: inline;}
+  }
+
+.mobileHide {display: inline;}
+  /* Smartphone Portrait and Landscape */
+  @media only screen
+    and (max-device-width : 765px){
+     .mobileHide { display: none;}
+  }
+
+</style>
+
+
+
+```{r global, include = FALSE}
+
+# Perform analyses for PCA
+
+# RELATION AMONG MODALITIES
+
+# Below is a Principal Components Analysis (PCA) with plots. Firstly it is performed 
+# on the Dutch norms, and then on Lynott and Connell's (2009, 2013) English norms 
+# (leaving out gustatory and olfactory scores and words). 
+
+all = read.csv('https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/all.csv', fileEncoding = 'Latin1')
+nrow(all)
+
+
+
+# PROPERTIES
+
+# Principal Component Analysis on the three modalities
+
+# Check conditions for a PCA
+
+# matrix
+prop <- all[all$cat == 'prop' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
+nrow(prop)
+prop_matrix <- cor(prop, use = 'complete.obs')
+prop_matrix
+round(prop_matrix, 2)
+# POOR: correlations not apt for a PCA, with too many below .3
+
+# now on the raw vars:
+nrow(prop)
+cortest.bartlett(prop)
+# GOOD: Bartlett's test significant 
+
+# KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
+KMO(prop_matrix)
+# Result: .56 = mediocre. PCA not strongly recommended. But we still do it
+# because the purpose is graphical only.
+
+# check determinant
+det(prop_matrix)
+# GOOD: > 0.00001
+
+# start off with unrotated PCA
+pc1_prop <- psych::principal(prop, nfactors = 3, rotate = "none")
+pc1_prop
+# RESULT: Only PC1, with eigenvalue > 1, should be extracted, 
+# acc to Kaiser's criterion (Jolliffe's threshold of 0.7 way too lax; 
+# Field, Miles, & Field, 2012)
+
+# Unrotated: scree plot
+plot(pc1_prop$values, type = "b")
+# Result: one or two RCs should be extracted, converging with eigenvalues
+
+# Now with varimax rotation, Kaiser-normalized (by default). 
+# Always preferable because it captures explained variance best. 
+# Compare eigenvalues w/ 1 & 2 factors
+
+pc2_prop <- psych::principal(prop, nfactors = 2, rotate = "varimax", scores = TRUE)
+pc2_prop
+pc2_prop$loadings
+# good to extract 2 factors, as they both explain quite the same variance,
+# and both surpass 1 eigenvalue
+
+
+pc2_prop$residual
+pc2_prop$fit
+pc2_prop$communality
+# Results based on a Kaiser-normalizalized orthogonal (varimax) rotation
+# (by default in psych::stats). Residuals OK: fewer than 50% have absolute 
+# values > 0.05 (exactly 50% do).Model fit good, > .90. 
+# Communalities good, all > .7 (av = .83). 
+
+# subset and add PCs
+props <- all[all$cat == 'prop' & !is.na(all$word), ]
+nrow(props)
+props <- cbind(props, pc2_prop$scores)
+nrow(props)
+
+# Extend initial of main modality into full word
+levels(props$main)[levels(props$main) == 'a'] = 'Auditory'
+levels(props$main)[levels(props$main) == 'h'] = 'Haptic'
+levels(props$main)[levels(props$main) == 'v'] = 'Visual'
+
+# Set to character format
+props$word = as.character(props$word)
+
+# Replace NAs in corpora with 0 to allow selection
+props[is.na(props$phonemes_DUTCHPOND), 'phonemes_DUTCHPOND'] = 0
+props[is.na(props$freq_lg10WF_SUBTLEXNL), 'freq_lg10WF_SUBTLEXNL'] = 0
+props[is.na(props$freq_lg10CD_SUBTLEXNL), 'freq_lg10CD_SUBTLEXNL'] = 0
+props[is.na(props$freq_CELEX_lem), 'freq_CELEX_lem'] = 0
+props[is.na(props$orth_neighbours_DUTCHPOND), 'orth_neighbours_DUTCHPOND'] = 0
+props[is.na(props$phon_neighbours_DUTCHPOND), 'phon_neighbours_DUTCHPOND'] = 0
+props[is.na(props$AoA_Brysbaertetal2014), 'AoA_Brysbaertetal2014'] = 0
+props[is.na(props$concrete_Brysbaertetal2014), 'concrete_Brysbaertetal2014'] = 0
+
+# Turn modality exclusivity into percentage
+props$Exclusivity = props$Exclusivity * 100
+
+
+
+
+
+# CONCEPTS
+
+# Principal Component Analysis on the three modalities
+
+# Check conditions for a PCA
+# matrix
+conc <- all[all$cat == 'conc' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
+nrow(conc)
+conc_matrix <- cor(conc, use = 'complete.obs')
+conc_matrix
+round(conc_matrix, 2)
+# POOR: correlations not apt for a PCA, with too many below .3
+
+# now on the raw data:
+nrow(conc)
+cortest.bartlett(conc)
+# GOOD: Bartlett's test significant 
+
+# KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
+KMO(conc_matrix)
+# Result: .49 = poor. PCA not strongly recommended. But we still do it
+# because the purpose is graphical really.
+
+# check determinant
+det(conc_matrix)
+# GOOD: > 0.00001
+
+# start off with unrotated PCA
+pc1_conc <- psych::principal(conc, nfactors = 3, rotate = "none")
+pc1_conc
+# RESULT good: PC1 and PC2, with eigenvalue > 1, should be extracted, 
+# acc to Kaiser's criterion (Jolliffe's threshold of 0.7 way too lax; 
+# Field, Miles, & Field, 2012)
+
+# Unrotated: scree plot
+plot(pc1_conc$values, type = "b")
+# Result: with no point of inflexion along the y axis, two PCs would obtain.
+
+# Now with varimax rotation, Kaiser-normalized (by default):
+# Always preferable because it captures explained variance best. 
+# Compare eigenvalues w/ 1 & 2 Principal Components
+
+pc2_conc <- psych::principal(conc, nfactors = 2, rotate = "varimax", scores = TRUE)
+pc2_conc
+pc2_conc$loadings
+
+# good to extract 2 Principal Components, as they both explain quite the same variance, 
+# and both surpass 1 eigenvalue
+
+pc2_conc$residual
+pc2_conc$fit
+pc2_conc$communality
+# Results based on a Kaiser-normalizalized orthogonal (varimax) rotation
+# (by default in psych::stats). Residuals bad: over 50% have absolute 
+# values > 0.05. Model fit good, > .90. Communalities good, all > .7 (av = .82). 
+
+# subset and add PCs
+concs <- all[all$cat == 'conc' & !is.na(all$word), ]
+nrow(concs)
+concs <- cbind(concs, pc2_conc$scores)
+nrow(concs)
+
+# Extend initial of main modality into full word
+levels(concs$main)[levels(concs$main) == 'a'] = 'Auditory'
+levels(concs$main)[levels(concs$main) == 'h'] = 'Haptic'
+levels(concs$main)[levels(concs$main) == 'v'] = 'Visual'
+
+# Set to character format
+concs$word = as.character(concs$word)
+
+# Replace NAs in corpora with 0 to allow selection
+concs[is.na(concs$phonemes_DUTCHPOND), 'phonemes_DUTCHPOND'] = 0
+concs[is.na(concs$freq_lg10WF_SUBTLEXNL), 'freq_lg10WF_SUBTLEXNL'] = 0
+concs[is.na(concs$freq_lg10CD_SUBTLEXNL), 'freq_lg10CD_SUBTLEXNL'] = 0
+concs[is.na(concs$freq_CELEX_lem), 'freq_CELEX_lem'] = 0
+concs[is.na(concs$orth_neighbours_DUTCHPOND), 'orth_neighbours_DUTCHPOND'] = 0
+concs[is.na(concs$phon_neighbours_DUTCHPOND), 'phon_neighbours_DUTCHPOND'] = 0
+concs[is.na(concs$AoA_Brysbaertetal2014), 'AoA_Brysbaertetal2014'] = 0
+concs[is.na(concs$concrete_Brysbaertetal2014), 'concrete_Brysbaertetal2014'] = 0
+
+# Turn modality exclusivity into percentage
+concs$Exclusivity = concs$Exclusivity * 100
+
+# Colors for plots
+colours = c('firebrick1', 'dodgerblue', 'forestgreen')
+
+```
+
+
+
+
+Properties
+=======================================================================
+
+Inputs {.sidebar}
+-----------------------------------------------------------------------
+
+<div style = "text-align: justify"> <font color = "#959494">
+Tabs may be shifted above. Plot is interactive.
+</div> </font>
+
+
+<!-- Show note on mobiles -->
+<div class = "mobileShow">
+<b> Larger screen recommended. </b>
+</div>
+
+
+<!-- Link to data on OSF.io -->
+[<i class="fas fa-external-link-alt"></i> Access norms data set](https://osf.io/58gzs/)
+
+
+```{r}
+
+# Loadings of principal components. Tidy-format names by binding them as a column and 
+# removing dummy rownames left from the principal() output.
+
+properties_modality_loadings =
+  data.frame( cbind( names(prop),
+  data.frame(pc2_prop$loadings[1:3,1:2])
+) )
+
+rownames(properties_modality_loadings) <- NULL
+
+properties_modality_loadings[,1] = as.factor(properties_modality_loadings[,1])
+
+# RC (Rotated Component) renamed PC for clarity
+colnames(properties_modality_loadings)[colnames(properties_modality_loadings)=="names.prop."] = "Variable"
+colnames(properties_modality_loadings)[colnames(properties_modality_loadings)=="RC1"] = "PC1"
+colnames(properties_modality_loadings)[colnames(properties_modality_loadings)=="RC2"] = "PC2"
+
+properties_modality_loadings[,c('PC1','PC2','PC3')] = round(properties_modality_loadings[,c('PC1','PC2')], 2)
+
+
+actionLink("properties_loadings", "See loadings of components")
+observeEvent(input$properties_loadings, {
+  showModal(modalDialog(
+    title = NULL,
+	HTML( 	# Below, table constructed
+	kable(properties_modality_loadings) %>%
+	  kable_styling(full_width = F) %>%
+	  column_spec(1, bold = T, border_right = T)
+	),
+    size = 's', easyClose = TRUE, footer = NULL
+  ))
+})
+
+
+# Highlight words
+
+selectizeInput("highlighted_properties", label = NULL, choices = sort(props$word), multiple = TRUE,
+  options = list(placeholder = 'Highlight some words here  '))
+
+```
+
+
+
+<!-- Code chunk below removed for mobile because data selectors aren't feasible on mobile -->
+### {.no-mobile}
+
+```{r}
+
+# Number of words selected on sidebar
+
+reactive(cat(paste0('Words selected below: ', nrow(selected_props()))))
+
+
+# Download csv file with data selected on sidebar
+
+# Create placeholder for download link
+uiOutput("properties_csv_link")
+
+# Create the actual downloadLink
+output$properties_csv_link = renderUI({
+  downloadLink("properties_csv", " Data selected below (.csv)", class = "fa fa-download")
+})
+
+# Add download handling
+output$properties_csv = downloadHandler(
+  filename = function() {
+    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.Date(), '.csv') },
+  content = function(file) {
+	# Leave Dutch data inside and remove English data, which aren't used in the tabs that have CSV download
+	drops = c('word_eng','main_eng','perceptualstrength_eng','exc_eng','Aud_eng','Hap_eng','Vis_eng','lett_eng')
+    write.csv(selected_props()[,!(names(selected_props()) %in% drops)],
+	file, row.names = FALSE, fileEncoding = 'Latin1')
+  }
+)
+
+
+
+# Download png plot
+
+# Create placeholder for download link
+uiOutput("properties_png_link")
+
+# Create the actual downloadLink
+output$properties_png_link = renderUI({
+  downloadLink("properties_png", " HD Plot with selected data", class = "fa fa-download")
+})
+
+# Add download handling
+output$properties_png = downloadHandler(
+  filename = function() {
+    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.Date(), '.png') },
+	content <- function(file){
+			png(file, units='in', width=13, height=11, res=900)
+			print(properties_png())
+			dev.off()},
+	contentType = 'image/png' 
+)
+
+```
+
+
+
+#### **Modality**
+
+
+##### Dominant modality
+
+<center>
+<font color = '#FF3030' size = '3.9em'>**Auditory**</font> - <font color = 'dodgerblue' size = '3.9'>**Haptic**</font> - <font color = 'forestgreen' size = '3.9'>**Visual**</font>
+</center>
+
+
+```{r}
+
+selectizeInput("properties_modalities", "Dominant modalities", label = NULL, choices = sort(props$main), multiple = TRUE, selected = unique(props$main))
+
+sliderInput("properties_Exclusivity", "Modality exclusivity (%)", min = 0, max = 100, value = c(0, 100))
+
+sliderInput("properties_Strength", "Perceptual strength", min = 0, max = 5, value = c(0, 5), step = 0.1)
+
+sliderInput("properties_Auditory", "Auditory rating", min = 0, max = 5, value = c(0, 5), step = 0.1)
+
+sliderInput("properties_Haptic", "Haptic rating", min = 0, max = 5, value = c(0, 5), step = 0.1)
+
+sliderInput("properties_Visual", "Visual rating", min = 0, max = 5, value = c(0, 5), step = 0.1)
+
+```
+
+
+#### **Concreteness**
+
+```{r}
+
+sliderInput("properties_concreteness", NULL, min = 0, max = 5, value = c(0, 5), step = 0.1)
+
+```
+
+
+#### **Length**
+
+```{r}
+
+sliderInput("properties_letters", "Number of letters", min = 3, max = 17, value = c(3, 17), step = 1)
+
+sliderInput("properties_phonemes_DutchPOND", "Number of phonemes", min = 0, max = 15, value = c(0, 15), step = 1)
+
+```
+
+
+#### **Word frequency**
+
+```{r}
+
+sliderInput("properties_WF_SUBTLEXNL", "Word frequency", min = 0, max = 5, value = c(0, 5), step = 0.1)
+
+sliderInput("properties_ContextualDiversity", "Contextual diversity", min = 0, max = 4, value = c(0, 4), step = 0.1)
+
+sliderInput("properties_lemma_CELEX", "Lemma frequency", min = 0, max = 3.2, value = c(0, 3.2), step = 0.1)
+
+```
+
+
+#### **Distinctiveness**
+
+```{r}
+
+sliderInput("properties_phon_neighbours_DutchPOND", "Phonological neighbours", min = 0, max = 50, value = c(0, 50), step = 0.1)
+
+sliderInput("properties_orth_neighbours_DutchPOND", "Orthographic neighbours", min = 0, max = 32, value = c(0, 32), step = 0.1)
+
+```
+
+
+#### **Age of acquisition**
+
+```{r}
+
+sliderInput("properties_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.1)
+
+```
+
+
+<div style = "font-size = 0.6em; text-align: left">
+
+#### **Definitions**
+
+(All as in [Lynott & Connell, 2009, 2013](#info-references)).
+
+**Dominant modality:** Highest-rated modality.
+
+**Modality exclusivity:** Range of the three modality ratings divided by the sum.
+
+**Perceptual strength:** Highest rating across modalities.
+
+
+#### **Corpora**
+
+**Concreteness and age of acquisition:** [Brysbaert et al. (2014)](#info-references).
+
+**Phonological and orthographic neighbours**: [Marian et al.'s (2012) DutchPOND](#info-references).
+
+**Word frequency and contextual diversity**: [Keuleers et al.'s (2010) SUBTLEX-NL](#info-references).
+
+**Lemma frequency**: [Baayen et al.'s (1993) CELEX](#info-references).
+
+</div>
+
+
+
+Column
+-----------------------------------------------------------------------
+
+### Principal Component Analysis (PCA) reflecting different relationships among the modalities. PCA run on the three modality ratings. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2009, 2013)](#cf-lc-english-norms).
+
+```{r}
+
+# reactive for the word bar
+highlighted_properties = reactive(input$highlighted_properties)
+
+# reactive for the sliders
+selected_props = reactive({
+  	# Values above or equal to minimum selected, and below or equal to maximum selected
+	props[which(
+		props$main %in% input$properties_modalities &
+		props$Exclusivity >= as.numeric(min(input$properties_Exclusivity)) &
+		props$Exclusivity <= as.numeric(max(input$properties_Exclusivity)) &
+		props$Perceptualstrength >= as.numeric(min(input$properties_Strength)) &
+		props$Perceptualstrength <= as.numeric(max(input$properties_Strength)) &
+		props$Auditory >= as.numeric(min(input$properties_Auditory)) &
+		props$Auditory <= as.numeric(max(input$properties_Auditory)) &
+		props$Haptic >= as.numeric(min(input$properties_Haptic)) &
+		props$Haptic <= as.numeric(max(input$properties_Haptic)) &
+		props$Visual >= as.numeric(min(input$properties_Visual)) &
+		props$Visual <= as.numeric(max(input$properties_Visual)) &
+		props$concrete_Brysbaertetal2014 >= as.numeric(min(input$properties_concreteness)) &
+		props$concrete_Brysbaertetal2014 <= as.numeric(max(input$properties_concreteness)) &
+		props$letters >= as.numeric(min(input$properties_letters)) &
+		props$letters <= as.numeric(max(input$properties_letters)) &
+		props$phonemes_DUTCHPOND >= as.numeric(min(input$properties_phonemes_DutchPOND)) &
+		props$phonemes_DUTCHPOND <= as.numeric(max(input$properties_phonemes_DutchPOND)) &
+		props$phon_neighbours_DUTCHPOND >= as.numeric(min(input$properties_phon_neighbours_DutchPOND)) &
+		props$phon_neighbours_DUTCHPOND <= as.numeric(max(input$properties_phon_neighbours_DutchPOND)) &
+		props$orth_neighbours_DUTCHPOND >= as.numeric(min(input$properties_orth_neighbours_DutchPOND)) &
+		props$orth_neighbours_DUTCHPOND <= as.numeric(max(input$properties_orth_neighbours_DutchPOND)) &
+		props$freq_lg10WF_SUBTLEXNL >= as.numeric(min(input$properties_WF_SUBTLEXNL)) &
+		props$freq_lg10WF_SUBTLEXNL <= as.numeric(max(input$properties_WF_SUBTLEXNL)) &
+		props$freq_lg10CD_SUBTLEXNL >= as.numeric(min(input$properties_ContextualDiversity)) &
+		props$freq_lg10CD_SUBTLEXNL <= as.numeric(max(input$properties_ContextualDiversity)) &
+		props$freq_CELEX_lem >= as.numeric(min(input$properties_lemma_CELEX)) &
+		props$freq_CELEX_lem <= as.numeric(max(input$properties_lemma_CELEX)) &
+		props$AoA_Brysbaertetal2014 >= as.numeric(min(input$properties_AoA)) &
+		props$AoA_Brysbaertetal2014 <= as.numeric(max(input$properties_AoA)) 
+		) ,]
+})
+
+
+renderPlotly({
+ ggplotly(
+  ggplot( selected_props(), aes(RC1, RC2, label = as.character(word), color = main, 
+    # Html tags below used for format. Decimals rounded to two.
+    text = paste0(' ', '<span style="font-size:2em;">', capitalize(word), '</b></span> ',
+			'<br></br> Dominant modality: <b>', main, ' ',
+			'</b><br> Perceptual strength: <b>', round(Perceptualstrength, 2), ' ', 
+			'</b><br> Exclusivity: <b>', round(Exclusivity, 2), '% ',
+			'</b><br> Auditory: <b>', round(Auditory, 2), ' ',
+			'</b><br> Haptic: <b>', round(Haptic, 2), ' ',
+			'</b><br> Visual: <b>', round(Visual, 2), ' ',
+			'</b><br> Concreteness (Brysbaert et al., 2014): <b>', round(concrete_Brysbaertetal2014, 2), ' ',
+			'</b><br> Number of letters: <b>', letters, ' ',
+			'</b><br> Number of phonemes (DutchPOND): <b>', round(phonemes_DUTCHPOND, 2), ' ',
+			'</b><br> Phonological neighbourhood size (DutchPOND): <b>', round(phon_neighbours_DUTCHPOND, 2), ' ',
+			'</b><br> Orthographic neighbourhood size (DutchPOND): <b>', round(orth_neighbours_DUTCHPOND, 2), ' ',
+			'</b><br> Word frequency (lg10WF SUBTLEX-NL): <b>', round(freq_lg10WF_SUBTLEXNL, 2), ' ',
+			'</b><br> Contextual diversity (lg10CD SUBTLEX-NL): <b>', round(freq_lg10CD_SUBTLEXNL, 2), ' ',
+			'</b><br> Lemma frequency (CELEX): <b>', round(freq_CELEX_lem, 2), ' ',
+			'</b><br> Age of acquisition (Brysbaert et al., 2014): <b>', round(AoA_Brysbaertetal2014, 2), ' ' ) ) ) +
+  geom_text(size = ifelse(selected_props()$word %in% highlighted_properties(), 7,
+				ifelse(is.null(highlighted_properties()), 3, 2.8)),
+            fontface = ifelse(selected_props()$word %in% highlighted_properties(), 'bold', 'plain')) +
+  scale_colour_manual(values = colours, drop = FALSE) + theme_bw() + ggtitle('Properties') +
+  labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
+  guides(color = guide_legend(title = 'Main<br>modality')) +
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
+         axis.title.x = element_text(colour = 'black', size = 11, margin = margin(15,15,0,15)),
+         axis.title.y = element_text(colour = 'black', size = 11, margin = margin(0,15,15,15)),
+         axis.text.x = element_text(size = 12), axis.text.y  = element_text(size = 12),
+         legend.background = element_rect(size = 2), legend.position = 'none',
+	   legend.title = element_blank(),
+	   legend.text = element_text(colour = colours, size = 13, face = 'bold') ),
+  tooltip = 'text'
+ )
+})
+
+
+# For download, save plot without the interactive 'plotly' part
+
+properties_png = reactive({ ggplot(selected_props(), aes(RC1, RC2, color = main, label = as.character(word))) +
+  geom_text(size = ifelse(selected_props()$word %in% highlighted_properties(), 7,
+			    ifelse(is.null(highlighted_properties()), 3, 2.8)),
+            fontface = ifelse(selected_props()$word %in% highlighted_properties(), 'bold', 'plain')) +
+  scale_colour_manual(values = colours, drop = FALSE) + theme_bw() + 
+  ggtitle( paste0('Properties', ' (showing ', nrow(selected_props()), ' out of ', nrow(props), ')') ) + 
+  guides(color = guide_legend(title = 'Main<br>modality')) +
+  labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
+         axis.title.x = element_text(colour = 'black', size = 11, margin = margin(15,15,0,15)),
+         axis.title.y = element_text(colour = 'black', size = 11, margin = margin(0,15,15,15)),
+         axis.text.x = element_text(size = 12), axis.text.y  = element_text(size = 12),
+         legend.background = element_rect(size = 2), legend.position = 'right',
+	   legend.title = element_blank(), legend.text = element_text(size = 13, face = 'bold') )
+})
+
+```
+
+
+
+
+
+
+
+Concepts
+=======================================================================
+
+Inputs {.sidebar}
+-----------------------------------------------------------------------
+
+<div style = "text-align: justify"> <font color = "#959494">
+
+Tabs may be shifted above. Plot is interactive.
+
+</div> </font>
+
+
+<!-- Link to data on OSF.io -->
+[<i class="fas fa-external-link-alt"></i> Access norms data set](https://osf.io/58gzs/)
+
+
+```{r}
+
+# Loadings of principal components. Tidy-format names by binding them as a column and 
+# removing dummy rownames left from the principal() output.
+
+concepts_modality_loadings =
+  data.frame( cbind( names(conc),
+  data.frame(pc2_conc$loadings[1:3,1:2])
+) )
+
+rownames(concepts_modality_loadings) <- NULL
+
+concepts_modality_loadings[,1] = as.factor(concepts_modality_loadings[,1])
+
+# RC (Rotated Component) renamed PC for clarity
+colnames(concepts_modality_loadings)[colnames(concepts_modality_loadings)=="names.conc."] = "Variable"
+colnames(concepts_modality_loadings)[colnames(concepts_modality_loadings)=="RC1"] = "PC1"
+colnames(concepts_modality_loadings)[colnames(concepts_modality_loadings)=="RC2"] = "PC2"
+
+concepts_modality_loadings[,c('PC1','PC2','PC3')] = round(concepts_modality_loadings[,c('PC1','PC2')], 2)
+
+
+actionLink("concepts_loadings", "See loadings of components")
+observeEvent(input$concepts_loadings, {
+  showModal(modalDialog(
+    title = NULL,
+	HTML( 	# Below, table constructed
+	kable(concepts_modality_loadings) %>%
+	  kable_styling(full_width = F) %>%
+	  column_spec(1, bold = T, border_right = T)
+	),
+    size = 's', easyClose = TRUE, footer = NULL
+  ))
+})
+
+
+# Highlight words
+
+selectizeInput("highlighted_concepts", label = NULL, choices = sort(concs$word), multiple = TRUE,
+  options = list(placeholder = 'Highlight some words here  '))
+
+```
+
+
+<!-- Code chunk below removed for mobile because data selectors aren't feasible on mobile -->
+### {.no-mobile}
+
+```{r}
+
+# Number of words selected on sidebar
+reactive(cat(paste0('Words selected below: ', nrow(selected_concs()))))
+
+
+# Download csv file with data selected on sidebar
+
+# Create placeholder for download link
+uiOutput("concepts_csv_link")
+
+# Create the actual downloadLink
+output$concepts_csv_link = renderUI({
+  downloadLink("concepts_csv", " Data selected below (.csv)", class = "fa fa-download")
+})
+
+# Add download handling
+output$concepts_csv = downloadHandler(
+  filename = function() {
+    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.Date(), '.csv') },
+  content = function(file) {
+	# Leave Dutch data inside and remove English data, which aren't used in the tabs that have CSV download
+	drops = c('word_eng','main_eng','perceptualstrength_eng','exc_eng','Aud_eng','Hap_eng','Vis_eng','lett_eng')
+    write.csv(selected_concs()[,!(names(selected_concs()) %in% drops)],
+	file, row.names = FALSE, fileEncoding = 'Latin1')
+  }
+)
+
+
+
+# Download png plot
+
+# Create placeholder for download link
+uiOutput("concepts_png_link")
+
+# Create the actual downloadLink
+output$concepts_png_link = renderUI({
+  downloadLink("concepts_png", " HD Plot with selected data", class = "fa fa-download")
+})
+
+# Add download handling
+output$concepts_png = downloadHandler(
+  filename = function() {
+    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.Date(), '.png') },
+	content <- function(file){
+			png(file, units='in', width=13, height=11, res=900)
+			print(concepts_png())
+			dev.off()},
+	contentType = 'image/png'
+)
+
+```
+
+
+#### **Modality**
+
+<center>
+<font color = '#FF3030' size = '3.9em'>**Auditory**</font> - <font color = 'dodgerblue' size = '3.9'>**Haptic**</font> - <font color = 'forestgreen' size = '3.9'>**Visual**</font>
+</center>
+
+
+```{r}
+
+selectizeInput("concepts_modalities", label = NULL, "Dominant modalities", choices = sort(concs$main), multiple = TRUE, selected = unique(concs$main))
+
+sliderInput("concepts_Exclusivity", "Modality exclusivity (%)", min = 0, max = 100, value = c(0, 100))
+
+sliderInput("concepts_Strength", "Perceptual strength", min = 0, max = 5, value = c(0, 5), step = 0.1)
+
+sliderInput("concepts_Auditory", "Auditory rating", min = 0, max = 5, value = c(0, 5), step = 0.1)
+
+sliderInput("concepts_Haptic", "Haptic rating", min = 0, max = 5, value = c(0, 5), step = 0.1)
+
+sliderInput("concepts_Visual", "Visual rating", min = 0, max = 5, value = c(0, 5), step = 0.1)
+
+```
+
+
+#### **Concreteness**
+
+```{r}
+
+sliderInput("concepts_concreteness", NULL, min = 0, max = 5, value = c(0, 5), step = 0.1)
+
+```
+
+
+#### **Length**
+
+```{r}
+
+sliderInput("concepts_letters", "Number of letters", min = 3, max = 17, value = c(3, 17), step = 1)
+
+sliderInput("concepts_phonemes_DutchPOND", "Number of phonemes", min = 0, max = 15, value = c(0, 15), step = 1)
+
+```
+
+
+#### **Word frequency**
+
+```{r}
+
+sliderInput("concepts_WF_SUBTLEXNL", "Word frequency", min = 0, max = 5, value = c(0, 5), step = 0.1)
+
+sliderInput("concepts_ContextualDiversity", "Contextual diversity", min = 0, max = 4, value = c(0, 4), step = 0.1)
+
+sliderInput("concepts_lemma_CELEX", "Lemma frequency", min = 0, max = 3.2, value = c(0, 3.2), step = 0.1)
+
+```
+
+
+#### **Distinctiveness**
+
+```{r}
+
+sliderInput("concepts_phon_neighbours_DutchPOND", "Phonological neighbours", min = 0, max = 50, value = c(0, 50), step = 0.1)
+
+sliderInput("concepts_orth_neighbours_DutchPOND", "Orthographic neighbours", min = 0, max = 32, value = c(0, 32), step = 0.1)
+
+```
+
+
+#### **Age of acquisition**
+
+```{r}
+
+sliderInput("concepts_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.1)
+
+```
+
+
+<div style = "font-size = 0.6em; text-align: left">
+
+#### **Definitions**
+
+(All as in [Lynott & Connell, 2009, 2013](#info-references)).
+
+**Dominant modality:** Highest-rated modality.
+
+**Modality exclusivity:** Range of the three modality ratings divided by the sum.
+
+**Perceptual strength:** Highest rating across modalities.
+
+
+#### **Corpora**
+
+**Concreteness and age of acquisition:** [Brysbaert et al. (2014)](#info-references).
+
+**Phonological and orthographic neighbours**: [Marian et al.'s (2012) DutchPOND](#info-references).
+
+**Word frequency and contextual diversity**: [Keuleers et al.'s (2010) SUBTLEX-NL](#info-references).
+
+**Lemma frequency**: [Baayen et al.'s (1993) CELEX](#info-references).
+
+</div>
+
+
+
+Column
+-----------------------------------------------------------------------
+
+### Principal Component Analysis (PCA)reflecting different relationships among the modalities. PCA run on the three modality ratings. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2009, 2013)](#cf-lc-english-norms).
+
+```{r}
+
+# reactive for the word bar
+highlighted_concepts = reactive(input$highlighted_concepts)
+
+# reactive for the sliders
+selected_concs = reactive({
+  	# Values above or equal to minimum selected, and below or equal to maximum selected.
+	concs[which(
+		concs$main %in% input$concepts_modalities &
+		concs$Exclusivity >= as.numeric(min(input$concepts_Exclusivity)) &
+		concs$Exclusivity <= as.numeric(max(input$concepts_Exclusivity)) &
+		concs$Perceptualstrength >= as.numeric(min(input$concepts_Strength)) &
+		concs$Perceptualstrength <= as.numeric(max(input$concepts_Strength)) &
+		concs$Auditory >= as.numeric(min(input$concepts_Auditory)) &
+		concs$Auditory <= as.numeric(max(input$concepts_Auditory)) &
+		concs$Haptic >= as.numeric(min(input$concepts_Haptic)) &
+		concs$Haptic <= as.numeric(max(input$concepts_Haptic)) &
+		concs$Visual >= as.numeric(min(input$concepts_Visual)) &
+		concs$Visual <= as.numeric(max(input$concepts_Visual)) &
+		concs$concrete_Brysbaertetal2014 >= as.numeric(min(input$concepts_concreteness)) &
+		concs$concrete_Brysbaertetal2014 <= as.numeric(max(input$concepts_concreteness)) &
+		concs$letters >= as.numeric(min(input$concepts_letters)) &
+		concs$letters <= as.numeric(max(input$concepts_letters)) &
+		concs$phonemes_DUTCHPOND >= as.numeric(min(input$concepts_phonemes_DutchPOND)) &
+		concs$phonemes_DUTCHPOND <= as.numeric(max(input$concepts_phonemes_DutchPOND)) &
+		concs$phon_neighbours_DUTCHPOND >= as.numeric(min(input$concepts_phon_neighbours_DutchPOND)) &
+		concs$phon_neighbours_DUTCHPOND <= as.numeric(max(input$concepts_phon_neighbours_DutchPOND)) &
+		concs$orth_neighbours_DUTCHPOND >= as.numeric(min(input$concepts_orth_neighbours_DutchPOND)) &
+		concs$orth_neighbours_DUTCHPOND <= as.numeric(max(input$concepts_orth_neighbours_DutchPOND)) &
+		concs$freq_lg10WF_SUBTLEXNL >= as.numeric(min(input$concepts_WF_SUBTLEXNL)) &
+		concs$freq_lg10WF_SUBTLEXNL <= as.numeric(max(input$concepts_WF_SUBTLEXNL)) &
+		concs$freq_lg10CD_SUBTLEXNL >= as.numeric(min(input$concepts_ContextualDiversity)) &
+		concs$freq_lg10CD_SUBTLEXNL <= as.numeric(max(input$concepts_ContextualDiversity)) &
+		concs$freq_CELEX_lem >= as.numeric(min(input$concepts_lemma_CELEX)) &
+		concs$freq_CELEX_lem <= as.numeric(max(input$concepts_lemma_CELEX)) &
+		concs$AoA_Brysbaertetal2014 >= as.numeric(min(input$concepts_AoA)) &
+		concs$AoA_Brysbaertetal2014 <= as.numeric(max(input$concepts_AoA)) 
+		) ,]
+})
+
+
+renderPlotly({
+ ggplotly(
+  ggplot( selected_concs(), aes(RC1, RC2, color = main, label = as.character(word),
+    # Html tags below used for format. Decimals rounded to two.
+    text = paste0(' ', '<span style="font-size:2em;">', capitalize(word), '</b></span> ',
+			'<br></br> Dominant modality: <b>', main, ' ',
+			'</b><br> Perceptual strength: <b>', round(Perceptualstrength, 2), ' ', 
+			'</b><br> Exclusivity: <b>', round(Exclusivity, 2), '% ',
+			'</b><br> Auditory: <b>', round(Auditory, 2), ' ',
+			'</b><br> Haptic: <b>', round(Haptic, 2), ' ',
+			'</b><br> Visual: <b>', round(Visual, 2), ' ',
+			'</b><br> Concreteness (Brysbaert et al., 2014): <b>', round(concrete_Brysbaertetal2014, 2), ' ',
+			'</b><br> Number of letters: <b>', letters, ' ',
+			'</b><br> Number of phonemes (DutchPOND): <b>', round(phonemes_DUTCHPOND, 2), ' ',
+			'</b><br> Phonological neighbourhood size (DutchPOND): <b>', round(phon_neighbours_DUTCHPOND, 2), ' ',
+			'</b><br> Orthographic neighbourhood size (DutchPOND): <b>', round(orth_neighbours_DUTCHPOND, 2), ' ',
+			'</b><br> Word frequency (lg10WF SUBTLEX-NL): <b>', round(freq_lg10WF_SUBTLEXNL, 2), ' ',
+			'</b><br> Contextual diversity (lg10CD SUBTLEX-NL): <b>', round(freq_lg10CD_SUBTLEXNL, 2), ' ',
+			'</b><br> Lemma frequency (CELEX): <b>', round(freq_CELEX_lem, 2), ' ',
+			'</b><br> Age of acquisition (Brysbaert et al., 2014): <b>', round(AoA_Brysbaertetal2014, 2), ' ' ) ) ) +
+  geom_text(size = ifelse(selected_concs()$word %in% highlighted_concepts(), 7,
+			    ifelse(is.null(highlighted_concepts()), 3, 2.8)),
+            fontface = ifelse(selected_concs()$word %in% highlighted_concepts(), 'bold', 'plain')) +
+  scale_colour_manual(values = colours, drop = FALSE) + theme_bw() + ggtitle('Concepts') +
+  labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
+  guides(color = guide_legend(title = 'Main<br>modality')) +
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
+         axis.title.x = element_text(colour = 'black', size = 11, margin = margin(15,15,0,15)),
+         axis.title.y = element_text(colour = 'black', size = 11, margin = margin(0,15,15,15)),
+         axis.text.x = element_text(size = 12), axis.text.y  = element_text(size = 12),
+         legend.background = element_rect(size = 2), legend.position = 'none',
+	   legend.title = element_blank(),
+	   legend.text = element_text(colour = colours, size = 13, face = 'bold') ),
+  tooltip = 'text'
+ )
+})
+
+
+
+# For download, save plot without the interactive 'plotly' part
+
+concepts_png = reactive({ ggplot(selected_concs(), aes(RC1, RC2, color = main, label = as.character(word))) +
+  geom_text(size = ifelse(selected_concs()$word %in% highlighted_concepts(), 7,
+			    ifelse(is.null(highlighted_concepts()), 3, 2.8)),
+            fontface = ifelse(selected_concs()$word %in% highlighted_concepts(), 'bold', 'plain')) +
+  scale_colour_manual(values = colours, drop = FALSE) + theme_bw() + 
+  ggtitle( paste0('Concepts', ' (showing ', nrow(selected_concs()), ' out of ', nrow(concs), ')') ) + 
+  guides(color = guide_legend(title = 'Main<br>modality')) +
+  labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
+         axis.title.x = element_text(colour = 'black', size = 11, margin = margin(15,15,0,15)),
+         axis.title.y = element_text(colour = 'black', size = 11, margin = margin(0,15,15,15)),
+         axis.text.x = element_text(size = 12), axis.text.y  = element_text(size = 12),
+         legend.background = element_rect(size = 2), legend.position = 'right',
+	   legend.title = element_blank(), legend.text = element_text(size = 13, face = 'bold') )
+})
+
+```
+
+
+
+
+
+
+
+Cf. L&C English norms
+=======================================================================
+
+
+Column
+-----------------------------------------------------------------------
+
+
+### &nbsp;&nbsp;&nbsp; Reanalysis of [Lynott and Connell's (2009) English properties](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html) with three modalities
+
+```{r include = FALSE}
+
+# Check conditions for a PCA
+# Matrix
+
+eng_prop <- all[all$cat == 'prop', c('Aud_eng', 'Hap_eng', 'Vis_eng')]
+nrow(eng_prop)
+eng_prop_matrix <- cor(eng_prop, use = 'complete.obs')
+eng_prop_matrix
+round(eng_prop_matrix, 2)
+# OK: correlations good for a PCA, with enough < .3
+
+# now on the raw vars:
+nrow(eng_prop)
+cortest.bartlett(eng_prop)
+# GOOD: Bartlett's test significant 
+
+# KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
+KMO(eng_prop_matrix)
+# Result: .56 = mediocre. PCA not strongly recommended. But we still do it
+# because the purpose is graphical only.
+
+# check determinant
+det(eng_prop_matrix)
+# GOOD: > 0.00001
+
+# start off with unrotated PCA
+pc1_eng_prop <- psych::principal(eng_prop, nfactors = 3, rotate = "none")
+pc1_eng_prop
+# RESULT: Extract either one PC, acc to Kaiser's criterion, or two RCs, acc to 
+# Joliffe's (Field, Miles, & Field, 2012)
+
+# Unrotated: scree plot
+plot(pc1_eng_prop$values, type = "b")
+# Result: again one or two RCs should be extracted
+
+# Now with varimax rotation, Kaiser-normalized (by default)
+pc2_eng_prop <- psych::principal(eng_prop, nfactors = 2, rotate = "varimax", 
+scores = TRUE)
+pc2_eng_prop
+pc2_eng_prop$loadings
+# two components are good, as they both have eigenvalues over 1
+
+pc2_eng_prop$residual
+pc2_eng_prop$fit
+pc2_eng_prop$communality
+# Results based on a Kaiser-normalizalized orthogonal (varimax) rotation
+# (by default in psych::stats). Residuals bad: more than 50% have absolute 
+# values > 0.05. Model fit good, > .90. Communalities good, all > .7. 
+
+# subset and add PCs
+eng_props <- all[all$cat == 'prop', ]
+nrow(eng_props)
+eng_props <- cbind(eng_props, pc2_eng_prop$scores)
+nrow(eng_props)
+head(eng_props)
+
+# Set word factor to character format
+eng_props$word_eng = as.character(eng_props$word_eng)
+
+# Extend initial of main modality into full word
+levels(eng_props$main_eng)[levels(eng_props$main_eng) == 'a'] = 'Auditory'
+levels(eng_props$main_eng)[levels(eng_props$main_eng) == 'h'] = 'Haptic'
+levels(eng_props$main_eng)[levels(eng_props$main_eng) == 'v'] = 'Visual'
+
+```
+
+```{r}
+
+ggplotly( ggplot(eng_props,
+  aes(RC1, RC2, label = as.character(word_eng), color = main_eng,
+    text = paste0(' ', '<span style="font-size:2em;">', capitalize(word_eng), '</b></span> ',
+			'<br></br> Dominant modality: <b>', main_eng, ' ',
+			'</b><br> Perceptual strength: <b>', round(perceptualstrength_eng, 2), ' ',
+			'</b><br> Exclusivity: <b>', round(exc_eng, 2), '% ',
+			'</b><br> Auditory: <b>', round(Aud_eng, 2), ' ',
+			'</b><br> Haptic: <b>', round(Hap_eng, 2), ' ',
+			'</b><br> Visual: <b>', round(Vis_eng, 2), ' ',
+			'</b><br> Number of letters: <b>', lett_eng, ' ' ) ) ) +
+  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
+  geom_text(size = 3) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+	panel.grid.minor = element_blank(), panel.border = element_blank(),
+  	axis.line = element_line(color = 'black'),
+	axis.title.x = element_text(colour = 'black', size = 8),
+	axis.title.y = element_text(colour = 'black', size = 7),
+	axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
+	legend.title = element_blank(), plot.title = element_blank() ),
+  tooltip = 'text' )
+
+```
+
+
+
+
+### &nbsp;&nbsp;&nbsp; Reanalysis of [Lynott and Connell's (2013) English concepts](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html) with three modalities
+
+```{r include = FALSE}
+
+# check conditions for a PCA
+# matrix
+eng_conc <- all[all$cat == 'conc', c('Aud_eng', 'Hap_eng', 'Vis_eng')]
+nrow(eng_conc)
+eng_conc_matrix <- cor(eng_conc, use = 'complete.obs')
+eng_conc_matrix
+round(eng_conc_matrix, 2)
+# POOR: correlations not apt for a PCA, with too many below .3
+
+# now on the raw data:
+nrow(eng_conc)
+cortest.bartlett(eng_conc)
+# GOOD: Bartlett's test significant 
+
+# KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
+KMO(eng_conc_matrix)
+# Result: .48 = poor. PCA not strongly recommended. But we still do it
+# because the purpose is graphical really.
+
+# check determinant
+det(eng_conc_matrix)
+# GOOD: > 0.00001
+
+# start off with unrotated PCA
+pc1_eng_conc <- psych::principal(eng_conc, nfactors = 3, rotate = "none")
+pc1_eng_conc
+# RESULT: Extract either one PC, acc to Kaiser's criterion, or two RCs, acc to 
+# Joliffe's (Field, Miles, & Field, 2012)
+
+# Unrotated: scree plot
+plot(pc1_eng_conc$values, type = "b")
+# Result: two PCs obtain.
+
+# Now with varimax rotation, Kaiser-normalized (by default):
+# always preferable because it captures explained variance best. 
+pc2_eng_conc <- psych::principal(eng_conc, nfactors = 2, rotate = "varimax", 
+scores = TRUE)
+pc2_eng_conc
+pc2_eng_conc$loadings
+
+pc2_eng_conc$residual
+pc2_eng_conc$fit
+pc2_eng_conc$communality
+# Results based on a Kaiser-normalizalized orthogonal (varimax) rotation 
+# (by default in psych::stats). Residuals bad: over 50% have absolute 
+# values > 0.05. Model fit good, > .90. Communalities good, all > .7.
+
+# subset and add PCs
+eng_concs <- all[all$cat == 'conc', ]
+nrow(eng_concs)
+eng_concs <- cbind(eng_concs, pc2_eng_conc$scores)
+summary(eng_concs$RC1, eng_concs$RC2)
+eng_concs <- eng_concs[eng_concs$normed == 'Dut_Eng' | eng_concs$normed == 
+'English',]
+nrow(eng_concs)
+summary(eng_concs$RC1, eng_concs$RC2)
+
+# Set word factor to character format
+eng_concs$word_eng = as.character(eng_concs$word_eng)
+
+# Extend initial of main modality into full word
+levels(eng_concs$main_eng)[levels(eng_concs$main_eng) == 'a'] = 'Auditory'
+levels(eng_concs$main_eng)[levels(eng_concs$main_eng) == 'h'] = 'Haptic'
+levels(eng_concs$main_eng)[levels(eng_concs$main_eng) == 'v'] = 'Visual'
+
+```
+
+```{r}
+
+ggplotly( ggplot(eng_concs,
+  aes(RC1, RC2, label = as.character(word_eng), color = main_eng,
+    text = paste0(' ', '<span style="font-size:2em;">', capitalize(word_eng), '</b></span> ',
+			'<br></br> Dominant modality: <b>', main_eng, ' ',
+			'</b><br> Perceptual strength: <b>', round(perceptualstrength_eng, 2), ' ', 
+			'</b><br> Exclusivity: <b>', round(exc_eng, 2), '% ',
+			'</b><br> Auditory: <b>', round(Aud_eng, 2), ' ',
+			'</b><br> Haptic: <b>', round(Hap_eng, 2), ' ',
+			'</b><br> Visual: <b>', round(Vis_eng, 2), ' ',
+			'</b><br> Number of letters: <b>', lett_eng, ' ' ) ) ) + 
+  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
+  geom_text(size = 3) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+	panel.grid.minor = element_blank(), panel.border = element_blank(),
+  	axis.line = element_line(color = 'black'),
+	axis.title.x = element_text(colour = 'black', size = 8),
+	axis.title.y = element_text(colour = 'black', size = 7),
+	axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
+	legend.title = element_blank(), plot.title = element_blank() ),
+  tooltip = 'text' )
+
+```
+
+
+
+
+Column
+-----------------------------------------------------------------------
+
+### &nbsp;&nbsp;&nbsp; [Dutch properties](#properties)
+
+```{r}
+
+# Append 'copy' to the name of Dutch data sets to avoid interference with the data analysed above.
+
+props_copy = props
+
+ggplotly( ggplot(props_copy,
+  aes(RC1, RC2, label = as.character(word), color = main,
+    # Html tags below used for format. Decimals rounded to two.
+    text = paste0(' ', '<span style="font-size:2em;">', capitalize(word), '</b></span> ',
+			'<br></br> Dominant modality: <b>', main, ' ',
+			'</b><br> Perceptual strength: <b>', round(Perceptualstrength, 2), ' ',
+			'</b><br> Exclusivity: <b>', round(Exclusivity, 2), '% ',
+			'</b><br> Auditory: <b>', round(Auditory, 2), ' ',
+			'</b><br> Haptic: <b>', round(Haptic, 2), ' ',
+			'</b><br> Visual: <b>', round(Visual, 2), ' ',
+			'</b><br> Concreteness (Brysbaert et al., 2014): <b>', round(concrete_Brysbaertetal2014, 2), ' ',
+			'</b><br> Number of letters: <b>', letters, ' ',
+			'</b><br> Number of phonemes (DutchPOND): <b>', round(phonemes_DUTCHPOND, 2), ' ' ) ) ) +
+  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
+  geom_text(size = 3) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+	panel.grid.minor = element_blank(), panel.border = element_blank(),
+  	axis.line = element_line(color = 'black'),
+	axis.title.x = element_text(colour = 'black', size = 8),
+	axis.title.y = element_text(colour = 'black', size = 7),
+	axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
+	legend.title = element_blank(), plot.title = element_blank() ),
+  tooltip = 'text' )
+
+```
+
+
+
+
+### &nbsp;&nbsp;&nbsp; [Dutch concepts](#concepts)
+
+```{r}
+
+# Append 'copy' to the name of Dutch data sets to avoid interference with the data analysed above.
+
+concs_copy = concs
+
+ggplotly( ggplot(concs_copy,
+  aes(RC1, RC2, label = as.character(word), color = main,
+    # Html tags below used for format. Decimals rounded to two.
+    text = paste0(' ', '<span style="font-size:2em;">', capitalize(word), '</b></span> ',
+			'<br></br> Dominant modality: <b>', main, ' ',
+			'</b><br> Perceptual strength: <b>', round(Perceptualstrength, 2), ' ', 
+			'</b><br> Exclusivity: <b>', round(Exclusivity, 2), '% ',
+			'</b><br> Auditory: <b>', round(Auditory, 2), ' ',
+			'</b><br> Haptic: <b>', round(Haptic, 2), ' ',
+			'</b><br> Visual: <b>', round(Visual, 2), ' ',
+			'</b><br> Concreteness (Brysbaert et al., 2014): <b>', round(concrete_Brysbaertetal2014, 2), ' ',
+			'</b><br> Number of letters: <b>', letters, ' ',
+			'</b><br> Number of phonemes (DutchPOND): <b>', round(phonemes_DUTCHPOND, 2), ' ' ) ) ) +
+  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") + 
+  geom_text(size = 3) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+	panel.grid.minor = element_blank(), panel.border = element_blank(),
+  	axis.line = element_line(color = 'black'),
+	axis.title.x = element_text(colour = 'black', size = 8),
+	axis.title.y = element_text(colour = 'black', size = 7),
+	axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
+	legend.title = element_blank(), plot.title = element_blank() ),
+  tooltip = 'text' )
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+Sound symbolism {data-orientation=rows}
+=======================================================================
+
+Row {data-height=30%}
+-----------------------------------------------------------------------
+
+
+```{r include = FALSE}
+
+# SOUND SYMBOLISM (aka iconicity). Analyses run in this code chunk. Result tables in the next two chunks.
+
+# Last tests: iconicity/sound symbolism on concepts and properties separately.
+# Regressions include same lexical vars (DVs) as Lynott and Connell, plus 
+# concreteness and age of acquisition.
+
+# Note that the selection is based on p-value thresholds, as in L&C, but also on
+# AIC, which is a bayesian, relative method more appropriate with such a large
+# sample. Importantly, AIC and F/p-value criteria resulted in the same inclusions 
+# and exclusions for every regression.
+
+# For both props_copy2 and concs_copy2, we start with PCA with all lexical variables in order
+# to isolate them, because they are intercorrelated (see Table 5 in Lynott & Connell,
+# 2013)
+
+all = read.csv('https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/all.csv', fileEncoding = 'Latin1')
+nrow(all)
+# Length is 759 but only 747 are from these norms. Rest are from Lynott and Connell 
+# (2009, 2013) for comparative analyses. These extra items do not have an id number 
+# in the file. 
+
+# ----------------------------------------------------------------------------------
+
+
+# Iconicity within properties alone, as in Lynott and Connell (2013). As a novelty, 
+# the iconicity analysis is hereby performed also on the Dutch properties, in 
+# addition to the concepts.
+
+props_copy2 <- subset(all, subset = cat == 'prop')
+nrow(props_copy2)
+
+# There aren't lexical data for every single word.
+# Number of properties per lexical variable (from the Dutch items only of course)
+describe(complete.cases(props_copy2[complete.cases(props_copy2$Exclusivity),]
+$phonemes_DUTCHPOND))
+describe(complete.cases(props_copy2[complete.cases(props_copy2$Exclusivity),]
+$phon_neighbours_DUTCHPOND))
+describe(complete.cases(props_copy2[complete.cases(props_copy2$Exclusivity),]
+$orth_neighbours_DUTCHPOND))
+describe(complete.cases(props_copy2[complete.cases(props_copy2$Exclusivity),]
+$freq_lg10CD_SUBTLEXNL))
+describe(complete.cases(props_copy2[complete.cases(props_copy2$Exclusivity),]
+$freq_lg10WF_SUBTLEXNL))
+describe(complete.cases(props_copy2[complete.cases(props_copy2$Exclusivity),]
+$freq_CELEX_lem))
+describe(complete.cases(props_copy2[complete.cases(props_copy2$Exclusivity),]
+$AoA_Brysbaertetal2014))
+describe(complete.cases(props_copy2[complete.cases(props_copy2$Exclusivity),]
+$concrete_Brysbaertetal2014))
+
+# M, SD
+stat.desc(props_copy2$letters)
+stat.desc(props_copy2$phonemes_DUTCHPOND)
+stat.desc(props_copy2$phon_neighbours_DUTCHPOND)
+stat.desc(props_copy2$orth_neighbours_DUTCHPOND)
+stat.desc(props_copy2$freq_lg10CD_SUBTLEXNL)
+stat.desc(props_copy2$freq_lg10WF_SUBTLEXNL)
+stat.desc(props_copy2$freq_CELEX_lem)
+stat.desc(props_copy2$AoA_Brysbaertetal2014)
+stat.desc(props_copy2$concrete_Brysbaertetal2014)
+
+
+# See correlation of all lexical variables:
+
+mat_lexicals_props_copy2 <- as.matrix(props_copy2[c('letters', 'phonemes_DUTCHPOND', 
+'orth_neighbours_DUTCHPOND', 'phon_neighbours_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL', 
+'freq_lg10WF_SUBTLEXNL', 'freq_CELEX_lem', 'AoA_Brysbaertetal2014', 
+'concrete_Brysbaertetal2014')])
+
+rcor.test(mat_lexicals_props_copy2, use='complete.obs')
+corrs_props_copy2 = rcor.test(mat_lexicals_props_copy2, use='complete.obs')
+#write.csv(corrs_props_copy2$cor.mat, file = "corrs_props_copy2.csv",na="") # find table in folder
+# (saved just for the manuscript)
+
+
+# Go on to PCA. This PCA does not include age of acquisition or concreteness, to allow a 
+# better comparison with the English data, and because no correlations > .7 (i.e. half 
+# of variance explained)
+
+lexicals_props_copy2 <- props_copy2[c('letters', 'phonemes_DUTCHPOND', 'orth_neighbours_DUTCHPOND', 
+'phon_neighbours_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL', 'freq_lg10WF_SUBTLEXNL', 
+'freq_CELEX_lem')]
+
+str(lexicals_props_copy2)
+
+# start with PCA for lexical variables, done as in Lynott and Connell (2013)
+# Check conditions for a PCA
+# Correlations
+
+cor(lexicals_props_copy2, use = 'complete.obs')
+
+# Result: all variables fit for PCA, as they have few scores below .3 
+# The correlations broadly replicate Lynott and Connell. 
+
+# now on the raw vars:
+cortest.bartlett(lexicals_props_copy2)
+# GOOD: Bartlett's test significant 
+
+# KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
+lexicals_props_copy2_matrix <- cor(lexicals_props_copy2, use = 'complete.obs')
+KMO(lexicals_props_copy2_matrix)
+# Result: .78 = good.
+
+# determinant
+det(lexicals_props_copy2_matrix)
+# GOOD: above 0.00001
+
+# start off with unrotated PCA
+
+PCA_lexicals_props_copy2 <- psych::principal(lexicals_props_copy2, nfactors = 7, scores = TRUE)
+PCA_lexicals_props_copy2
+# By all standards, extract 3 components
+
+
+# scree analysis
+plot(PCA_lexicals_props_copy2$values, type = "b")
+# result: again, extract 3 components
+
+
+PCA_lexicals_props_copy2 <- psych::principal(lexicals_props_copy2, nfactors = 3, rotate = 
+"varimax", scores = TRUE)
+
+PCA_lexicals_props_copy2  # eigenvalues and exp variances good
+PCA_lexicals_props_copy2$loadings
+
+# The PCA replicates Lynott and Connell. Standdized correlation coeffs
+# between each PC and its corresponding set of variables are all above .89,
+# while the rest of coefficients are all below .33. 
+
+PCA_lexicals_props_copy2
+# RC1 = length // RC2 = frequency // RC3 = distinctiveness
+
+PCA_lexicals_props_copy2$residual
+PCA_lexicals_props_copy2$fit
+# Results based on a Kaiser-normalizalized orthogonal (varimax) rotation
+# (by default in psych::stats pack). Residuals good: less than half w/ absolute 
+# values > 0.05. Model fit good, > .90. Communalities (h2) good, all well > .7
+
+props_copy2 <- cbind(props_copy2, PCA_lexicals_props_copy2$scores)
+
+
+
+# REGRESSION
+
+# standardize (mean-center and scale)
+props_copy2$s_Auditory <- scale(props_copy2$Auditory)
+props_copy2$s_Haptic <- scale(props_copy2$Haptic)
+props_copy2$s_Visual <- scale(props_copy2$Visual)
+props_copy2$s_freq_lg10CD_SUBTLEXNL <- scale(props_copy2$freq_lg10CD_SUBTLEXNL)
+props_copy2$s_freq_lg10WF_SUBTLEXNL <- scale(props_copy2$freq_lg10WF_SUBTLEXNL)
+props_copy2$s_freq_CELEX_lem <- scale(props_copy2$freq_CELEX_lem)
+props_copy2$s_AoA_Brysbaertetal2014 <- scale(props_copy2$AoA_Brysbaertetal2014)
+props_copy2$s_concrete_Brysbaertetal2014 <- scale(props_copy2$concrete_Brysbaertetal2014)
+props_copy2$s_letters <- scale(props_copy2$letters)
+props_copy2$s_phonemes_DUTCHPOND <- scale(props_copy2$phonemes_DUTCHPOND)
+props_copy2$s_orth_neighbours_DUTCHPOND <- scale(props_copy2$orth_neighbours_DUTCHPOND)
+props_copy2$s_phon_neighbours_DUTCHPOND <- scale(props_copy2$phon_neighbours_DUTCHPOND)
+props_copy2$s_RC1_lexicals <- scale(props_copy2$RC1)
+props_copy2$s_RC2_lexicals <- scale(props_copy2$RC2) 
+props_copy2$s_RC3_lexicals <- scale(props_copy2$RC3)
+
+
+
+
+# length: letters
+fit_letters_props_copy2 <- lm(props_copy2$s_letters ~ props_copy2$s_Auditory + props_copy2$s_Haptic + 
+props_copy2$s_Visual, data = props_copy2)
+stat.desc(fit_letters_props_copy2$residuals, norm = TRUE)
+
+# residuals distribution: kurtose. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(props_copy2$s_letters)
+props_copy2$log_s_letters <- log(3 + props_copy2$s_letters)
+
+fit_letters_props_copy2 <- lm(props_copy2$log_s_letters ~ props_copy2$s_Auditory + props_copy2$s_Haptic + 
+props_copy2$s_Visual, data = props_copy2)
+
+# check residuals again
+stat.desc(fit_letters_props_copy2$residuals, norm = TRUE)
+# same; go back
+fit_letters_props_copy2 <- lm(props_copy2$s_letters ~ props_copy2$s_Auditory + props_copy2$s_Haptic + 
+props_copy2$s_Visual, data = props_copy2)
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_letters_props_copy2)
+mean(vif(fit_letters_props_copy2))
+1/vif(fit_letters_props_copy2)
+# RESULTS: all good
+
+step_letters_props_copy2_AIC <- stepAIC(fit_letters_props_copy2, direction="both")
+step_letters_props_copy2_F <- stepAIC(fit_letters_props_copy2, direction="both", test="F")
+summary(fit_letters_props_copy2)
+
+# Save results
+
+Category = 'Properties'
+Dependent = 'Number of letters'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_letters_props_copy2))
+DF = anova(fit_letters_props_copy2)[,'Df']
+Sum_Sq = anova(fit_letters_props_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_letters_props_copy2)[,'Mean Sq']
+F = anova(fit_letters_props_copy2)[,'F value']
+F_p = anova(fit_letters_props_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_letters_props_copy2)))
+Estimate = as.vector(coefficients(summary(fit_letters_props_copy2))[1:length(rownames(coefficients(summary(fit_letters_props_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_letters_props_copy2))[1:length(rownames(coefficients(summary(fit_letters_props_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_letters_props_copy2))[1:length(rownames(coefficients(summary(fit_letters_props_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_letters_props_copy2))[1:length(rownames(coefficients(summary(fit_letters_props_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results_total = merge(F_results, t_results, all = TRUE)
+
+
+
+
+
+# length: phonemes_DUTCHPOND
+fit_phonemes_DUTCHPOND_props_copy2 <- lm(props_copy2$s_phonemes_DUTCHPOND ~ props_copy2$s_Auditory + 
+props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+stat.desc(fit_phonemes_DUTCHPOND_props_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skew. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(props_copy2$s_phonemes_DUTCHPOND)
+props_copy2$log_s_phonemes_DUTCHPOND <- log(3 + props_copy2$s_phonemes_DUTCHPOND)
+
+fit_phonemes_DUTCHPOND_props_copy2 <- lm(props_copy2$log_s_phonemes_DUTCHPOND ~ props_copy2$s_Auditory
+ + props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+
+# check residuals again
+stat.desc(fit_phonemes_DUTCHPOND_props_copy2$residuals, norm = TRUE)
+# worse; back
+fit_phonemes_DUTCHPOND_props_copy2 <- lm(props_copy2$s_phonemes_DUTCHPOND ~ props_copy2$s_Auditory +
+props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and
+# tolerance (pref. > 0.2)
+vif(fit_phonemes_DUTCHPOND_props_copy2)
+mean(vif(fit_phonemes_DUTCHPOND_props_copy2))
+1/vif(fit_phonemes_DUTCHPOND_props_copy2)
+# RESULTS: all good
+
+step_phonemes_DUTCHPOND_props_copy2_AIC <- stepAIC(fit_phonemes_DUTCHPOND_props_copy2,
+direction="both")
+step_phonemes_DUTCHPOND_props_copy2_F <- stepAIC(fit_phonemes_DUTCHPOND_props_copy2,
+direction="both", test="F")
+summary(fit_phonemes_DUTCHPOND_props_copy2)
+
+# Save results
+
+Category = 'Properties'
+Dependent = 'Number of phonemes'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_phonemes_DUTCHPOND_props_copy2))
+DF = anova(fit_phonemes_DUTCHPOND_props_copy2)[,'Df']
+Sum_Sq = anova(fit_phonemes_DUTCHPOND_props_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_phonemes_DUTCHPOND_props_copy2)[,'Mean Sq']
+F = anova(fit_phonemes_DUTCHPOND_props_copy2)[,'F value']
+F_p = anova(fit_phonemes_DUTCHPOND_props_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_phonemes_DUTCHPOND_props_copy2)))
+Estimate = as.vector(coefficients(summary(fit_phonemes_DUTCHPOND_props_copy2))[1:length(rownames(coefficients(summary(fit_phonemes_DUTCHPOND_props_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_phonemes_DUTCHPOND_props_copy2))[1:length(rownames(coefficients(summary(fit_phonemes_DUTCHPOND_props_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_phonemes_DUTCHPOND_props_copy2))[1:length(rownames(coefficients(summary(fit_phonemes_DUTCHPOND_props_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_phonemes_DUTCHPOND_props_copy2))[1:length(rownames(coefficients(summary(fit_phonemes_DUTCHPOND_props_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+# freq: SUBTLEX-NL log-10 WF
+fit_freq_lg10WF_SUBTLEXNL_props_copy2 <- lm(props_copy2$s_freq_lg10WF_SUBTLEXNL ~ 
+props_copy2$s_Auditory + props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+stat.desc(fit_freq_lg10WF_SUBTLEXNL_props_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skew. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(props_copy2$s_freq_lg10WF_SUBTLEXNL)
+props_copy2$log_s_freq_lg10WF_SUBTLEXNL <- log(3 + props_copy2$s_freq_lg10WF_SUBTLEXNL)
+
+fit_freq_lg10WF_SUBTLEXNL_props_copy2 <- lm(props_copy2$log_s_freq_lg10WF_SUBTLEXNL ~ 
+props_copy2$s_Auditory + props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+
+# check residuals again
+stat.desc(fit_freq_lg10WF_SUBTLEXNL_props_copy2$residuals, norm = TRUE)
+# quite better
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_freq_lg10WF_SUBTLEXNL_props_copy2)
+mean(vif(fit_freq_lg10WF_SUBTLEXNL_props_copy2))
+1/vif(fit_freq_lg10WF_SUBTLEXNL_props_copy2)
+# RESULTS: all good
+
+step_freq_lg10WF_SUBTLEXNL_props_copy2_AIC <- stepAIC(fit_freq_lg10WF_SUBTLEXNL_props_copy2, 
+direction="both")
+step_freq_lg10WF_SUBTLEXNL_props_copy2_F <- stepAIC(fit_freq_lg10WF_SUBTLEXNL_props_copy2, 
+direction="both", test="F")
+summary(fit_freq_lg10WF_SUBTLEXNL_props_copy2)
+
+# Save results
+
+Category = 'Properties'
+Dependent = 'Word frequency'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_freq_lg10WF_SUBTLEXNL_props_copy2))
+DF = anova(fit_freq_lg10WF_SUBTLEXNL_props_copy2)[,'Df']
+Sum_Sq = anova(fit_freq_lg10WF_SUBTLEXNL_props_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_freq_lg10WF_SUBTLEXNL_props_copy2)[,'Mean Sq']
+F = anova(fit_freq_lg10WF_SUBTLEXNL_props_copy2)[,'F value']
+F_p = anova(fit_freq_lg10WF_SUBTLEXNL_props_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_props_copy2)))
+Estimate = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_props_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_props_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_props_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_props_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_props_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_props_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_props_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_props_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# freq: SUBTLEX-NL log-10 CD
+
+fit_freq_lg10CD_SUBTLEXNL_props_copy2 <- lm(props_copy2$s_freq_lg10CD_SUBTLEXNL ~ 
+props_copy2$s_Auditory + props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+stat.desc(fit_freq_lg10CD_SUBTLEXNL_props_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skew and kurtosed. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(props_copy2$s_freq_lg10CD_SUBTLEXNL)
+props_copy2$log_s_freq_lg10CD_SUBTLEXNL <- log(3 + props_copy2$s_freq_lg10CD_SUBTLEXNL)
+
+fit_freq_lg10CD_SUBTLEXNL_props_copy2 <- lm(props_copy2$log_s_freq_lg10CD_SUBTLEXNL ~ 
+props_copy2$s_Auditory + props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+
+# check residuals again
+stat.desc(fit_freq_lg10CD_SUBTLEXNL_props_copy2$residuals, norm = TRUE)
+# quite better
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_freq_lg10CD_SUBTLEXNL_props_copy2)
+mean(vif(fit_freq_lg10CD_SUBTLEXNL_props_copy2))
+1/vif(fit_freq_lg10CD_SUBTLEXNL_props_copy2)
+# RESULTS: all good
+
+step_freq_lg10CD_SUBTLEXNL_props_copy2_AIC <- stepAIC(fit_freq_lg10CD_SUBTLEXNL_props_copy2, 
+direction="both")
+step_freq_lg10CD_SUBTLEXNL__props_copy2F <- stepAIC(fit_freq_lg10CD_SUBTLEXNL_props_copy2, 
+direction="both", test="F")
+summary(fit_freq_lg10CD_SUBTLEXNL_props_copy2)
+
+# Save results
+
+Category = 'Properties'
+Dependent = 'Contextual diversity'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_freq_lg10CD_SUBTLEXNL_props_copy2))
+DF = anova(fit_freq_lg10CD_SUBTLEXNL_props_copy2)[,'Df']
+Sum_Sq = anova(fit_freq_lg10CD_SUBTLEXNL_props_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_freq_lg10CD_SUBTLEXNL_props_copy2)[,'Mean Sq']
+F = anova(fit_freq_lg10CD_SUBTLEXNL_props_copy2)[,'F value']
+F_p = anova(fit_freq_lg10CD_SUBTLEXNL_props_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_props_copy2)))
+Estimate = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_props_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_props_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_props_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_props_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_props_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_props_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_props_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_props_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# freq: CELEX log-10 lemma WF
+fit_freq_CELEX_lem_props_copy2 <- lm(props_copy2$s_freq_CELEX_lem ~ props_copy2$s_Auditory + 
+props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+stat.desc(fit_freq_CELEX_lem_props_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skew and kurtosed. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(props_copy2$s_freq_CELEX_lem)
+props_copy2$log_s_freq_CELEX_lem <- log(3 + props_copy2$s_freq_CELEX_lem)
+
+fit_freq_CELEX_lem_props_copy2 <- lm(props_copy2$log_s_freq_CELEX_lem ~ props_copy2$s_Auditory + 
+props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+
+# check residuals again
+stat.desc(fit_freq_CELEX_lem_props_copy2$residuals, norm = TRUE)
+# same; go back
+fit_freq_CELEX_lem_props_copy2 <- lm(props_copy2$s_freq_CELEX_lem ~ props_copy2$s_Auditory + 
+props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_freq_CELEX_lem_props_copy2)
+mean(vif(fit_freq_CELEX_lem_props_copy2))
+1/vif(fit_freq_CELEX_lem_props_copy2)
+# RESULTS: all good
+
+step_freq_CELEX_lem_props_copy2_AIC <- stepAIC(fit_freq_CELEX_lem_props_copy2, direction="both")
+step_freq_CELEX_lem_props_copy2_F <- stepAIC(fit_freq_CELEX_lem_props_copy2, direction="both", 
+test="F")
+summary(fit_freq_CELEX_lem_props_copy2)
+
+# Save results
+
+Category = 'Properties'
+Dependent = 'Lemma frequency'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_freq_CELEX_lem_props_copy2))
+DF = anova(fit_freq_CELEX_lem_props_copy2)[,'Df']
+Sum_Sq = anova(fit_freq_CELEX_lem_props_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_freq_CELEX_lem_props_copy2)[,'Mean Sq']
+F = anova(fit_freq_CELEX_lem_props_copy2)[,'F value']
+F_p = anova(fit_freq_CELEX_lem_props_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_freq_CELEX_lem_props_copy2)))
+Estimate = as.vector(coefficients(summary(fit_freq_CELEX_lem_props_copy2))[1:length(rownames(coefficients(summary(fit_freq_CELEX_lem_props_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_freq_CELEX_lem_props_copy2))[1:length(rownames(coefficients(summary(fit_freq_CELEX_lem_props_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_freq_CELEX_lem_props_copy2))[1:length(rownames(coefficients(summary(fit_freq_CELEX_lem_props_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_freq_CELEX_lem_props_copy2))[1:length(rownames(coefficients(summary(fit_freq_CELEX_lem_props_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# distinctiveness: phon neigh size
+fit_phon_neighbours_DUTCHPOND_props_copy2 <- lm(props_copy2$s_phon_neighbours_DUTCHPOND ~ 
+props_copy2$s_Auditory + props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+stat.desc(fit_phon_neighbours_DUTCHPOND_props_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(props_copy2$s_phon_neighbours_DUTCHPOND)
+props_copy2$log_s_phon_neighbours_DUTCHPOND <- log(2 + props_copy2$s_phon_neighbours_DUTCHPOND)
+
+fit_phon_neighbours_DUTCHPOND_props_copy2 <- lm(props_copy2$log_s_phon_neighbours_DUTCHPOND ~ 
+props_copy2$s_Auditory + props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+
+# check residuals again
+stat.desc(fit_phon_neighbours_DUTCHPOND_props_copy2$residuals, norm = TRUE)
+# quite better
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_phon_neighbours_DUTCHPOND_props_copy2)
+mean(vif(fit_phon_neighbours_DUTCHPOND_props_copy2))
+1/vif(fit_phon_neighbours_DUTCHPOND_props_copy2)
+# RESULTS: all good
+
+step_phon_neighbours_DUTCHPOND_props_copy2_AIC <- 
+stepAIC(fit_phon_neighbours_DUTCHPOND_props_copy2, direction="both")
+step_phon_neighbours_DUTCHPOND_props_copy2_F <-
+ stepAIC(fit_phon_neighbours_DUTCHPOND_props_copy2, direction="both", test="F")
+summary(fit_phon_neighbours_DUTCHPOND_props_copy2)
+
+# Save results
+
+Category = 'Properties'
+Dependent = 'Phonological neighbours'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_phon_neighbours_DUTCHPOND_props_copy2))
+DF = anova(fit_phon_neighbours_DUTCHPOND_props_copy2)[,'Df']
+Sum_Sq = anova(fit_phon_neighbours_DUTCHPOND_props_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_phon_neighbours_DUTCHPOND_props_copy2)[,'Mean Sq']
+F = anova(fit_phon_neighbours_DUTCHPOND_props_copy2)[,'F value']
+F_p = anova(fit_phon_neighbours_DUTCHPOND_props_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_phon_neighbours_DUTCHPOND_props_copy2)))
+Estimate = as.vector(coefficients(summary(fit_phon_neighbours_DUTCHPOND_props_copy2))[1:length(rownames(coefficients(summary(fit_phon_neighbours_DUTCHPOND_props_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_phon_neighbours_DUTCHPOND_props_copy2))[1:length(rownames(coefficients(summary(fit_phon_neighbours_DUTCHPOND_props_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_phon_neighbours_DUTCHPOND_props_copy2))[1:length(rownames(coefficients(summary(fit_phon_neighbours_DUTCHPOND_props_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_phon_neighbours_DUTCHPOND_props_copy2))[1:length(rownames(coefficients(summary(fit_phon_neighbours_DUTCHPOND_props_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+# distinctiveness: orth neigh size
+fit_orth_neighbours_DUTCHPOND_props_copy2 <- lm(props_copy2$s_orth_neighbours_DUTCHPOND ~ 
+props_copy2$s_Auditory + props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+stat.desc(fit_orth_neighbours_DUTCHPOND_props_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(props_copy2$s_orth_neighbours_DUTCHPOND)
+props_copy2$log_s_orth_neighbours_DUTCHPOND <- log(2 + props_copy2$s_orth_neighbours_DUTCHPOND)
+
+fit_orth_neighbours_DUTCHPOND_props_copy2 <- lm(props_copy2$log_s_orth_neighbours_DUTCHPOND ~ 
+props_copy2$s_Auditory + props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+
+# check residuals again
+stat.desc(fit_orth_neighbours_DUTCHPOND_props_copy2$residuals, norm = TRUE)
+# quite better
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_orth_neighbours_DUTCHPOND_props_copy2)
+mean(vif(fit_orth_neighbours_DUTCHPOND_props_copy2))
+1/vif(fit_orth_neighbours_DUTCHPOND_props_copy2)
+# RESULTS: all good
+
+step_orth_neighbours_DUTCHPOND_props_copy2_AIC <- 
+stepAIC(fit_orth_neighbours_DUTCHPOND_props_copy2, direction="both")
+
+step_orth_neighbours_DUTCHPOND_props_copy2_F <- 
+stepAIC(fit_orth_neighbours_DUTCHPOND_props_copy2, direction="both", test="F")
+
+summary(fit_orth_neighbours_DUTCHPOND_props_copy2)
+
+# Save results
+
+Category = 'Properties'
+Dependent = 'Orthographic neighbours'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_orth_neighbours_DUTCHPOND_props_copy2))
+DF = anova(fit_orth_neighbours_DUTCHPOND_props_copy2)[,'Df']
+Sum_Sq = anova(fit_orth_neighbours_DUTCHPOND_props_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_orth_neighbours_DUTCHPOND_props_copy2)[,'Mean Sq']
+F = anova(fit_orth_neighbours_DUTCHPOND_props_copy2)[,'F value']
+F_p = anova(fit_orth_neighbours_DUTCHPOND_props_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_orth_neighbours_DUTCHPOND_props_copy2)))
+Estimate = as.vector(coefficients(summary(fit_orth_neighbours_DUTCHPOND_props_copy2))[1:length(rownames(coefficients(summary(fit_orth_neighbours_DUTCHPOND_props_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_orth_neighbours_DUTCHPOND_props_copy2))[1:length(rownames(coefficients(summary(fit_orth_neighbours_DUTCHPOND_props_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_orth_neighbours_DUTCHPOND_props_copy2))[1:length(rownames(coefficients(summary(fit_orth_neighbours_DUTCHPOND_props_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_orth_neighbours_DUTCHPOND_props_copy2))[1:length(rownames(coefficients(summary(fit_orth_neighbours_DUTCHPOND_props_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# length: Rotated Principal Component 1 for the lexical variables
+fit_RC1_lexicals_props_copy2 <- lm(props_copy2$s_RC1_lexicals ~ props_copy2$s_Auditory + props_copy2$s_Haptic 
++ props_copy2$s_Visual, data = props_copy2)
+stat.desc(fit_RC1_lexicals_props_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skewed. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(props_copy2$s_RC1_lexicals)
+props_copy2$log_s_RC1_lexicals_props_copy2 <- log(4 + props_copy2$s_RC1_lexicals)
+
+fit_RC1_lexicals_props_copy2 <- lm(props_copy2$log_s_RC1_lexicals ~ props_copy2$s_Auditory + 
+props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+
+# check residuals again
+stat.desc(fit_RC1_lexicals_props_copy2$residuals, norm = TRUE)
+# good!
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_RC1_lexicals_props_copy2)
+mean(vif(fit_RC1_lexicals_props_copy2))
+1/vif(fit_RC1_lexicals_props_copy2)
+# RESULTS: all good
+
+step_RC1_lexicals_props_copy2_AIC <- stepAIC(fit_RC1_lexicals_props_copy2, direction="both")
+step_RC1_lexicals_props_copy2_F <- stepAIC(fit_RC1_lexicals_props_copy2, direction="both", 
+test="F")
+summary(fit_RC1_lexicals_props_copy2)
+
+# Save results
+
+Category = 'Properties'
+Dependent = 'Length PC'
+loadings(PCA_lexicals_props_copy2)[1:7, c('RC1','RC2','RC3')]   # Correspondence between variables and components
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_RC1_lexicals_props_copy2))
+DF = anova(fit_RC1_lexicals_props_copy2)[,'Df']
+Sum_Sq = anova(fit_RC1_lexicals_props_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_RC1_lexicals_props_copy2)[,'Mean Sq']
+F = anova(fit_RC1_lexicals_props_copy2)[,'F value']
+F_p = anova(fit_RC1_lexicals_props_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_RC1_lexicals_props_copy2)))
+Estimate = as.vector(coefficients(summary(fit_RC1_lexicals_props_copy2))[1:length(rownames(coefficients(summary(fit_RC1_lexicals_props_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_RC1_lexicals_props_copy2))[1:length(rownames(coefficients(summary(fit_RC1_lexicals_props_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_RC1_lexicals_props_copy2))[1:length(rownames(coefficients(summary(fit_RC1_lexicals_props_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_RC1_lexicals_props_copy2))[1:length(rownames(coefficients(summary(fit_RC1_lexicals_props_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# freq: Rotated Principal Component 2 for the lexical variables
+fit_RC2_lexicals_props_copy2 <- lm(props_copy2$s_RC2_lexicals ~ props_copy2$s_Auditory + props_copy2$s_Haptic
+ + props_copy2$s_Visual, data = props_copy2)
+stat.desc(fit_RC2_lexicals_props_copy2$residuals, norm = TRUE)
+
+# residuals distribution: kurtosed. Raw scores/2.SE < 1
+# have to log-transform DV and re-run regression
+
+psych::describe(props_copy2$s_RC2_lexicals)
+props_copy2$log_s_RC2_lexicals <- log(3 + props_copy2$s_RC2_lexicals)
+
+fit_RC2_lexicals_props_copy2 <- lm(props_copy2$log_s_RC2_lexicals ~ props_copy2$s_Auditory + 
+props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+
+# check residuals again
+stat.desc(fit_RC2_lexicals_props_copy2$residuals, norm = TRUE)
+# worse; back
+fit_RC2_lexicals_props_copy2 <- lm(props_copy2$s_RC2_lexicals ~ props_copy2$s_Auditory + props_copy2$s_Haptic
+ + props_copy2$s_Visual, data = props_copy2)
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_RC2_lexicals_props_copy2)
+mean(vif(fit_RC2_lexicals_props_copy2))
+1/vif(fit_RC2_lexicals_props_copy2)
+# RESULTS: all good
+
+step_RC2_lexicals_props_copy2_AIC <- stepAIC(fit_RC2_lexicals_props_copy2, direction="both")
+step_RC2_lexicals_props_copy2_F <- stepAIC(fit_RC2_lexicals_props_copy2, direction="both", 
+test="F")
+summary(fit_RC2_lexicals_props_copy2)
+
+# Save results
+
+Category = 'Properties'
+Dependent = 'Frequency PC'
+loadings(PCA_lexicals_props_copy2)[1:7, c('RC1','RC2','RC3')]   # Correspondence between variables and components
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_RC2_lexicals_props_copy2))
+DF = anova(fit_RC2_lexicals_props_copy2)[,'Df']
+Sum_Sq = anova(fit_RC2_lexicals_props_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_RC2_lexicals_props_copy2)[,'Mean Sq']
+F = anova(fit_RC2_lexicals_props_copy2)[,'F value']
+F_p = anova(fit_RC2_lexicals_props_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_RC2_lexicals_props_copy2)))
+Estimate = as.vector(coefficients(summary(fit_RC2_lexicals_props_copy2))[1:length(rownames(coefficients(summary(fit_RC2_lexicals_props_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_RC2_lexicals_props_copy2))[1:length(rownames(coefficients(summary(fit_RC2_lexicals_props_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_RC2_lexicals_props_copy2))[1:length(rownames(coefficients(summary(fit_RC2_lexicals_props_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_RC2_lexicals_props_copy2))[1:length(rownames(coefficients(summary(fit_RC2_lexicals_props_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# distinctiveness: Rotated Principal Component 3 for the lexical variables
+fit_RC3_lexicals_props_copy2 <- lm(props_copy2$s_RC3_lexicals ~ props_copy2$s_Auditory + 
+props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+stat.desc(fit_RC3_lexicals_props_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(props_copy2$s_RC3_lexicals)
+props_copy2$log_s_RC3_lexicals <- log(3 + props_copy2$s_RC3_lexicals)
+
+fit_RC3_lexicals_props_copy2 <- lm(props_copy2$log_s_RC3_lexicals ~ props_copy2$s_Auditory + 
+props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+
+# check residuals again
+stat.desc(fit_RC3_lexicals_props_copy2$residuals, norm = TRUE)
+# quite better
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_RC3_lexicals_props_copy2)
+mean(vif(fit_RC3_lexicals_props_copy2))
+1/vif(fit_RC3_lexicals_props_copy2)
+# RESULTS: all good
+
+step_RC3_lexicals_props_copy2_AIC <- stepAIC(fit_RC3_lexicals_props_copy2, direction="both")
+step_RC3_lexicals_props_copy2_F <- stepAIC(fit_RC3_lexicals_props_copy2, direction="both", 
+test="F")
+summary(fit_RC3_lexicals_props_copy2)
+
+# Save results
+
+Category = 'Properties'
+Dependent = 'Distinctiveness PC'
+loadings(PCA_lexicals_props_copy2)[1:7, c('RC1','RC2','RC3')]   # Correspondence between variables and components
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_RC3_lexicals_props_copy2))
+DF = anova(fit_RC3_lexicals_props_copy2)[,'Df']
+Sum_Sq = anova(fit_RC3_lexicals_props_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_RC3_lexicals_props_copy2)[,'Mean Sq']
+F = anova(fit_RC3_lexicals_props_copy2)[,'F value']
+F_p = anova(fit_RC3_lexicals_props_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_RC3_lexicals_props_copy2)))
+Estimate = as.vector(coefficients(summary(fit_RC3_lexicals_props_copy2))[1:length(rownames(coefficients(summary(fit_RC3_lexicals_props_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_RC3_lexicals_props_copy2))[1:length(rownames(coefficients(summary(fit_RC3_lexicals_props_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_RC3_lexicals_props_copy2))[1:length(rownames(coefficients(summary(fit_RC3_lexicals_props_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_RC3_lexicals_props_copy2))[1:length(rownames(coefficients(summary(fit_RC3_lexicals_props_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# additional var: age of acquisition
+fit_AoA_Brysbaertetal2014_props_copy2 <- lm(props_copy2$s_AoA_Brysbaertetal2014 ~ 
+props_copy2$s_Auditory + props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+stat.desc(fit_AoA_Brysbaertetal2014_props_copy2$residuals, norm = TRUE)
+# residuals distribution: good
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_AoA_Brysbaertetal2014_props_copy2)
+mean(vif(fit_AoA_Brysbaertetal2014_props_copy2))
+1/vif(fit_AoA_Brysbaertetal2014_props_copy2)
+# RESULTS: all good
+
+step_AoA_Brysbaertetal2014_props_copy2_AIC <- stepAIC(fit_AoA_Brysbaertetal2014_props_copy2,
+direction="both")
+step_AoA_Brysbaertetal2014_props_copy2_F <- stepAIC(fit_AoA_Brysbaertetal2014_props_copy2, 
+direction="both", test="F")
+summary(fit_AoA_Brysbaertetal2014_props_copy2)
+
+# Save results
+
+Category = 'Properties'
+Dependent = 'Age of acquisition'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_AoA_Brysbaertetal2014_props_copy2))
+DF = anova(fit_AoA_Brysbaertetal2014_props_copy2)[,'Df']
+Sum_Sq = anova(fit_AoA_Brysbaertetal2014_props_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_AoA_Brysbaertetal2014_props_copy2)[,'Mean Sq']
+F = anova(fit_AoA_Brysbaertetal2014_props_copy2)[,'F value']
+F_p = anova(fit_AoA_Brysbaertetal2014_props_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_AoA_Brysbaertetal2014_props_copy2)))
+Estimate = as.vector(coefficients(summary(fit_AoA_Brysbaertetal2014_props_copy2))[1:length(rownames(coefficients(summary(fit_AoA_Brysbaertetal2014_props_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_AoA_Brysbaertetal2014_props_copy2))[1:length(rownames(coefficients(summary(fit_AoA_Brysbaertetal2014_props_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_AoA_Brysbaertetal2014_props_copy2))[1:length(rownames(coefficients(summary(fit_AoA_Brysbaertetal2014_props_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_AoA_Brysbaertetal2014_props_copy2))[1:length(rownames(coefficients(summary(fit_AoA_Brysbaertetal2014_props_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# additional var: concreteness
+fit_concrete_Brysbaertetal2014_props_copy2 <- lm(props_copy2$s_concrete_Brysbaertetal2014 ~ 
+props_copy2$s_Auditory + props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+stat.desc(fit_concrete_Brysbaertetal2014_props_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skew. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(props_copy2$s_concrete_Brysbaertetal2014)
+props_copy2$log_s_concrete_Brysbaertetal2014 <- log(4 + props_copy2$s_concrete_Brysbaertetal2014)
+
+fit_concrete_Brysbaertetal2014_props_copy2 <- lm(props_copy2$log_s_concrete_Brysbaertetal2014 ~ 
+props_copy2$s_Auditory + props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+
+# check residuals again
+stat.desc(fit_concrete_Brysbaertetal2014_props_copy2$residuals, norm = TRUE)
+# worse; back
+fit_concrete_Brysbaertetal2014_props_copy2 <- lm(props_copy2$s_concrete_Brysbaertetal2014 ~ 
+props_copy2$s_Auditory + props_copy2$s_Haptic + props_copy2$s_Visual, data = props_copy2)
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_concrete_Brysbaertetal2014_props_copy2)
+mean(vif(fit_concrete_Brysbaertetal2014_props_copy2))
+1/vif(fit_concrete_Brysbaertetal2014_props_copy2)
+# RESULTS: all good
+
+step_concrete_Brysbaertetal2014_props_copy2_AIC <-
+stepAIC(fit_concrete_Brysbaertetal2014_props_copy2, direction="both")
+step_concrete_Brysbaertetal2014_props_copy2_F <-
+stepAIC(fit_concrete_Brysbaertetal2014_props_copy2, direction="both", test="F")
+summary(fit_concrete_Brysbaertetal2014_props_copy2)
+
+# Save results
+
+Category = 'Properties'
+Dependent = 'Concreteness'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_concrete_Brysbaertetal2014_props_copy2))
+DF = anova(fit_concrete_Brysbaertetal2014_props_copy2)[,'Df']
+Sum_Sq = anova(fit_concrete_Brysbaertetal2014_props_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_concrete_Brysbaertetal2014_props_copy2)[,'Mean Sq']
+F = anova(fit_concrete_Brysbaertetal2014_props_copy2)[,'F value']
+F_p = anova(fit_concrete_Brysbaertetal2014_props_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_concrete_Brysbaertetal2014_props_copy2)))
+Estimate = as.vector(coefficients(summary(fit_concrete_Brysbaertetal2014_props_copy2))[1:length(rownames(coefficients(summary(fit_concrete_Brysbaertetal2014_props_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_concrete_Brysbaertetal2014_props_copy2))[1:length(rownames(coefficients(summary(fit_concrete_Brysbaertetal2014_props_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_concrete_Brysbaertetal2014_props_copy2))[1:length(rownames(coefficients(summary(fit_concrete_Brysbaertetal2014_props_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_concrete_Brysbaertetal2014_props_copy2))[1:length(rownames(coefficients(summary(fit_concrete_Brysbaertetal2014_props_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+# RESULTS: iconicity properties: 
+# Auditory strength either was the strongest predictor or presented an opposite 
+# polarity from the main predictor. This held for all lexical DVs except age of 
+# acquisition.
+
+# __________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+# Iconicity within concepts alone, as in Lynott and Connell (2013)
+
+concs_copy2 <- all[all$cat == 'conc' & c(all$normed == 'Dutch' | all$normed == 'Dut_Eng'),]
+nrow(concs_copy2)
+
+# There aren't lexical data for every single word.
+# Percentage of concepts per lexical variable (from items w/ Dutch norms)
+describe(complete.cases(concs_copy2[complete.cases(concs_copy2$Exclusivity),]
+$phonemes_DUTCHPOND))
+describe(complete.cases(concs_copy2[complete.cases(concs_copy2$Exclusivity),]
+$phon_neighbours_DUTCHPOND))
+describe(complete.cases(concs_copy2[complete.cases(concs_copy2$Exclusivity),]
+$orth_neighbours_DUTCHPOND))
+describe(complete.cases(concs_copy2[complete.cases(concs_copy2$Exclusivity),]
+$freq_lg10CD_SUBTLEXNL))
+describe(complete.cases(concs_copy2[complete.cases(concs_copy2$Exclusivity),]
+$freq_lg10WF_SUBTLEXNL))
+describe(complete.cases(concs_copy2[complete.cases(concs_copy2$Exclusivity),]
+$freq_CELEX_lem))
+describe(complete.cases(concs_copy2[complete.cases(concs_copy2$Exclusivity),]
+$AoA_Brysbaertetal2014))
+describe(complete.cases(concs_copy2[complete.cases(concs_copy2$Exclusivity),]
+$concrete_Brysbaertetal2014))
+
+# M, SD
+stat.desc(concs_copy2$letters)
+stat.desc(concs_copy2$phonemes_DUTCHPOND)
+stat.desc(concs_copy2$phon_neighbours_DUTCHPOND)
+stat.desc(concs_copy2$orth_neighbours_DUTCHPOND)
+stat.desc(concs_copy2$freq_lg10CD_SUBTLEXNL)
+stat.desc(concs_copy2$freq_lg10WF_SUBTLEXNL)
+stat.desc(concs_copy2$freq_CELEX_lem)
+stat.desc(concs_copy2$AoA_Brysbaertetal2014)
+stat.desc(concs_copy2$concrete_Brysbaertetal2014)
+
+
+# See correlation of all lexical variables:
+
+mat_lexicals_concs_copy2 <- as.matrix(concs_copy2[c('letters', 'phonemes_DUTCHPOND',
+'orth_neighbours_DUTCHPOND', 'phon_neighbours_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL',
+'freq_lg10WF_SUBTLEXNL', 'freq_CELEX_lem', 'AoA_Brysbaertetal2014',
+'concrete_Brysbaertetal2014')])
+
+rcor.test(mat_lexicals_concs_copy2, use='complete.obs')
+corrs_concs_copy2 = rcor.test(mat_lexicals_concs_copy2, use='complete.obs')
+#write.csv(corrs_concs_copy2$cor.mat, file = "corrs_concs_copy2.csv",na="") # find table in folder
+
+
+# Go on to PCA. This PCA does not include age of acquisition or concreteness, to allow a
+# better comparison with the English data, and because no correlations > .7 (i.e. half
+# of variance explained)
+
+lexicals_concs_copy2 <- concs_copy2[c('letters', 'phonemes_DUTCHPOND', 'orth_neighbours_DUTCHPOND',
+'phon_neighbours_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL', 'freq_lg10WF_SUBTLEXNL',
+'freq_CELEX_lem')]
+
+nrow(lexicals_concs_copy2)
+
+# start with PCA for lexical variables, done as in Lynott and Connell (2013)
+# Check conditions for a PCA
+# Correlations
+
+cor(lexicals_concs_copy2, use = 'complete.obs')
+
+# Result: all variables fit for PCA, as they have few scores below .3
+# The correlations broadly replicate Lynott and Connell.
+
+# now on the raw vars:
+cortest.bartlett(lexicals_concs_copy2)
+# GOOD: Bartlett's test significant
+
+# KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
+lexicals_concs_copy2_matrix <- cor(lexicals_concs_copy2, use = 'complete.obs')
+KMO(lexicals_concs_copy2_matrix)
+# Result: .71 = good.
+
+# determinant
+det(lexicals_concs_copy2_matrix)
+# GOOD: above 0.00001
+
+# start off with unrotated PCA
+
+PCA_lexicals_concs_copy2 <- psych::principal(lexicals_concs_copy2, nfactors = 7, scores = TRUE)
+PCA_lexicals_concs_copy2
+# by Kaiser's and Joliffe's standard, extract 3 RCs
+
+# scree analysis
+plot(PCA_lexicals_concs_copy2$values, type = "b")
+# result: again, extract 3 components
+
+PCA_lexicals_concs_copy2 <- psych::principal(lexicals_concs_copy2, nfactors = 3, rotate = 
+"varimax", scores = TRUE)
+
+PCA_lexicals_concs_copy2 #-> check explained variance along components
+PCA_lexicals_concs_copy2$loadings
+
+# The PCA replicates Lynott and Connell. Standdized correlation coefficients
+# between each PC and its corresponding set of variables are all above .89,
+# while the rest of coefficients are all below .33. 
+
+PCA_lexicals_concs_copy2
+# RC1 = length // RC2 = frequency // RC3 = distinctiveness
+
+PCA_lexicals_concs_copy2$residual
+PCA_lexicals_concs_copy2$fit
+PCA_lexicals_concs_copy2$communality
+
+# Results based on a Kaiser-normalizalized orthogonal (varimax) rotation
+# (by default in psych::stats pack). Residuals good: less than half w/ absolute 
+# values > 0.05. Model fit good, > .90. Communalities (h2) good, all well > .7
+
+concs_copy2 <- cbind(concs_copy2, PCA_lexicals_concs_copy2$scores)
+
+
+# REGRESSION
+
+# standardize (mean-center and scale)
+concs_copy2$s_Auditory <- scale(concs_copy2$Auditory)
+concs_copy2$s_Haptic <- scale(concs_copy2$Haptic)
+concs_copy2$s_Visual <- scale(concs_copy2$Visual)
+concs_copy2$s_freq_lg10CD_SUBTLEXNL <- scale(concs_copy2$freq_lg10CD_SUBTLEXNL)
+concs_copy2$s_freq_lg10WF_SUBTLEXNL <- scale(concs_copy2$freq_lg10WF_SUBTLEXNL)
+concs_copy2$s_freq_CELEX_lem <- scale(concs_copy2$freq_CELEX_lem)
+concs_copy2$s_AoA_Brysbaertetal2014 <- scale(concs_copy2$AoA_Brysbaertetal2014)
+concs_copy2$s_concrete_Brysbaertetal2014 <- scale(concs_copy2$concrete_Brysbaertetal2014)
+concs_copy2$s_letters <- scale(concs_copy2$letters)
+concs_copy2$s_phonemes_DUTCHPOND <- scale(concs_copy2$phonemes_DUTCHPOND)
+concs_copy2$s_orth_neighbours_DUTCHPOND <- scale(concs_copy2$orth_neighbours_DUTCHPOND)
+concs_copy2$s_phon_neighbours_DUTCHPOND <- scale(concs_copy2$phon_neighbours_DUTCHPOND)
+concs_copy2$s_RC1_lexicals <- scale(concs_copy2$RC1)
+concs_copy2$s_RC2_lexicals <- scale(concs_copy2$RC2) 
+concs_copy2$s_RC3_lexicals <- scale(concs_copy2$RC3)
+
+
+
+# length: letters
+fit_letters_concs_copy2 <- lm(concs_copy2$s_letters ~ concs_copy2$s_Auditory + concs_copy2$s_Haptic + 
+concs_copy2$s_Visual, data = concs_copy2)
+stat.desc(fit_letters_concs_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skew. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(concs_copy2$s_letters)
+concs_copy2$log_s_letters <- log(3 + concs_copy2$s_letters)
+
+fit_letters_concs_copy2 <- lm(concs_copy2$log_s_letters ~ concs_copy2$s_Auditory + concs_copy2$s_Haptic + 
+concs_copy2$s_Visual, data = concs_copy2)
+
+# check residuals again
+stat.desc(fit_letters_concs_copy2$residuals, norm = TRUE)
+# better though still skew/kurtose
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), 
+# and tolerance (pref. > 0.2)
+vif(fit_letters_concs_copy2)
+mean(vif(fit_letters_concs_copy2))
+1/vif(fit_letters_concs_copy2)
+# RESULTS: all good
+
+step_letters_concs_copy2_AIC <- stepAIC(fit_letters_concs_copy2, direction="both")
+step_letters_concs_copy2_F <- stepAIC(fit_letters_concs_copy2, direction="both", test="F")
+summary(fit_letters_concs_copy2)
+
+# Save results
+
+Category = 'Concepts'
+Dependent = 'Number of letters'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_letters_concs_copy2))
+DF = anova(fit_letters_concs_copy2)[,'Df']
+Sum_Sq = anova(fit_letters_concs_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_letters_concs_copy2)[,'Mean Sq']
+F = anova(fit_letters_concs_copy2)[,'F value']
+F_p = anova(fit_letters_concs_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_letters_concs_copy2)))
+Estimate = as.vector(coefficients(summary(fit_letters_concs_copy2))[1:length(rownames(coefficients(summary(fit_letters_concs_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_letters_concs_copy2))[1:length(rownames(coefficients(summary(fit_letters_concs_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_letters_concs_copy2))[1:length(rownames(coefficients(summary(fit_letters_concs_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_letters_concs_copy2))[1:length(rownames(coefficients(summary(fit_letters_concs_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# length: phonemes_DUTCHPOND
+fit_phonemes_DUTCHPOND_concs_copy2 <- lm(concs_copy2$s_phonemes_DUTCHPOND ~ concs_copy2$s_Auditory + 
+concs_copy2$s_Haptic + concs_copy2$s_Visual, data = concs_copy2)
+stat.desc(fit_phonemes_DUTCHPOND_concs_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skew and kurtose. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(concs_copy2$s_phonemes_DUTCHPOND)
+concs_copy2$log_s_phonemes_DUTCHPOND <- log(3 + concs_copy2$s_phonemes_DUTCHPOND)
+
+fit_phonemes_DUTCHPOND_concs_copy2 <- lm(concs_copy2$log_s_phonemes_DUTCHPOND ~ concs_copy2$s_Auditory
+ + concs_copy2$s_Haptic + concs_copy2$s_Visual, data = concs_copy2)
+
+# check residuals again
+stat.desc(fit_phonemes_DUTCHPOND_concs_copy2$residuals, norm = TRUE)
+# good
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_phonemes_DUTCHPOND_concs_copy2)
+mean(vif(fit_phonemes_DUTCHPOND_concs_copy2))
+1/vif(fit_phonemes_DUTCHPOND_concs_copy2)
+# RESULTS: all good
+
+step_phonemes_DUTCHPOND_concs_copy2_AIC <- stepAIC(fit_phonemes_DUTCHPOND_concs_copy2, 
+direction="both")
+step_phonemes_DUTCHPOND_concs_copy2_F <- stepAIC(fit_phonemes_DUTCHPOND_concs_copy2, 
+direction="both", test="F")
+summary(fit_phonemes_DUTCHPOND_concs_copy2)
+
+# Save results
+
+Category = 'Concepts'
+Dependent = 'Number of phonemes'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_phonemes_DUTCHPOND_concs_copy2))
+DF = anova(fit_phonemes_DUTCHPOND_concs_copy2)[,'Df']
+Sum_Sq = anova(fit_phonemes_DUTCHPOND_concs_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_phonemes_DUTCHPOND_concs_copy2)[,'Mean Sq']
+F = anova(fit_phonemes_DUTCHPOND_concs_copy2)[,'F value']
+F_p = anova(fit_phonemes_DUTCHPOND_concs_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_phonemes_DUTCHPOND_concs_copy2)))
+Estimate = as.vector(coefficients(summary(fit_phonemes_DUTCHPOND_concs_copy2))[1:length(rownames(coefficients(summary(fit_phonemes_DUTCHPOND_concs_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_phonemes_DUTCHPOND_concs_copy2))[1:length(rownames(coefficients(summary(fit_phonemes_DUTCHPOND_concs_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_phonemes_DUTCHPOND_concs_copy2))[1:length(rownames(coefficients(summary(fit_phonemes_DUTCHPOND_concs_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_phonemes_DUTCHPOND_concs_copy2))[1:length(rownames(coefficients(summary(fit_phonemes_DUTCHPOND_concs_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+
+# freq: SUBTLEX-NL log-10 WF
+fit_freq_lg10WF_SUBTLEXNL_concs_copy2 <- 
+lm(concs_copy2$s_freq_lg10WF_SUBTLEXNL ~ concs_copy2$s_Auditory + concs_copy2$s_Haptic + concs_copy2$s_Visual,
+ data = concs_copy2)
+stat.desc(fit_freq_lg10WF_SUBTLEXNL_concs_copy2$residuals, norm = TRUE)
+# residuals distribution: good. Raw scores/2.SE < 1
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_freq_lg10WF_SUBTLEXNL_concs_copy2)
+mean(vif(fit_freq_lg10WF_SUBTLEXNL_concs_copy2))
+1/vif(fit_freq_lg10WF_SUBTLEXNL_concs_copy2)
+# RESULTS: all good
+
+step_freq_lg10WF_SUBTLEXNL_concs_copy2_AIC <- stepAIC(fit_freq_lg10WF_SUBTLEXNL_concs_copy2, 
+direction="both")
+step_freq_lg10WF_SUBTLEXNL_concs_copy2_F <- stepAIC(fit_freq_lg10WF_SUBTLEXNL_concs_copy2, 
+direction="both", test="F")
+summary(fit_freq_lg10WF_SUBTLEXNL_concs_copy2)
+
+# Save results
+
+Category = 'Concepts'
+Dependent = 'Word frequency'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_freq_lg10WF_SUBTLEXNL_concs_copy2))
+DF = anova(fit_freq_lg10WF_SUBTLEXNL_concs_copy2)[,'Df']
+Sum_Sq = anova(fit_freq_lg10WF_SUBTLEXNL_concs_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_freq_lg10WF_SUBTLEXNL_concs_copy2)[,'Mean Sq']
+F = anova(fit_freq_lg10WF_SUBTLEXNL_concs_copy2)[,'F value']
+F_p = anova(fit_freq_lg10WF_SUBTLEXNL_concs_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concs_copy2)))
+Estimate = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concs_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concs_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concs_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concs_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concs_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concs_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concs_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concs_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# freq: SUBTLEX-NL log-10 CD
+
+fit_freq_lg10CD_SUBTLEXNL_concs_copy2 <- lm(concs_copy2$s_freq_lg10CD_SUBTLEXNL ~ 
+concs_copy2$s_Auditory + concs_copy2$s_Haptic + concs_copy2$s_Visual, data = concs_copy2)
+stat.desc(fit_freq_lg10CD_SUBTLEXNL_concs_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skew. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(concs_copy2$s_freq_lg10CD_SUBTLEXNL)
+concs_copy2$log_s_freq_lg10CD_SUBTLEXNL <- log(5 + concs_copy2$s_freq_lg10CD_SUBTLEXNL)
+
+fit_freq_lg10CD_SUBTLEXNL_concs_copy2 <- lm(concs_copy2$log_s_freq_lg10CD_SUBTLEXNL ~ 
+concs_copy2$s_Auditory + concs_copy2$s_Haptic + concs_copy2$s_Visual, data = concs_copy2)
+
+# check residuals again
+stat.desc(fit_freq_lg10CD_SUBTLEXNL_concs_copy2$residuals, norm = TRUE)
+# worse! back 
+fit_freq_lg10CD_SUBTLEXNL_concs_copy2 <- lm(concs_copy2$s_freq_lg10CD_SUBTLEXNL ~ 
+concs_copy2$s_Auditory + concs_copy2$s_Haptic + concs_copy2$s_Visual, data = concs_copy2)
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_freq_lg10CD_SUBTLEXNL_concs_copy2)
+mean(vif(fit_freq_lg10CD_SUBTLEXNL_concs_copy2))
+1/vif(fit_freq_lg10CD_SUBTLEXNL_concs_copy2)
+# RESULTS: all good
+
+step_freq_lg10CD_SUBTLEXNL_concs_copy2_AIC <- stepAIC(fit_freq_lg10CD_SUBTLEXNL_concs_copy2, 
+direction="both")
+step_freq_lg10CD_SUBTLEXNL__concs_copy2F <- stepAIC(fit_freq_lg10CD_SUBTLEXNL_concs_copy2, 
+direction="both", test="F")
+summary(fit_freq_lg10CD_SUBTLEXNL_concs_copy2)
+
+# Save results
+
+Category = 'Concepts'
+Dependent = 'Contextual diversity'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_freq_lg10CD_SUBTLEXNL_concs_copy2))
+DF = anova(fit_freq_lg10CD_SUBTLEXNL_concs_copy2)[,'Df']
+Sum_Sq = anova(fit_freq_lg10CD_SUBTLEXNL_concs_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_freq_lg10CD_SUBTLEXNL_concs_copy2)[,'Mean Sq']
+F = anova(fit_freq_lg10CD_SUBTLEXNL_concs_copy2)[,'F value']
+F_p = anova(fit_freq_lg10CD_SUBTLEXNL_concs_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concs_copy2)))
+Estimate = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concs_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concs_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concs_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concs_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concs_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concs_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concs_copy2))[1:length(rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concs_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# freq: CELEX log-10 lemma WF
+fit_freq_CELEX_lem_concs_copy2 <- lm(concs_copy2$s_freq_CELEX_lem ~ concs_copy2$s_Auditory + 
+concs_copy2$s_Haptic + concs_copy2$s_Visual, data = concs_copy2)
+stat.desc(fit_freq_CELEX_lem_concs_copy2$residuals, norm = TRUE)
+
+# residuals distribution: good. Raw scores/2.SE < 1
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_freq_CELEX_lem_concs_copy2)
+mean(vif(fit_freq_CELEX_lem_concs_copy2))
+1/vif(fit_freq_CELEX_lem_concs_copy2)
+# RESULTS: all good
+
+step_freq_CELEX_lem_concs_copy2_AIC <- stepAIC(fit_freq_CELEX_lem_concs_copy2, direction="both")
+step_freq_CELEX_lem_concs_copy2_F <- stepAIC(fit_freq_CELEX_lem_concs_copy2, direction="both", 
+test="F")
+summary(fit_freq_CELEX_lem_concs_copy2)
+
+# Save results
+
+Category = 'Concepts'
+Dependent = 'Lemma frequency'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_freq_CELEX_lem_concs_copy2))
+DF = anova(fit_freq_CELEX_lem_concs_copy2)[,'Df']
+Sum_Sq = anova(fit_freq_CELEX_lem_concs_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_freq_CELEX_lem_concs_copy2)[,'Mean Sq']
+F = anova(fit_freq_CELEX_lem_concs_copy2)[,'F value']
+F_p = anova(fit_freq_CELEX_lem_concs_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_freq_CELEX_lem_concs_copy2)))
+Estimate = as.vector(coefficients(summary(fit_freq_CELEX_lem_concs_copy2))[1:length(rownames(coefficients(summary(fit_freq_CELEX_lem_concs_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_freq_CELEX_lem_concs_copy2))[1:length(rownames(coefficients(summary(fit_freq_CELEX_lem_concs_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_freq_CELEX_lem_concs_copy2))[1:length(rownames(coefficients(summary(fit_freq_CELEX_lem_concs_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_freq_CELEX_lem_concs_copy2))[1:length(rownames(coefficients(summary(fit_freq_CELEX_lem_concs_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# distinctiveness: phon neigh size
+fit_phon_neighbours_DUTCHPOND_concs_copy2 <- lm(concs_copy2$s_phon_neighbours_DUTCHPOND ~ 
+concs_copy2$s_Auditory + concs_copy2$s_Haptic + concs_copy2$s_Visual, data = concs_copy2)
+stat.desc(fit_phon_neighbours_DUTCHPOND_concs_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(concs_copy2$s_phon_neighbours_DUTCHPOND)
+concs_copy2$log_s_phon_neighbours_DUTCHPOND <- log(2 + concs_copy2$s_phon_neighbours_DUTCHPOND)
+
+fit_phon_neighbours_DUTCHPOND_concs_copy2 <- lm(concs_copy2$log_s_phon_neighbours_DUTCHPOND ~ 
+concs_copy2$s_Auditory + concs_copy2$s_Haptic + concs_copy2$s_Visual, data = concs_copy2)
+
+# check residuals again
+stat.desc(fit_phon_neighbours_DUTCHPOND_concs_copy2$residuals, norm = TRUE)
+# better but not perfect
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_phon_neighbours_DUTCHPOND_concs_copy2)
+mean(vif(fit_phon_neighbours_DUTCHPOND_concs_copy2))
+1/vif(fit_phon_neighbours_DUTCHPOND_concs_copy2)
+# RESULTS: all good
+
+step_phon_neighbours_DUTCHPOND_concs_copy2_AIC <- 
+stepAIC(fit_phon_neighbours_DUTCHPOND_concs_copy2, direction="both")
+step_phon_neighbours_DUTCHPOND_concs_copy2_F <- stepAIC(fit_phon_neighbours_DUTCHPOND_concs_copy2, 
+direction="both", test="F")
+summary(fit_phon_neighbours_DUTCHPOND_concs_copy2)
+
+# Save results
+
+Category = 'Concepts'
+Dependent = 'Phonological neighbours'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_phon_neighbours_DUTCHPOND_concs_copy2))
+DF = anova(fit_phon_neighbours_DUTCHPOND_concs_copy2)[,'Df']
+Sum_Sq = anova(fit_phon_neighbours_DUTCHPOND_concs_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_phon_neighbours_DUTCHPOND_concs_copy2)[,'Mean Sq']
+F = anova(fit_phon_neighbours_DUTCHPOND_concs_copy2)[,'F value']
+F_p = anova(fit_phon_neighbours_DUTCHPOND_concs_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_phon_neighbours_DUTCHPOND_concs_copy2)))
+Estimate = as.vector(coefficients(summary(fit_phon_neighbours_DUTCHPOND_concs_copy2))[1:length(rownames(coefficients(summary(fit_phon_neighbours_DUTCHPOND_concs_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_phon_neighbours_DUTCHPOND_concs_copy2))[1:length(rownames(coefficients(summary(fit_phon_neighbours_DUTCHPOND_concs_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_phon_neighbours_DUTCHPOND_concs_copy2))[1:length(rownames(coefficients(summary(fit_phon_neighbours_DUTCHPOND_concs_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_phon_neighbours_DUTCHPOND_concs_copy2))[1:length(rownames(coefficients(summary(fit_phon_neighbours_DUTCHPOND_concs_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# distinctiveness: orth neigh size
+fit_orth_neighbours_DUTCHPOND_concs_copy2 <- lm(concs_copy2$s_orth_neighbours_DUTCHPOND ~ 
+concs_copy2$s_Auditory + concs_copy2$s_Haptic + concs_copy2$s_Visual, data = concs_copy2)
+stat.desc(fit_orth_neighbours_DUTCHPOND_concs_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(concs_copy2$s_orth_neighbours_DUTCHPOND)
+concs_copy2$log_s_orth_neighbours_DUTCHPOND <- log(2 + concs_copy2$s_orth_neighbours_DUTCHPOND)
+
+fit_orth_neighbours_DUTCHPOND_concs_copy2 <- lm(concs_copy2$log_s_orth_neighbours_DUTCHPOND ~ 
+concs_copy2$s_Auditory + concs_copy2$s_Haptic + concs_copy2$s_Visual, data = concs_copy2)
+
+# check residuals again
+stat.desc(fit_orth_neighbours_DUTCHPOND_concs_copy2$residuals, norm = TRUE)
+# better though still skew/kurtose
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_orth_neighbours_DUTCHPOND_concs_copy2)
+mean(vif(fit_orth_neighbours_DUTCHPOND_concs_copy2))
+1/vif(fit_orth_neighbours_DUTCHPOND_concs_copy2)
+# RESULTS: all good
+
+step_orth_neighbours_DUTCHPOND_concs_copy2_AIC <- 
+stepAIC(fit_orth_neighbours_DUTCHPOND_concs_copy2, direction="both")
+step_orth_neighbours_DUTCHPOND_concs_copy2_F <- 
+stepAIC(fit_orth_neighbours_DUTCHPOND_concs_copy2, direction="both", test="F")
+summary(fit_orth_neighbours_DUTCHPOND_concs_copy2)
+
+# Save results
+
+Category = 'Concepts'
+Dependent = 'Orthographic neighbours'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_orth_neighbours_DUTCHPOND_concs_copy2))
+DF = anova(fit_orth_neighbours_DUTCHPOND_concs_copy2)[,'Df']
+Sum_Sq = anova(fit_orth_neighbours_DUTCHPOND_concs_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_orth_neighbours_DUTCHPOND_concs_copy2)[,'Mean Sq']
+F = anova(fit_orth_neighbours_DUTCHPOND_concs_copy2)[,'F value']
+F_p = anova(fit_orth_neighbours_DUTCHPOND_concs_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_orth_neighbours_DUTCHPOND_concs_copy2)))
+Estimate = as.vector(coefficients(summary(fit_orth_neighbours_DUTCHPOND_concs_copy2))[1:length(rownames(coefficients(summary(fit_orth_neighbours_DUTCHPOND_concs_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_orth_neighbours_DUTCHPOND_concs_copy2))[1:length(rownames(coefficients(summary(fit_orth_neighbours_DUTCHPOND_concs_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_orth_neighbours_DUTCHPOND_concs_copy2))[1:length(rownames(coefficients(summary(fit_orth_neighbours_DUTCHPOND_concs_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_orth_neighbours_DUTCHPOND_concs_copy2))[1:length(rownames(coefficients(summary(fit_orth_neighbours_DUTCHPOND_concs_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# length: Rotated Principal Component 1 for the lexical variables
+fit_RC1_lexicals_concs_copy2 <- lm(concs_copy2$s_RC1_lexicals ~ concs_copy2$s_Auditory + concs_copy2$s_Haptic 
++ concs_copy2$s_Visual, data = concs_copy2)
+stat.desc(fit_RC1_lexicals_concs_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(concs_copy2$s_RC1_lexicals)
+concs_copy2$log_s_RC1_lexicals_concs_copy2 <- log(3 + concs_copy2$s_RC1_lexicals)
+
+fit_RC1_lexicals_concs_copy2 <- lm(concs_copy2$log_s_RC1_lexicals ~ concs_copy2$s_Auditory + 
+concs_copy2$s_Haptic + concs_copy2$s_Visual, data = concs_copy2)
+
+# check residuals again
+stat.desc(fit_RC1_lexicals_concs_copy2$residuals, norm = TRUE)
+# good
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_RC1_lexicals_concs_copy2)
+mean(vif(fit_RC1_lexicals_concs_copy2))
+1/vif(fit_RC1_lexicals_concs_copy2)
+# RESULTS: all good
+
+step_RC1_lexicals_concs_copy2_AIC <- stepAIC(fit_RC1_lexicals_concs_copy2, direction="both")
+step_RC1_lexicals_concs_copy2_F <- stepAIC(fit_RC1_lexicals_concs_copy2, direction="both", 
+test="F")
+summary(fit_RC1_lexicals_concs_copy2)
+
+# Save results
+
+Category = 'Concepts'
+Dependent = 'Length PC'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_RC1_lexicals_concs_copy2))
+DF = anova(fit_RC1_lexicals_concs_copy2)[,'Df']
+Sum_Sq = anova(fit_RC1_lexicals_concs_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_RC1_lexicals_concs_copy2)[,'Mean Sq']
+F = anova(fit_RC1_lexicals_concs_copy2)[,'F value']
+F_p = anova(fit_RC1_lexicals_concs_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_RC1_lexicals_concs_copy2)))
+Estimate = as.vector(coefficients(summary(fit_RC1_lexicals_concs_copy2))[1:length(rownames(coefficients(summary(fit_RC1_lexicals_concs_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_RC1_lexicals_concs_copy2))[1:length(rownames(coefficients(summary(fit_RC1_lexicals_concs_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_RC1_lexicals_concs_copy2))[1:length(rownames(coefficients(summary(fit_RC1_lexicals_concs_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_RC1_lexicals_concs_copy2))[1:length(rownames(coefficients(summary(fit_RC1_lexicals_concs_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# freq: Rotated Principal Component 2 for the lexical variables
+fit_RC2_lexicals_concs_copy2 <- lm(concs_copy2$s_RC2_lexicals ~ concs_copy2$s_Auditory + concs_copy2$s_Haptic
+ + concs_copy2$s_Visual, data = concs_copy2)
+stat.desc(fit_RC2_lexicals_concs_copy2$residuals, norm = TRUE)
+# residuals distribution: good. Raw scores/2.SE < 1
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_RC2_lexicals_concs_copy2)
+mean(vif(fit_RC2_lexicals_concs_copy2))
+1/vif(fit_RC2_lexicals_concs_copy2)
+# RESULTS: all good
+
+step_RC2_lexicals_concs_copy2_AIC <- stepAIC(fit_RC2_lexicals_concs_copy2, direction="both")
+step_RC2_lexicals_concs_copy2_F <- stepAIC(fit_RC2_lexicals_concs_copy2, direction="both", 
+test="F")
+summary(fit_RC2_lexicals_concs_copy2)
+
+# Save results
+
+Category = 'Concepts'
+Dependent = 'Frequency PC'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_RC2_lexicals_concs_copy2))
+DF = anova(fit_RC2_lexicals_concs_copy2)[,'Df']
+Sum_Sq = anova(fit_RC2_lexicals_concs_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_RC2_lexicals_concs_copy2)[,'Mean Sq']
+F = anova(fit_RC2_lexicals_concs_copy2)[,'F value']
+F_p = anova(fit_RC2_lexicals_concs_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_RC2_lexicals_concs_copy2)))
+Estimate = as.vector(coefficients(summary(fit_RC2_lexicals_concs_copy2))[1:length(rownames(coefficients(summary(fit_RC2_lexicals_concs_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_RC2_lexicals_concs_copy2))[1:length(rownames(coefficients(summary(fit_RC2_lexicals_concs_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_RC2_lexicals_concs_copy2))[1:length(rownames(coefficients(summary(fit_RC2_lexicals_concs_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_RC2_lexicals_concs_copy2))[1:length(rownames(coefficients(summary(fit_RC2_lexicals_concs_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# distinctiveness: Rotated Principal Component 3 for the lexical variables
+fit_RC3_lexicals_concs_copy2 <- lm(concs_copy2$s_RC3_lexicals ~ concs_copy2$s_Auditory + concs_copy2$s_Haptic 
++ concs_copy2$s_Visual, data = concs_copy2)
+stat.desc(fit_RC3_lexicals_concs_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(concs_copy2$s_RC3_lexicals)
+concs_copy2$log_s_RC3_lexicals <- log(3 + concs_copy2$s_RC3_lexicals)
+
+fit_RC3_lexicals_concs_copy2 <- lm(concs_copy2$log_s_RC3_lexicals ~ concs_copy2$s_Auditory + 
+concs_copy2$s_Haptic + concs_copy2$s_Visual, data = concs_copy2)
+
+# check residuals again
+stat.desc(fit_RC3_lexicals_concs_copy2$residuals, norm = TRUE)
+# better though still non-normal
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_RC3_lexicals_concs_copy2)
+mean(vif(fit_RC3_lexicals_concs_copy2))
+1/vif(fit_RC3_lexicals_concs_copy2)
+# RESULTS: all good
+
+step_RC3_lexicals_concs_copy2_AIC <- stepAIC(fit_RC3_lexicals_concs_copy2, direction="both")
+step_RC3_lexicals_concs_copy2_F <- stepAIC(fit_RC3_lexicals_concs_copy2, direction="both", 
+test="F")
+summary(fit_RC3_lexicals_concs_copy2)
+
+# Save results
+
+Category = 'Concepts'
+Dependent = 'Distinctiveness PC'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_RC3_lexicals_concs_copy2))
+DF = anova(fit_RC3_lexicals_concs_copy2)[,'Df']
+Sum_Sq = anova(fit_RC3_lexicals_concs_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_RC3_lexicals_concs_copy2)[,'Mean Sq']
+F = anova(fit_RC3_lexicals_concs_copy2)[,'F value']
+F_p = anova(fit_RC3_lexicals_concs_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_RC3_lexicals_concs_copy2)))
+Estimate = as.vector(coefficients(summary(fit_RC3_lexicals_concs_copy2))[1:length(rownames(coefficients(summary(fit_RC3_lexicals_concs_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_RC3_lexicals_concs_copy2))[1:length(rownames(coefficients(summary(fit_RC3_lexicals_concs_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_RC3_lexicals_concs_copy2))[1:length(rownames(coefficients(summary(fit_RC3_lexicals_concs_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_RC3_lexicals_concs_copy2))[1:length(rownames(coefficients(summary(fit_RC3_lexicals_concs_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# additional var: age of acquisition
+fit_AoA_Brysbaertetal2014_concs_copy2 <- lm(concs_copy2$s_AoA_Brysbaertetal2014 ~ 
+concs_copy2$s_Auditory + concs_copy2$s_Haptic + concs_copy2$s_Visual, data = concs_copy2)
+stat.desc(fit_AoA_Brysbaertetal2014_concs_copy2$residuals, norm = TRUE)
+# residuals distribution: good. Raw scores/2.SE < 1
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_AoA_Brysbaertetal2014_concs_copy2)
+mean(vif(fit_AoA_Brysbaertetal2014_concs_copy2))
+1/vif(fit_AoA_Brysbaertetal2014_concs_copy2)
+# RESULTS: all good
+
+step_AoA_Brysbaertetal2014_concs_copy2_AIC <- stepAIC(fit_AoA_Brysbaertetal2014_concs_copy2,
+direction="both")
+step_AoA_Brysbaertetal2014_concs_copy2_F <- stepAIC(fit_AoA_Brysbaertetal2014_concs_copy2, 
+direction="both", test="F")
+summary(fit_AoA_Brysbaertetal2014_concs_copy2)
+
+# Save results
+
+Category = 'Concepts'
+Dependent = 'Age of acquisition'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_AoA_Brysbaertetal2014_concs_copy2))
+DF = anova(fit_AoA_Brysbaertetal2014_concs_copy2)[,'Df']
+Sum_Sq = anova(fit_AoA_Brysbaertetal2014_concs_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_AoA_Brysbaertetal2014_concs_copy2)[,'Mean Sq']
+F = anova(fit_AoA_Brysbaertetal2014_concs_copy2)[,'F value']
+F_p = anova(fit_AoA_Brysbaertetal2014_concs_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_AoA_Brysbaertetal2014_concs_copy2)))
+Estimate = as.vector(coefficients(summary(fit_AoA_Brysbaertetal2014_concs_copy2))[1:length(rownames(coefficients(summary(fit_AoA_Brysbaertetal2014_concs_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_AoA_Brysbaertetal2014_concs_copy2))[1:length(rownames(coefficients(summary(fit_AoA_Brysbaertetal2014_concs_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_AoA_Brysbaertetal2014_concs_copy2))[1:length(rownames(coefficients(summary(fit_AoA_Brysbaertetal2014_concs_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_AoA_Brysbaertetal2014_concs_copy2))[1:length(rownames(coefficients(summary(fit_AoA_Brysbaertetal2014_concs_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# additional var: concreteness
+fit_concrete_Brysbaertetal2014_concs_copy2 <- lm(concs_copy2$s_concrete_Brysbaertetal2014 ~ 
+concs_copy2$s_Auditory + concs_copy2$s_Haptic + concs_copy2$s_Visual, data = concs_copy2)
+stat.desc(fit_concrete_Brysbaertetal2014_concs_copy2$residuals, norm = TRUE)
+
+# residuals distribution: skew. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+psych::describe(concs_copy2$s_concrete_Brysbaertetal2014)
+concs_copy2$log_s_concrete_Brysbaertetal2014 <- log(3 + concs_copy2$s_concrete_Brysbaertetal2014)
+
+fit_concrete_Brysbaertetal2014_concs_copy2 <- lm(concs_copy2$log_s_concrete_Brysbaertetal2014 ~ 
+concs_copy2$s_Auditory + concs_copy2$s_Haptic + concs_copy2$s_Visual, data = concs_copy2)
+
+# check residuals again
+stat.desc(fit_concrete_Brysbaertetal2014_concs_copy2$residuals, norm = TRUE)
+# good
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+vif(fit_concrete_Brysbaertetal2014_concs_copy2)
+mean(vif(fit_concrete_Brysbaertetal2014_concs_copy2))
+1/vif(fit_concrete_Brysbaertetal2014_concs_copy2)
+# RESULTS: all good
+
+step_concrete_Brysbaertetal2014_concs_copy2_AIC <- 
+stepAIC(fit_concrete_Brysbaertetal2014_concs_copy2, direction="both")
+step_concrete_Brysbaertetal2014_concs_copy2_F <- 
+stepAIC(fit_concrete_Brysbaertetal2014_concs_copy2, direction="both", test="F")
+summary(fit_concrete_Brysbaertetal2014_concs_copy2)
+
+# Save results
+
+Category = 'Concepts'
+Dependent = 'Concreteness'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_concrete_Brysbaertetal2014_concs_copy2))
+DF = anova(fit_concrete_Brysbaertetal2014_concs_copy2)[,'Df']
+Sum_Sq = anova(fit_concrete_Brysbaertetal2014_concs_copy2)[,'Sum Sq']
+Mean_Sq = anova(fit_concrete_Brysbaertetal2014_concs_copy2)[,'Mean Sq']
+F = anova(fit_concrete_Brysbaertetal2014_concs_copy2)[,'F value']
+F_p = anova(fit_concrete_Brysbaertetal2014_concs_copy2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_concrete_Brysbaertetal2014_concs_copy2)))
+Estimate = as.vector(coefficients(summary(fit_concrete_Brysbaertetal2014_concs_copy2))[1:length(rownames(coefficients(summary(fit_concrete_Brysbaertetal2014_concs_copy2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_concrete_Brysbaertetal2014_concs_copy2))[1:length(rownames(coefficients(summary(fit_concrete_Brysbaertetal2014_concs_copy2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_concrete_Brysbaertetal2014_concs_copy2))[1:length(rownames(coefficients(summary(fit_concrete_Brysbaertetal2014_concs_copy2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_concrete_Brysbaertetal2014_concs_copy2))[1:length(rownames(coefficients(summary(fit_concrete_Brysbaertetal2014_concs_copy2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+# Format
+
+# Compute p-value asterisks
+
+# For F
+
+results_total$F_p.asterisks = NA
+results_total$F_p.asterisks = as.character(results_total$F_p.asterisks)
+
+results_total$F_p.asterisks = ifelse(results_total$F_p < .001, '***', NA)
+
+results_total$F_p.asterisks = 
+	ifelse(results_total$F_p > .001 & results_total$F_p < .01, '**',
+	results_total$F_p.asterisks)
+
+results_total$F_p.asterisks = 
+	ifelse(results_total$F_p >= .01 & results_total$F_p < .05, '*',
+	results_total$F_p.asterisks)
+
+results_total$F_p.asterisks =
+  ifelse(results_total$F_p >= .05, 'N.S.', results_total$F_p.asterisks)
+
+
+# For t
+
+results_total$t_p.asterisks = NA
+results_total$t_p.asterisks = as.character(results_total$t_p.asterisks)
+
+results_total$t_p.asterisks = ifelse(results_total$t_p < .001, '***', NA)
+
+results_total$t_p.asterisks = 
+	ifelse(results_total$t_p >= .001 & results_total$t_p < .01, '**',
+	results_total$t_p.asterisks)
+
+results_total$t_p.asterisks = 
+	ifelse(results_total$t_p >= .01 & results_total$t_p < .05, '*',
+	results_total$t_p.asterisks)
+
+results_total$t_p.asterisks =
+  ifelse(results_total$t_p >= .05, 'N.S.', results_total$t_p.asterisks)
+
+
+
+# APA format for numbers
+
+# Round decimals
+
+results_total$Sum_Sq = round(as.numeric(results_total$Sum_Sq), 2)
+results_total$Mean_Sq = round(as.numeric(results_total$Mean_Sq), 2)
+results_total$F = round(as.numeric(results_total$F), 2)
+results_total$F_p = round(as.numeric(results_total$F_p), 3)
+results_total$Estimate = round(as.numeric(results_total$Estimate), 2)
+results_total$SE = round(as.numeric(results_total$SE), 2)
+results_total$t = round(as.numeric(results_total$t), 2)
+results_total$t_p = round(as.numeric(results_total$t_p), 3)
+
+
+# Replace single zeros with '< .001'
+
+results_total$F_p = ifelse(results_total$F_p < .001, '< .001', results_total$F_p)
+results_total$t_p = ifelse(results_total$t_p < .001, '< .001', results_total$t_p)
+results_total$F_p = as.character(results_total$F_p)
+results_total$t_p = as.character(results_total$t_p)
+
+
+# Remove the zero before the point in p-values
+
+results_total$F_p = sub('^(-)?0[.]', '\\1.', results_total$F_p)
+results_total$t_p = sub('^(-)?0[.]', '\\1.', results_total$t_p)
+
+# Order columns and dataset
+names(results_total)
+results_total = results_total[, c(1:8, 13, 9:12, 14)]
+
+# Clarify variable names
+
+levels(results_total$Variable)[levels(results_total$Variable)=="props_copy2$s_Auditory"] <- "Auditory"
+levels(results_total$Variable)[levels(results_total$Variable)=="props_copy2$s_Haptic"] <- "Haptic"
+levels(results_total$Variable)[levels(results_total$Variable)=="props_copy2$s_Visual"] <- "Visual"
+levels(results_total$Variable)[levels(results_total$Variable)=="concs_copy2$s_Auditory"] <- "Auditory"
+levels(results_total$Variable)[levels(results_total$Variable)=="concs_copy2$s_Haptic"] <- "Haptic"
+levels(results_total$Variable)[levels(results_total$Variable)=="concs_copy2$s_Visual"] <- "Visual"
+
+
+# Results: Iconicity of concepts and comparison with properties: 
+# The properties sample was characterized by smaller advantages for Auditory 
+# predictor, compared to the concepts sample. The tendency of either larger or 
+# opposite scores for the Auditory strength was less evident, even though it was 
+# still marginally present.
+
+```
+
+
+
+<div style = "padding-top: 6px; padding-left: 15px;">
+
+```{r}
+
+# Loadings of principal components. Tidy-format names by binding them as a column and 
+# removing dummy rownames left from the principal() output.
+
+properties_lexicals_loadings = 
+  data.frame( cbind( names(lexicals_props_copy2),
+  data.frame(PCA_lexicals_props_copy2$loadings[, c('RC1','RC2','RC3')])
+) )
+
+rownames(properties_lexicals_loadings) <- NULL
+
+properties_lexicals_loadings[,1] = as.factor(properties_lexicals_loadings[,1])
+
+levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="letters"] = "Letters"
+levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="phonemes_DUTCHPOND"] = "Phonemes"
+levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="orth_neighbours_DUTCHPOND"] = "Orthographic neighbours"
+levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="phon_neighbours_DUTCHPOND"] = "Phonological neighbours"
+levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="freq_lg10CD_SUBTLEXNL"] = "Contextual diversity"
+levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="freq_lg10WF_SUBTLEXNL"] = "Word frequency"
+levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="freq_CELEX_lem"] = "Lemma frequency"
+
+# RC (Rotated Component) renamed PC for clarity
+colnames(properties_lexicals_loadings)[colnames(properties_lexicals_loadings)=="names.lexicals_props_copy2."] = "Variable"
+colnames(properties_lexicals_loadings)[colnames(properties_lexicals_loadings)=="RC1"] = "PC1"
+colnames(properties_lexicals_loadings)[colnames(properties_lexicals_loadings)=="RC2"] = "PC2"
+colnames(properties_lexicals_loadings)[colnames(properties_lexicals_loadings)=="RC3"] = "PC3"
+
+properties_lexicals_loadings[,c('PC1','PC2','PC3')] = round(properties_lexicals_loadings[,c('PC1','PC2','PC3')], 2)
+
+
+# Modal dialog showing loadings of components for properties
+
+actionLink("properties_lexicals_loadings", 
+	HTML('<p style="outline: #C3AEAE dotted 0.8px; padding: 6px; padding-top:4px;">
+		See loadings of principal components for the properties.</p>'))
+observeEvent(input$properties_lexicals_loadings, {
+  showModal(modalDialog(
+    title = NULL,
+	HTML( 	# Below, table constructed
+	kable(properties_lexicals_loadings) %>%
+	  kable_styling(full_width = F) %>%
+	  column_spec(1, bold = T, border_right = T)
+	),
+    size = 'm', easyClose = TRUE, footer = NULL
+  ))
+})
+
+```
+
+</div>
+
+
+
+<div style = "text-align: justify; padding-top: 15px; padding-right: 30px; padding-bottom: 15px; padding-left: 30px">
+
+**Analysis of sound symbolism based on the relationship between modality ratings and lexical properties of the words** (cf. [Table 6 in Lynott & Connell, 2013)](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4). Multiple regressions with the three modality ratings predicting each lexical measure. Auditory strength was found to predict lexical properties better than the other modalities did, or else with a different polarity. [External corpora used](#info-references). 'PC' = Kaiser-normalised, Varimax-rotated Principal Component. Regression assumptions fulfilled, i.e., normally distributed residuals, largest Variance Inflation Factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info-references)). Standardised coefficients presented alongside significance based on t-value. <sup>\*\*\*</sup>*p* < .001; <sup>\*\*</sup>*p* < .01; <sup>\*</sup>*p* < .05.
+
+</div>
+
+
+
+<div style = "padding-top: 6px; padding-right: 20px;">
+
+```{r}
+
+# Loadings of principal components. Tidy-format names by binding them as a column and 
+# removing dummy rownames left from the principal() output.
+
+concepts_lexicals_loadings = 
+  data.frame( cbind( names(lexicals_concs_copy2),
+  data.frame(PCA_lexicals_concs_copy2$loadings[, c('RC1','RC2','RC3')])
+) )
+
+rownames(concepts_lexicals_loadings) <- NULL
+
+concepts_lexicals_loadings[,1] = as.factor(concepts_lexicals_loadings[,1])
+
+levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="letters"] = "Letters"
+levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="phonemes_DUTCHPOND"] = "Phonemes"
+levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="orth_neighbours_DUTCHPOND"] = "Orthographic neighbours"
+levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="phon_neighbours_DUTCHPOND"] = "Phonological neighbours"
+levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="freq_lg10CD_SUBTLEXNL"] = "Contextual diversity"
+levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="freq_lg10WF_SUBTLEXNL"] = "Word frequency"
+levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="freq_CELEX_lem"] = "Lemma frequency"
+
+# RC (Rotated Component) renamed PC for clarity
+colnames(concepts_lexicals_loadings)[colnames(concepts_lexicals_loadings)=="names.lexicals_concs_copy2."] = "Variable"
+colnames(concepts_lexicals_loadings)[colnames(concepts_lexicals_loadings)=="RC1"] = "PC1"
+colnames(concepts_lexicals_loadings)[colnames(concepts_lexicals_loadings)=="RC2"] = "PC2"
+colnames(concepts_lexicals_loadings)[colnames(concepts_lexicals_loadings)=="RC3"] = "PC3"
+
+concepts_lexicals_loadings[,c('PC1','PC2','PC3')] = round(concepts_lexicals_loadings[,c('PC1','PC2','PC3')], 2)
+
+
+# Modal dialog showing loadings of components for concepts
+
+actionLink("concepts_lexicals_loadings",
+	HTML('<p style="outline: #C3AEAE dotted 0.8px; padding: 6px; padding-top:4px;">
+		See loadings of principal components for the concepts.</p>'))
+observeEvent(input$concepts_lexicals_loadings, {
+  showModal(modalDialog(
+    title = NULL,
+	HTML( 	# Below, table constructed
+	kable(concepts_lexicals_loadings) %>%
+	  kable_styling(full_width = F) %>%
+	  column_spec(1, bold = T, border_right = T)
+	),
+    size = 'm', easyClose = TRUE, footer = NULL
+  ))
+})
+
+```
+
+</div>
+
+
+
+Row
+-----------------------------------------------------------------------
+
+### <span style="font-size:1.7em;"> &nbsp;&nbsp; **Properties** </span>
+
+```{r}
+
+# Properties results table
+
+props_copy2_results =
+  results_total[results_total$Category=='Properties' &
+	!results_total$Variable=='(Intercept)' &
+	!results_total$Variable=='Residuals',
+	c('Dependent', 'Variable', 'Estimate', 't_p.asterisks')]
+
+# Append asterisks to beta coefficients (leave 'N.S.' cases blank first)
+
+props_copy2_results$t_p.asterisks_clean = str_remove_all(props_copy2_results$t_p.asterisks, 'N.S.')
+
+props_copy2_results$betas_and_asterisks =
+	ifelse(!is.na(props_copy2_results$Estimate) & !is.na(props_copy2_results$t_p.asterisks_clean),
+	paste0(props_copy2_results$Estimate, props_copy2_results$t_p.asterisks_clean),
+	NA)
+
+# Kable table
+
+HTML(
+  kable(
+    spread(props_copy2_results[,c('Dependent', 'Variable', 'betas_and_asterisks')],
+	Variable, betas_and_asterisks)
+  ) %>%
+  kable_styling(full_width = F) %>%
+  column_spec(1, bold = T)
+)
+
+```
+
+
+
+### <span style="font-size:1.7em;"> &nbsp;&nbsp; **Concepts** </span>
+
+```{r}
+
+# Concepts results table
+
+concs_copy2_results =
+  results_total[results_total$Category=='Concepts' &
+	!results_total$Variable=='(Intercept)' &
+	!results_total$Variable=='Residuals',
+	c('Dependent', 'Variable', 'Estimate', 't_p.asterisks')]
+
+# Append asterisks to beta coefficients (leave 'N.S.' cases blank first)
+
+concs_copy2_results$t_p.asterisks_clean = str_remove_all(concs_copy2_results$t_p.asterisks, 'N.S.')
+
+concs_copy2_results$betas_and_asterisks =
+	ifelse(!is.na(concs_copy2_results$Estimate) & !is.na(concs_copy2_results$t_p.asterisks_clean),
+	paste0(concs_copy2_results$Estimate, concs_copy2_results$t_p.asterisks_clean),
+	NA)
+
+# Kable table
+
+HTML(
+  kable(
+    spread(concs_copy2_results[,c('Dependent', 'Variable', 'betas_and_asterisks')],
+	Variable, betas_and_asterisks)
+  ) %>%
+  kable_styling(full_width = F) %>%
+  column_spec(1, bold = T)
+)
+
+```
+
+
+
+
+
+
+
+
+Info & References
+=======================================================================
+
+
+<div style = "text-align: justify; padding-top: 15px; padding-right: 30px; padding-bottom: 15px; padding-left: 30px">
+
+These Dutch modality norms were created to facilitate research about language. On average, each word was rated by eight respondents, with a minimum of five and a maximum of nine respondents per word (overall *N* = 42). The instructions were similar to those in Lynott and Connell (2009, 2013), but three modalities were elicited instead of five.
+
+> <span style = "font-size: 13px;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </span>
+
+These norms were validated in a [conceptual modality switch experiment](https://mindmodeling.org/cogsci2017/papers/0318/index.html). The results revealed that switches across trials with different primary modalities incurred measurable effects in semantic processing. Further analyses of the norms' data are due to be reported in a forthcoming paper. All data and analysis code, as well as some further report, are [available here](https://osf.io/brkjw/wiki/home/). All of these materials are available for re-use, provided acknowledgment of the following publication ([CC-By licence](https://creativecommons.org/licenses/by/4.0/)).
+
+> <span style = "font-size: 13px;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs. In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society. </span>
+
+
+#### Corpus measures used
+
+* Concreteness and age of acquisition: Brysbaert et al. (2014).
+
+* Phonological and orthographic neighbours: Marian et al.'s (2012) DutchPOND.
+
+* Word frequency and contextual diversity: Keuleers et al.'s (2010) SUBTLEX-NL.
+
+* Lemma frequency: Baayen et al.'s (1993) CELEX.
+
+
+#### References
+
+Baayen, R. H., Piepenbrock, R., & van Rijn, H. (1993). *The CELEX Lexical Database* [CD-ROM]. Philadelphia: Linguistic Data Consortium, University of Pennsylvania.
+
+Field, A. P., Miles, J., & Field, Z. (2012). *Discovering Statistics Using R*. London, UK: Sage.
+
+Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measure for Dutch words based on film subtitles. *Behavior Research Methods, 42*, 3, 643-650. https://doi.org/10.3758/BRM.42.3.643
+
+Louwerse, M., & Connell, L. (2011). A taste of words: linguistic context and perceptual simulation predict the modality of words. *Cognitive Science, 35*, 2, 381-98. https://doi.org/10.1111/j.1551-6709.2010.01157.x
+
+Lynott, D., & Connell, L. (2009). Modality exclusivity norms for 423 object concepts. *Behavior Research Methods, 41*, 2, 558-564. https://doi.org/10.3758/BRM.41.2.558
+
+Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The relationship between perceptual experience and surface word form. *Behavior Research Methods, 45*, 2, 516-526. https://doi.org/10.3758/s13428-012-0267-0
+
+Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. https://doi.org/10.1371/journal.pone.0043230
+
+Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. https://doi.org/10.3758/s13428-017-0852-3
+
+
+#### Contact
+
+Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
+
+[Personal webpage](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu)
+
+
+</div>
+
