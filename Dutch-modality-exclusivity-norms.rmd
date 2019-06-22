@@ -5,7 +5,6 @@ output:
   flexdashboard::flex_dashboard:
     theme : 'spacelab'
     orientation: columns
-    source_code: embed
     favicon: https://i.ibb.co/bB9fCfr/norms-favicon.png
 runtime: shiny
 ---
@@ -60,22 +59,13 @@ library(tidyr)
 
 <!-- Define CSS style to specify output to screen sizes -->
 
-<style type = "text/css"> 
-
+<style type = "text/css">
   .mobileShow {display: none;}
   /* Smartphone Portrait and Landscape */
   @media only screen
     and (max-width : 765px){
       .mobileShow {display: inline;}
   }
-
-.mobileHide {display: inline;}
-  /* Smartphone Portrait and Landscape */
-  @media only screen
-    and (max-device-width : 765px){
-     .mobileHide { display: none;}
-  }
-
 </style>
 
 
@@ -281,15 +271,16 @@ Properties
 Inputs {.sidebar}
 -----------------------------------------------------------------------
 
+<!-- Show note on mobiles -->
+##### {.mobileShow}
+**_Larger screen recommended._**
+
+<!-- Show again on all devices -->
+#####
+
 <div style = "text-align: justify"> <font color = "#959494">
 Tabs may be shifted above. Plot is interactive.
 </div> </font>
-
-
-<!-- Show note on mobiles -->
-<div class = "mobileShow">
-<b> Larger screen recommended. </b>
-</div>
 
 
 <!-- Link to data on OSF.io -->
@@ -306,7 +297,7 @@ properties_modality_loadings =
   data.frame(pc2_prop$loadings[1:3,1:2])
 ) )
 
-rownames(properties_modality_loadings) <- NULL
+rownames(properties_modality_loadings) = NULL
 
 properties_modality_loadings[,1] = as.factor(properties_modality_loadings[,1])
 
@@ -316,7 +307,6 @@ colnames(properties_modality_loadings)[colnames(properties_modality_loadings)=="
 colnames(properties_modality_loadings)[colnames(properties_modality_loadings)=="RC2"] = "PC2"
 
 properties_modality_loadings[,c('PC1','PC2','PC3')] = round(properties_modality_loadings[,c('PC1','PC2')], 2)
-
 
 actionLink("properties_loadings", "See loadings of components")
 observeEvent(input$properties_loadings, {
@@ -337,14 +327,6 @@ observeEvent(input$properties_loadings, {
 selectizeInput("highlighted_properties", label = NULL, choices = sort(props$word), multiple = TRUE,
   options = list(placeholder = 'Highlight some words here  '))
 
-```
-
-
-
-<!-- Code chunk below removed for mobile because data selectors aren't feasible on mobile -->
-### {.no-mobile}
-
-```{r}
 
 # Number of words selected on sidebar
 
@@ -358,7 +340,7 @@ uiOutput("properties_csv_link")
 
 # Create the actual downloadLink
 output$properties_csv_link = renderUI({
-  downloadLink("properties_csv", " Data selected below (.csv)", class = "fa fa-download")
+  downloadLink("properties_csv", " Data selected below (.csv)", class="fa fa-download")
 })
 
 # Add download handling
@@ -382,7 +364,7 @@ uiOutput("properties_png_link")
 
 # Create the actual downloadLink
 output$properties_png_link = renderUI({
-  downloadLink("properties_png", " HD Plot with selected data", class = "fa fa-download")
+  downloadLink("properties_png", " HD Plot with selected data", class="fa fa-download")
 })
 
 # Add download handling
@@ -403,10 +385,10 @@ output$properties_png = downloadHandler(
 #### **Modality**
 
 
-##### Dominant modality
+##### <font color = '#646464'> Dominant modality </font>
 
 <center>
-<font color = '#FF3030' size = '3.9em'>**Auditory**</font> - <font color = 'dodgerblue' size = '3.9'>**Haptic**</font> - <font color = 'forestgreen' size = '3.9'>**Visual**</font>
+<font color = '#FF3030' size = '3.9em'> **Auditory** </font> - <font color = 'dodgerblue' size = '3.9'> **Haptic** </font> - <font color = 'forestgreen' size = '3.9'> **Visual** </font>
 </center>
 
 
@@ -628,6 +610,13 @@ Concepts
 Inputs {.sidebar}
 -----------------------------------------------------------------------
 
+<!-- Show note on mobiles -->
+##### {.mobileShow}
+**_Larger screen recommended._**
+
+<!-- Show again on all devices -->
+#####
+
 <div style = "text-align: justify"> <font color = "#959494">
 
 Tabs may be shifted above. Plot is interactive.
@@ -649,7 +638,7 @@ concepts_modality_loadings =
   data.frame(pc2_conc$loadings[1:3,1:2])
 ) )
 
-rownames(concepts_modality_loadings) <- NULL
+rownames(concepts_modality_loadings) = NULL
 
 concepts_modality_loadings[,1] = as.factor(concepts_modality_loadings[,1])
 
@@ -659,7 +648,6 @@ colnames(concepts_modality_loadings)[colnames(concepts_modality_loadings)=="RC1"
 colnames(concepts_modality_loadings)[colnames(concepts_modality_loadings)=="RC2"] = "PC2"
 
 concepts_modality_loadings[,c('PC1','PC2','PC3')] = round(concepts_modality_loadings[,c('PC1','PC2')], 2)
-
 
 actionLink("concepts_loadings", "See loadings of components")
 observeEvent(input$concepts_loadings, {
@@ -680,13 +668,6 @@ observeEvent(input$concepts_loadings, {
 selectizeInput("highlighted_concepts", label = NULL, choices = sort(concs$word), multiple = TRUE,
   options = list(placeholder = 'Highlight some words here  '))
 
-```
-
-
-<!-- Code chunk below removed for mobile because data selectors aren't feasible on mobile -->
-### {.no-mobile}
-
-```{r}
 
 # Number of words selected on sidebar
 reactive(cat(paste0('Words selected below: ', nrow(selected_concs()))))
@@ -699,7 +680,7 @@ uiOutput("concepts_csv_link")
 
 # Create the actual downloadLink
 output$concepts_csv_link = renderUI({
-  downloadLink("concepts_csv", " Data selected below (.csv)", class = "fa fa-download")
+  downloadLink("concepts_csv", " Data selected below (.csv)", class="fa fa-download")
 })
 
 # Add download handling
@@ -723,7 +704,7 @@ uiOutput("concepts_png_link")
 
 # Create the actual downloadLink
 output$concepts_png_link = renderUI({
-  downloadLink("concepts_png", " HD Plot with selected data", class = "fa fa-download")
+  downloadLink("concepts_png", " HD Plot with selected data", class="fa fa-download")
 })
 
 # Add download handling
@@ -742,8 +723,10 @@ output$concepts_png = downloadHandler(
 
 #### **Modality**
 
+##### <font color = '#646464'> Dominant modality </font>
+
 <center>
-<font color = '#FF3030' size = '3.9em'>**Auditory**</font> - <font color = 'dodgerblue' size = '3.9'>**Haptic**</font> - <font color = 'forestgreen' size = '3.9'>**Visual**</font>
+<font color = '#FF3030' size = '3.9em'> **Auditory** </font> - <font color = 'dodgerblue' size = '3.9'> **Haptic** </font> - <font color = 'forestgreen' size = '3.9'> **Visual** </font>
 </center>
 
 
@@ -847,7 +830,7 @@ sliderInput("concepts_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.
 Column
 -----------------------------------------------------------------------
 
-### Principal Component Analysis (PCA)reflecting different relationships among the modalities. PCA run on the three modality ratings. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2009, 2013)](#cf-lc-english-norms).
+### Principal Component Analysis (PCA) reflecting different relationships among the modalities. PCA run on the three modality ratings. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2009, 2013)](#cf-lc-english-norms).
 
 ```{r}
 
@@ -3108,7 +3091,7 @@ properties_lexicals_loadings =
   data.frame(PCA_lexicals_props_copy2$loadings[, c('RC1','RC2','RC3')])
 ) )
 
-rownames(properties_lexicals_loadings) <- NULL
+rownames(properties_lexicals_loadings) = NULL
 
 properties_lexicals_loadings[,1] = as.factor(properties_lexicals_loadings[,1])
 
@@ -3172,7 +3155,7 @@ concepts_lexicals_loadings =
   data.frame(PCA_lexicals_concs_copy2$loadings[, c('RC1','RC2','RC3')])
 ) )
 
-rownames(concepts_lexicals_loadings) <- NULL
+rownames(concepts_lexicals_loadings) = NULL
 
 concepts_lexicals_loadings[,1] = as.factor(concepts_lexicals_loadings[,1])
 
@@ -3301,6 +3284,14 @@ Info & References
 
 
 <div style = "text-align: justify; padding-top: 15px; padding-right: 30px; padding-bottom: 15px; padding-left: 30px">
+
+<!-- Link to data on OSF.io -->
+<button style="font-size:17px"><a href="https://github.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/blob/master/Dutch-modality-exclusivity-norms.rmd"> Source code for this dashboard </a></i></button>
+
+\newline
+
+
+#### Information
 
 These Dutch modality norms were created to facilitate research about language. On average, each word was rated by eight respondents, with a minimum of five and a maximum of nine respondents per word (overall *N* = 42). The instructions were similar to those in Lynott and Connell (2009, 2013), but three modalities were elicited instead of five.
 
