@@ -56,7 +56,7 @@ library(tidyr)
 ```
 
 
-<!-- Enable icons by loading the CSS library -->
+<!-- Enable icons by loading Bootstrap library -->
 <head>
 <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -350,7 +350,7 @@ output$properties_csv_link = renderUI({
 # Add download handling
 output$properties_csv = downloadHandler(
   filename = function() {
-    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.Date(), '.csv') },
+    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.time(), '.csv') },
   content = function(file) {
 	# Leave Dutch data inside and remove English data, which aren't used in the tabs that have CSV download
 	drops = c('word_eng','main_eng','perceptualstrength_eng','exc_eng','Aud_eng','Hap_eng','Vis_eng','lett_eng')
@@ -374,7 +374,7 @@ output$properties_png_link = renderUI({
 # Add download handling
 output$properties_png = downloadHandler(
   filename = function() {
-    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.Date(), '.png') },
+    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.time(), '.png') },
 	content <- function(file){
 			png(file, units='in', width=13, height=11, res=900)
 			print(properties_png())
@@ -691,7 +691,7 @@ output$concepts_csv_link = renderUI({
 # Add download handling
 output$concepts_csv = downloadHandler(
   filename = function() {
-    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.Date(), '.csv') },
+    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.time(), '.csv') },
   content = function(file) {
 	# Leave Dutch data inside and remove English data, which aren't used in the tabs that have CSV download
 	drops = c('word_eng','main_eng','perceptualstrength_eng','exc_eng','Aud_eng','Hap_eng','Vis_eng','lett_eng')
@@ -715,7 +715,7 @@ output$concepts_png_link = renderUI({
 # Add download handling
 output$concepts_png = downloadHandler(
   filename = function() {
-    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.Date(), '.png') },
+    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.time(), '.png') },
 	content <- function(file){
 			png(file, units='in', width=13, height=11, res=900)
 			print(concepts_png())
@@ -3116,7 +3116,7 @@ properties_lexicals_loadings[,c('PC1','PC2','PC3')] = round(properties_lexicals_
 # Modal dialog showing loadings of principal components for properties
 
 actionLink("properties_lexicals_loadings", 
-	HTML('<p style = "background-color:#F7F7F7; outline:#C3AEAE dotted 0.8px; padding:6px; padding-top:4px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Loadings of principal components for properties.</p>'))
+	HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding:6px; padding-top:4px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Loadings of principal components for properties.</p>'))
 observeEvent(input$properties_lexicals_loadings, {
   showModal(modalDialog(
     title = NULL,
@@ -3135,9 +3135,9 @@ observeEvent(input$properties_lexicals_loadings, {
 
 
 
-<div style = "background-color: #FEFEFE; text-align: justify; padding-top: 15px; padding-right: 30px; padding-left: 30px">
+<div style = "background-color: #FEFEFE; text-align: justify; padding-top: 12px; padding-right: 22px; padding-bottom: 7px; padding-left: 22px">
 
-**Analysis of sound symbolism based on the relationship between modality ratings and lexical properties of the words** (cf. [Table 6 in Lynott & Connell, 2013)](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4). Multiple regressions with the three modality ratings predicting each lexical measure. Auditory strength was found to predict lexical properties better than the other modalities did, or else with a different polarity. [External corpora used](#info-references). 'PC' = Kaiser-normalised, varimax-rotated principal component. Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest Variance Inflation Factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info-references)). Standardised coefficients presented alongside significance based on t-value. <sup>\*\*\*</sup>*p* < .001; <sup>\*\*</sup>*p* < .01; <sup>\*</sup>*p* < .05.
+**Analysis of sound symbolism based on the relationship between modality ratings and lexical properties of the words** (cf. [Table 6 in Lynott & Connell, 2013)](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4). Multiple regressions with the three modality ratings predicting each lexical measure. Auditory strength was found to predict lexical properties better than the other modalities did, or else with a different polarity. [External corpora used](#info-references). 'PC' = Kaiser-normalised, varimax-rotated principal component. Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info-references)). Standardised coefficients presented alongside significance based on t-value. <sup>\*\*\*</sup>*p* < .001; <sup>\*\*</sup>*p* < .01; <sup>\*</sup>*p* < .05.
 
 </div>
 
@@ -3178,7 +3178,7 @@ concepts_lexicals_loadings[,c('PC1','PC2','PC3')] = round(concepts_lexicals_load
 # Modal dialog showing loadings of principal components for concepts
 
 actionLink("concepts_lexicals_loadings",
-	HTML('<p style = "background-color:#F7F7F7; outline:#C3AEAE dotted 0.8px; padding:6px; padding-top:4px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Loadings of principal components for concepts.</p>'))
+	HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding:6px; padding-top:4px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Loadings of principal components for concepts.</p>'))
 observeEvent(input$concepts_lexicals_loadings, {
   showModal(modalDialog(
     title = NULL,
