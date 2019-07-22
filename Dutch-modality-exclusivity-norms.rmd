@@ -5,6 +5,7 @@ output:
   flexdashboard::flex_dashboard:
     theme : 'spacelab'
     orientation: columns
+    vertical_layout: scroll
     favicon: https://i.ibb.co/bB9fCfr/norms-favicon.png
 runtime: shiny
 ---
@@ -20,6 +21,7 @@ library(corpcor)
 library(doBy)
 library(dplyr)
 library(flexdashboard)
+library(formattable)
 library(gdata)
 library(ggplot2)
 library(ggrepel)
@@ -35,6 +37,7 @@ library(lattice)
 library(leaflet)
 library(ltm)
 library(MASS)
+library(pander)
 library(pastecs)
 library(plotly)
 library(plyr)
@@ -53,23 +56,46 @@ library(stringr)
 library(tibble)
 library(tidyr)
 
+panderOptions('digits', 2)
+panderOptions('keep.trailing.zeros', TRUE)
+
 ```
 
 
-<!-- Enable icons by loading Bootstrap library -->
+<!-- Begin definition of setup parameters -->
 <head>
-<link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
 
-<!-- Define CSS style for customising output to specific screen sizes (i.e., for recommending larger screen) -->
-<style type = "text/css">
-  .mobileShow {display: none;}
-  /* Smartphone Portrait and Landscape */
+<!-- Define CSS style for customising output to specific screen sizes -->
+<style type="text/css">
+  .desktop-only {display: inline;} 
+  /* Smartphone Portrait and Landscape */ 
   @media only screen
-    and (max-width : 765px){
-      .mobileShow {display: inline;}
+    and (max-width : 765px){ 
+     .desktop-only {display: none;}
   }
 </style>
+
+<style type="text/css">
+  .mobile-only {display: inline;}
+  /* Smartphone Portrait and Landscape */
+  @media only screen
+    and (min-width : 766px){
+      .mobile-only {display: none;}
+  }
+</style>
+
+<!-- Load CSS libraries for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+
+<!-- CSS style to enable a hovering tooltip -->
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
+
+</head>
 
 
 
@@ -83,14 +109,14 @@ library(tidyr)
 # on the Dutch norms, and then on Lynott and Connell's (2009, 2013) English norms 
 # (leaving out gustatory and olfactory scores and words). 
 
-all = read.csv('https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/all.csv', fileEncoding = 'Latin1')
+all = read.csv('all.csv', fileEncoding = 'Latin1')
 nrow(all)
 
 
 
 # PROPERTIES
 
-# Principal Component Analysis on the three modalities
+# Principal component analysis on the three modalities
 
 # Check conditions for a PCA
 
@@ -179,7 +205,7 @@ props$Exclusivity = props$Exclusivity * 100
 
 # CONCEPTS
 
-# Principal Component Analysis on the three modalities
+# Principal component analysis on the three modalities
 
 # Check conditions for a PCA
 # matrix
@@ -268,21 +294,14 @@ colours = c('firebrick1', 'dodgerblue', 'forestgreen')
 
 
 
-Properties
+Properties {style="position:absolute !important;"}
 =======================================================================
 
 Inputs {.sidebar}
 -----------------------------------------------------------------------
 
-<!-- Show note on mobiles -->
-##### {.mobileShow}
-**_Larger screen recommended._**
-
-<!-- Show again on all devices -->
-#####
-
 <div style = "text-align: justify"> <font color = "#959494">
-Tabs may be shifted above. Plot is interactive.
+Tabs may be shifted above, and plot is interactive.
 </div> </font>
 
 
@@ -311,19 +330,31 @@ colnames(properties_modality_loadings)[colnames(properties_modality_loadings)=="
 
 properties_modality_loadings[,c('PC1','PC2')] = round(properties_modality_loadings[,c('PC1','PC2')], 2)
 
-actionLink("properties_loadings", " Loadings of principal components", class = 'fa fa-table')
+# Present values as correlations by removing any zeros before a decimal point
+properties_modality_loadings[,'PC1'] = str_replace_all(properties_modality_loadings[,'PC1'], "0\\.", "\\.")
+properties_modality_loadings[,'PC2'] = str_replace_all(properties_modality_loadings[,'PC2'], "0\\.", "\\.")
+
+# Modal dialog showing loadings of principal components for properties
+
+actionLink("properties_loadings", " Principal component loadings", class = 'fa fa-table')
 
 observeEvent(input$properties_loadings, {
   showModal(modalDialog(
-    title = NULL,
-	HTML( 	# Below, table constructed
-	kable(properties_modality_loadings) %>%
-	  kable_styling(full_width = F) %>%
-	  column_spec(1, bold = T, border_right = T)
-	),
+    title = HTML('<div> Pearson correlation coefficients (<i>r</i>) </div>'),
+    HTML( 	# Below, table constructed
+      properties_modality_loadings %>%
+        # Highlight correlations above .7
+        mutate(PC1 = ifelse(abs(as.numeric(PC1)) > .7, cell_spec(PC1, "html", bold = TRUE, color = 'black'), 
+                            cell_spec(PC1, "html")),
+               PC2 = ifelse(abs(as.numeric(PC2)) > .7, cell_spec(PC2, "html", bold = TRUE, color = 'black'), 
+                            cell_spec(PC2, "html")) ) %>%
+        kable(format = "html", escape = FALSE) %>%
+        kable_styling(full_width = F) %>%
+        column_spec(1, bold = T, border_right = T)
+      ),
     size = 's', easyClose = TRUE, footer = NULL
-  ))
-})
+    ))
+  })
 
 
 # Highlight words
@@ -331,11 +362,25 @@ observeEvent(input$properties_loadings, {
 selectizeInput("highlighted_properties", label = NULL, choices = sort(props$word), multiple = TRUE,
   options = list(placeholder = 'Words to highlight       '))
 
+```
+
+
+<!-- Chunk right below removed from mobiles because it's badly displayed -->
+#### {.desktop-only}
+
+```{r}
 
 # Number of words selected on sidebar
 
 reactive(cat(paste0('Words selected below: ', nrow(selected_props()))))
 
+```
+
+
+<!-- Show again on all devices -->
+####
+
+```{r}
 
 # Download csv file with data selected on sidebar
 
@@ -470,33 +515,33 @@ sliderInput("properties_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 
 
 #### **Definitions**
 
-(All as in [Lynott & Connell, 2009, 2013](#info-references)).
+**PCA**: Classical technique to reduce dimensionality of data while retaining the major patterns ([more](https://www.nature.com/articles/nmeth.4346)).
 
-**Dominant modality:** Highest-rated modality.
+<span data-toggle="tooltip" data-placement="bottom" title="Defined as in Lynott and Connell (2009, 2013)." style="border-bottom: 0.9px dotted grey"> <b> Dominant modality: </b></span> Highest-rated modality.
 
-**Modality exclusivity:** Range of the three modality ratings divided by the sum.
+<span data-toggle="tooltip" data-placement="bottom" title="Defined as in Lynott and Connell (2009, 2013)." style="border-bottom: 0.9px dotted grey"> <b> Modality exclusivity: </b></span> Range of the three modality ratings divided by the sum.
 
-**Perceptual strength:** Highest rating across modalities.
+<span data-toggle="tooltip" data-placement="bottom" title="Defined as in Lynott and Connell (2009, 2013)." style="border-bottom: 0.9px dotted grey"> <b> Perceptual strength: </b></span> Highest rating across modalities.
 
 
 #### **Corpora**
 
-**Concreteness and age of acquisition:** [Brysbaert et al. (2014)](#info-references).
+**Concreteness and age of acquisition:** [Brysbaert et al. (2014)](#info).
 
-**Phonological and orthographic neighbours**: [Marian et al.'s (2012) DutchPOND](#info-references).
+**Phonological and orthographic neighbours**: [Marian et al.'s (2012) DutchPOND](#info).
 
-**Word frequency and contextual diversity**: [Keuleers et al.'s (2010) SUBTLEX-NL](#info-references).
+**Word frequency and contextual diversity**: [Keuleers et al.'s (2010) SUBTLEX-NL](#info).
 
-**Lemma frequency**: [Baayen et al.'s (1993) CELEX](#info-references).
+**Lemma frequency**: [Baayen et al.'s (1993) CELEX](#info).
 
 </div>
 
 
 
-Column
+Column {style="height:800px"}
 -----------------------------------------------------------------------
 
-### Principal Component Analysis (PCA) reflecting different relationships among the modalities. PCA run on the three modality ratings. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2009, 2013)](#cf-lc-english-norms).
+### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2009, 2013)](#cf-lc-english-norms). 
 
 ```{r}
 
@@ -569,9 +614,9 @@ renderPlotly({
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
          panel.grid.minor = element_blank(), panel.border = element_blank(),
          axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
-         axis.title.x = element_text(colour = 'black', size = 11, margin = margin(15,15,0,15)),
-         axis.title.y = element_text(colour = 'black', size = 11, margin = margin(0,15,15,15)),
-         axis.text.x = element_text(size = 12), axis.text.y  = element_text(size = 12),
+         axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
+         axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,15)),
+         axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
          legend.background = element_rect(size = 2), legend.position = 'none',
 	   legend.title = element_blank(),
 	   legend.text = element_text(colour = colours, size = 13, face = 'bold') ),
@@ -593,9 +638,9 @@ properties_png = reactive({ ggplot(selected_props(), aes(RC1, RC2, color = main,
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
          panel.grid.minor = element_blank(), panel.border = element_blank(),
          axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
-         axis.title.x = element_text(colour = 'black', size = 11, margin = margin(15,15,0,15)),
-         axis.title.y = element_text(colour = 'black', size = 11, margin = margin(0,15,15,15)),
-         axis.text.x = element_text(size = 12), axis.text.y  = element_text(size = 12),
+         axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
+         axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,15)),
+         axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
          legend.background = element_rect(size = 2), legend.position = 'right',
 	   legend.title = element_blank(), legend.text = element_text(size = 13, face = 'bold') )
 })
@@ -608,22 +653,16 @@ properties_png = reactive({ ggplot(selected_props(), aes(RC1, RC2, color = main,
 
 
 
-Concepts
+
+Concepts {style="position:absolute !important;"}
 =======================================================================
 
 Inputs {.sidebar}
 -----------------------------------------------------------------------
 
-<!-- Show note on mobiles -->
-##### {.mobileShow}
-**_Larger screen recommended._**
-
-<!-- Show again on all devices -->
-#####
-
 <div style = "text-align: justify"> <font color = "#959494">
 
-Tabs may be shifted above. Plot is interactive.
+Tabs may be shifted above, and plot is interactive.
 
 </div> </font>
 
@@ -634,7 +673,7 @@ Tabs may be shifted above. Plot is interactive.
 
 ```{r}
 
-# Loadings of principal components. Tidy-format names by binding them as a column and 
+# Principal component loadings. Tidy-format names by binding them as a column and 
 # removing dummy rownames left from the principal() output.
 
 concepts_modality_loadings =
@@ -653,19 +692,31 @@ colnames(concepts_modality_loadings)[colnames(concepts_modality_loadings)=="RC2"
 
 concepts_modality_loadings[,c('PC1','PC2')] = round(concepts_modality_loadings[,c('PC1','PC2')], 2)
 
-actionLink("concepts_loadings", " Loadings of principal components", class = "fa fa-table")
+# Present values as correlations by removing any zeros before a decimal point
+concepts_modality_loadings[,'PC1'] = str_replace_all(concepts_modality_loadings[,'PC1'], "0\\.", "\\.")
+concepts_modality_loadings[,'PC2'] = str_replace_all(concepts_modality_loadings[,'PC2'], "0\\.", "\\.")
+
+# Modal dialog showing loadings of principal components for concepts
+
+actionLink("concepts_loadings", " Principal component loadings", class = 'fa fa-table')
 
 observeEvent(input$concepts_loadings, {
   showModal(modalDialog(
-    title = NULL,
-	HTML( 	# Below, table constructed
-	kable(concepts_modality_loadings) %>%
-	  kable_styling(full_width = F) %>%
-	  column_spec(1, bold = T, border_right = T)
-	),
+    title = HTML('Pearson correlation coefficients (<i>r</i>)'),
+    HTML( 	# Below, table constructed
+      concepts_modality_loadings %>%
+        # Highlight correlations above .7
+        mutate(PC1 = ifelse(abs(as.numeric(PC1)) > .7, cell_spec(PC1, "html", bold = TRUE, color = 'black'), 
+                            cell_spec(PC1, "html")),
+               PC2 = ifelse(abs(as.numeric(PC2)) > .7, cell_spec(PC2, "html", bold = TRUE, color = 'black'), 
+                            cell_spec(PC2, "html")) ) %>%
+        kable(format = "html", escape = FALSE) %>%
+        kable_styling(full_width = F) %>%
+        column_spec(1, bold = T, border_right = T)
+      ),
     size = 's', easyClose = TRUE, footer = NULL
-  ))
-})
+    ))
+  })
 
 
 # Highlight words
@@ -673,10 +724,25 @@ observeEvent(input$concepts_loadings, {
 selectizeInput("highlighted_concepts", label = NULL, choices = sort(concs$word), multiple = TRUE,
   options = list(placeholder = 'Words to highlight       '))
 
+```
+
+
+<!-- Chunk right below removed from mobiles because it's badly displayed -->
+#### {.desktop-only}
+
+```{r}
 
 # Number of words selected on sidebar
+
 reactive(cat(paste0('Words selected below: ', nrow(selected_concs()))))
 
+```
+
+
+<!-- Show again on all devices -->
+####
+
+```{r}
 
 # Download csv file with data selected on sidebar
 
@@ -809,33 +875,33 @@ sliderInput("concepts_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.
 
 #### **Definitions**
 
-(All as in [Lynott & Connell, 2009, 2013](#info-references)).
+**PCA**: Classical technique to reduce dimensionality of data while retaining the major patterns ([more](https://www.nature.com/articles/nmeth.4346)).
 
-**Dominant modality:** Highest-rated modality.
+<span data-toggle="tooltip" data-placement="bottom" title="Defined as in Lynott and Connell (2009, 2013)." style="border-bottom: 0.9px dotted grey"> <b> Dominant modality: </b></span> Highest-rated modality.
 
-**Modality exclusivity:** Range of the three modality ratings divided by the sum.
+<span data-toggle="tooltip" data-placement="bottom" title="Defined as in Lynott and Connell (2009, 2013)." style="border-bottom: 0.9px dotted grey"> <b> Modality exclusivity: </b></span> Range of the three modality ratings divided by the sum.
 
-**Perceptual strength:** Highest rating across modalities.
+<span data-toggle="tooltip" data-placement="bottom" title="Defined as in Lynott and Connell (2009, 2013)." style="border-bottom: 0.9px dotted grey"> <b> Perceptual strength: </b></span> Highest rating across modalities.
 
 
 #### **Corpora**
 
-**Concreteness and age of acquisition:** [Brysbaert et al. (2014)](#info-references).
+**Concreteness and age of acquisition:** [Brysbaert et al. (2014)](#info).
 
-**Phonological and orthographic neighbours**: [Marian et al.'s (2012) DutchPOND](#info-references).
+**Phonological and orthographic neighbours**: [Marian et al.'s (2012) DutchPOND](#info).
 
-**Word frequency and contextual diversity**: [Keuleers et al.'s (2010) SUBTLEX-NL](#info-references).
+**Word frequency and contextual diversity**: [Keuleers et al.'s (2010) SUBTLEX-NL](#info).
 
-**Lemma frequency**: [Baayen et al.'s (1993) CELEX](#info-references).
+**Lemma frequency**: [Baayen et al.'s (1993) CELEX](#info).
 
 </div>
 
 
 
-Column
+Column {style="height:800px"}
 -----------------------------------------------------------------------
 
-### Principal Component Analysis (PCA) reflecting different relationships among the modalities. PCA run on the three modality ratings. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2009, 2013)](#cf-lc-english-norms).
+### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2009, 2013)](#cf-lc-english-norms).
 
 ```{r}
 
@@ -908,9 +974,9 @@ renderPlotly({
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
          panel.grid.minor = element_blank(), panel.border = element_blank(),
          axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
-         axis.title.x = element_text(colour = 'black', size = 11, margin = margin(15,15,0,15)),
-         axis.title.y = element_text(colour = 'black', size = 11, margin = margin(0,15,15,15)),
-         axis.text.x = element_text(size = 12), axis.text.y  = element_text(size = 12),
+         axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
+         axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,15)),
+         axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
          legend.background = element_rect(size = 2), legend.position = 'none',
 	   legend.title = element_blank(),
 	   legend.text = element_text(colour = colours, size = 13, face = 'bold') ),
@@ -933,9 +999,9 @@ concepts_png = reactive({ ggplot(selected_concs(), aes(RC1, RC2, color = main, l
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
          panel.grid.minor = element_blank(), panel.border = element_blank(),
          axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
-         axis.title.x = element_text(colour = 'black', size = 11, margin = margin(15,15,0,15)),
-         axis.title.y = element_text(colour = 'black', size = 11, margin = margin(0,15,15,15)),
-         axis.text.x = element_text(size = 12), axis.text.y  = element_text(size = 12),
+         axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
+         axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,15)),
+         axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
          legend.background = element_rect(size = 2), legend.position = 'right',
 	   legend.title = element_blank(), legend.text = element_text(size = 13, face = 'bold') )
 })
@@ -951,12 +1017,14 @@ concepts_png = reactive({ ggplot(selected_concs(), aes(RC1, RC2, color = main, l
 Cf. L&C English norms
 =======================================================================
 
+<div style = "background-color: #FCFCFC; text-align: center; font-size: 14px; padding-top: 8px;">
+<b> Comparison with [Lynott and Connell's (2009, 2013)](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html) English norms. </b> <span style='font-size:12px'> Tabs may be shifted above, and plots are interactive.</span>
+</div>
 
-Column
+Column {style="height:50%;" data-padding=1}
 -----------------------------------------------------------------------
 
-
-### &nbsp;&nbsp;&nbsp; Reanalysis of [Lynott and Connell's (2009) English properties](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html) with three modalities
+### &nbsp;&nbsp;&nbsp; Reanalysis of [Lynott and Connell's (2009) English properties](https://doi.org/10.3758/BRM.41.2.558) narrowed to three modalities
 
 ```{r include = FALSE}
 
@@ -1038,7 +1106,7 @@ ggplotly( ggplot(eng_props,
 			'</b><br> Visual: <b>', round(Vis_eng, 2), ' ',
 			'</b><br> Number of letters: <b>', lett_eng, ' ' ) ) ) +
   labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-  geom_text(size = 3) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
+  geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
 	panel.grid.minor = element_blank(), panel.border = element_blank(),
   	axis.line = element_line(color = 'black'),
@@ -1053,7 +1121,7 @@ ggplotly( ggplot(eng_props,
 
 
 
-### &nbsp;&nbsp;&nbsp; Reanalysis of [Lynott and Connell's (2013) English concepts](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html) with three modalities
+### &nbsp;&nbsp;&nbsp; [Reanalysis of Lynott and Connell's (2013)](https://doi.org/10.3758/s13428-012-0267-0) English concepts narrowed to three modalities
 
 ```{r include = FALSE}
 
@@ -1137,7 +1205,7 @@ ggplotly( ggplot(eng_concs,
 			'</b><br> Visual: <b>', round(Vis_eng, 2), ' ',
 			'</b><br> Number of letters: <b>', lett_eng, ' ' ) ) ) + 
   labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-  geom_text(size = 3) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
+  geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
 	panel.grid.minor = element_blank(), panel.border = element_blank(),
   	axis.line = element_line(color = 'black'),
@@ -1152,7 +1220,7 @@ ggplotly( ggplot(eng_concs,
 
 
 
-Column
+Column {style="height:50%;" data-padding=1}
 -----------------------------------------------------------------------
 
 ### &nbsp;&nbsp;&nbsp; [Dutch properties](#properties)
@@ -1175,7 +1243,7 @@ ggplotly( ggplot(props_Dutch,
 			'</b><br> Number of letters: <b>', letters, ' ',
 			'</b><br> Number of phonemes (DutchPOND): <b>', round(phonemes_DUTCHPOND, 2), ' ' ) ) ) +
   labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-  geom_text(size = 3) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
+  geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
 	panel.grid.minor = element_blank(), panel.border = element_blank(),
   	axis.line = element_line(color = 'black'),
@@ -1210,7 +1278,7 @@ ggplotly( ggplot(concs_Dutch,
 			'</b><br> Number of letters: <b>', letters, ' ',
 			'</b><br> Number of phonemes (DutchPOND): <b>', round(phonemes_DUTCHPOND, 2), ' ' ) ) ) +
   labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") + 
-  geom_text(size = 3) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
+  geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
 	panel.grid.minor = element_blank(), panel.border = element_blank(),
   	axis.line = element_line(color = 'black'),
@@ -1229,14 +1297,10 @@ ggplotly( ggplot(concs_Dutch,
 
 
 
-
-
-
-
-Sound symbolism {data-orientation=rows data-padding=2}
+Sound symbolism {data-orientation=rows data-padding=0.5 background-color=#FBFBFB}
 =======================================================================
 
-Row {data-height=20% data-padding=2}
+Row {style="height:210px;" data-height=170 padding-bottom=0 data-padding=0.5}
 -----------------------------------------------------------------------
 
 
@@ -3080,7 +3144,7 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concs_Dutch2$s_V
 
 
 
-<div style = "background-color: #FEFEFE; padding-top: 8px; padding-left: 15px; padding-right: 1px;">
+<div style = "background-color: #FCFCFC; padding-top: 18px; padding-left: 15px; padding-right: 1px; padding-bottom: 0px;">
 
 ```{r}
 
@@ -3112,22 +3176,34 @@ colnames(properties_lexicals_loadings)[colnames(properties_lexicals_loadings)=="
 
 properties_lexicals_loadings[,c('PC1','PC2','PC3')] = round(properties_lexicals_loadings[,c('PC1','PC2','PC3')], 2)
 
+# Present values as correlations by removing any zeros before a decimal point
+properties_lexicals_loadings[,'PC1'] = str_replace_all(properties_lexicals_loadings[,'PC1'], "0\\.", "\\.")
+properties_lexicals_loadings[,'PC2'] = str_replace_all(properties_lexicals_loadings[,'PC2'], "0\\.", "\\.")
+properties_lexicals_loadings[,'PC3'] = str_replace_all(properties_lexicals_loadings[,'PC3'], "0\\.", "\\.")
 
 # Modal dialog showing loadings of principal components for properties
 
-actionLink("properties_lexicals_loadings", 
-	HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding:6px; padding-top:4px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Loadings of principal components for properties.</p>'))
+actionLink("properties_lexicals_loadings",
+           HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding-top:4px; padding-bottom:0px; padding-left:6px; padding-right:6px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Principal component loadings for properties.</p>'))
 observeEvent(input$properties_lexicals_loadings, {
   showModal(modalDialog(
-    title = NULL,
-	HTML( 	# Below, table constructed
-	kable(properties_lexicals_loadings) %>%
-	  kable_styling(full_width = F) %>%
-	  column_spec(1, bold = T, border_right = T)
-	),
+    title = HTML('Pearson correlation coefficients (<i>r</i>)'),
+    HTML( 	# Below, table constructed
+      properties_lexicals_loadings %>%
+      # Highlight correlations above .7
+        mutate(PC1 = ifelse(abs(as.numeric(PC1)) > .7, cell_spec(PC1, "html", bold = TRUE, color = 'black'),
+                            cell_spec(PC1, "html")),
+               PC2 = ifelse(abs(as.numeric(PC2)) > .7, cell_spec(PC2, "html", bold = TRUE, color = 'black'),
+                            cell_spec(PC2, "html")),
+               PC3 = ifelse(abs(as.numeric(PC3)) > .7, cell_spec(PC3, "html", bold = TRUE, color = 'black'),
+                            cell_spec(PC3, "html")) ) %>%
+        kable(format = "html", escape = FALSE) %>%
+        kable_styling(full_width = F) %>%
+        column_spec(1, bold = T, border_right = T)
+      ),
     size = 'm', easyClose = TRUE, footer = NULL
-  ))
-})
+    ))
+  })
 
 ```
 
@@ -3135,15 +3211,15 @@ observeEvent(input$properties_lexicals_loadings, {
 
 
 
-<div style = "background-color: #FEFEFE; text-align: justify; padding-top: 12px; padding-right: 22px; padding-bottom: 7px; padding-left: 22px">
+<div style = "background-color: #FCFCFC; text-align: justify; padding-top: 12px; padding-bottom: 0px; padding-right: 22px; padding-left: 22px">
 
-**Analysis of sound symbolism based on the relationship between modality ratings and lexical properties of the words** (cf. [Table 6 in Lynott & Connell, 2013)](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4). Multiple regressions with the three modality ratings predicting each lexical measure. Auditory strength was found to predict lexical properties better than the other modalities did, or else with a different polarity. [External corpora used](#info-references). 'PC' = Kaiser-normalised, varimax-rotated principal component. Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info-references)). Standardised coefficients presented alongside significance based on t-value. <sup>\*\*\*</sup>*p* < .001; <sup>\*\*</sup>*p* < .01; <sup>\*</sup>*p* < .05.
+**Analysis of sound symbolism based on the relationship between modality ratings and lexical properties of the words** (cf. [Table 6 in Lynott & Connell, 2013)](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4). Multiple regressions with the three modality ratings predicting each lexical measure. Auditory strength was found to predict lexical properties better than the other modalities did, or else with a different polarity. Standardised coefficients ($\beta$) presented alongside significance based on t-value. Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). [External corpora used](#info). Key: 'PC' = Kaiser-normalised, varimax-rotated principal component. <sup>\*\*\*</sup>*p* < .001; <sup>\*\*</sup>*p* < .01; <sup>\*</sup>*p* < .05.
 
 </div>
 
 
 
-<div style = "background-color: #FEFEFE; padding-top: 8px; padding-right: 20px; padding-left: 1px;">
+<div style = "background-color: #FCFCFC; padding-top: 18px; padding-right: 22px; padding-left: 1px; padding-bottom: 0px;">
 
 ```{r}
 
@@ -3175,21 +3251,34 @@ colnames(concepts_lexicals_loadings)[colnames(concepts_lexicals_loadings)=="RC3"
 
 concepts_lexicals_loadings[,c('PC1','PC2','PC3')] = round(concepts_lexicals_loadings[,c('PC1','PC2','PC3')], 2)
 
+# Present values as correlations by removing any zeros before a decimal point
+concepts_lexicals_loadings[,'PC1'] = str_replace_all(concepts_lexicals_loadings[,'PC1'], "0\\.", "\\.")
+concepts_lexicals_loadings[,'PC2'] = str_replace_all(concepts_lexicals_loadings[,'PC2'], "0\\.", "\\.")
+concepts_lexicals_loadings[,'PC3'] = str_replace_all(concepts_lexicals_loadings[,'PC3'], "0\\.", "\\.")
+
 # Modal dialog showing loadings of principal components for concepts
 
 actionLink("concepts_lexicals_loadings",
-	HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding:6px; padding-top:4px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Loadings of principal components for concepts.</p>'))
+           HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding-top:4px; padding-bottom:0px; padding-left:6px; padding-right:6px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Principal component loadings for concepts.</p>'))
 observeEvent(input$concepts_lexicals_loadings, {
   showModal(modalDialog(
-    title = NULL,
-	HTML( 	# Below, table constructed
-	kable(concepts_lexicals_loadings) %>%
-	  kable_styling(full_width = F) %>%
-	  column_spec(1, bold = T, border_right = T)
-	),
+    title = HTML('Pearson correlation coefficients (<i>r</i>)'),
+    HTML( 	# Below, table constructed
+      concepts_lexicals_loadings %>%
+      # Highlight correlations above .7
+        mutate(PC1 = ifelse(abs(as.numeric(PC1)) > .7, cell_spec(PC1, "html", bold = TRUE, color = 'black'),
+                            cell_spec(PC1, "html")),
+               PC2 = ifelse(abs(as.numeric(PC2)) > .7, cell_spec(PC2, "html", bold = TRUE, color = 'black'),
+                            cell_spec(PC2, "html")),
+               PC3 = ifelse(abs(as.numeric(PC3)) > .7, cell_spec(PC3, "html", bold = TRUE, color = 'black'),
+                            cell_spec(PC3, "html")) ) %>%
+        kable(format = "html", escape = FALSE) %>%
+        kable_styling(full_width = F) %>%
+        column_spec(1, bold = T, border_right = T)
+      ),
     size = 'm', easyClose = TRUE, footer = NULL
-  ))
-})
+    ))
+  })
 
 ```
 
@@ -3197,10 +3286,14 @@ observeEvent(input$concepts_lexicals_loadings, {
 
 
 
-Row {data-height=80% data-padding=2}
+
+
+Row {style="data-width:100%; padding-top: 0px;"}
 -----------------------------------------------------------------------
 
-### <span style="font-size:1.7em; color: #000000;"> &nbsp; **Properties** </span>
+### <span style="font-size:1.7em; color:black; padding-top:0px;"> &nbsp; **Properties** </span> {style="background-color:#FFFBF6; padding-top:0px;"}
+
+<div style = "background-color: white; padding-top:0px;">
 
 ```{r}
 
@@ -3226,17 +3319,22 @@ props_Dutch2_results$betas_and_asterisks =
 HTML(
   kable(
     spread(props_Dutch2_results[,c('Dependent', 'Variable', 'betas_and_asterisks')],
-	Variable, betas_and_asterisks)
-  ) %>%
-  kable_styling(full_width = F) %>%
-  column_spec(1, bold = T)
-)
+           Variable, betas_and_asterisks)
+	) %>%
+    kable_styling(full_width = F) %>%
+    column_spec(1, bold = T)
+  )
 
 ```
 
+</div>
 
 
-### <span style="font-size:1.7em; color: #000000;"> &nbsp; **Concepts** </span>
+
+
+### <span style="font-size:1.7em; color:black; padding-top:0px;"> &nbsp; **Concepts** </span> {style="background-color:#FFF9F6; padding-top:0px;"}
+
+<div style = "background-color:white; padding-top:0px;">
 
 ```{r}
 
@@ -3270,6 +3368,7 @@ HTML(
 
 ```
 
+</div>
 
 
 
@@ -3277,65 +3376,73 @@ HTML(
 
 
 
-Info & References
+
+Info {style="background-color:#FCFCFC; data-width:100%"}
 =======================================================================
 
+Column {style="height:1100px; background-color:#FCFCFC;"}
+--------------------------------------------------------
 
-<div style = "text-align: justify; padding-top: 15px; padding-right: 30px; padding-bottom: 15px; padding-left: 30px">
+<!-- Link to source code on OSF.io -->
+<div style = "text-align: center; padding-top: 10px; padding-bottom: 6px;"> <button style = "text-align: center; background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size:18px"> <a href = "https://osf.io/bx2d7/"> <i class="fab fa-r-project" style='font-size:22px'></i> &#8201; Code for analyses and dashboard <span style = "font-size: 10px">(CC-BY licensed)</span> </a> </i> </button> </div>
 
-<!-- Link to data on OSF.io -->
-<button style = "font-size: 17px"> <a href = "https://github.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/blob/master/Dutch-modality-exclusivity-norms.rmd"> Source code for this dashboard </a> </i> </button>
-
-\newline
-
+<div style = "padding-left: 30px; padding-right: 38px; text-align: justify; background-color:#FCFCFC;">
 
 #### Information
 
-These Dutch modality norms were created to facilitate research about language. On average, each word was rated by eight respondents, with a minimum of five and a maximum of nine respondents per word (overall *N* = 42). The instructions were similar to those in Lynott and Connell (2009, 2013), but three modalities were elicited instead of five.
+These Dutch modality norms were created to facilitate research about language. Forty-two respondents rated the properties and concepts sepately and in blocks, with an average of eight respondents per word, a minimum of five, and a maximum of nine. The [instructions](https://osf.io/ungey/) were similar to those in Lynott and Connell (2009, 2013), but three modalities were elicited instead of five.
 
-> <span style = "font-size: 14px;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </span>
+> <div style = "text-align: justify; font-size: 14px; background-color: #FCFCFC;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
 
-These norms were validated in a [conceptual modality switch experiment](https://mindmodeling.org/cogsci2017/papers/0318/index.html). The results revealed that switches across trials with different primary modalities incurred measurable effects in semantic processing. Further analyses of the norms' data are due to be reported in a forthcoming paper. All data and analysis code, as well as some further report, are [available here](https://osf.io/brkjw/wiki/home/). All of these materials are available for re-use, provided acknowledgment of the following publication ([CC-By licence](https://creativecommons.org/licenses/by/4.0/)).
+The norms were validated in [Bernabeu, Willems, and Louwerse (2017)](https://mindmodeling.org/cogsci2017/papers/0318/index.html), where switches across trials with different dominant modalities (e.g., visual versus auditory) incurred semantic processing costs. All data for that study is avaiable, including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/).
 
-> <span style = "font-size: 14px;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs. In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society. </span>
+The present analyses and further ones will be reported in a forthcoming paper. All data and analysis code for the norms are [available for re-use](https://osf.io/brkjw/wiki/home/) under a [CC-BY licence](https://creativecommons.org/licenses/by/4.0/), provided acknowledgment of the following publication:
+
+> <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 14.1px; background-color: #FCFCFC;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). [Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs.](https://mindmodeling.org/cogsci2017/papers/0318/index.html) In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society. </div>
 
 
 #### Corpus measures used
 
-* Concreteness and age of acquisition: Brysbaert et al. (2014).
+* Concreteness and age of acquisition: Brysbaert, Warriner, and Kuperman's (2014) norms.
 
-* Phonological and orthographic neighbours: Marian et al.'s (2012) DutchPOND.
+* Phonological and orthographic neighbours: Marian et al.'s (2012) DutchPOND corpus.
 
-* Word frequency and contextual diversity: Keuleers et al.'s (2010) SUBTLEX-NL.
+* Word frequency and contextual diversity: Keuleers, Brysbaert, and New's (2010) SUBTLEX-NL corpus.
 
-* Lemma frequency: Baayen et al.'s (1993) CELEX.
+* Lemma frequency: Baayen, Piepenbrock, and van Rijn's (1993) CELEX corpus.
 
 
 #### References
 
+<div style = "text-align: justify; text-indent:-2em; margin-left:2em; background-color:#FCFCFC;">
+
 Baayen, R. H., Piepenbrock, R., & van Rijn, H. (1993). *The CELEX Lexical Database* [CD-ROM]. Philadelphia: Linguistic Data Consortium, University of Pennsylvania.
+
+Brysbaert, M., Warriner, A.B., & Kuperman, V. (2014). Concreteness ratings for 40 thousand generally known English word lemmas. *Behavior Research Methods, 46*, 3, 904-911.
 
 Field, A. P., Miles, J., & Field, Z. (2012). *Discovering Statistics Using R*. London, UK: Sage.
 
-Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measure for Dutch words based on film subtitles. *Behavior Research Methods, 42*, 3, 643-650. https://doi.org/10.3758/BRM.42.3.643
+Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measure for Dutch words based on film subtitles. *Behavior Research Methods, 42*, 3, 643-650. https://doi.org/10.3758/BRM.42.3.643.
 
-Louwerse, M., & Connell, L. (2011). A taste of words: linguistic context and perceptual simulation predict the modality of words. *Cognitive Science, 35*, 2, 381-98. https://doi.org/10.1111/j.1551-6709.2010.01157.x
+Louwerse, M., & Connell, L. (2011). A taste of words: linguistic context and perceptual simulation predict the modality of words. *Cognitive Science, 35*, 2, 381-98. https://doi.org/10.1111/j.1551-6709.2010.01157.x.
 
-Lynott, D., & Connell, L. (2009). Modality exclusivity norms for 423 object concepts. *Behavior Research Methods, 41*, 2, 558-564. https://doi.org/10.3758/BRM.41.2.558
+Lynott, D., & Connell, L. (2009). Modality exclusivity norms for 423 object concepts. *Behavior Research Methods, 41*, 2, 558-564. https://doi.org/10.3758/BRM.41.2.558.
 
-Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The relationship between perceptual experience and surface word form. *Behavior Research Methods, 45*, 2, 516-526. https://doi.org/10.3758/s13428-012-0267-0
+Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The relationship between perceptual experience and surface word form. *Behavior Research Methods, 45*, 2, 516-526. https://doi.org/10.3758/s13428-012-0267-0.
 
-Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. https://doi.org/10.1371/journal.pone.0043230
+Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. https://doi.org/10.1371/journal.pone.0043230.
 
-Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. https://doi.org/10.3758/s13428-017-0852-3
+Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. https://doi.org/10.3758/s13428-017-0852-3.
+
+</div>
 
 
 #### Contact
 
 Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
 
-[Personal webpage](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu)
+[Webpage](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu)
 
+<br></br>
 
 </div>
-
