@@ -3384,7 +3384,7 @@ Column {style="height:1100px; background-color:#FCFCFC;"}
 --------------------------------------------------------
 
 <!-- Link to source code on OSF.io -->
-<div style = "text-align: center; padding-top: 10px; padding-bottom: 6px;"> <button style = "text-align: center; background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size:18px"> <a href = "https://osf.io/bx2d7/"> <i class="fab fa-r-project" style='font-size:22px'></i> &#8201; Code for analyses and dashboard <span style = "font-size: 10px">(CC-BY licensed)</span> </a> </i> </button> </div>
+<div style = "text-align: center; padding-top: 10px; padding-bottom: 6px;"> <button style = "text-align: center; background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size:18px"> <a href = "https://osf.io/bx2d7/"> <i class="fab fa-r-project" aria-hidden="true" style='font-size:22px; color:#3C3C3C'></i> &#8201; Code for analyses and dashboard <span style = "font-size: 10px">(CC-BY licensed)</span> </a> </i> </button> </div>
 
 <div style = "padding-left: 30px; padding-right: 38px; text-align: justify; background-color:#FCFCFC;">
 
