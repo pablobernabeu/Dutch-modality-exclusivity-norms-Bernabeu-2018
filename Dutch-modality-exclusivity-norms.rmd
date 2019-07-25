@@ -65,23 +65,72 @@ panderOptions('keep.trailing.zeros', TRUE)
 <!-- Begin definition of setup parameters -->
 <head>
 
-<!-- Define CSS style for customising output to specific screen sizes -->
 <style type="text/css">
-  .desktop-only {display: inline;} 
-  /* Smartphone Portrait and Landscape */ 
+
+/* unvisited link */
+a:link {
+  color: #3C6CA7;
+  border-bottom: 0.1px dotted #5277A5
+}
+
+/* visited link */
+a:visited {
+  color: #426DA1 !important;
+  border-bottom: none !important;
+}
+
+/* mouse over link */
+a:hover {
+  color: #2462B0 !important;
+  border-bottom: none !important;
+}
+
+/* selected link */
+a:active {
+  color: #1964BF !important;
+  border-bottom: none !important;
+}
+
+/* unvisited link on navigation bar */
+.navbar-nav li a:link {
+  color: #F9F4F1 !important;
+  border-bottom: none !important
+}
+
+/* visited link on navigation bar */
+.navbar-nav li a:visited {
+  color: #F9F4F1 !important;
+  border-bottom: none !important;
+}
+
+/* mouse over link on navigation bar */
+.navbar-nav li a:hover {
+  color: #F3E2D8 !important;
+  border-bottom: none !important;
+}
+
+/* selected link on navigation bar */
+.navbar-nav li a:active {
+  color: #F3DACC !important;
+  border-bottom: none !important;
+}
+
+
+<!-- Define CSS style for customising output to specific screen sizes -->
+  .desktop-only {display: inline;}
+  /* Smartphone Portrait and Landscape */
   @media only screen
-    and (max-width : 765px){ 
+    and (max-width : 765px){
      .desktop-only {display: none;}
   }
-</style>
 
-<style type="text/css">
   .mobile-only {display: inline;}
   /* Smartphone Portrait and Landscape */
   @media only screen
     and (min-width : 766px){
       .mobile-only {display: none;}
   }
+  
 </style>
 
 <!-- Load CSS libraries for icons -->
@@ -100,6 +149,8 @@ $(document).ready(function(){
 
 
 ```{r global, include = FALSE}
+
+# Since this script contains the dashboard, the code run is minimised,and all the rest--namely, diagnostic commands--is commented out. Fully run code on the proper analysis scripts, at https://osf.io/brkjw/.
 
 # Perform analyses for PCA
 
@@ -122,35 +173,35 @@ nrow(all)
 
 # matrix
 prop <- all[all$cat == 'prop' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
-nrow(prop)
+#nrow(prop)
 prop_matrix <- cor(prop, use = 'complete.obs')
-prop_matrix
-round(prop_matrix, 2)
+#prop_matrix
+#round(prop_matrix, 2)
 # POOR: correlations not apt for a PCA, with too many below .3
 
 # now on the raw vars:
-nrow(prop)
-cortest.bartlett(prop)
+#nrow(prop)
+#cortest.bartlett(prop)
 # GOOD: Bartlett's test significant 
 
 # KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
-KMO(prop_matrix)
+#KMO(prop_matrix)
 # Result: .56 = mediocre. PCA not strongly recommended. But we still do it
 # because the purpose is graphical only.
 
 # check determinant
-det(prop_matrix)
+#det(prop_matrix)
 # GOOD: > 0.00001
 
 # start off with unrotated PCA
 pc1_prop <- psych::principal(prop, nfactors = 3, rotate = "none")
-pc1_prop
+#pc1_prop
 # RESULT: Only PC1, with eigenvalue > 1, should be extracted, 
 # acc to Kaiser's criterion (Jolliffe's threshold of 0.7 way too lax; 
 # Field, Miles, & Field, 2012)
 
 # Unrotated: scree plot
-plot(pc1_prop$values, type = "b")
+#plot(pc1_prop$values, type = "b")
 # Result: one or two RCs should be extracted, converging with eigenvalues
 
 # Now with varimax rotation, Kaiser-normalized (by default). 
@@ -158,15 +209,15 @@ plot(pc1_prop$values, type = "b")
 # Compare eigenvalues w/ 1 & 2 factors
 
 pc2_prop <- psych::principal(prop, nfactors = 2, rotate = "varimax", scores = TRUE)
-pc2_prop
-pc2_prop$loadings
+#pc2_prop
+#pc2_prop$loadings
 # good to extract 2 factors, as they both explain quite the same variance,
 # and both surpass 1 eigenvalue
 
 
-pc2_prop$residual
-pc2_prop$fit
-pc2_prop$communality
+#pc2_prop$residual
+#pc2_prop$fit
+#pc2_prop$communality
 # Results based on a Kaiser-normalizalized orthogonal (varimax) rotation
 # (by default in psych::stats). Residuals OK: fewer than 50% have absolute 
 # values > 0.05 (exactly 50% do).Model fit good, > .90. 
@@ -174,9 +225,9 @@ pc2_prop$communality
 
 # subset and add PCs
 props <- all[all$cat == 'prop' & !is.na(all$word), ]
-nrow(props)
+#nrow(props)
 props <- cbind(props, pc2_prop$scores)
-nrow(props)
+#nrow(props)
 
 # Extend initial of main modality into full word
 levels(props$main)[levels(props$main) == 'a'] = 'Auditory'
@@ -210,35 +261,35 @@ props$Exclusivity = props$Exclusivity * 100
 # Check conditions for a PCA
 # matrix
 conc <- all[all$cat == 'conc' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
-nrow(conc)
+#nrow(conc)
 conc_matrix <- cor(conc, use = 'complete.obs')
-conc_matrix
-round(conc_matrix, 2)
+#conc_matrix
+#round(conc_matrix, 2)
 # POOR: correlations not apt for a PCA, with too many below .3
 
 # now on the raw data:
-nrow(conc)
-cortest.bartlett(conc)
+#nrow(conc)
+#cortest.bartlett(conc)
 # GOOD: Bartlett's test significant 
 
 # KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
-KMO(conc_matrix)
+#KMO(conc_matrix)
 # Result: .49 = poor. PCA not strongly recommended. But we still do it
 # because the purpose is graphical really.
 
 # check determinant
-det(conc_matrix)
+#det(conc_matrix)
 # GOOD: > 0.00001
 
 # start off with unrotated PCA
 pc1_conc <- psych::principal(conc, nfactors = 3, rotate = "none")
-pc1_conc
+#pc1_conc
 # RESULT good: PC1 and PC2, with eigenvalue > 1, should be extracted, 
 # acc to Kaiser's criterion (Jolliffe's threshold of 0.7 way too lax; 
 # Field, Miles, & Field, 2012)
 
 # Unrotated: scree plot
-plot(pc1_conc$values, type = "b")
+#plot(pc1_conc$values, type = "b")
 # Result: with no point of inflexion along the y axis, two PCs would obtain.
 
 # Now with varimax rotation, Kaiser-normalized (by default):
@@ -246,24 +297,24 @@ plot(pc1_conc$values, type = "b")
 # Compare eigenvalues w/ 1 & 2 Principal Components
 
 pc2_conc <- psych::principal(conc, nfactors = 2, rotate = "varimax", scores = TRUE)
-pc2_conc
-pc2_conc$loadings
+#pc2_conc
+#pc2_conc$loadings
 
 # good to extract 2 Principal Components, as they both explain quite the same variance, 
 # and both surpass 1 eigenvalue
 
-pc2_conc$residual
-pc2_conc$fit
-pc2_conc$communality
+#pc2_conc$residual
+#pc2_conc$fit
+#pc2_conc$communality
 # Results based on a Kaiser-normalizalized orthogonal (varimax) rotation
 # (by default in psych::stats). Residuals bad: over 50% have absolute 
 # values > 0.05. Model fit good, > .90. Communalities good, all > .7 (av = .82). 
 
 # subset and add PCs
 concs <- all[all$cat == 'conc' & !is.na(all$word), ]
-nrow(concs)
+#nrow(concs)
 concs <- cbind(concs, pc2_conc$scores)
-nrow(concs)
+#nrow(concs)
 
 # Extend initial of main modality into full word
 levels(concs$main)[levels(concs$main) == 'a'] = 'Auditory'
@@ -1032,56 +1083,56 @@ Column {style="height:50%;" data-padding=1}
 # Matrix
 
 eng_prop <- all[all$cat == 'prop', c('Aud_eng', 'Hap_eng', 'Vis_eng')]
-nrow(eng_prop)
+#nrow(eng_prop)
 eng_prop_matrix <- cor(eng_prop, use = 'complete.obs')
-eng_prop_matrix
-round(eng_prop_matrix, 2)
+#eng_prop_matrix
+#round(eng_prop_matrix, 2)
 # OK: correlations good for a PCA, with enough < .3
 
 # now on the raw vars:
-nrow(eng_prop)
-cortest.bartlett(eng_prop)
+#nrow(eng_prop)
+#cortest.bartlett(eng_prop)
 # GOOD: Bartlett's test significant 
 
 # KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
-KMO(eng_prop_matrix)
+#KMO(eng_prop_matrix)
 # Result: .56 = mediocre. PCA not strongly recommended. But we still do it
 # because the purpose is graphical only.
 
 # check determinant
-det(eng_prop_matrix)
+#det(eng_prop_matrix)
 # GOOD: > 0.00001
 
 # start off with unrotated PCA
 pc1_eng_prop <- psych::principal(eng_prop, nfactors = 3, rotate = "none")
-pc1_eng_prop
+#pc1_eng_prop
 # RESULT: Extract either one PC, acc to Kaiser's criterion, or two RCs, acc to 
 # Joliffe's (Field, Miles, & Field, 2012)
 
 # Unrotated: scree plot
-plot(pc1_eng_prop$values, type = "b")
+#plot(pc1_eng_prop$values, type = "b")
 # Result: again one or two RCs should be extracted
 
 # Now with varimax rotation, Kaiser-normalized (by default)
 pc2_eng_prop <- psych::principal(eng_prop, nfactors = 2, rotate = "varimax", 
-scores = TRUE)
-pc2_eng_prop
-pc2_eng_prop$loadings
+                                 scores = TRUE)
+#pc2_eng_prop
+#pc2_eng_prop$loadings
 # two components are good, as they both have eigenvalues over 1
 
-pc2_eng_prop$residual
-pc2_eng_prop$fit
-pc2_eng_prop$communality
+#pc2_eng_prop$residual
+#pc2_eng_prop$fit
+#pc2_eng_prop$communality
 # Results based on a Kaiser-normalizalized orthogonal (varimax) rotation
 # (by default in psych::stats). Residuals bad: more than 50% have absolute 
 # values > 0.05. Model fit good, > .90. Communalities good, all > .7. 
 
 # subset and add PCs
 eng_props <- all[all$cat == 'prop', ]
-nrow(eng_props)
+#nrow(eng_props)
 eng_props <- cbind(eng_props, pc2_eng_prop$scores)
-nrow(eng_props)
-head(eng_props)
+#nrow(eng_props)
+#head(eng_props)
 
 # Set word factor to character format
 eng_props$word_eng = as.character(eng_props$word_eng)
@@ -1100,7 +1151,7 @@ ggplotly( ggplot(eng_props,
     text = paste0(' ', '<span style="font-size:2em;">', capitalize(word_eng), '</b></span> ',
 			'<br></br> Dominant modality: <b>', main_eng, ' ',
 			'</b><br> Perceptual strength: <b>', round(perceptualstrength_eng, 2), ' ',
-			'</b><br> Exclusivity: <b>', round(exc_eng, 2), '% ',
+			'</b><br> Exclusivity: <b>', round(exc_eng, 2) * 100, '% ',  # Multiplied by 100 to make percentage
 			'</b><br> Auditory: <b>', round(Aud_eng, 2), ' ',
 			'</b><br> Haptic: <b>', round(Hap_eng, 2), ' ',
 			'</b><br> Visual: <b>', round(Vis_eng, 2), ' ',
@@ -1128,59 +1179,59 @@ ggplotly( ggplot(eng_props,
 # check conditions for a PCA
 # matrix
 eng_conc <- all[all$cat == 'conc', c('Aud_eng', 'Hap_eng', 'Vis_eng')]
-nrow(eng_conc)
+#nrow(eng_conc)
 eng_conc_matrix <- cor(eng_conc, use = 'complete.obs')
-eng_conc_matrix
-round(eng_conc_matrix, 2)
+#eng_conc_matrix
+#round(eng_conc_matrix, 2)
 # POOR: correlations not apt for a PCA, with too many below .3
 
 # now on the raw data:
-nrow(eng_conc)
-cortest.bartlett(eng_conc)
+#nrow(eng_conc)
+#cortest.bartlett(eng_conc)
 # GOOD: Bartlett's test significant 
 
 # KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
-KMO(eng_conc_matrix)
+#KMO(eng_conc_matrix)
 # Result: .48 = poor. PCA not strongly recommended. But we still do it
 # because the purpose is graphical really.
 
 # check determinant
-det(eng_conc_matrix)
+#det(eng_conc_matrix)
 # GOOD: > 0.00001
 
 # start off with unrotated PCA
 pc1_eng_conc <- psych::principal(eng_conc, nfactors = 3, rotate = "none")
-pc1_eng_conc
+#pc1_eng_conc
 # RESULT: Extract either one PC, acc to Kaiser's criterion, or two RCs, acc to 
 # Joliffe's (Field, Miles, & Field, 2012)
 
 # Unrotated: scree plot
-plot(pc1_eng_conc$values, type = "b")
+#plot(pc1_eng_conc$values, type = "b")
 # Result: two PCs obtain.
 
 # Now with varimax rotation, Kaiser-normalized (by default):
 # always preferable because it captures explained variance best. 
 pc2_eng_conc <- psych::principal(eng_conc, nfactors = 2, rotate = "varimax", 
-scores = TRUE)
-pc2_eng_conc
-pc2_eng_conc$loadings
+                                 scores = TRUE)
+#pc2_eng_conc
+#pc2_eng_conc$loadings
 
-pc2_eng_conc$residual
-pc2_eng_conc$fit
-pc2_eng_conc$communality
+#pc2_eng_conc$residual
+#pc2_eng_conc$fit
+#pc2_eng_conc$communality
 # Results based on a Kaiser-normalizalized orthogonal (varimax) rotation 
 # (by default in psych::stats). Residuals bad: over 50% have absolute 
 # values > 0.05. Model fit good, > .90. Communalities good, all > .7.
 
 # subset and add PCs
 eng_concs <- all[all$cat == 'conc', ]
-nrow(eng_concs)
+#nrow(eng_concs)
 eng_concs <- cbind(eng_concs, pc2_eng_conc$scores)
-summary(eng_concs$RC1, eng_concs$RC2)
+#summary(eng_concs$RC1, eng_concs$RC2)
 eng_concs <- eng_concs[eng_concs$normed == 'Dut_Eng' | eng_concs$normed == 
-'English',]
-nrow(eng_concs)
-summary(eng_concs$RC1, eng_concs$RC2)
+                         'English',]
+#nrow(eng_concs)
+#summary(eng_concs$RC1, eng_concs$RC2)
 
 # Set word factor to character format
 eng_concs$word_eng = as.character(eng_concs$word_eng)
@@ -1199,7 +1250,7 @@ ggplotly( ggplot(eng_concs,
     text = paste0(' ', '<span style="font-size:2em;">', capitalize(word_eng), '</b></span> ',
 			'<br></br> Dominant modality: <b>', main_eng, ' ',
 			'</b><br> Perceptual strength: <b>', round(perceptualstrength_eng, 2), ' ', 
-			'</b><br> Exclusivity: <b>', round(exc_eng, 2), '% ',
+			'</b><br> Exclusivity: <b>', round(exc_eng, 2) * 100, '% ',    # Multiplied by 100 to make percentage
 			'</b><br> Auditory: <b>', round(Aud_eng, 2), ' ',
 			'</b><br> Haptic: <b>', round(Hap_eng, 2), ' ',
 			'</b><br> Visual: <b>', round(Vis_eng, 2), ' ',
@@ -1270,7 +1321,7 @@ ggplotly( ggplot(concs_Dutch,
     text = paste0(' ', '<span style="font-size:2em;">', capitalize(word), '</b></span> ',
 			'<br></br> Dominant modality: <b>', main, ' ',
 			'</b><br> Perceptual strength: <b>', round(Perceptualstrength, 2), ' ', 
-			'</b><br> Exclusivity: <b>', round(Exclusivity, 2), '% ',
+			'</b><br> Exclusivity: <b>', round(Exclusivity, 2), '% ',  # Multiplied by 100 to make percentage
 			'</b><br> Auditory: <b>', round(Auditory, 2), ' ',
 			'</b><br> Haptic: <b>', round(Haptic, 2), ' ',
 			'</b><br> Visual: <b>', round(Visual, 2), ' ',
@@ -1335,37 +1386,29 @@ nrow(all)
 # addition to the concepts.
 
 props_Dutch2 <- subset(all, subset = cat == 'prop')
-nrow(props_Dutch2)
+#nrow(props_Dutch2)
 
 # There aren't lexical data for every single word.
 # Number of properties per lexical variable (from the Dutch items only of course)
-describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]
-$phonemes_DUTCHPOND))
-describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]
-$phon_neighbours_DUTCHPOND))
-describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]
-$orth_neighbours_DUTCHPOND))
-describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]
-$freq_lg10CD_SUBTLEXNL))
-describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]
-$freq_lg10WF_SUBTLEXNL))
-describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]
-$freq_CELEX_lem))
-describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]
-$AoA_Brysbaertetal2014))
-describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]
-$concrete_Brysbaertetal2014))
+#describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]$phonemes_DUTCHPOND))
+#describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]$phon_neighbours_DUTCHPOND))
+#describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]$orth_neighbours_DUTCHPOND))
+#describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]$freq_lg10CD_SUBTLEXNL))
+#describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]$freq_lg10WF_SUBTLEXNL))
+#describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]$freq_CELEX_lem))
+#describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]$AoA_Brysbaertetal2014))
+#describe(complete.cases(props_Dutch2[complete.cases(props_Dutch2$Exclusivity),]$concrete_Brysbaertetal2014))
 
 # M, SD
-stat.desc(props_Dutch2$letters)
-stat.desc(props_Dutch2$phonemes_DUTCHPOND)
-stat.desc(props_Dutch2$phon_neighbours_DUTCHPOND)
-stat.desc(props_Dutch2$orth_neighbours_DUTCHPOND)
-stat.desc(props_Dutch2$freq_lg10CD_SUBTLEXNL)
-stat.desc(props_Dutch2$freq_lg10WF_SUBTLEXNL)
-stat.desc(props_Dutch2$freq_CELEX_lem)
-stat.desc(props_Dutch2$AoA_Brysbaertetal2014)
-stat.desc(props_Dutch2$concrete_Brysbaertetal2014)
+#stat.desc(props_Dutch2$letters)
+#stat.desc(props_Dutch2$phonemes_DUTCHPOND)
+#stat.desc(props_Dutch2$phon_neighbours_DUTCHPOND)
+#stat.desc(props_Dutch2$orth_neighbours_DUTCHPOND)
+#stat.desc(props_Dutch2$freq_lg10CD_SUBTLEXNL)
+#stat.desc(props_Dutch2$freq_lg10WF_SUBTLEXNL)
+#stat.desc(props_Dutch2$freq_CELEX_lem)
+#stat.desc(props_Dutch2$AoA_Brysbaertetal2014)
+#stat.desc(props_Dutch2$concrete_Brysbaertetal2014)
 
 
 # See correlation of all lexical variables:
@@ -1375,7 +1418,7 @@ mat_lexicals_props_Dutch2 <- as.matrix(props_Dutch2[c('letters', 'phonemes_DUTCH
 'freq_lg10WF_SUBTLEXNL', 'freq_CELEX_lem', 'AoA_Brysbaertetal2014', 
 'concrete_Brysbaertetal2014')])
 
-rcor.test(mat_lexicals_props_Dutch2, use='complete.obs')
+#rcor.test(mat_lexicals_props_Dutch2, use='complete.obs')
 corrs_props_Dutch2 = rcor.test(mat_lexicals_props_Dutch2, use='complete.obs')
 #write.csv(corrs_props_Dutch2$cor.mat, file = "corrs_props_Dutch2.csv",na="") # find table in folder
 # (saved just for the manuscript)
@@ -1395,41 +1438,41 @@ str(lexicals_props_Dutch2)
 # Check conditions for a PCA
 # Correlations
 
-cor(lexicals_props_Dutch2, use = 'complete.obs')
+#cor(lexicals_props_Dutch2, use = 'complete.obs')
 
 # Result: all variables fit for PCA, as they have few scores below .3 
 # The correlations broadly replicate Lynott and Connell. 
 
 # now on the raw vars:
-cortest.bartlett(lexicals_props_Dutch2)
+#cortest.bartlett(lexicals_props_Dutch2)
 # GOOD: Bartlett's test significant 
 
 # KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
 lexicals_props_Dutch2_matrix <- cor(lexicals_props_Dutch2, use = 'complete.obs')
-KMO(lexicals_props_Dutch2_matrix)
+#KMO(lexicals_props_Dutch2_matrix)
 # Result: .78 = good.
 
 # determinant
-det(lexicals_props_Dutch2_matrix)
+#det(lexicals_props_Dutch2_matrix)
 # GOOD: above 0.00001
 
 # start off with unrotated PCA
 
 PCA_lexicals_props_Dutch2 <- psych::principal(lexicals_props_Dutch2, nfactors = 7, scores = TRUE)
-PCA_lexicals_props_Dutch2
+#PCA_lexicals_props_Dutch2
 # By all standards, extract 3 components
 
 
 # scree analysis
-plot(PCA_lexicals_props_Dutch2$values, type = "b")
+#plot(PCA_lexicals_props_Dutch2$values, type = "b")
 # result: again, extract 3 components
 
 
 PCA_lexicals_props_Dutch2 <- psych::principal(lexicals_props_Dutch2, nfactors = 3, rotate = 
 "varimax", scores = TRUE)
 
-PCA_lexicals_props_Dutch2  # eigenvalues and exp variances good
-PCA_lexicals_props_Dutch2$loadings
+#PCA_lexicals_props_Dutch2  # eigenvalues and exp variances good
+#PCA_lexicals_props_Dutch2$loadings
 
 # The PCA replicates Lynott and Connell. Standdized correlation coeffs
 # between each PC and its corresponding set of variables are all above .89,
@@ -1438,8 +1481,8 @@ PCA_lexicals_props_Dutch2$loadings
 PCA_lexicals_props_Dutch2
 # RC1 = length // RC2 = frequency // RC3 = distinctiveness
 
-PCA_lexicals_props_Dutch2$residual
-PCA_lexicals_props_Dutch2$fit
+#PCA_lexicals_props_Dutch2$residual
+#PCA_lexicals_props_Dutch2$fit
 # Results based on a Kaiser-normalizalized orthogonal (varimax) rotation
 # (by default in psych::stats pack). Residuals good: less than half w/ absolute 
 # values > 0.05. Model fit good, > .90. Communalities (h2) good, all well > .7
@@ -1473,28 +1516,28 @@ props_Dutch2$s_RC3_lexicals <- scale(props_Dutch2$RC3)
 # length: letters
 fit_letters_props_Dutch2 = lm(props_Dutch2$s_letters ~ props_Dutch2$s_Auditory + props_Dutch2$s_Haptic + 
 props_Dutch2$s_Visual, data = props_Dutch2)
-stat.desc(fit_letters_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_letters_props_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: kurtose. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(props_Dutch2$s_letters)
+#psych::describe(props_Dutch2$s_letters)
 props_Dutch2$log_s_letters <- log(3 + props_Dutch2$s_letters)
 
 fit_letters_props_Dutch2 = lm(props_Dutch2$log_s_letters ~ props_Dutch2$s_Auditory + props_Dutch2$s_Haptic + 
 props_Dutch2$s_Visual, data = props_Dutch2)
 
 # check residuals again
-stat.desc(fit_letters_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_letters_props_Dutch2$residuals, norm = TRUE)
 # same; go back
 fit_letters_props_Dutch2 = lm(props_Dutch2$s_letters ~ props_Dutch2$s_Auditory + props_Dutch2$s_Haptic + 
 props_Dutch2$s_Visual, data = props_Dutch2)
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_letters_props_Dutch2)
-mean(vif(fit_letters_props_Dutch2))
-1/vif(fit_letters_props_Dutch2)
+#vif(fit_letters_props_Dutch2)
+#mean(vif(fit_letters_props_Dutch2))
+#1/vif(fit_letters_props_Dutch2)
 # RESULTS: all good
 
 step_letters_props_Dutch2_AIC = stepAIC(fit_letters_props_Dutch2, direction="both")
@@ -1532,35 +1575,35 @@ results_total = merge(F_results, t_results, all = TRUE)
 # length: phonemes_DUTCHPOND
 fit_phonemes_DUTCHPOND_props_Dutch2 = lm(props_Dutch2$s_phonemes_DUTCHPOND ~ props_Dutch2$s_Auditory + 
 props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
-stat.desc(fit_phonemes_DUTCHPOND_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_phonemes_DUTCHPOND_props_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skew. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(props_Dutch2$s_phonemes_DUTCHPOND)
+#psych::describe(props_Dutch2$s_phonemes_DUTCHPOND)
 props_Dutch2$log_s_phonemes_DUTCHPOND <- log(3 + props_Dutch2$s_phonemes_DUTCHPOND)
 
 fit_phonemes_DUTCHPOND_props_Dutch2 = lm(props_Dutch2$log_s_phonemes_DUTCHPOND ~ props_Dutch2$s_Auditory
  + props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
 
 # check residuals again
-stat.desc(fit_phonemes_DUTCHPOND_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_phonemes_DUTCHPOND_props_Dutch2$residuals, norm = TRUE)
 # worse; back
 fit_phonemes_DUTCHPOND_props_Dutch2 = lm(props_Dutch2$s_phonemes_DUTCHPOND ~ props_Dutch2$s_Auditory +
 props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and
 # tolerance (pref. > 0.2)
-vif(fit_phonemes_DUTCHPOND_props_Dutch2)
-mean(vif(fit_phonemes_DUTCHPOND_props_Dutch2))
-1/vif(fit_phonemes_DUTCHPOND_props_Dutch2)
+#vif(fit_phonemes_DUTCHPOND_props_Dutch2)
+#mean(vif(fit_phonemes_DUTCHPOND_props_Dutch2))
+#1/vif(fit_phonemes_DUTCHPOND_props_Dutch2)
 # RESULTS: all good
 
 step_phonemes_DUTCHPOND_props_Dutch2_AIC = stepAIC(fit_phonemes_DUTCHPOND_props_Dutch2,
 direction="both")
 step_phonemes_DUTCHPOND_props_Dutch2_F = stepAIC(fit_phonemes_DUTCHPOND_props_Dutch2,
 direction="both", test="F")
-summary(fit_phonemes_DUTCHPOND_props_Dutch2)
+#summary(fit_phonemes_DUTCHPOND_props_Dutch2)
 
 # Save results
 
@@ -1595,26 +1638,26 @@ results_total = rbind(results_total, results)
 # freq: SUBTLEX-NL log-10 WF
 fit_freq_lg10WF_SUBTLEXNL_props_Dutch2 = lm(props_Dutch2$s_freq_lg10WF_SUBTLEXNL ~ 
 props_Dutch2$s_Auditory + props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
-stat.desc(fit_freq_lg10WF_SUBTLEXNL_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_freq_lg10WF_SUBTLEXNL_props_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skew. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(props_Dutch2$s_freq_lg10WF_SUBTLEXNL)
+#psych::describe(props_Dutch2$s_freq_lg10WF_SUBTLEXNL)
 props_Dutch2$log_s_freq_lg10WF_SUBTLEXNL <- log(3 + props_Dutch2$s_freq_lg10WF_SUBTLEXNL)
 
 fit_freq_lg10WF_SUBTLEXNL_props_Dutch2 = lm(props_Dutch2$log_s_freq_lg10WF_SUBTLEXNL ~ 
 props_Dutch2$s_Auditory + props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
 
 # check residuals again
-stat.desc(fit_freq_lg10WF_SUBTLEXNL_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_freq_lg10WF_SUBTLEXNL_props_Dutch2$residuals, norm = TRUE)
 # quite better
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_freq_lg10WF_SUBTLEXNL_props_Dutch2)
-mean(vif(fit_freq_lg10WF_SUBTLEXNL_props_Dutch2))
-1/vif(fit_freq_lg10WF_SUBTLEXNL_props_Dutch2)
+#vif(fit_freq_lg10WF_SUBTLEXNL_props_Dutch2)
+#mean(vif(fit_freq_lg10WF_SUBTLEXNL_props_Dutch2))
+#1/vif(fit_freq_lg10WF_SUBTLEXNL_props_Dutch2)
 # RESULTS: all good
 
 step_freq_lg10WF_SUBTLEXNL_props_Dutch2_AIC = stepAIC(fit_freq_lg10WF_SUBTLEXNL_props_Dutch2, 
@@ -1670,21 +1713,21 @@ fit_freq_lg10CD_SUBTLEXNL_props_Dutch2 = lm(props_Dutch2$log_s_freq_lg10CD_SUBTL
 props_Dutch2$s_Auditory + props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
 
 # check residuals again
-stat.desc(fit_freq_lg10CD_SUBTLEXNL_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_freq_lg10CD_SUBTLEXNL_props_Dutch2$residuals, norm = TRUE)
 # quite better
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_freq_lg10CD_SUBTLEXNL_props_Dutch2)
-mean(vif(fit_freq_lg10CD_SUBTLEXNL_props_Dutch2))
-1/vif(fit_freq_lg10CD_SUBTLEXNL_props_Dutch2)
+#vif(fit_freq_lg10CD_SUBTLEXNL_props_Dutch2)
+#mean(vif(fit_freq_lg10CD_SUBTLEXNL_props_Dutch2))
+#1/vif(fit_freq_lg10CD_SUBTLEXNL_props_Dutch2)
 # RESULTS: all good
 
 step_freq_lg10CD_SUBTLEXNL_props_Dutch2_AIC = stepAIC(fit_freq_lg10CD_SUBTLEXNL_props_Dutch2, 
 direction="both")
 step_freq_lg10CD_SUBTLEXNL__props_Dutch2F = stepAIC(fit_freq_lg10CD_SUBTLEXNL_props_Dutch2, 
 direction="both", test="F")
-summary(fit_freq_lg10CD_SUBTLEXNL_props_Dutch2)
+#summary(fit_freq_lg10CD_SUBTLEXNL_props_Dutch2)
 
 # Save results
 
@@ -1720,34 +1763,34 @@ results_total = rbind(results_total, results)
 # freq: CELEX log-10 lemma WF
 fit_freq_CELEX_lem_props_Dutch2 = lm(props_Dutch2$s_freq_CELEX_lem ~ props_Dutch2$s_Auditory + 
 props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
-stat.desc(fit_freq_CELEX_lem_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_freq_CELEX_lem_props_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skew and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(props_Dutch2$s_freq_CELEX_lem)
+#psych::describe(props_Dutch2$s_freq_CELEX_lem)
 props_Dutch2$log_s_freq_CELEX_lem <- log(3 + props_Dutch2$s_freq_CELEX_lem)
 
 fit_freq_CELEX_lem_props_Dutch2 = lm(props_Dutch2$log_s_freq_CELEX_lem ~ props_Dutch2$s_Auditory + 
 props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
 
 # check residuals again
-stat.desc(fit_freq_CELEX_lem_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_freq_CELEX_lem_props_Dutch2$residuals, norm = TRUE)
 # same; go back
 fit_freq_CELEX_lem_props_Dutch2 = lm(props_Dutch2$s_freq_CELEX_lem ~ props_Dutch2$s_Auditory + 
 props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_freq_CELEX_lem_props_Dutch2)
-mean(vif(fit_freq_CELEX_lem_props_Dutch2))
-1/vif(fit_freq_CELEX_lem_props_Dutch2)
+#vif(fit_freq_CELEX_lem_props_Dutch2)
+#mean(vif(fit_freq_CELEX_lem_props_Dutch2))
+#1/vif(fit_freq_CELEX_lem_props_Dutch2)
 # RESULTS: all good
 
 step_freq_CELEX_lem_props_Dutch2_AIC = stepAIC(fit_freq_CELEX_lem_props_Dutch2, direction="both")
 step_freq_CELEX_lem_props_Dutch2_F = stepAIC(fit_freq_CELEX_lem_props_Dutch2, direction="both", 
 test="F")
-summary(fit_freq_CELEX_lem_props_Dutch2)
+#summary(fit_freq_CELEX_lem_props_Dutch2)
 
 # Save results
 
@@ -1783,33 +1826,33 @@ results_total = rbind(results_total, results)
 # distinctiveness: phon neigh size
 fit_phon_neighbours_DUTCHPOND_props_Dutch2 = lm(props_Dutch2$s_phon_neighbours_DUTCHPOND ~ 
 props_Dutch2$s_Auditory + props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
-stat.desc(fit_phon_neighbours_DUTCHPOND_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_phon_neighbours_DUTCHPOND_props_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(props_Dutch2$s_phon_neighbours_DUTCHPOND)
+#psych::describe(props_Dutch2$s_phon_neighbours_DUTCHPOND)
 props_Dutch2$log_s_phon_neighbours_DUTCHPOND <- log(2 + props_Dutch2$s_phon_neighbours_DUTCHPOND)
 
 fit_phon_neighbours_DUTCHPOND_props_Dutch2 = lm(props_Dutch2$log_s_phon_neighbours_DUTCHPOND ~ 
 props_Dutch2$s_Auditory + props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
 
 # check residuals again
-stat.desc(fit_phon_neighbours_DUTCHPOND_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_phon_neighbours_DUTCHPOND_props_Dutch2$residuals, norm = TRUE)
 # quite better
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_phon_neighbours_DUTCHPOND_props_Dutch2)
-mean(vif(fit_phon_neighbours_DUTCHPOND_props_Dutch2))
-1/vif(fit_phon_neighbours_DUTCHPOND_props_Dutch2)
+#vif(fit_phon_neighbours_DUTCHPOND_props_Dutch2)
+#mean(vif(fit_phon_neighbours_DUTCHPOND_props_Dutch2))
+#1/vif(fit_phon_neighbours_DUTCHPOND_props_Dutch2)
 # RESULTS: all good
 
 step_phon_neighbours_DUTCHPOND_props_Dutch2_AIC <- 
 stepAIC(fit_phon_neighbours_DUTCHPOND_props_Dutch2, direction="both")
 step_phon_neighbours_DUTCHPOND_props_Dutch2_F <-
  stepAIC(fit_phon_neighbours_DUTCHPOND_props_Dutch2, direction="both", test="F")
-summary(fit_phon_neighbours_DUTCHPOND_props_Dutch2)
+#summary(fit_phon_neighbours_DUTCHPOND_props_Dutch2)
 
 # Save results
 
@@ -1844,26 +1887,26 @@ results_total = rbind(results_total, results)
 # distinctiveness: orth neigh size
 fit_orth_neighbours_DUTCHPOND_props_Dutch2 = lm(props_Dutch2$s_orth_neighbours_DUTCHPOND ~ 
 props_Dutch2$s_Auditory + props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
-stat.desc(fit_orth_neighbours_DUTCHPOND_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_orth_neighbours_DUTCHPOND_props_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(props_Dutch2$s_orth_neighbours_DUTCHPOND)
+#psych::describe(props_Dutch2$s_orth_neighbours_DUTCHPOND)
 props_Dutch2$log_s_orth_neighbours_DUTCHPOND <- log(2 + props_Dutch2$s_orth_neighbours_DUTCHPOND)
 
 fit_orth_neighbours_DUTCHPOND_props_Dutch2 = lm(props_Dutch2$log_s_orth_neighbours_DUTCHPOND ~ 
 props_Dutch2$s_Auditory + props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
 
 # check residuals again
-stat.desc(fit_orth_neighbours_DUTCHPOND_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_orth_neighbours_DUTCHPOND_props_Dutch2$residuals, norm = TRUE)
 # quite better
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_orth_neighbours_DUTCHPOND_props_Dutch2)
-mean(vif(fit_orth_neighbours_DUTCHPOND_props_Dutch2))
-1/vif(fit_orth_neighbours_DUTCHPOND_props_Dutch2)
+#vif(fit_orth_neighbours_DUTCHPOND_props_Dutch2)
+#mean(vif(fit_orth_neighbours_DUTCHPOND_props_Dutch2))
+#1/vif(fit_orth_neighbours_DUTCHPOND_props_Dutch2)
 # RESULTS: all good
 
 step_orth_neighbours_DUTCHPOND_props_Dutch2_AIC <- 
@@ -1872,7 +1915,7 @@ stepAIC(fit_orth_neighbours_DUTCHPOND_props_Dutch2, direction="both")
 step_orth_neighbours_DUTCHPOND_props_Dutch2_F <- 
 stepAIC(fit_orth_neighbours_DUTCHPOND_props_Dutch2, direction="both", test="F")
 
-summary(fit_orth_neighbours_DUTCHPOND_props_Dutch2)
+#summary(fit_orth_neighbours_DUTCHPOND_props_Dutch2)
 
 # Save results
 
@@ -1908,32 +1951,32 @@ results_total = rbind(results_total, results)
 # length: Rotated Principal Component 1 for the lexical variables
 fit_RC1_lexicals_props_Dutch2 = lm(props_Dutch2$s_RC1_lexicals ~ props_Dutch2$s_Auditory + props_Dutch2$s_Haptic 
 + props_Dutch2$s_Visual, data = props_Dutch2)
-stat.desc(fit_RC1_lexicals_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_RC1_lexicals_props_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skewed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(props_Dutch2$s_RC1_lexicals)
+#psych::describe(props_Dutch2$s_RC1_lexicals)
 props_Dutch2$log_s_RC1_lexicals_props_Dutch2 <- log(4 + props_Dutch2$s_RC1_lexicals)
 
 fit_RC1_lexicals_props_Dutch2 = lm(props_Dutch2$log_s_RC1_lexicals ~ props_Dutch2$s_Auditory + 
 props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
 
 # check residuals again
-stat.desc(fit_RC1_lexicals_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_RC1_lexicals_props_Dutch2$residuals, norm = TRUE)
 # good!
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_RC1_lexicals_props_Dutch2)
-mean(vif(fit_RC1_lexicals_props_Dutch2))
-1/vif(fit_RC1_lexicals_props_Dutch2)
+#vif(fit_RC1_lexicals_props_Dutch2)
+#mean(vif(fit_RC1_lexicals_props_Dutch2))
+#1/vif(fit_RC1_lexicals_props_Dutch2)
 # RESULTS: all good
 
 step_RC1_lexicals_props_Dutch2_AIC = stepAIC(fit_RC1_lexicals_props_Dutch2, direction="both")
 step_RC1_lexicals_props_Dutch2_F = stepAIC(fit_RC1_lexicals_props_Dutch2, direction="both", 
 test="F")
-summary(fit_RC1_lexicals_props_Dutch2)
+#summary(fit_RC1_lexicals_props_Dutch2)
 
 # Save results
 
@@ -1970,34 +2013,34 @@ results_total = rbind(results_total, results)
 # freq: Rotated Principal Component 2 for the lexical variables
 fit_RC2_lexicals_props_Dutch2 = lm(props_Dutch2$s_RC2_lexicals ~ props_Dutch2$s_Auditory + props_Dutch2$s_Haptic
  + props_Dutch2$s_Visual, data = props_Dutch2)
-stat.desc(fit_RC2_lexicals_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_RC2_lexicals_props_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: kurtosed. Raw scores/2.SE < 1
 # have to log-transform DV and re-run regression
 
-psych::describe(props_Dutch2$s_RC2_lexicals)
+#psych::describe(props_Dutch2$s_RC2_lexicals)
 props_Dutch2$log_s_RC2_lexicals <- log(3 + props_Dutch2$s_RC2_lexicals)
 
 fit_RC2_lexicals_props_Dutch2 = lm(props_Dutch2$log_s_RC2_lexicals ~ props_Dutch2$s_Auditory + 
 props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
 
 # check residuals again
-stat.desc(fit_RC2_lexicals_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_RC2_lexicals_props_Dutch2$residuals, norm = TRUE)
 # worse; back
 fit_RC2_lexicals_props_Dutch2 = lm(props_Dutch2$s_RC2_lexicals ~ props_Dutch2$s_Auditory + props_Dutch2$s_Haptic
  + props_Dutch2$s_Visual, data = props_Dutch2)
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_RC2_lexicals_props_Dutch2)
-mean(vif(fit_RC2_lexicals_props_Dutch2))
-1/vif(fit_RC2_lexicals_props_Dutch2)
+#vif(fit_RC2_lexicals_props_Dutch2)
+#mean(vif(fit_RC2_lexicals_props_Dutch2))
+#1/vif(fit_RC2_lexicals_props_Dutch2)
 # RESULTS: all good
 
 step_RC2_lexicals_props_Dutch2_AIC = stepAIC(fit_RC2_lexicals_props_Dutch2, direction="both")
 step_RC2_lexicals_props_Dutch2_F = stepAIC(fit_RC2_lexicals_props_Dutch2, direction="both", 
 test="F")
-summary(fit_RC2_lexicals_props_Dutch2)
+#summary(fit_RC2_lexicals_props_Dutch2)
 
 # Save results
 
@@ -2034,32 +2077,32 @@ results_total = rbind(results_total, results)
 # distinctiveness: Rotated Principal Component 3 for the lexical variables
 fit_RC3_lexicals_props_Dutch2 = lm(props_Dutch2$s_RC3_lexicals ~ props_Dutch2$s_Auditory + 
 props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
-stat.desc(fit_RC3_lexicals_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_RC3_lexicals_props_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(props_Dutch2$s_RC3_lexicals)
+#psych::describe(props_Dutch2$s_RC3_lexicals)
 props_Dutch2$log_s_RC3_lexicals <- log(3 + props_Dutch2$s_RC3_lexicals)
 
 fit_RC3_lexicals_props_Dutch2 = lm(props_Dutch2$log_s_RC3_lexicals ~ props_Dutch2$s_Auditory + 
 props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
 
 # check residuals again
-stat.desc(fit_RC3_lexicals_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_RC3_lexicals_props_Dutch2$residuals, norm = TRUE)
 # quite better
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_RC3_lexicals_props_Dutch2)
-mean(vif(fit_RC3_lexicals_props_Dutch2))
-1/vif(fit_RC3_lexicals_props_Dutch2)
+#vif(fit_RC3_lexicals_props_Dutch2)
+#mean(vif(fit_RC3_lexicals_props_Dutch2))
+#1/vif(fit_RC3_lexicals_props_Dutch2)
 # RESULTS: all good
 
 step_RC3_lexicals_props_Dutch2_AIC = stepAIC(fit_RC3_lexicals_props_Dutch2, direction="both")
 step_RC3_lexicals_props_Dutch2_F = stepAIC(fit_RC3_lexicals_props_Dutch2, direction="both", 
 test="F")
-summary(fit_RC3_lexicals_props_Dutch2)
+#summary(fit_RC3_lexicals_props_Dutch2)
 
 # Save results
 
@@ -2101,16 +2144,16 @@ stat.desc(fit_AoA_Brysbaertetal2014_props_Dutch2$residuals, norm = TRUE)
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_AoA_Brysbaertetal2014_props_Dutch2)
-mean(vif(fit_AoA_Brysbaertetal2014_props_Dutch2))
-1/vif(fit_AoA_Brysbaertetal2014_props_Dutch2)
+#vif(fit_AoA_Brysbaertetal2014_props_Dutch2)
+#mean(vif(fit_AoA_Brysbaertetal2014_props_Dutch2))
+#1/vif(fit_AoA_Brysbaertetal2014_props_Dutch2)
 # RESULTS: all good
 
 step_AoA_Brysbaertetal2014_props_Dutch2_AIC = stepAIC(fit_AoA_Brysbaertetal2014_props_Dutch2,
 direction="both")
 step_AoA_Brysbaertetal2014_props_Dutch2_F = stepAIC(fit_AoA_Brysbaertetal2014_props_Dutch2, 
 direction="both", test="F")
-summary(fit_AoA_Brysbaertetal2014_props_Dutch2)
+#summary(fit_AoA_Brysbaertetal2014_props_Dutch2)
 
 # Save results
 
@@ -2146,35 +2189,35 @@ results_total = rbind(results_total, results)
 # additional var: concreteness
 fit_concrete_Brysbaertetal2014_props_Dutch2 = lm(props_Dutch2$s_concrete_Brysbaertetal2014 ~ 
 props_Dutch2$s_Auditory + props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
-stat.desc(fit_concrete_Brysbaertetal2014_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_concrete_Brysbaertetal2014_props_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skew. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(props_Dutch2$s_concrete_Brysbaertetal2014)
+#psych::describe(props_Dutch2$s_concrete_Brysbaertetal2014)
 props_Dutch2$log_s_concrete_Brysbaertetal2014 <- log(4 + props_Dutch2$s_concrete_Brysbaertetal2014)
 
 fit_concrete_Brysbaertetal2014_props_Dutch2 = lm(props_Dutch2$log_s_concrete_Brysbaertetal2014 ~ 
 props_Dutch2$s_Auditory + props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
 
 # check residuals again
-stat.desc(fit_concrete_Brysbaertetal2014_props_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_concrete_Brysbaertetal2014_props_Dutch2$residuals, norm = TRUE)
 # worse; back
 fit_concrete_Brysbaertetal2014_props_Dutch2 = lm(props_Dutch2$s_concrete_Brysbaertetal2014 ~ 
 props_Dutch2$s_Auditory + props_Dutch2$s_Haptic + props_Dutch2$s_Visual, data = props_Dutch2)
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_concrete_Brysbaertetal2014_props_Dutch2)
-mean(vif(fit_concrete_Brysbaertetal2014_props_Dutch2))
-1/vif(fit_concrete_Brysbaertetal2014_props_Dutch2)
+#vif(fit_concrete_Brysbaertetal2014_props_Dutch2)
+#mean(vif(fit_concrete_Brysbaertetal2014_props_Dutch2))
+#1/vif(fit_concrete_Brysbaertetal2014_props_Dutch2)
 # RESULTS: all good
 
 step_concrete_Brysbaertetal2014_props_Dutch2_AIC <-
 stepAIC(fit_concrete_Brysbaertetal2014_props_Dutch2, direction="both")
 step_concrete_Brysbaertetal2014_props_Dutch2_F <-
 stepAIC(fit_concrete_Brysbaertetal2014_props_Dutch2, direction="both", test="F")
-summary(fit_concrete_Brysbaertetal2014_props_Dutch2)
+#summary(fit_concrete_Brysbaertetal2014_props_Dutch2)
 
 # Save results
 
@@ -2224,37 +2267,29 @@ results_total = rbind(results_total, results)
 # Iconicity within concepts alone, as in Lynott and Connell (2013)
 
 concs_Dutch2 <- all[all$cat == 'conc' & c(all$normed == 'Dutch' | all$normed == 'Dut_Eng'),]
-nrow(concs_Dutch2)
+#nrow(concs_Dutch2)
 
 # There aren't lexical data for every single word.
 # Percentage of concepts per lexical variable (from items w/ Dutch norms)
-describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]
-$phonemes_DUTCHPOND))
-describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]
-$phon_neighbours_DUTCHPOND))
-describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]
-$orth_neighbours_DUTCHPOND))
-describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]
-$freq_lg10CD_SUBTLEXNL))
-describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]
-$freq_lg10WF_SUBTLEXNL))
-describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]
-$freq_CELEX_lem))
-describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]
-$AoA_Brysbaertetal2014))
-describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]
-$concrete_Brysbaertetal2014))
+#describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]$phonemes_DUTCHPOND))
+#describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]$phon_neighbours_DUTCHPOND))
+#describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]$orth_neighbours_DUTCHPOND))
+#describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]$freq_lg10CD_SUBTLEXNL))
+#describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]$freq_lg10WF_SUBTLEXNL))
+#describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]$freq_CELEX_lem))
+#describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]$AoA_Brysbaertetal2014))
+#describe(complete.cases(concs_Dutch2[complete.cases(concs_Dutch2$Exclusivity),]$concrete_Brysbaertetal2014))
 
 # M, SD
-stat.desc(concs_Dutch2$letters)
-stat.desc(concs_Dutch2$phonemes_DUTCHPOND)
-stat.desc(concs_Dutch2$phon_neighbours_DUTCHPOND)
-stat.desc(concs_Dutch2$orth_neighbours_DUTCHPOND)
-stat.desc(concs_Dutch2$freq_lg10CD_SUBTLEXNL)
-stat.desc(concs_Dutch2$freq_lg10WF_SUBTLEXNL)
-stat.desc(concs_Dutch2$freq_CELEX_lem)
-stat.desc(concs_Dutch2$AoA_Brysbaertetal2014)
-stat.desc(concs_Dutch2$concrete_Brysbaertetal2014)
+#stat.desc(concs_Dutch2$letters)
+#stat.desc(concs_Dutch2$phonemes_DUTCHPOND)
+#stat.desc(concs_Dutch2$phon_neighbours_DUTCHPOND)
+#stat.desc(concs_Dutch2$orth_neighbours_DUTCHPOND)
+#stat.desc(concs_Dutch2$freq_lg10CD_SUBTLEXNL)
+#stat.desc(concs_Dutch2$freq_lg10WF_SUBTLEXNL)
+#stat.desc(concs_Dutch2$freq_CELEX_lem)
+#stat.desc(concs_Dutch2$AoA_Brysbaertetal2014)
+#stat.desc(concs_Dutch2$concrete_Brysbaertetal2014)
 
 
 # See correlation of all lexical variables:
@@ -2264,7 +2299,7 @@ mat_lexicals_concs_Dutch2 <- as.matrix(concs_Dutch2[c('letters', 'phonemes_DUTCH
 'freq_lg10WF_SUBTLEXNL', 'freq_CELEX_lem', 'AoA_Brysbaertetal2014',
 'concrete_Brysbaertetal2014')])
 
-rcor.test(mat_lexicals_concs_Dutch2, use='complete.obs')
+#rcor.test(mat_lexicals_concs_Dutch2, use='complete.obs')
 corrs_concs_Dutch2 = rcor.test(mat_lexicals_concs_Dutch2, use='complete.obs')
 #write.csv(corrs_concs_Dutch2$cor.mat, file = "corrs_concs_Dutch2.csv",na="") # find table in folder
 
@@ -2277,56 +2312,56 @@ lexicals_concs_Dutch2 <- concs_Dutch2[c('letters', 'phonemes_DUTCHPOND', 'orth_n
 'phon_neighbours_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL', 'freq_lg10WF_SUBTLEXNL',
 'freq_CELEX_lem')]
 
-nrow(lexicals_concs_Dutch2)
+#nrow(lexicals_concs_Dutch2)
 
 # start with PCA for lexical variables, done as in Lynott and Connell (2013)
 # Check conditions for a PCA
 # Correlations
 
-cor(lexicals_concs_Dutch2, use = 'complete.obs')
+#cor(lexicals_concs_Dutch2, use = 'complete.obs')
 
 # Result: all variables fit for PCA, as they have few scores below .3
 # The correlations broadly replicate Lynott and Connell.
 
 # now on the raw vars:
-cortest.bartlett(lexicals_concs_Dutch2)
+#cortest.bartlett(lexicals_concs_Dutch2)
 # GOOD: Bartlett's test significant
 
 # KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
 lexicals_concs_Dutch2_matrix <- cor(lexicals_concs_Dutch2, use = 'complete.obs')
-KMO(lexicals_concs_Dutch2_matrix)
+#KMO(lexicals_concs_Dutch2_matrix)
 # Result: .71 = good.
 
 # determinant
-det(lexicals_concs_Dutch2_matrix)
+#det(lexicals_concs_Dutch2_matrix)
 # GOOD: above 0.00001
 
 # start off with unrotated PCA
 
 PCA_lexicals_concs_Dutch2 <- psych::principal(lexicals_concs_Dutch2, nfactors = 7, scores = TRUE)
-PCA_lexicals_concs_Dutch2
+#PCA_lexicals_concs_Dutch2
 # by Kaiser's and Joliffe's standard, extract 3 RCs
 
 # scree analysis
-plot(PCA_lexicals_concs_Dutch2$values, type = "b")
+#plot(PCA_lexicals_concs_Dutch2$values, type = "b")
 # result: again, extract 3 components
 
 PCA_lexicals_concs_Dutch2 <- psych::principal(lexicals_concs_Dutch2, nfactors = 3, rotate = 
 "varimax", scores = TRUE)
 
 PCA_lexicals_concs_Dutch2 #-> check explained variance along components
-PCA_lexicals_concs_Dutch2$loadings
+#PCA_lexicals_concs_Dutch2$loadings
 
 # The PCA replicates Lynott and Connell. Standdized correlation coefficients
 # between each PC and its corresponding set of variables are all above .89,
 # while the rest of coefficients are all below .33. 
 
-PCA_lexicals_concs_Dutch2
+#PCA_lexicals_concs_Dutch2
 # RC1 = length // RC2 = frequency // RC3 = distinctiveness
 
-PCA_lexicals_concs_Dutch2$residual
-PCA_lexicals_concs_Dutch2$fit
-PCA_lexicals_concs_Dutch2$communality
+#PCA_lexicals_concs_Dutch2$residual
+#PCA_lexicals_concs_Dutch2$fit
+#PCA_lexicals_concs_Dutch2$communality
 
 # Results based on a Kaiser-normalizalized orthogonal (varimax) rotation
 # (by default in psych::stats pack). Residuals good: less than half w/ absolute 
@@ -2359,31 +2394,31 @@ concs_Dutch2$s_RC3_lexicals <- scale(concs_Dutch2$RC3)
 # length: letters
 fit_letters_concs_Dutch2 = lm(concs_Dutch2$s_letters ~ concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic + 
 concs_Dutch2$s_Visual, data = concs_Dutch2)
-stat.desc(fit_letters_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_letters_concs_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skew. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(concs_Dutch2$s_letters)
+#psych::describe(concs_Dutch2$s_letters)
 concs_Dutch2$log_s_letters <- log(3 + concs_Dutch2$s_letters)
 
 fit_letters_concs_Dutch2 = lm(concs_Dutch2$log_s_letters ~ concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic + 
 concs_Dutch2$s_Visual, data = concs_Dutch2)
 
 # check residuals again
-stat.desc(fit_letters_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_letters_concs_Dutch2$residuals, norm = TRUE)
 # better though still skew/kurtose
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), 
 # and tolerance (pref. > 0.2)
-vif(fit_letters_concs_Dutch2)
-mean(vif(fit_letters_concs_Dutch2))
-1/vif(fit_letters_concs_Dutch2)
+#vif(fit_letters_concs_Dutch2)
+#mean(vif(fit_letters_concs_Dutch2))
+#1/vif(fit_letters_concs_Dutch2)
 # RESULTS: all good
 
 step_letters_concs_Dutch2_AIC = stepAIC(fit_letters_concs_Dutch2, direction="both")
 step_letters_concs_Dutch2_F = stepAIC(fit_letters_concs_Dutch2, direction="both", test="F")
-summary(fit_letters_concs_Dutch2)
+#summary(fit_letters_concs_Dutch2)
 
 # Save results
 
@@ -2419,33 +2454,33 @@ results_total = rbind(results_total, results)
 # length: phonemes_DUTCHPOND
 fit_phonemes_DUTCHPOND_concs_Dutch2 = lm(concs_Dutch2$s_phonemes_DUTCHPOND ~ concs_Dutch2$s_Auditory + 
 concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual, data = concs_Dutch2)
-stat.desc(fit_phonemes_DUTCHPOND_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_phonemes_DUTCHPOND_concs_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skew and kurtose. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(concs_Dutch2$s_phonemes_DUTCHPOND)
+#psych::describe(concs_Dutch2$s_phonemes_DUTCHPOND)
 concs_Dutch2$log_s_phonemes_DUTCHPOND <- log(3 + concs_Dutch2$s_phonemes_DUTCHPOND)
 
 fit_phonemes_DUTCHPOND_concs_Dutch2 = lm(concs_Dutch2$log_s_phonemes_DUTCHPOND ~ concs_Dutch2$s_Auditory
  + concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual, data = concs_Dutch2)
 
 # check residuals again
-stat.desc(fit_phonemes_DUTCHPOND_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_phonemes_DUTCHPOND_concs_Dutch2$residuals, norm = TRUE)
 # good
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_phonemes_DUTCHPOND_concs_Dutch2)
-mean(vif(fit_phonemes_DUTCHPOND_concs_Dutch2))
-1/vif(fit_phonemes_DUTCHPOND_concs_Dutch2)
+#vif(fit_phonemes_DUTCHPOND_concs_Dutch2)
+#mean(vif(fit_phonemes_DUTCHPOND_concs_Dutch2))
+#1/vif(fit_phonemes_DUTCHPOND_concs_Dutch2)
 # RESULTS: all good
 
 step_phonemes_DUTCHPOND_concs_Dutch2_AIC = stepAIC(fit_phonemes_DUTCHPOND_concs_Dutch2, 
 direction="both")
 step_phonemes_DUTCHPOND_concs_Dutch2_F = stepAIC(fit_phonemes_DUTCHPOND_concs_Dutch2, 
 direction="both", test="F")
-summary(fit_phonemes_DUTCHPOND_concs_Dutch2)
+#summary(fit_phonemes_DUTCHPOND_concs_Dutch2)
 
 # Save results
 
@@ -2483,21 +2518,21 @@ results_total = rbind(results_total, results)
 fit_freq_lg10WF_SUBTLEXNL_concs_Dutch2 <- 
 lm(concs_Dutch2$s_freq_lg10WF_SUBTLEXNL ~ concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual,
  data = concs_Dutch2)
-stat.desc(fit_freq_lg10WF_SUBTLEXNL_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_freq_lg10WF_SUBTLEXNL_concs_Dutch2$residuals, norm = TRUE)
 # residuals distribution: good. Raw scores/2.SE < 1
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_freq_lg10WF_SUBTLEXNL_concs_Dutch2)
-mean(vif(fit_freq_lg10WF_SUBTLEXNL_concs_Dutch2))
-1/vif(fit_freq_lg10WF_SUBTLEXNL_concs_Dutch2)
+#vif(fit_freq_lg10WF_SUBTLEXNL_concs_Dutch2)
+#mean(vif(fit_freq_lg10WF_SUBTLEXNL_concs_Dutch2))
+#1/vif(fit_freq_lg10WF_SUBTLEXNL_concs_Dutch2)
 # RESULTS: all good
 
 step_freq_lg10WF_SUBTLEXNL_concs_Dutch2_AIC = stepAIC(fit_freq_lg10WF_SUBTLEXNL_concs_Dutch2, 
 direction="both")
 step_freq_lg10WF_SUBTLEXNL_concs_Dutch2_F = stepAIC(fit_freq_lg10WF_SUBTLEXNL_concs_Dutch2, 
 direction="both", test="F")
-summary(fit_freq_lg10WF_SUBTLEXNL_concs_Dutch2)
+#summary(fit_freq_lg10WF_SUBTLEXNL_concs_Dutch2)
 
 # Save results
 
@@ -2534,35 +2569,35 @@ results_total = rbind(results_total, results)
 
 fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2 = lm(concs_Dutch2$s_freq_lg10CD_SUBTLEXNL ~ 
 concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual, data = concs_Dutch2)
-stat.desc(fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skew. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(concs_Dutch2$s_freq_lg10CD_SUBTLEXNL)
+#psych::describe(concs_Dutch2$s_freq_lg10CD_SUBTLEXNL)
 concs_Dutch2$log_s_freq_lg10CD_SUBTLEXNL <- log(5 + concs_Dutch2$s_freq_lg10CD_SUBTLEXNL)
 
 fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2 = lm(concs_Dutch2$log_s_freq_lg10CD_SUBTLEXNL ~ 
 concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual, data = concs_Dutch2)
 
 # check residuals again
-stat.desc(fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2$residuals, norm = TRUE)
 # worse! back 
 fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2 = lm(concs_Dutch2$s_freq_lg10CD_SUBTLEXNL ~ 
 concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual, data = concs_Dutch2)
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2)
-mean(vif(fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2))
-1/vif(fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2)
+#vif(fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2)
+#mean(vif(fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2))
+#1/vif(fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2)
 # RESULTS: all good
 
 step_freq_lg10CD_SUBTLEXNL_concs_Dutch2_AIC = stepAIC(fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2, 
 direction="both")
 step_freq_lg10CD_SUBTLEXNL__concs_Dutch2F = stepAIC(fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2, 
 direction="both", test="F")
-summary(fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2)
+#summary(fit_freq_lg10CD_SUBTLEXNL_concs_Dutch2)
 
 # Save results
 
@@ -2598,21 +2633,21 @@ results_total = rbind(results_total, results)
 # freq: CELEX log-10 lemma WF
 fit_freq_CELEX_lem_concs_Dutch2 = lm(concs_Dutch2$s_freq_CELEX_lem ~ concs_Dutch2$s_Auditory + 
 concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual, data = concs_Dutch2)
-stat.desc(fit_freq_CELEX_lem_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_freq_CELEX_lem_concs_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: good. Raw scores/2.SE < 1
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_freq_CELEX_lem_concs_Dutch2)
-mean(vif(fit_freq_CELEX_lem_concs_Dutch2))
-1/vif(fit_freq_CELEX_lem_concs_Dutch2)
+#vif(fit_freq_CELEX_lem_concs_Dutch2)
+#mean(vif(fit_freq_CELEX_lem_concs_Dutch2))
+#1/vif(fit_freq_CELEX_lem_concs_Dutch2)
 # RESULTS: all good
 
 step_freq_CELEX_lem_concs_Dutch2_AIC = stepAIC(fit_freq_CELEX_lem_concs_Dutch2, direction="both")
 step_freq_CELEX_lem_concs_Dutch2_F = stepAIC(fit_freq_CELEX_lem_concs_Dutch2, direction="both", 
 test="F")
-summary(fit_freq_CELEX_lem_concs_Dutch2)
+#summary(fit_freq_CELEX_lem_concs_Dutch2)
 
 # Save results
 
@@ -2648,33 +2683,33 @@ results_total = rbind(results_total, results)
 # distinctiveness: phon neigh size
 fit_phon_neighbours_DUTCHPOND_concs_Dutch2 = lm(concs_Dutch2$s_phon_neighbours_DUTCHPOND ~ 
 concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual, data = concs_Dutch2)
-stat.desc(fit_phon_neighbours_DUTCHPOND_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_phon_neighbours_DUTCHPOND_concs_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(concs_Dutch2$s_phon_neighbours_DUTCHPOND)
+#psych::describe(concs_Dutch2$s_phon_neighbours_DUTCHPOND)
 concs_Dutch2$log_s_phon_neighbours_DUTCHPOND <- log(2 + concs_Dutch2$s_phon_neighbours_DUTCHPOND)
 
 fit_phon_neighbours_DUTCHPOND_concs_Dutch2 = lm(concs_Dutch2$log_s_phon_neighbours_DUTCHPOND ~ 
 concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual, data = concs_Dutch2)
 
 # check residuals again
-stat.desc(fit_phon_neighbours_DUTCHPOND_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_phon_neighbours_DUTCHPOND_concs_Dutch2$residuals, norm = TRUE)
 # better but not perfect
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_phon_neighbours_DUTCHPOND_concs_Dutch2)
-mean(vif(fit_phon_neighbours_DUTCHPOND_concs_Dutch2))
-1/vif(fit_phon_neighbours_DUTCHPOND_concs_Dutch2)
+#vif(fit_phon_neighbours_DUTCHPOND_concs_Dutch2)
+#mean(vif(fit_phon_neighbours_DUTCHPOND_concs_Dutch2))
+#1/vif(fit_phon_neighbours_DUTCHPOND_concs_Dutch2)
 # RESULTS: all good
 
 step_phon_neighbours_DUTCHPOND_concs_Dutch2_AIC <- 
 stepAIC(fit_phon_neighbours_DUTCHPOND_concs_Dutch2, direction="both")
 step_phon_neighbours_DUTCHPOND_concs_Dutch2_F = stepAIC(fit_phon_neighbours_DUTCHPOND_concs_Dutch2, 
 direction="both", test="F")
-summary(fit_phon_neighbours_DUTCHPOND_concs_Dutch2)
+#summary(fit_phon_neighbours_DUTCHPOND_concs_Dutch2)
 
 # Save results
 
@@ -2710,7 +2745,7 @@ results_total = rbind(results_total, results)
 # distinctiveness: orth neigh size
 fit_orth_neighbours_DUTCHPOND_concs_Dutch2 = lm(concs_Dutch2$s_orth_neighbours_DUTCHPOND ~ 
 concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual, data = concs_Dutch2)
-stat.desc(fit_orth_neighbours_DUTCHPOND_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_orth_neighbours_DUTCHPOND_concs_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
@@ -2722,21 +2757,21 @@ fit_orth_neighbours_DUTCHPOND_concs_Dutch2 = lm(concs_Dutch2$log_s_orth_neighbou
 concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual, data = concs_Dutch2)
 
 # check residuals again
-stat.desc(fit_orth_neighbours_DUTCHPOND_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_orth_neighbours_DUTCHPOND_concs_Dutch2$residuals, norm = TRUE)
 # better though still skew/kurtose
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_orth_neighbours_DUTCHPOND_concs_Dutch2)
-mean(vif(fit_orth_neighbours_DUTCHPOND_concs_Dutch2))
-1/vif(fit_orth_neighbours_DUTCHPOND_concs_Dutch2)
+#vif(fit_orth_neighbours_DUTCHPOND_concs_Dutch2)
+#mean(vif(fit_orth_neighbours_DUTCHPOND_concs_Dutch2))
+#1/vif(fit_orth_neighbours_DUTCHPOND_concs_Dutch2)
 # RESULTS: all good
 
 step_orth_neighbours_DUTCHPOND_concs_Dutch2_AIC <- 
 stepAIC(fit_orth_neighbours_DUTCHPOND_concs_Dutch2, direction="both")
 step_orth_neighbours_DUTCHPOND_concs_Dutch2_F <- 
 stepAIC(fit_orth_neighbours_DUTCHPOND_concs_Dutch2, direction="both", test="F")
-summary(fit_orth_neighbours_DUTCHPOND_concs_Dutch2)
+#summary(fit_orth_neighbours_DUTCHPOND_concs_Dutch2)
 
 # Save results
 
@@ -2772,32 +2807,32 @@ results_total = rbind(results_total, results)
 # length: Rotated Principal Component 1 for the lexical variables
 fit_RC1_lexicals_concs_Dutch2 = lm(concs_Dutch2$s_RC1_lexicals ~ concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic 
 + concs_Dutch2$s_Visual, data = concs_Dutch2)
-stat.desc(fit_RC1_lexicals_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_RC1_lexicals_concs_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(concs_Dutch2$s_RC1_lexicals)
+#psych::describe(concs_Dutch2$s_RC1_lexicals)
 concs_Dutch2$log_s_RC1_lexicals_concs_Dutch2 <- log(3 + concs_Dutch2$s_RC1_lexicals)
 
 fit_RC1_lexicals_concs_Dutch2 = lm(concs_Dutch2$log_s_RC1_lexicals ~ concs_Dutch2$s_Auditory + 
 concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual, data = concs_Dutch2)
 
 # check residuals again
-stat.desc(fit_RC1_lexicals_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_RC1_lexicals_concs_Dutch2$residuals, norm = TRUE)
 # good
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_RC1_lexicals_concs_Dutch2)
-mean(vif(fit_RC1_lexicals_concs_Dutch2))
-1/vif(fit_RC1_lexicals_concs_Dutch2)
+#vif(fit_RC1_lexicals_concs_Dutch2)
+#mean(vif(fit_RC1_lexicals_concs_Dutch2))
+#1/vif(fit_RC1_lexicals_concs_Dutch2)
 # RESULTS: all good
 
 step_RC1_lexicals_concs_Dutch2_AIC = stepAIC(fit_RC1_lexicals_concs_Dutch2, direction="both")
 step_RC1_lexicals_concs_Dutch2_F = stepAIC(fit_RC1_lexicals_concs_Dutch2, direction="both", 
 test="F")
-summary(fit_RC1_lexicals_concs_Dutch2)
+#summary(fit_RC1_lexicals_concs_Dutch2)
 
 # Save results
 
@@ -2833,14 +2868,14 @@ results_total = rbind(results_total, results)
 # freq: Rotated Principal Component 2 for the lexical variables
 fit_RC2_lexicals_concs_Dutch2 = lm(concs_Dutch2$s_RC2_lexicals ~ concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic
  + concs_Dutch2$s_Visual, data = concs_Dutch2)
-stat.desc(fit_RC2_lexicals_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_RC2_lexicals_concs_Dutch2$residuals, norm = TRUE)
 # residuals distribution: good. Raw scores/2.SE < 1
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_RC2_lexicals_concs_Dutch2)
-mean(vif(fit_RC2_lexicals_concs_Dutch2))
-1/vif(fit_RC2_lexicals_concs_Dutch2)
+#vif(fit_RC2_lexicals_concs_Dutch2)
+#mean(vif(fit_RC2_lexicals_concs_Dutch2))
+#1/vif(fit_RC2_lexicals_concs_Dutch2)
 # RESULTS: all good
 
 step_RC2_lexicals_concs_Dutch2_AIC = stepAIC(fit_RC2_lexicals_concs_Dutch2, direction="both")
@@ -2882,32 +2917,32 @@ results_total = rbind(results_total, results)
 # distinctiveness: Rotated Principal Component 3 for the lexical variables
 fit_RC3_lexicals_concs_Dutch2 = lm(concs_Dutch2$s_RC3_lexicals ~ concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic 
 + concs_Dutch2$s_Visual, data = concs_Dutch2)
-stat.desc(fit_RC3_lexicals_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_RC3_lexicals_concs_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(concs_Dutch2$s_RC3_lexicals)
+#psych::describe(concs_Dutch2$s_RC3_lexicals)
 concs_Dutch2$log_s_RC3_lexicals <- log(3 + concs_Dutch2$s_RC3_lexicals)
 
 fit_RC3_lexicals_concs_Dutch2 = lm(concs_Dutch2$log_s_RC3_lexicals ~ concs_Dutch2$s_Auditory + 
 concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual, data = concs_Dutch2)
 
 # check residuals again
-stat.desc(fit_RC3_lexicals_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_RC3_lexicals_concs_Dutch2$residuals, norm = TRUE)
 # better though still non-normal
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_RC3_lexicals_concs_Dutch2)
-mean(vif(fit_RC3_lexicals_concs_Dutch2))
-1/vif(fit_RC3_lexicals_concs_Dutch2)
+#vif(fit_RC3_lexicals_concs_Dutch2)
+#mean(vif(fit_RC3_lexicals_concs_Dutch2))
+#1/vif(fit_RC3_lexicals_concs_Dutch2)
 # RESULTS: all good
 
 step_RC3_lexicals_concs_Dutch2_AIC = stepAIC(fit_RC3_lexicals_concs_Dutch2, direction="both")
 step_RC3_lexicals_concs_Dutch2_F = stepAIC(fit_RC3_lexicals_concs_Dutch2, direction="both", 
 test="F")
-summary(fit_RC3_lexicals_concs_Dutch2)
+#summary(fit_RC3_lexicals_concs_Dutch2)
 
 # Save results
 
@@ -2943,21 +2978,21 @@ results_total = rbind(results_total, results)
 # additional var: age of acquisition
 fit_AoA_Brysbaertetal2014_concs_Dutch2 = lm(concs_Dutch2$s_AoA_Brysbaertetal2014 ~ 
 concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual, data = concs_Dutch2)
-stat.desc(fit_AoA_Brysbaertetal2014_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_AoA_Brysbaertetal2014_concs_Dutch2$residuals, norm = TRUE)
 # residuals distribution: good. Raw scores/2.SE < 1
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_AoA_Brysbaertetal2014_concs_Dutch2)
-mean(vif(fit_AoA_Brysbaertetal2014_concs_Dutch2))
-1/vif(fit_AoA_Brysbaertetal2014_concs_Dutch2)
+#vif(fit_AoA_Brysbaertetal2014_concs_Dutch2)
+#mean(vif(fit_AoA_Brysbaertetal2014_concs_Dutch2))
+#1/vif(fit_AoA_Brysbaertetal2014_concs_Dutch2)
 # RESULTS: all good
 
 step_AoA_Brysbaertetal2014_concs_Dutch2_AIC = stepAIC(fit_AoA_Brysbaertetal2014_concs_Dutch2,
 direction="both")
 step_AoA_Brysbaertetal2014_concs_Dutch2_F = stepAIC(fit_AoA_Brysbaertetal2014_concs_Dutch2, 
 direction="both", test="F")
-summary(fit_AoA_Brysbaertetal2014_concs_Dutch2)
+#summary(fit_AoA_Brysbaertetal2014_concs_Dutch2)
 
 # Save results
 
@@ -2993,33 +3028,33 @@ results_total = rbind(results_total, results)
 # additional var: concreteness
 fit_concrete_Brysbaertetal2014_concs_Dutch2 = lm(concs_Dutch2$s_concrete_Brysbaertetal2014 ~ 
 concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual, data = concs_Dutch2)
-stat.desc(fit_concrete_Brysbaertetal2014_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_concrete_Brysbaertetal2014_concs_Dutch2$residuals, norm = TRUE)
 
 # residuals distribution: skew. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
-psych::describe(concs_Dutch2$s_concrete_Brysbaertetal2014)
+#psych::describe(concs_Dutch2$s_concrete_Brysbaertetal2014)
 concs_Dutch2$log_s_concrete_Brysbaertetal2014 <- log(3 + concs_Dutch2$s_concrete_Brysbaertetal2014)
 
 fit_concrete_Brysbaertetal2014_concs_Dutch2 = lm(concs_Dutch2$log_s_concrete_Brysbaertetal2014 ~ 
 concs_Dutch2$s_Auditory + concs_Dutch2$s_Haptic + concs_Dutch2$s_Visual, data = concs_Dutch2)
 
 # check residuals again
-stat.desc(fit_concrete_Brysbaertetal2014_concs_Dutch2$residuals, norm = TRUE)
+#stat.desc(fit_concrete_Brysbaertetal2014_concs_Dutch2$residuals, norm = TRUE)
 # good
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
-vif(fit_concrete_Brysbaertetal2014_concs_Dutch2)
-mean(vif(fit_concrete_Brysbaertetal2014_concs_Dutch2))
-1/vif(fit_concrete_Brysbaertetal2014_concs_Dutch2)
+#vif(fit_concrete_Brysbaertetal2014_concs_Dutch2)
+#mean(vif(fit_concrete_Brysbaertetal2014_concs_Dutch2))
+#1/vif(fit_concrete_Brysbaertetal2014_concs_Dutch2)
 # RESULTS: all good
 
 step_concrete_Brysbaertetal2014_concs_Dutch2_AIC <- 
 stepAIC(fit_concrete_Brysbaertetal2014_concs_Dutch2, direction="both")
 step_concrete_Brysbaertetal2014_concs_Dutch2_F <- 
 stepAIC(fit_concrete_Brysbaertetal2014_concs_Dutch2, direction="both", test="F")
-summary(fit_concrete_Brysbaertetal2014_concs_Dutch2)
+#summary(fit_concrete_Brysbaertetal2014_concs_Dutch2)
 
 # Save results
 
@@ -3384,7 +3419,7 @@ Column {style="height:1100px; background-color:#FCFCFC;"}
 --------------------------------------------------------
 
 <!-- Link to source code on OSF.io -->
-<div style = "text-align: center; padding-top: 10px; padding-bottom: 6px;"> <button style = "text-align: center; background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size:18px"> <a href = "https://osf.io/bx2d7/"> <i class="fab fa-r-project" aria-hidden="true" style='font-size:22px; color:#3C3C3C'></i> &#8201; Code for analyses and dashboard <span style = "font-size: 10px">(CC-BY licensed)</span> </a> </i> </button> </div>
+<div style = "text-align: center; padding-top: 15px; padding-bottom: 10px;"> <button style = 'background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size: 18px; font-weight: bold; font-family: "Courier New", Courier, monospace;'> <a href="https://osf.io/bx2d7/" style="border-bottom:none !important"> <i class="fab fa-r-project" aria-hidden="true" style='padding-top:4px; font-size:20px; color:#5A647B;'></i> Code for analyses and dashboard <span style = "font-size: 10px">(CC-BY licensed)</span> </a> </i> </button> </div>
 
 <div style = "padding-left: 30px; padding-right: 38px; text-align: justify; background-color:#FCFCFC;">
 
@@ -3401,7 +3436,7 @@ The present analyses and further ones will be reported in a forthcoming paper. A
 > <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 14.1px; background-color: #FCFCFC;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). [Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs.](https://mindmodeling.org/cogsci2017/papers/0318/index.html) In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society. </div>
 
 
-#### Corpus measures used
+#### External corpora
 
 * Concreteness and age of acquisition: Brysbaert, Warriner, and Kuperman's (2014) norms.
 
@@ -3418,7 +3453,7 @@ The present analyses and further ones will be reported in a forthcoming paper. A
 
 Baayen, R. H., Piepenbrock, R., & van Rijn, H. (1993). *The CELEX Lexical Database* [CD-ROM]. Philadelphia: Linguistic Data Consortium, University of Pennsylvania.
 
-Brysbaert, M., Warriner, A.B., & Kuperman, V. (2014). Concreteness ratings for 40 thousand generally known English word lemmas. *Behavior Research Methods, 46*, 3, 904-911.
+Brysbaert, M., Warriner, A.B., & Kuperman, V. (2014). Concreteness ratings for 40 thousand generally known English word lemmas. *Behavior Research Methods, 46*, 3, 904-911. https://doi.org/10.3758/s13428-013-0403-5
 
 Field, A. P., Miles, J., & Field, Z. (2012). *Discovering Statistics Using R*. London, UK: Sage.
 
