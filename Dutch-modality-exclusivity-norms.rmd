@@ -56,7 +56,6 @@ library(stringr)
 library(tibble)
 library(tidyr)
 
-panderOptions('digits', 2)
 panderOptions('keep.trailing.zeros', TRUE)
 
 ```
@@ -446,7 +445,7 @@ output$properties_csv_link = renderUI({
 # Add download handling
 output$properties_csv = downloadHandler(
   filename = function() {
-    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.time(), '.csv') },
+    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.csv') },
   content = function(file) {
 	# Leave Dutch data inside and remove English data, which aren't used in the tabs that have CSV download
 	drops = c('word_eng','main_eng','perceptualstrength_eng','exc_eng','Aud_eng','Hap_eng','Vis_eng','lett_eng')
@@ -470,7 +469,7 @@ output$properties_png_link = renderUI({
 # Add download handling
 output$properties_png = downloadHandler(
   filename = function() {
-    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.time(), '.png') },
+    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.png') },
 	content <- function(file){
 			png(file, units='in', width=13, height=11, res=900)
 			print(properties_png())
@@ -566,7 +565,7 @@ sliderInput("properties_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 
 
 #### **Definitions**
 
-**PCA**: Classical technique to reduce dimensionality of data while retaining the major patterns ([more](https://www.nature.com/articles/nmeth.4346)).
+**PCA**: Method for reducing dimensionality of data while retaining the major patterns ([more](https://www.nature.com/articles/nmeth.4346)).
 
 <span data-toggle="tooltip" data-placement="bottom" title="Defined as in Lynott and Connell (2009, 2013)." style="border-bottom: 0.9px dotted grey"> <b> Dominant modality: </b></span> Highest-rated modality.
 
@@ -589,7 +588,7 @@ sliderInput("properties_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 
 
 
 
-Column {style="height:800px"}
+Column {style="height:1000px"}
 -----------------------------------------------------------------------
 
 ### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2009, 2013)](#cf-lc-english-norms). 
@@ -666,7 +665,7 @@ renderPlotly({
          panel.grid.minor = element_blank(), panel.border = element_blank(),
          axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
          axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
-         axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,15)),
+         axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,5)),
          axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
          legend.background = element_rect(size = 2), legend.position = 'none',
 	   legend.title = element_blank(),
@@ -688,12 +687,12 @@ properties_png = reactive({ ggplot(selected_props(), aes(RC1, RC2, color = main,
   labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
          panel.grid.minor = element_blank(), panel.border = element_blank(),
-         axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
-         axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
-         axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,15)),
+         axis.line = element_line(color = 'black'), plot.title = element_text(size = 17, hjust = .5, margin = margin(3,3,7,3)),
+         axis.title.x = element_text(colour = 'black', size = 12, margin = margin(10,10,2,10)),
+         axis.title.y = element_text(colour = 'black', size = 12, margin = margin(10,10,10,5)),
          axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
          legend.background = element_rect(size = 2), legend.position = 'right',
-	   legend.title = element_blank(), legend.text = element_text(size = 13, face = 'bold') )
+         legend.title = element_blank(), legend.text = element_text(size = 13, face = 'bold'))
 })
 
 ```
@@ -808,7 +807,7 @@ output$concepts_csv_link = renderUI({
 # Add download handling
 output$concepts_csv = downloadHandler(
   filename = function() {
-    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.time(), '.csv') },
+    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.csv') },
   content = function(file) {
 	# Leave Dutch data inside and remove English data, which aren't used in the tabs that have CSV download
 	drops = c('word_eng','main_eng','perceptualstrength_eng','exc_eng','Aud_eng','Hap_eng','Vis_eng','lett_eng')
@@ -832,7 +831,7 @@ output$concepts_png_link = renderUI({
 # Add download handling
 output$concepts_png = downloadHandler(
   filename = function() {
-    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', Sys.time(), '.png') },
+    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.png') },
 	content <- function(file){
 			png(file, units='in', width=13, height=11, res=900)
 			print(concepts_png())
@@ -926,7 +925,7 @@ sliderInput("concepts_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.
 
 #### **Definitions**
 
-**PCA**: Classical technique to reduce dimensionality of data while retaining the major patterns ([more](https://www.nature.com/articles/nmeth.4346)).
+**PCA**: Method for reducing dimensionality of data while retaining the major patterns ([more](https://www.nature.com/articles/nmeth.4346)).
 
 <span data-toggle="tooltip" data-placement="bottom" title="Defined as in Lynott and Connell (2009, 2013)." style="border-bottom: 0.9px dotted grey"> <b> Dominant modality: </b></span> Highest-rated modality.
 
@@ -949,7 +948,7 @@ sliderInput("concepts_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.
 
 
 
-Column {style="height:800px"}
+Column {style="height:1000px"}
 -----------------------------------------------------------------------
 
 ### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2009, 2013)](#cf-lc-english-norms).
@@ -1026,7 +1025,7 @@ renderPlotly({
          panel.grid.minor = element_blank(), panel.border = element_blank(),
          axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
          axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
-         axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,15)),
+         axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,5)),
          axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
          legend.background = element_rect(size = 2), legend.position = 'none',
 	   legend.title = element_blank(),
@@ -1049,9 +1048,9 @@ concepts_png = reactive({ ggplot(selected_concs(), aes(RC1, RC2, color = main, l
   labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
          panel.grid.minor = element_blank(), panel.border = element_blank(),
-         axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
-         axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
-         axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,15)),
+         axis.line = element_line(color = 'black'), plot.title = element_text(size = 17, hjust = .5, margin = margin(3,3,7,3)),
+         axis.title.x = element_text(colour = 'black', size = 12, margin = margin(10,10,2,10)),
+         axis.title.y = element_text(colour = 'black', size = 12, margin = margin(10,10,10,5)),
          axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
          legend.background = element_rect(size = 2), legend.position = 'right',
 	   legend.title = element_blank(), legend.text = element_text(size = 13, face = 'bold') )
@@ -1075,7 +1074,7 @@ Cf. L&C English norms
 Column {style="height:50%;" data-padding=1}
 -----------------------------------------------------------------------
 
-### &nbsp;&nbsp;&nbsp; Reanalysis of [Lynott and Connell's (2009) English properties](https://doi.org/10.3758/BRM.41.2.558) narrowed to three modalities
+### Reanalysis of [Lynott and Connell's (2009) English properties](https://doi.org/10.3758/BRM.41.2.558) narrowed to three modalities
 
 ```{r include = FALSE}
 
@@ -1172,7 +1171,7 @@ ggplotly( ggplot(eng_props,
 
 
 
-### &nbsp;&nbsp;&nbsp; [Reanalysis of Lynott and Connell's (2013)](https://doi.org/10.3758/s13428-012-0267-0) English concepts narrowed to three modalities
+### Reanalysis of [Lynott and Connell's (2013) English concepts](https://doi.org/10.3758/s13428-012-0267-0) narrowed to three modalities
 
 ```{r include = FALSE}
 
@@ -3425,7 +3424,7 @@ Column {style="height:1100px; background-color:#FCFCFC;"}
 
 #### Information
 
-These Dutch modality norms were created to facilitate research about language. Forty-two respondents rated the properties and concepts sepately and in blocks, with an average of eight respondents per word, a minimum of five, and a maximum of nine. The [instructions](https://osf.io/ungey/) were similar to those in Lynott and Connell (2009, 2013), but three modalities were elicited instead of five.
+These Dutch modality norms were created to facilitate research about language. Forty-two respondents rated the properties and concepts sepately and in blocks, with an average of eight respondents per word, a minimum of five, and a maximum of nine. The [instructions](https://osf.io/ungey/) were similar to those used by Lynott and Connell (2009, 2013), except that we elicited three modalities (auditory, haptic, visual) instead of five.
 
 > <div style = "text-align: justify; font-size: 14px; background-color: #FCFCFC;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
 
