@@ -591,7 +591,7 @@ sliderInput("properties_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 
 Column {style="height:1000px"}
 -----------------------------------------------------------------------
 
-### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2009, 2013)](#cf-lc-english-norms). 
+### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2009)](#cf-lc-english-norms). 
 
 ```{r}
 
@@ -951,7 +951,7 @@ sliderInput("concepts_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.
 Column {style="height:1000px"}
 -----------------------------------------------------------------------
 
-### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2009, 2013)](#cf-lc-english-norms).
+### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2013)](#cf-lc-english-norms).
 
 ```{r}
 
@@ -3424,7 +3424,7 @@ Column {style="height:1100px; background-color:#FCFCFC;"}
 
 #### Information
 
-These Dutch modality norms were created to facilitate research about language. Forty-two respondents rated the properties and concepts sepately and in blocks, with an average of eight respondents per word, a minimum of five, and a maximum of nine. The [instructions](https://osf.io/ungey/) were similar to those used by Lynott and Connell (2009, 2013), except that we elicited three modalities (auditory, haptic, visual) instead of five.
+These Dutch modality norms were created to facilitate research about language (see also Speed & Majid, 2017). Forty-two respondents rated the properties and concepts sepately and in blocks, with an average of eight respondents per word, a minimum of five, and a maximum of nine. The [instructions](https://osf.io/ungey/) were similar to those used by Lynott and Connell (2009, 2013), except that we elicited three modalities (auditory, haptic, visual) instead of five.
 
 > <div style = "text-align: justify; font-size: 14px; background-color: #FCFCFC;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
 
