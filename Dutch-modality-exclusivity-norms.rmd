@@ -70,7 +70,7 @@ panderOptions('keep.trailing.zeros', TRUE)
 /* unvisited link */
 a:link {
   color: #3C6CA7;
-  border-bottom: 0.1px dotted #5277A5
+  border-bottom: 0.03px solid #5277A5
 }
 
 /* visited link */
@@ -357,7 +357,7 @@ Tabs may be shifted above, and plot is interactive.
 
 
 <!-- Link icon and link to data on OSF.io -->
-[<span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> Norms data set](https://osf.io/58gzs/)
+<div style="text-align:left !important; font-weight:bold; font-size:13px;"><i class="glyphicon glyphicon-new-window" aria-hidden="true"></i><a href="https://osf.io/58gzs/" style="border-bottom:none !important"> Norms data set </a></div>
 
 
 ```{r}
@@ -387,11 +387,11 @@ properties_modality_loadings[,'PC2'] = str_replace_all(properties_modality_loadi
 
 # Modal dialog showing loadings of principal components for properties
 
-actionLink("properties_loadings", " Principal component loadings", class = 'fa fa-table')
+actionLink("properties_loadings", " Principal component loadings", class = 'fa fa-table', style = 'border-bottom:none !important')
 
 observeEvent(input$properties_loadings, {
   showModal(modalDialog(
-    title = HTML('<div> Pearson correlation coefficients (<i>r</i>) </div>'),
+    title = HTML('<div style="padding-bottom:0px;"> Pearson correlation coefficients (<i>r</i>) </div>'),
     HTML( 	# Below, table constructed
       properties_modality_loadings %>%
         # Highlight correlations above .7
@@ -440,7 +440,7 @@ uiOutput("properties_csv_link")
 
 # Create the actual downloadLink
 output$properties_csv_link = renderUI({
-  downloadLink("properties_csv", " Data selected below (.csv)", class = "fa fa-download")
+  downloadLink("properties_csv", " Data selected below (.csv)", class = "fa fa-download", style = 'border-bottom:none !important')
 })
 
 # Add download handling
@@ -464,7 +464,7 @@ uiOutput("properties_png_link")
 
 # Create the actual downloadLink
 output$properties_png_link = renderUI({
-  downloadLink("properties_png", " HD Plot with selected data", class = "fa fa-download")
+  downloadLink("properties_png", " HD Plot with selected data", class = "fa fa-download", style = 'border-bottom:none !important')
 })
 
 # Add download handling
@@ -487,9 +487,9 @@ output$properties_png = downloadHandler(
 ```{r}
 
 modalities_labels = c(
-  sprintf('<span style="background-color:#ff3030; color:white; font-weight:bold; padding-left:2px; padding-right:1px; padding-bottom:2px;"> &nbsp; Auditory &nbsp; </span>'),
-  sprintf('<span style="background-color:dodgerblue; color:white; font-weight:bold; padding-left:2px; padding-right:1px; padding-bottom:2px;"> &nbsp; Haptic &nbsp; </span>'),
-  sprintf('<span style="background-color:forestgreen; color:white; font-weight:bold; padding-left:2px; padding-right:1px; padding-bottom:2px;"> &nbsp; Visual &nbsp; </span>')
+  sprintf('<span style="font-size:.85em; background-color:#ff3030; color:white; padding-left:0.08px; padding-right:0.08px; padding-top:2px; padding-bottom:2px;"> &nbsp; Auditory &nbsp; </span>'),
+  sprintf('<span style="font-size:.85em; background-color:dodgerblue; color:white; padding-left:0.08px; padding-right:0.08px; padding-top:2px; padding-bottom:2px;"> &nbsp; Haptic &nbsp; </span>'),
+  sprintf('<span style="font-size:.85em; background-color:forestgreen; color:white; padding-left:0.08px; padding-right:0.08px; padding-top:2px; padding-bottom:2px;"> &nbsp; Visual &nbsp; </span>')
 )
 
 pickerInput(inputId = "properties_modalities",
@@ -568,7 +568,7 @@ sliderInput("properties_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 
 
 #### **Definitions**
 
-**PCA**: Method for reducing dimensionality of data while retaining the major patterns ([more](https://www.nature.com/articles/nmeth.4346)).
+**PCA**: Method for reducing dimensionality of data while retaining the major patterns ([read more](https://www.nature.com/articles/nmeth.4346)).
 
 <span data-toggle="tooltip" data-placement="bottom" title="Defined as in Lynott and Connell (2009, 2013)." style="border-bottom: 0.9px dotted grey"> <b> Dominant modality: </b></span> Highest-rated modality.
 
@@ -721,7 +721,7 @@ Tabs may be shifted above, and plot is interactive.
 
 
 <!-- Link icon and link to data on OSF.io -->
-[<span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> Norms data set](https://osf.io/58gzs/)
+<div style="text-align:left !important; font-weight:bold; font-size:13px;"><i class="glyphicon glyphicon-new-window" aria-hidden="true"></i><a href="https://osf.io/58gzs/" style="border-bottom:none !important"> Norms data set </a></div>
 
 
 ```{r}
@@ -751,11 +751,11 @@ concepts_modality_loadings[,'PC2'] = str_replace_all(concepts_modality_loadings[
 
 # Modal dialog showing loadings of principal components for concepts
 
-actionLink("concepts_loadings", " Principal component loadings", class = 'fa fa-table')
+actionLink("concepts_loadings", " Principal component loadings", class = 'fa fa-table', style = 'border-bottom:none !important')
 
 observeEvent(input$concepts_loadings, {
   showModal(modalDialog(
-    title = HTML('Pearson correlation coefficients (<i>r</i>)'),
+    title = HTML('<div style="padding-bottom:0px;"> Pearson correlation coefficients (<i>r</i>) </div>'),
     HTML( 	# Below, table constructed
       concepts_modality_loadings %>%
         # Highlight correlations above .7
@@ -804,7 +804,7 @@ uiOutput("concepts_csv_link")
 
 # Create the actual downloadLink
 output$concepts_csv_link = renderUI({
-  downloadLink("concepts_csv", " Data selected below (.csv)", class = "fa fa-download")
+  downloadLink("concepts_csv", " Data selected below (.csv)", class = "fa fa-download", style = 'border-bottom:none !important')
 })
 
 # Add download handling
@@ -828,7 +828,7 @@ uiOutput("concepts_png_link")
 
 # Create the actual downloadLink
 output$concepts_png_link = renderUI({
-  downloadLink("concepts_png", " HD Plot with selected data", class = "fa fa-download")
+  downloadLink("concepts_png", " HD Plot with selected data", class = "fa fa-download", style = 'border-bottom:none !important')
 })
 
 # Add download handling
@@ -850,9 +850,9 @@ output$concepts_png = downloadHandler(
 ```{r}
 
 modalities_labels = c(
-  sprintf('<span style="background-color:#ff3030; color:white; font-weight:bold; padding-left:2px; padding-right:1px; padding-bottom:2px;"> &nbsp; Auditory &nbsp; </span>'),
-  sprintf('<span style="background-color:dodgerblue; color:white; font-weight:bold; padding-left:2px; padding-right:1px; padding-bottom:2px;"> &nbsp; Haptic &nbsp; </span>'),
-  sprintf('<span style="background-color:forestgreen; color:white; font-weight:bold; padding-left:2px; padding-right:1px; padding-bottom:2px;"> &nbsp; Visual &nbsp; </span>')
+  sprintf('<span style="font-size:.85em; background-color:#ff3030; color:white; padding-left:0.08px; padding-right:0.08px; padding-top:2px; padding-bottom:2px;"> &nbsp; Auditory &nbsp; </span>'),
+  sprintf('<span style="font-size:.85em; background-color:dodgerblue; color:white; padding-left:0.08px; padding-right:0.08px; padding-top:2px; padding-bottom:2px;"> &nbsp; Haptic &nbsp; </span>'),
+  sprintf('<span style="font-size:.85em; background-color:forestgreen; color:white; padding-left:0.08px; padding-right:0.08px; padding-top:2px; padding-bottom:2px;"> &nbsp; Visual &nbsp; </span>')
 )
 
 pickerInput(inputId = "concepts_modalities",
@@ -931,7 +931,7 @@ sliderInput("concepts_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.
 
 #### **Definitions**
 
-**PCA**: Method for reducing dimensionality of data while retaining the major patterns ([more](https://www.nature.com/articles/nmeth.4346)).
+**PCA**: Method for reducing dimensionality of data while retaining the major patterns ([read more](https://www.nature.com/articles/nmeth.4346)).
 
 <span data-toggle="tooltip" data-placement="bottom" title="Defined as in Lynott and Connell (2009, 2013)." style="border-bottom: 0.9px dotted grey"> <b> Dominant modality: </b></span> Highest-rated modality.
 
@@ -3226,10 +3226,10 @@ properties_lexicals_loadings[,'PC3'] = str_replace_all(properties_lexicals_loadi
 # Modal dialog showing loadings of principal components for properties
 
 actionLink("properties_lexicals_loadings",
-           HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding-top:4px; padding-bottom:0px; padding-left:6px; padding-right:6px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Principal component loadings for properties.</p>'))
+           HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding-top:3px; padding-bottom:3px; padding-left:6px; padding-right:6px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Principal component loadings for properties.</p>'), style = 'border-bottom:none !important')
 observeEvent(input$properties_lexicals_loadings, {
   showModal(modalDialog(
-    title = HTML('Pearson correlation coefficients (<i>r</i>)'),
+    title = HTML('<div style="padding-bottom:0px;"> Pearson correlation coefficients (<i>r</i>) </div>'),
     HTML( 	# Below, table constructed
       properties_lexicals_loadings %>%
       # Highlight correlations above .7
@@ -3301,10 +3301,10 @@ concepts_lexicals_loadings[,'PC3'] = str_replace_all(concepts_lexicals_loadings[
 # Modal dialog showing loadings of principal components for concepts
 
 actionLink("concepts_lexicals_loadings",
-           HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding-top:4px; padding-bottom:0px; padding-left:6px; padding-right:6px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Principal component loadings for concepts.</p>'))
+           HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding-top:3px; padding-bottom:3px; padding-left:6px; padding-right:6px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Principal component loadings for concepts.</p>'), style = 'border-bottom:none !important')
 observeEvent(input$concepts_lexicals_loadings, {
   showModal(modalDialog(
-    title = HTML('Pearson correlation coefficients (<i>r</i>)'),
+    title = HTML('<div style="padding-bottom:0px;"> Pearson correlation coefficients (<i>r</i>) </div>'),
     HTML( 	# Below, table constructed
       concepts_lexicals_loadings %>%
       # Highlight correlations above .7
@@ -3426,7 +3426,7 @@ Column {style="height:1100px; background-color:#FCFCFC;"}
 --------------------------------------------------------
 
 <!-- Link to source code on OSF.io -->
-<div style = "text-align: center; padding-top: 15px; padding-bottom: 10px;"> <button style = 'background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size: 18px; font-weight: bold; font-family: "Courier New", Courier, monospace;'> <a href="https://osf.io/bx2d7/" style="border-bottom:none !important"> <i class="fab fa-r-project" aria-hidden="true" style='padding-top:4px; font-size:20px; color:#5A647B;'></i> Code for analyses and dashboard <span style = "font-size: 10px">(CC-BY licensed)</span> </a> </i> </button> </div>
+<div style = "text-align: center; padding-top: 15px; padding-bottom: 10px;"> <a href="https://osf.io/bx2d7/" style="border-bottom:none !important"> <button style = 'background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size: 18px; font-weight: bold; font-family: "Courier New", Courier, monospace;'> <i class="fab fa-r-project" aria-hidden="true" style='padding-top:4px; font-size:20px; color:#5A647B;'></i> Code for analyses and dashboard <span style = "font-size: 10px">(CC-BY licensed)</span> </i> </button> </a> </div>
 
 <div style = "padding-left: 30px; padding-right: 38px; text-align: justify; background-color:#FCFCFC;">
 
@@ -3452,6 +3452,11 @@ The present analyses and further ones will be reported in a forthcoming paper. A
 * Word frequency and contextual diversity: Keuleers, Brysbaert, and New's (2010) SUBTLEX-NL corpus.
 
 * Lemma frequency: Baayen, Piepenbrock, and van Rijn's (1993) CELEX corpus.
+
+
+#### Acknowledgements
+
+This research was greatly supported by the help of Tilburg University, which provided funding; Wendy Leijten, who provided linguistic advice; and the forty-two Tilburg University students who generously completed the surveys.
 
 
 #### References
