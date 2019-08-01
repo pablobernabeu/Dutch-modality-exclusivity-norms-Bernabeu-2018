@@ -52,6 +52,7 @@ library(Rmisc)
 library(rsconnect)
 library(scales)
 library(shiny)
+library(shinyWidgets)
 library(stringr)
 library(tibble)
 library(tidyr)
@@ -129,7 +130,7 @@ a:active {
     and (min-width : 766px){
       .mobile-only {display: none;}
   }
-  
+
 </style>
 
 <!-- Load CSS libraries for icons -->
@@ -483,17 +484,19 @@ output$properties_png = downloadHandler(
 
 #### **Modality**
 
-
-##### <font color = '#646464'> Dominant modality </font>
-
-<div style = 'background-color:#fbfbfb; padding-top:3px; padding-bottom:3px;'> <center>
-<font color = '#FF3030' size = '3.9em'> **Auditory** </font> - <font color = 'dodgerblue' size = '3.9'> **Haptic** </font> - <font color = 'forestgreen' size = '3.9'> **Visual** </font>
-</center> </div>
-
-
 ```{r}
 
-selectizeInput("properties_modalities", "Dominant modalities", label = NULL, choices = sort(props$main), multiple = TRUE, selected = unique(props$main))
+modalities_labels = c(
+  sprintf('<span style="background-color:#ff3030; color:white; font-weight:bold; padding-left:2px; padding-right:1px; padding-bottom:2px;"> &nbsp; Auditory &nbsp; </span>'),
+  sprintf('<span style="background-color:dodgerblue; color:white; font-weight:bold; padding-left:2px; padding-right:1px; padding-bottom:2px;"> &nbsp; Haptic &nbsp; </span>'),
+  sprintf('<span style="background-color:forestgreen; color:white; font-weight:bold; padding-left:2px; padding-right:1px; padding-bottom:2px;"> &nbsp; Visual &nbsp; </span>')
+)
+
+pickerInput(inputId = "properties_modalities",
+            label = "Dominant modalities",
+            choices = sort(unique(props$main)),
+            choicesOpt = list(content = modalities_labels),
+            multiple = TRUE, selected = unique(props$main))
 
 sliderInput("properties_Exclusivity", "Modality exclusivity (%)", min = 0, max = 100, value = c(0, 100))
 
@@ -844,16 +847,19 @@ output$concepts_png = downloadHandler(
 
 #### **Modality**
 
-##### <font color = '#646464'> Dominant modality </font>
-
-<div style = 'background-color:#fbfbfb; padding-top:3px; padding-bottom:3px;'> <center>
-<font color = '#FF3030' size = '3.9em'> **Auditory** </font> - <font color = 'dodgerblue' size = '3.9'> **Haptic** </font> - <font color = 'forestgreen' size = '3.9'> **Visual** </font>
-</center> </div>
-
-
 ```{r}
 
-selectizeInput("concepts_modalities", label = NULL, "Dominant modalities", choices = sort(concs$main), multiple = TRUE, selected = unique(concs$main))
+modalities_labels = c(
+  sprintf('<span style="background-color:#ff3030; color:white; font-weight:bold; padding-left:2px; padding-right:1px; padding-bottom:2px;"> &nbsp; Auditory &nbsp; </span>'),
+  sprintf('<span style="background-color:dodgerblue; color:white; font-weight:bold; padding-left:2px; padding-right:1px; padding-bottom:2px;"> &nbsp; Haptic &nbsp; </span>'),
+  sprintf('<span style="background-color:forestgreen; color:white; font-weight:bold; padding-left:2px; padding-right:1px; padding-bottom:2px;"> &nbsp; Visual &nbsp; </span>')
+)
+
+pickerInput(inputId = "concepts_modalities",
+            label = "Dominant modalities",
+            choices = sort(unique(concs$main)),
+            choicesOpt = list(content = modalities_labels),
+            multiple = TRUE, selected = unique(concs$main))
 
 sliderInput("concepts_Exclusivity", "Modality exclusivity (%)", min = 0, max = 100, value = c(0, 100))
 
