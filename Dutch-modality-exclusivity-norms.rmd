@@ -486,9 +486,9 @@ output$properties_png = downloadHandler(
 
 ##### <font color = '#646464'> Dominant modality </font>
 
-<center>
+<div style = 'background-color:#fbfbfb; padding-top:3px; padding-bottom:3px;'> <center>
 <font color = '#FF3030' size = '3.9em'> **Auditory** </font> - <font color = 'dodgerblue' size = '3.9'> **Haptic** </font> - <font color = 'forestgreen' size = '3.9'> **Visual** </font>
-</center>
+</center> </div>
 
 
 ```{r}
@@ -669,7 +669,7 @@ renderPlotly({
          axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
          legend.background = element_rect(size = 2), legend.position = 'none',
 	   legend.title = element_blank(),
-	   legend.text = element_text(colour = colours, size = 13, face = 'bold') ),
+	   legend.text = element_text(colour = colours, size = 13) ),
   tooltip = 'text'
  )
 })
@@ -678,12 +678,12 @@ renderPlotly({
 # For download, save plot without the interactive 'plotly' part
 
 properties_png = reactive({ ggplot(selected_props(), aes(RC1, RC2, color = main, label = as.character(word))) +
-  geom_text(size = ifelse(selected_props()$word %in% highlighted_properties(), 7,
+  geom_text(show.legend = FALSE, size = ifelse(selected_props()$word %in% highlighted_properties(), 7,
 			    ifelse(is.null(highlighted_properties()), 3, 2.8)),
             fontface = ifelse(selected_props()$word %in% highlighted_properties(), 'bold', 'plain')) +
-  scale_colour_manual(values = colours, drop = FALSE) + theme_bw() + 
+  geom_point(alpha = 0) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
+  guides(color = guide_legend(title = 'Main<br>modality', override.aes = list(size = 7, alpha = 1))) +
   ggtitle( paste0('Properties', ' (showing ', nrow(selected_props()), ' out of ', nrow(props), ')') ) + 
-  guides(color = guide_legend(title = 'Main<br>modality')) +
   labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
          panel.grid.minor = element_blank(), panel.border = element_blank(),
@@ -692,7 +692,7 @@ properties_png = reactive({ ggplot(selected_props(), aes(RC1, RC2, color = main,
          axis.title.y = element_text(colour = 'black', size = 12, margin = margin(10,10,10,5)),
          axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
          legend.background = element_rect(size = 2), legend.position = 'right',
-         legend.title = element_blank(), legend.text = element_text(size = 13, face = 'bold'))
+         legend.title = element_blank(), legend.text = element_text(size = 15))
 })
 
 ```
@@ -846,9 +846,9 @@ output$concepts_png = downloadHandler(
 
 ##### <font color = '#646464'> Dominant modality </font>
 
-<center>
+<div style = 'background-color:#fbfbfb; padding-top:3px; padding-bottom:3px;'> <center>
 <font color = '#FF3030' size = '3.9em'> **Auditory** </font> - <font color = 'dodgerblue' size = '3.9'> **Haptic** </font> - <font color = 'forestgreen' size = '3.9'> **Visual** </font>
-</center>
+</center> </div>
 
 
 ```{r}
@@ -1029,7 +1029,7 @@ renderPlotly({
          axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
          legend.background = element_rect(size = 2), legend.position = 'none',
 	   legend.title = element_blank(),
-	   legend.text = element_text(colour = colours, size = 13, face = 'bold') ),
+	   legend.text = element_text(colour = colours, size = 15) ),
   tooltip = 'text'
  )
 })
@@ -1042,9 +1042,9 @@ concepts_png = reactive({ ggplot(selected_concs(), aes(RC1, RC2, color = main, l
   geom_text(size = ifelse(selected_concs()$word %in% highlighted_concepts(), 7,
 			    ifelse(is.null(highlighted_concepts()), 3, 2.8)),
             fontface = ifelse(selected_concs()$word %in% highlighted_concepts(), 'bold', 'plain')) +
-  scale_colour_manual(values = colours, drop = FALSE) + theme_bw() + 
+  geom_point(alpha = 0) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
+  guides(color = guide_legend(title = 'Main<br>modality', override.aes = list(size = 7, alpha = 1))) +
   ggtitle( paste0('Concepts', ' (showing ', nrow(selected_concs()), ' out of ', nrow(concs), ')') ) + 
-  guides(color = guide_legend(title = 'Main<br>modality')) +
   labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
          panel.grid.minor = element_blank(), panel.border = element_blank(),
@@ -1053,7 +1053,7 @@ concepts_png = reactive({ ggplot(selected_concs(), aes(RC1, RC2, color = main, l
          axis.title.y = element_text(colour = 'black', size = 12, margin = margin(10,10,10,5)),
          axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
          legend.background = element_rect(size = 2), legend.position = 'right',
-	   legend.title = element_blank(), legend.text = element_text(size = 13, face = 'bold') )
+	   legend.title = element_blank(), legend.text = element_text(size = 15) )
 })
 
 ```
@@ -1155,15 +1155,17 @@ ggplotly( ggplot(eng_props,
 			'</b><br> Haptic: <b>', round(Hap_eng, 2), ' ',
 			'</b><br> Visual: <b>', round(Vis_eng, 2), ' ',
 			'</b><br> Number of letters: <b>', lett_eng, ' ' ) ) ) +
-  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-  geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
-  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-	panel.grid.minor = element_blank(), panel.border = element_blank(),
-  	axis.line = element_line(color = 'black'),
-	axis.title.x = element_text(colour = 'black', size = 8),
-	axis.title.y = element_text(colour = 'black', size = 7),
-	axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
-	legend.title = element_blank(), plot.title = element_blank() ),
+    labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
+    geom_text(size = 2.8, show.legend=FALSE) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
+    geom_point(alpha = 0) + 
+    guides(color = guide_legend(title = 'Main<br>modality', override.aes = list(size = 7, alpha = 1))) +
+    theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+           panel.grid.minor = element_blank(), panel.border = element_blank(),
+           axis.line = element_line(color = 'black'),
+           axis.title.x = element_text(colour = 'black', size = 8),
+           axis.title.y = element_text(colour = 'black', size = 7),
+           axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
+           legend.title = element_blank(), plot.title = element_blank() ),
   tooltip = 'text' )
 
 ```
