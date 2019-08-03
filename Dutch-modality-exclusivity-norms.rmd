@@ -131,6 +131,17 @@ a:active {
     and (min-width : 766px){
       .mobile-only {display: none;}
   }
+  
+/* modal dialog closing button */
+.swal-button {
+  padding: 7px 19px;
+  border-radius: 2px;
+  color: #72715B;
+  background-color: #EAE9D8;
+  font-size: 12px;
+  border: 1px solid #3e549a;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
 
 </style>
 
@@ -361,7 +372,7 @@ Tabs may be shifted above, and plot is interactive.
 
 ```{r}
 
-# Pop-ups with definitions and corpora
+# Modal dialogs containing definitions and corpora
 
 actionLink('properties_DefinitionsCorporaLink', HTML('<span style="font-size: 14px; padding-top: 3px; border-bottom:none !important"><i class="far fa-clipboard" aria-hidden="true"></i> Definitions and corpora </span>'))
 
@@ -372,7 +383,7 @@ observeEvent(input$properties_DefinitionsCorporaLink, {
                  
                   <h4 style="background-color: #FFFEF0; padding-top:2px; padding-bottom:2px;"><b> Definitions </b></h4>
                   
-                  <p><b>PCA:</b> Method for reducing dimensionality of data while retaining the main patterns (<a href="https://www.nature.com/articles/nmeth.4346">read more</a>).</p>
+                  <p><b>Principal component analysis (PCA):</b> Method for reducing dimensionality of data while retaining the main patterns (<a href="https://www.nature.com/articles/nmeth.4346">read more</a>).</p>
                   
                   <p><b> Dominant modality:</b> Highest-rated modality.<sup>*</sup> </p>
                   
@@ -446,7 +457,7 @@ observeEvent(input$properties_loadings, {
         kable_styling(full_width = F) %>%
         column_spec(1, bold = T, border_right = T)
       ),
-    size = 'm', easyClose = TRUE, footer = modalButton("Close")
+    size = 'm', easyClose = TRUE, footer = modalButton('Close')
     ))
   })
 
@@ -767,7 +778,7 @@ Tabs may be shifted above, and plot is interactive.
 
 ```{r}
 
-# Pop-ups with definitions and corpora
+# Modal dialogs containing definitions and corpora
 
 actionLink('Concs_DefinitionsCorporaLink', HTML('<span style="font-size: 14px; padding-top: 3px; border-bottom:none !important"><i class="far fa-clipboard" aria-hidden="true"></i> Definitions and corpora </span>'))
 
@@ -778,7 +789,7 @@ observeEvent(input$Concs_DefinitionsCorporaLink, {
                  
                   <h4 style="background-color: #FFFEF0; padding-top:3px; padding-bottom:3px;"><b> Definitions </b></h4>
                   
-                  <p><b>PCA:</b> Method for reducing dimensionality of data while retaining the main patterns (<a href="https://www.nature.com/articles/nmeth.4346">read more</a>).</p>
+                  <p><b>Principal component analysis (PCA):</b> Method for reducing dimensionality of data while retaining the main patterns (<a href="https://www.nature.com/articles/nmeth.4346">read more</a>).</p>
                   
                   <p><b> Dominant modality:</b> Highest-rated modality.<sup>*</sup> </p>
                   
