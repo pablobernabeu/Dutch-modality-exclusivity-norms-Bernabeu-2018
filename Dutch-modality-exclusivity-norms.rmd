@@ -415,10 +415,6 @@ These modality exclusivity norms for Dutch were created to facilitate research a
 
 The modality ratings collected in these norms were validated in a modality switch experiment, revealing that switches across trials with different dominant modalities (e.g., visual versus auditory) incurred semantic processing costs ([Bernabeu, Willems, and Louwerse (2017)](https://mindmodeling.org/cogsci2017/papers/0318/index.html)). All data for that study is [available](https://osf.io/97unm/wiki/home/), including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/).
 
-> <div style = "text-align: justify; font-size: 14px; background-color: #FCFCFC;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
-
-The modality ratings collected in these norms were validated in a modality switch experiment, revealing that switches across trials with different dominant modalities (e.g., visual versus auditory) incurred semantic processing costs ([Bernabeu, Willems, and Louwerse (2017)](https://mindmodeling.org/cogsci2017/papers/0318/index.html)). All data for that study is [available](https://osf.io/97unm/wiki/home/), including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/).
-
 The [properties](#properties){style='background-color:#F2F7FF'} and the [concepts](#concepts){style='background-color:#F2F7FF'} were separately analysed. Both sets demonstrated distinct relationships among modalities, whereby the visual and haptic modalities were close together, whereas the auditory modality was relatively independent, as shown by principal component analysis ([see comparison](#cf-lc-english-norms){style='background-color:#F2F7FF'}). This ties in with findings that conceptual processing in language can collate modalities based on language statistics (Louwerse & Connell, 2011).
 
 <div style = "padding-top: 5px; padding-left: 25px; padding-bottom: 15px; float: right; width: 22%; font-size: 85%; text-align: justify;"><img style = "padding-right: 5px; padding-left: 5px;" src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Booba-Kiki.svg" alt="Booba-Kiki" width=90% height=90% style="padding-bottom:0.5em;" />Bouba-Kiki effect demonstrating sound symbolism. When asked to match the words 'bouba' and 'kiki' to these objects, most people name the spiky object 'kiki' and the rounded object 'bouba' (Köhler, 1929). <br></br> <span style="font-size:65%; line-height:5% !important;"> https://commons.wikimedia.org/wiki/File:Booba-Kiki.svg. Monochrome version 1 June 2007 by BendžVectorized with Inkscape --Qef (talk) 21:21, 23 June 2008 (UTC) [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)]] </span> </div>
@@ -494,7 +490,7 @@ Properties {style="position:absolute !important;"}
 Inputs {.sidebar}
 -----------------------------------------------------------------------
 
-<div style="padding-top: 23px;">
+<div style="padding-top: 27px;">
 
 ```{r}
 
@@ -775,7 +771,7 @@ sliderInput("properties_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 
 Column {style="height:1000px"}
 -----------------------------------------------------------------------
 
-### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, the visual and haptic modalities load on the components similarly--both with positive polarities--, whereas the auditory modality is relatively independent--with a negative polarity [cf. Lynott and Connell (2009)](#cf-lc-english-norms). {style='padding-top:7px'}
+### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, the visual and haptic modalities load on the components similarly--both with positive polarities--, whereas the auditory modality is relatively independent--with a negative polarity (cf. [Lynott & Connell, 2009](#cf-lc-english-norms)). {style='padding-top:13px'}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:8px;"> </div>
@@ -905,7 +901,7 @@ Concepts {style="position:absolute !important;"}
 Inputs {.sidebar}
 -----------------------------------------------------------------------
 
-<div style="padding-top: 23px;">
+<div style="padding-top: 27px;">
 
 ```{r}
 
@@ -1186,7 +1182,7 @@ sliderInput("concepts_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.
 Column {style="height:1000px"}
 -----------------------------------------------------------------------
 
-### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, whereas the auditory modality is relatively independent, having its own component [cf. Lynott and Connell (2013)](#cf-lc-english-norms). {style='padding-top:7px'}
+### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, whereas the auditory modality is relatively independent, having its own component (cf. [Lynott & Connell, 2013](#cf-lc-english-norms)). {style='padding-top:13px'}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:8px;"> </div>
@@ -1314,7 +1310,7 @@ concepts_png = reactive({ ggplot(selected_concs(), aes(RC1, RC2, color = main, l
 Cf. L&C English norms
 =======================================================================
 
-<div style = "background-color: #FCFCFC; text-align: center; font-size: 15px; padding-top: 17px; padding-bottom: 5px;">
+<div style = "background-color: #FCFCFC; text-align: center; font-size: 15px; padding-top: 20px; padding-bottom: 5px;">
 <b> Comparison with Lynott and Connell's (2009, 2013) English norms ([data sets](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html))</b>
 </div>
 

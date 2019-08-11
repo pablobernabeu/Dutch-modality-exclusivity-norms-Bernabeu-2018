@@ -743,7 +743,7 @@ Inputs {.sidebar}
 ```
 
 
-<div style = "padding-top: 8px; font-size = 0.6em; text-align: left">
+<div style = "padding-top: 10px; font-size = 0.6em; text-align: left">
 
 #### **Definitions**
 
@@ -773,7 +773,7 @@ Inputs {.sidebar}
 Row {data-height=1000 padding-bottom=7}
 -----------------------------------------------------------------------
 
-### Principal component analysis (PCA; see loadings below) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, the visual and haptic modalities load on the components similarly--both with positive polarities--, whereas the auditory modality is relatively independent--with a negative polarity [cf. Lynott and Connell (2009)](#cf-lc-english-norms). {style='padding-top:7px'}
+### Principal component analysis (PCA; see loadings below) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, the visual and haptic modalities load on the components similarly--both with positive polarities--, whereas the auditory modality is relatively independent--with a negative polarity (cf. [Lynott & Connell, 2009](#cf-lc-english-norms)). {style='padding-top:13px'}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:6px;"> </div>
@@ -1196,7 +1196,7 @@ Inputs {.sidebar}
 ```
 
 
-<div style = "padding-top: 8px; font-size = 0.6em; text-align: left">
+<div style = "padding-top: 10px; font-size = 0.6em; text-align: left">
 
 #### **Definitions**
 
@@ -1226,7 +1226,7 @@ Inputs {.sidebar}
 Row {data-height=1000 padding-bottom=7}
 -----------------------------------------------------------------------
 
-### Principal component analysis (PCA; see loadings below) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, whereas the auditory modality is relatively independent, having its own component [cf. Lynott and Connell (2013)](#cf-lc-english-norms). {style='padding-top:7px'}
+### Principal component analysis (PCA; see loadings below) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, whereas the auditory modality is relatively independent, having its own component (cf. [Lynott & Connell, 2013](#cf-lc-english-norms)). {style='padding-top:13px'}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:6px;"> </div>
