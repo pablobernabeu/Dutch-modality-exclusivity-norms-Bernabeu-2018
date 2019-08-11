@@ -404,7 +404,7 @@ Row {style="height:1100px; background-color:#FCFCFC;"}
 
 <div style = "padding-left: 30px; padding-right: 38px; text-align: justify; background-color: #FCFCFC;">
 
-<div style="text-align: center; font-size: 18px; padding-top: 12px; margin-top: 2px; margin-bottom: 2px;"> This *RPubs* website is a reduced version of a dashboard. </div>
+<div style="text-align: center; font-size: 18px; padding-top: 18px; margin-top: 2px; margin-bottom: 2px;"> This *RPubs* website is a reduced version of a dashboard. </div>
 
 <!-- Link to source code on OSF.io -->
 <div style = "text-align: center; padding-top: 12px; padding-bottom: 10px;"> <a href="https://pablobernabeu.shinyapps.io/Dutch-modality-exclusivity-norms/" style="border-bottom:none !important"> <button style = 'background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size: 18px; font-weight: bold; font-family: "Courier New", Courier, monospace;'> <i class="fas fa-external-link-alt" aria-hidden="true" style='padding-top:4px; font-size:20px; color:#5A647B;'></i> See complete dashboard </button> </a> </div>
@@ -418,7 +418,7 @@ These Dutch modality norms were created to facilitate research about language (s
 
 The modality ratings collected in these norms were validated in a modality switch experiment, revealing that switches across trials with different dominant modalities (e.g., visual versus auditory) incurred semantic processing costs ([Bernabeu, Willems, and Louwerse (2017)](https://mindmodeling.org/cogsci2017/papers/0318/index.html)). All data for that study is [available](https://osf.io/97unm/wiki/home/), including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/).
 
-The [properties](#properties){style='background-color:#F2F7FF'} and the [concepts](#concepts){style='background-color:#F2F7FF'} were separately analysed. Both sets demonstrated distinct relationships among modalities, whereby the visual and haptic modalities were close together--occupying the same principal component--, whereas the auditory modality was relatively independent--with its own principal component ([see comparison](#cf-lc-english-norms){style='background-color:#F2F7FF'}). This ties in with findings that conceptual processing in language can collate modalities based on language statistics (Louwerse & Connell, 2011).
+The [properties](#properties){style='background-color:#F2F7FF'} and the [concepts](#concepts){style='background-color:#F2F7FF'} were separately analysed. Both sets demonstrated distinct relationships among modalities, whereby the visual and haptic modalities were close together, whereas the auditory modality was relatively independent, as shown by principal component analysis ([see comparison](#cf-lc-english-norms){style='background-color:#F2F7FF'}). This ties in with findings that conceptual processing in language can collate modalities based on language statistics (Louwerse & Connell, 2011).
 
 <div style = "padding-top: 5px; padding-left: 25px; padding-bottom: 15px; float: right; width: 22%; font-size: 85%; text-align: justify;"><img style = "padding-right: 5px; padding-left: 5px;" src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Booba-Kiki.svg" alt="Booba-Kiki" width=90% height=90% style="padding-bottom:0.5em;" />Bouba-Kiki effect demonstrating sound symbolism. When asked to match the words 'bouba' and 'kiki' to these objects, most people name the spiky object 'kiki' and the rounded object 'bouba' (Köhler, 1929). <br></br> <span style="font-size:65%; line-height:5% !important;"> https://commons.wikimedia.org/wiki/File:Booba-Kiki.svg. Monochrome version 1 June 2007 by BendžVectorized with Inkscape --Qef (talk) 21:21, 23 June 2008 (UTC) [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)]] </span> </div>
 
@@ -743,7 +743,7 @@ Inputs {.sidebar}
 ```
 
 
-<div style = "padding-top: 4px; font-size = 0.6em; text-align: left">
+<div style = "padding-top: 8px; font-size = 0.6em; text-align: left">
 
 #### **Definitions**
 
@@ -773,7 +773,7 @@ Inputs {.sidebar}
 Row {data-height=1000 padding-bottom=7}
 -----------------------------------------------------------------------
 
-### Principal component analysis (PCA; see loadings below) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, whereas the auditory modality is relatively independent [cf. Lynott and Connell (2009)](#cf-lc-english-norms). 
+### Principal component analysis (PCA; see loadings below) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, the visual and haptic modalities load on the components similarly--both with positive polarities--, whereas the auditory modality is relatively independent--with a negative polarity [cf. Lynott and Connell (2009)](#cf-lc-english-norms). {style='padding-top:7px'}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:6px;"> </div>
@@ -1196,7 +1196,7 @@ Inputs {.sidebar}
 ```
 
 
-<div style = "padding-top: 4px; font-size = 0.6em; text-align: left">
+<div style = "padding-top: 8px; font-size = 0.6em; text-align: left">
 
 #### **Definitions**
 
@@ -1226,7 +1226,7 @@ Inputs {.sidebar}
 Row {data-height=1000 padding-bottom=7}
 -----------------------------------------------------------------------
 
-### Principal component analysis (PCA; see loadings below) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, whereas the auditory modality is relatively independent [cf. Lynott and Connell (2013)](#cf-lc-english-norms).
+### Principal component analysis (PCA; see loadings below) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, whereas the auditory modality is relatively independent, having its own component [cf. Lynott and Connell (2013)](#cf-lc-english-norms). {style='padding-top:7px'}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:6px;"> </div>
@@ -1396,7 +1396,7 @@ concepts_modality_loadings %>%
 Cf. L&C English norms
 =======================================================================
 
-<div style = "background-color: #FCFCFC; text-align: center; font-size: 15px; padding-top: 13px; padding-bottom: 5px; margin-bottom:4px">
+<div style = "background-color: #FCFCFC; text-align: center; font-size: 15px; padding-top: 16px; padding-bottom: 5px; margin-bottom:4px">
 <b> Comparison with Lynott and Connell's (2009, 2013) English norms ([data sets](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html))</b>
 </div>
 
@@ -3581,7 +3581,7 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$
 
 
 
-<div style = "background-color: #FCFCFC; text-align: justify; padding-top: 22px; padding-right: 36px; padding-left: 32px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
+<div style = "background-color: #FCFCFC; text-align: justify; padding-top: 27px; padding-right: 36px; padding-left: 32px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
 
 **Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (for oral speakers, at least). Therefore, the auditory ratings of words should more reliably predict their lexical properties (length, frequency, distinctiveness) than would haptic of visual ratings. By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor, or yielded a different polarity to the haptic and visual ratings, thus demonstrating sound symbolism. Standardised coefficients ($\beta$) presented below, alongside significance based on t-value. Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). [External corpora used](#info). Key: 'PC' = Kaiser-normalised, varimax-rotated principal component. <sup>\*\*\*</sup>*p* < .001; <sup>\*\*</sup>*p* < .01; <sup>\*</sup>*p* < .05.
 
