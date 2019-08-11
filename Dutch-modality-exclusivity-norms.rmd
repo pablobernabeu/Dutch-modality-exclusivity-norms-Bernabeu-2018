@@ -393,6 +393,101 @@ colours = c('firebrick1', 'dodgerblue', 'forestgreen')
 
 
 
+
+
+
+Info {style="background-color:#FCFCFC; data-width:100%"}
+=======================================================================
+
+Column {style="height:1100px; background-color:#FCFCFC;"}
+--------------------------------------------------------
+
+<!-- Link to source code on OSF.io -->
+<div style = "text-align: right; padding-top: 25px; padding-bottom: 0; padding-right: 38px;"> <a href="https://osf.io/bx2d7/" style="border-bottom:none !important"> <button style = 'background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size: 15px; font-weight: bold; font-family: "Courier New", Courier, monospace;'> <i class="fab fa-r-project" aria-hidden="true" style='padding-top:4px; font-size:20px; color:#5A647B;'></i> Code for analyses and dashboard <span style = "font-size: 10px">(CC-BY licensed)</span> </button> </a> </div>
+
+<div style = "padding-left: 30px; padding-right: 38px; text-align: justify; background-color:#FCFCFC;">
+
+#### Information
+
+These modality exclusivity norms for Dutch were created to facilitate research about language (see also Speed & Majid, 2017). Forty-two respondents rated the properties and concepts sepately and in blocks, with an average of eight respondents per word, a minimum of five, and a maximum of nine. The [instructions](https://osf.io/ungey/) to participants were similar to those used by Lynott and Connell (2009, 2013), except that we elicited three modalities (auditory, haptic, visual) instead of five.
+
+> <div style = "text-align: justify; font-size: 14px; background-color: #FCFCFC;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
+
+The modality ratings collected in these norms were validated in a modality switch experiment, revealing that switches across trials with different dominant modalities (e.g., visual versus auditory) incurred semantic processing costs ([Bernabeu, Willems, and Louwerse (2017)](https://mindmodeling.org/cogsci2017/papers/0318/index.html)). All data for that study is [available](https://osf.io/97unm/wiki/home/), including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/).
+
+> <div style = "text-align: justify; font-size: 14px; background-color: #FCFCFC;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
+
+The modality ratings collected in these norms were validated in a modality switch experiment, revealing that switches across trials with different dominant modalities (e.g., visual versus auditory) incurred semantic processing costs ([Bernabeu, Willems, and Louwerse (2017)](https://mindmodeling.org/cogsci2017/papers/0318/index.html)). All data for that study is [available](https://osf.io/97unm/wiki/home/), including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/).
+
+The [properties](#properties){style='background-color:#F2F7FF'} and the [concepts](#concepts){style='background-color:#F2F7FF'} were separately analysed. Both sets demonstrated distinct relationships among modalities, whereby the visual and haptic modalities were close together--occupying the same principal component--, whereas the auditory modality was relatively independent--with its own principal component ([see comparison](#cf-lc-english-norms){style='background-color:#F2F7FF'}). This ties in with findings that conceptual processing in language can collate modalities based on language statistics (Louwerse & Connell, 2011).
+
+<div style = "padding-top: 5px; padding-left: 25px; padding-bottom: 15px; float: right; width: 22%; font-size: 85%; text-align: justify;"><img style = "padding-right: 5px; padding-left: 5px;" src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Booba-Kiki.svg" alt="Booba-Kiki" width=90% height=90% style="padding-bottom:0.5em;" />Bouba-Kiki effect demonstrating sound symbolism. When asked to match the words 'bouba' and 'kiki' to these objects, most people name the spiky object 'kiki' and the rounded object 'bouba' (Köhler, 1929). <br></br> <span style="font-size:65%; line-height:5% !important;"> https://commons.wikimedia.org/wiki/File:Booba-Kiki.svg. Monochrome version 1 June 2007 by BendžVectorized with Inkscape --Qef (talk) 21:21, 23 June 2008 (UTC) [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)]] </span> </div>
+
+The norms also served to investigate [sound symbolism](#sound-symbolism){style='background-color:#F2F7FF'}, which is the relation between the form of words and their meaning. The form of words rests on their sound more than on their visual or tactile properties (for oral speakers, at least). Therefore, the auditory ratings of words should more reliably predict their lexical properties (length, frequency, distinctiveness) than would haptic of visual ratings. By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor, or yielded a different polarity to the haptic and visual ratings, thus demonstrating sound symbolism.
+
+The present analyses and further ones will be reported in a forthcoming paper. All data and analysis code for the norms are [available for re-use](https://osf.io/brkjw/wiki/home/) under a [CC-BY licence](https://creativecommons.org/licenses/by/4.0/), provided acknowledgment of the following publication:
+
+> <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 14.1px; background-color: #FCFCFC;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). [Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs.](https://mindmodeling.org/cogsci2017/papers/0318/index.html) In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society.</div>
+
+
+#### External corpora
+
+* Concreteness and age of acquisition: Norms by Brysbaert, Warriner, and Kuperman (2014).
+
+* Phonological and orthographic neighbours: DutchPOND (Marian et al., 2012).
+
+* Word frequency and contextual diversity: SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010).
+
+* Lemma frequency: CELEX (Baayen, Piepenbrock, & van Rijn, 1993).
+
+
+#### Acknowledgements {style='padding-top:5px;'}
+
+This research was greatly supported by the help of Tilburg University, which provided funding; Wendy Leijten, who provided linguistic advice; and the forty-two Tilburg University students who generously completed the surveys.
+
+
+#### References {style='padding-top:5px;'}
+
+<div style = "text-align: justify; text-indent:-2em; margin-left:2em; background-color:#FCFCFC;">
+
+Baayen, R. H., Piepenbrock, R., & van Rijn, H. (1993). *The CELEX Lexical Database* [CD-ROM]. Philadelphia: Linguistic Data Consortium, University of Pennsylvania.
+
+Brysbaert, M., Warriner, A.B., & Kuperman, V. (2014). Concreteness ratings for 40 thousand generally known English word lemmas. *Behavior Research Methods, 46*, 3, 904-911. https://doi.org/10.3758/s13428-013-0403-5
+
+Field, A. P., Miles, J., & Field, Z. (2012). *Discovering Statistics Using R*. London, UK: Sage.
+
+Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measure for Dutch words based on film subtitles. *Behavior Research Methods, 42*, 3, 643-650. https://doi.org/10.3758/BRM.42.3.643.
+
+Köhler, W. (1929). *Gestalt Psychology*. New York: Liveright.
+
+Louwerse, M., & Connell, L. (2011). A taste of words: linguistic context and perceptual simulation predict the modality of words. *Cognitive Science, 35*, 2, 381-98. https://doi.org/10.1111/j.1551-6709.2010.01157.x.
+
+Lynott, D., & Connell, L. (2009). Modality exclusivity norms for 423 object concepts. *Behavior Research Methods, 41*, 2, 558-564. https://doi.org/10.3758/BRM.41.2.558.
+
+Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The relationship between perceptual experience and surface word form. *Behavior Research Methods, 45*, 2, 516-526. https://doi.org/10.3758/s13428-012-0267-0.
+
+Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. https://doi.org/10.1371/journal.pone.0043230.
+
+Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. https://doi.org/10.3758/s13428-017-0852-3.
+
+</div>
+
+
+#### Contact {style='padding-top:5px;'}
+
+Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
+
+[Webpage](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu)
+
+<br></br>
+
+</div>
+
+
+
+
+
+
 Properties {style="position:absolute !important;"}
 =======================================================================
 
@@ -680,7 +775,7 @@ sliderInput("properties_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 
 Column {style="height:1000px"}
 -----------------------------------------------------------------------
 
-### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2009)](#cf-lc-english-norms). 
+### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, whereas the auditory modality is relatively independent [cf. Lynott and Connell (2009)](#cf-lc-english-norms).
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:8px;"> </div>
@@ -1091,7 +1186,7 @@ sliderInput("concepts_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.
 Column {style="height:1000px"}
 -----------------------------------------------------------------------
 
-### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, thus replicating [Lynott and Connell (2013)](#cf-lc-english-norms).
+### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, whereas the auditory modality is relatively independent [cf. Lynott and Connell (2013)](#cf-lc-english-norms).
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:8px;"> </div>
@@ -1518,7 +1613,7 @@ ggplotly( ggplot(concepts_Dutch,
 Sound symbolism {data-orientation=rows data-padding=0.5 background-color=#FBFBFB}
 =======================================================================
 
-Row {data-height=185 data-padding=0.5 padding-top=30}
+Row {data-height=212 data-padding=0.5 padding-top=34}
 -----------------------------------------------------------------------
 
 ```{r include = FALSE}
@@ -3345,7 +3440,7 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$
 
 
 
-<div style = "background-color: #FCFCFC; padding-top: 32px; padding-left: 15px; padding-right: 1px; padding-bottom: 0px; margin-bottom:6px;">
+<div style = "background-color: #FCFCFC; padding-top: 50px; padding-left: 15px; padding-right: 1px; padding-bottom: 0px; margin-bottom:6px;">
 
 ```{r}
 
@@ -3412,15 +3507,15 @@ observeEvent(input$properties_lexicals_loadings, {
 
 
 
-<div style = "background-color: #FCFCFC; text-align: justify; padding-top: 24px; padding-bottom: 9px; padding-right: 22px; padding-left: 22px; margin-bottom:6px;">
+<div style = "background-color: #FCFCFC; text-align: justify; padding-top: 22px; padding-right: 36px; padding-left: 32px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
 
-**Analysis on sound symbolism based on the relationship between modality ratings and lexical properties of the words** (cf. [Table 6 in Lynott & Connell, 2013](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)). Multiple regressions with the three modality ratings predicting each lexical measure. Auditory strength was found to predict lexical properties better than the other modalities did, or else with a different polarity. Standardised coefficients ($\beta$) presented alongside significance based on t-value. Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). [External corpora used](#info). Key: 'PC' = Kaiser-normalised, varimax-rotated principal component. <sup>\*\*\*</sup>*p* < .001; <sup>\*\*</sup>*p* < .01; <sup>\*</sup>*p* < .05.
+**Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (for oral speakers, at least). Therefore, the auditory ratings of words should more reliably predict their lexical properties (length, frequency, distinctiveness) than would haptic of visual ratings. By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor, or yielded a different polarity to the haptic and visual ratings, thus demonstrating sound symbolism. Standardised coefficients ($\beta$) presented below, alongside significance based on t-value. Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). [External corpora used](#info). Key: 'PC' = Kaiser-normalised, varimax-rotated principal component. <sup>\*\*\*</sup>*p* < .001; <sup>\*\*</sup>*p* < .01; <sup>\*</sup>*p* < .05.
 
 </div>
 
 
 
-<div style = "background-color: #FCFCFC; padding-top: 32px; padding-right: 22px; padding-left: 1px; padding-bottom: 0px; margin-bottom:6px;">
+<div style = "background-color: #FCFCFC; padding-top: 50px; padding-right: 22px; padding-left: 1px; padding-bottom: 0px; margin-bottom:6px;">
 
 ```{r}
 
@@ -3567,87 +3662,5 @@ HTML(
   )
 
 ```
-
-</div>
-
-
-
-
-
-
-
-
-Info {style="background-color:#FCFCFC; data-width:100%"}
-=======================================================================
-
-Column {style="height:1100px; background-color:#FCFCFC;"}
---------------------------------------------------------
-
-<!-- Link to source code on OSF.io -->
-<div style = "text-align: center; padding-top: 15px; padding-bottom: 10px;"> <a href="https://osf.io/bx2d7/" style="border-bottom:none !important"> <button style = 'background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size: 18px; font-weight: bold; font-family: "Courier New", Courier, monospace;'> <i class="fab fa-r-project" aria-hidden="true" style='padding-top:4px; font-size:20px; color:#5A647B;'></i> Code for analyses and dashboard <span style = "font-size: 10px">(CC-BY licensed)</span> </button> </a> </div>
-
-<div style = "padding-left: 30px; padding-right: 38px; text-align: justify; background-color:#FCFCFC;">
-
-#### Information
-
-These modality exclusivity norms for Dutch were created to facilitate research about language (see also Speed & Majid, 2017). Forty-two respondents rated the properties and concepts sepately and in blocks, with an average of eight respondents per word, a minimum of five, and a maximum of nine. The [instructions](https://osf.io/ungey/) were similar to those used by Lynott and Connell (2009, 2013), except that we elicited three modalities (auditory, haptic, visual) instead of five.
-
-> <div style = "text-align: justify; font-size: 14px; background-color: #FCFCFC;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
-
-The norms were validated in [Bernabeu, Willems, and Louwerse (2017)](https://mindmodeling.org/cogsci2017/papers/0318/index.html), where switches across trials with different dominant modalities (e.g., visual versus auditory) incurred semantic processing costs. All data for that study is avaiable, including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/).
-
-The present analyses and further ones will be reported in a forthcoming paper. All data and analysis code for the norms are [available for re-use](https://osf.io/brkjw/wiki/home/) under a [CC-BY licence](https://creativecommons.org/licenses/by/4.0/), provided acknowledgment of the following publication:
-
-> <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 14.1px; background-color: #FCFCFC;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). [Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs.](https://mindmodeling.org/cogsci2017/papers/0318/index.html) In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society.</div>
-
-
-#### External corpora
-
-* Concreteness and age of acquisition: Norms by Brysbaert, Warriner, and Kuperman (2014).
-
-* Phonological and orthographic neighbours: DutchPOND (Marian et al., 2012).
-
-* Word frequency and contextual diversity: SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010).
-
-* Lemma frequency: CELEX (Baayen, Piepenbrock, & van Rijn, 1993).
-
-
-#### Acknowledgements
-
-This research was greatly supported by the help of Tilburg University, which provided funding; Wendy Leijten, who provided linguistic advice; and the forty-two Tilburg University students who generously completed the surveys.
-
-
-#### References
-
-<div style = "text-align: justify; text-indent:-2em; margin-left:2em; background-color:#FCFCFC;">
-
-Baayen, R. H., Piepenbrock, R., & van Rijn, H. (1993). *The CELEX Lexical Database* [CD-ROM]. Philadelphia: Linguistic Data Consortium, University of Pennsylvania.
-
-Brysbaert, M., Warriner, A.B., & Kuperman, V. (2014). Concreteness ratings for 40 thousand generally known English word lemmas. *Behavior Research Methods, 46*, 3, 904-911. https://doi.org/10.3758/s13428-013-0403-5
-
-Field, A. P., Miles, J., & Field, Z. (2012). *Discovering Statistics Using R*. London, UK: Sage.
-
-Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measure for Dutch words based on film subtitles. *Behavior Research Methods, 42*, 3, 643-650. https://doi.org/10.3758/BRM.42.3.643.
-
-Louwerse, M., & Connell, L. (2011). A taste of words: linguistic context and perceptual simulation predict the modality of words. *Cognitive Science, 35*, 2, 381-98. https://doi.org/10.1111/j.1551-6709.2010.01157.x.
-
-Lynott, D., & Connell, L. (2009). Modality exclusivity norms for 423 object concepts. *Behavior Research Methods, 41*, 2, 558-564. https://doi.org/10.3758/BRM.41.2.558.
-
-Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The relationship between perceptual experience and surface word form. *Behavior Research Methods, 45*, 2, 516-526. https://doi.org/10.3758/s13428-012-0267-0.
-
-Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. https://doi.org/10.1371/journal.pone.0043230.
-
-Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. https://doi.org/10.3758/s13428-017-0852-3.
-
-</div>
-
-
-#### Contact
-
-Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
-
-[Webpage](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu)
-
-<br></br>
 
 </div>
