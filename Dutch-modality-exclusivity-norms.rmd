@@ -400,7 +400,7 @@ colours = c('firebrick1', 'dodgerblue', 'forestgreen')
 Info {style="background-color:#FCFCFC; data-width:100%"}
 =======================================================================
 
-Column {style="height:1450px; background-color:#FCFCFC;"}
+Column {style="height:1300px; background-color:#FCFCFC;"}
 --------------------------------------------------------
 
 <!-- Link to source code on OSF.io -->

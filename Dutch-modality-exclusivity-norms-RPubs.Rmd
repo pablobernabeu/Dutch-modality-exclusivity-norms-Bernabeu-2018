@@ -400,7 +400,7 @@ colours = c('firebrick1', 'dodgerblue', 'forestgreen')
 Info {style="background-color:#FCFCFC; data-width:100%"}
 =======================================================================
 
-Row {style="height:1250px; background-color:#FCFCFC;"}
+Row {style="height:1300px; background-color:#FCFCFC;"}
 --------------------------------------------------------
 
 <div style = "padding-left: 30px; padding-right: 38px; text-align: justify; background-color: #FCFCFC;">
