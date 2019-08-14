@@ -574,7 +574,7 @@ actionLink("properties_loadings", " Principal component loadings", class = 'fa f
 
 observeEvent(input$properties_loadings, {
   showModal(modalDialog(
-    title = HTML('<div style="padding-bottom:0px; font-size:14px;"> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., over 50% shared variance) shown in bold. </div>'),
+    title = HTML('<div style="padding-bottom:0px; font-size:14px;"> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </div>'),
     HTML( 	# Below, table constructed
       properties_modality_loadings %>%
         # Highlight correlations above .7
@@ -984,7 +984,7 @@ actionLink("concepts_loadings", " Principal component loadings", class = 'fa fa-
 
 observeEvent(input$concepts_loadings, {
   showModal(modalDialog(
-    title = HTML('<div style="padding-bottom:0px; font-size:14px;"> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., over 50% shared variance) shown in bold. </div>'),
+    title = HTML('<div style="padding-bottom:0px; font-size:14px;"> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </div>'),
     HTML( 	# Below, table constructed
       concepts_modality_loadings %>%
         # Highlight correlations above .7
@@ -3484,7 +3484,7 @@ actionLink("properties_lexicals_loadings",
            HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding-top:3px; padding-bottom:0px; padding-left:6px; padding-right:6px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Principal component loadings for properties.</p>'), style = 'border-bottom:none !important')
 observeEvent(input$properties_lexicals_loadings, {
   showModal(modalDialog(
-    title = HTML('<div style="padding-bottom:0px; padding-left:2px; font-size:14px; text-align:justify;"> <b>Loadings of principal components (see \'PC\' dependent variables), in the form of correlations, for properties</b>. Coefficients above <i>r</i> = .70 (i.e., over 50% shared variance) shown in bold. </div>'),
+    title = HTML('<div style="padding-bottom:0px; padding-left:2px; font-size:14px; text-align:justify;"> <b>Loadings of principal components for properties (see \'PC\' dependent variables), in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </div>'),
     HTML( 	# Below, table constructed
       properties_lexicals_loadings %>%
       # Highlight correlations above .7
@@ -3510,7 +3510,7 @@ observeEvent(input$properties_lexicals_loadings, {
 
 <div style = "background-color: #FCFCFC; text-align: justify; padding-top: 27px; padding-right: 36px; padding-left: 32px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
 
-**Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would. By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor of lexical properties, or yielded a different polarity from the haptic and visual ratings, thus demonstrating sound symbolism. Standardised coefficients ($\beta$) presented below, with asterisks indicating significance (<sup>\*\*\*</sup>*p* < .001; <sup>\*\*</sup>*p* < .01; <sup>\*</sup>*p* < .05). Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). [External corpora used](#info). 'PC' = Kaiser-normalised, varimax-rotated principal component.
+**Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would ([see external corpora](#info)). By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor of lexical properties, or yielded a different polarity from the haptic and visual ratings, thus demonstrating sound symbolism. Standardised coefficients ($\beta$) presented below, with asterisks indicating significance (<sup>\*</sup>*p* < .05; <sup>\*\*</sup>*p* < .01; <sup>\*\*\*</sup>*p* < .001). Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). 'PC' = Kaiser-normalised, varimax-rotated principal component.
 
 </div>
 
@@ -3559,7 +3559,7 @@ actionLink("concepts_lexicals_loadings",
            HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding-top:3px; padding-bottom:0px; padding-left:6px; padding-right:6px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Principal component loadings for concepts.</p>'), style = 'border-bottom:none !important')
 observeEvent(input$concepts_lexicals_loadings, {
   showModal(modalDialog(
-    title = HTML('<div style="padding-bottom:0px; padding-left:2px; font-size:14px; text-align:justify;"> <b>Loadings of principal components (see \'PC\' dependent variables), in the form of correlations, for concepts</b>. Coefficients above <i>r</i> = .70 (i.e., over 50% shared variance) shown in bold. </div>'),
+    title = HTML('<div style="padding-bottom:0px; padding-left:2px; font-size:14px; text-align:justify;"> <b>Loadings of principal components for concepts (see \'PC\' dependent variables), in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </div>'),
     HTML( 	# Below, table constructed
       concepts_lexicals_loadings %>%
       # Highlight correlations above .7

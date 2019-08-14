@@ -400,10 +400,10 @@ colours = c('firebrick1', 'dodgerblue', 'forestgreen')
 Info {style="background-color:#FCFCFC; data-width:100%"}
 =======================================================================
 
-Row {style="height:1350px; background-color:#FCFCFC;"}
+Row {style="height:1550px; background-color:#FCFCFC;"}
 --------------------------------------------------------
 
-<div style = "padding-left: 30px; padding-right: 38px; text-align: justify; background-color: #FCFCFC;">
+<div style = "padding-left: 30px; padding-right: 38px; padding-bottom:40px; text-align: justify; background-color: #FCFCFC;">
 
 <div style="text-align: center; font-size: 18px; padding-top: 21px; margin-top: 2px; margin-bottom: 2px;"> This *RPubs* website is a reduced version of a dashboard. </div>
 
@@ -480,6 +480,7 @@ Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating p
 
 </div>
 
+<div>
 
 #### Contact {style='padding-top:5px;'}
 
@@ -487,7 +488,7 @@ Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
 
 [Webpage](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu)
 
-<br></br>
+</div>
 
 </div>
 
@@ -586,7 +587,7 @@ Inputs {.sidebar}
 #                PC2 = ifelse(abs(as.numeric(PC2)) > .7, cell_spec(PC2, "html", bold = TRUE, color = 'black'),
 #                             cell_spec(PC2, "html")) ) %>%
 #         kable(format = "html", escape = FALSE) %>%
-#         footnote(general = 'Correlations above r = .70 (i.e., over 50% shared variance) shown in bold.') %>%
+#         footnote(general = 'Correlations above r = .70 (i.e., 50% shared variance) shown in bold.') %>%
 #         kable_styling('striped', full_width = F) %>%
 #         column_spec(1, bold = T)
 #       ),
@@ -900,7 +901,7 @@ Row {data-height=1000 padding-bottom=7}
 Row {style="data-width:100%;"}
 -----------------------------------------------------------------------
 
-### <span> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., over 50% shared variance) shown in bold. </span>
+### <span> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </span>
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:6px;"> </div>
@@ -1040,7 +1041,7 @@ Inputs {.sidebar}
 #                PC2 = ifelse(abs(as.numeric(PC2)) > .7, cell_spec(PC2, "html", bold = TRUE, color = 'black'),
 #                             cell_spec(PC2, "html")) ) %>%
 #         kable(format = "html", escape = FALSE) %>%
-#         footnote(general = 'Correlations above r = .70 (i.e., over 50% shared variance) shown in bold.', general_title = '') %>%
+#         footnote(general = 'Correlations above r = .70 (i.e., 50% shared variance) shown in bold.', general_title = '') %>%
 #         kable_styling('striped', full_width = F) %>%
 #         column_spec(1, bold = T)
 #       ),
@@ -1355,7 +1356,7 @@ Row {data-height=1000 padding-bottom=7}
 Row {style="data-width:100%;"}
 -----------------------------------------------------------------------
 
-### <span> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., over 50% shared variance) shown in bold. </span>
+### <span> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </span>
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:6px;"> </div>
@@ -3576,7 +3577,7 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$
 #                PC3 = ifelse(abs(as.numeric(PC3)) > .7, cell_spec(PC3, "html", bold = TRUE, color = 'black'),
 #                             cell_spec(PC3, "html")) ) %>%
 #         kable(format = "html", escape = FALSE) %>%
-#         footnote(general = 'Correlations above r = .70 (i.e., over 50% shared variance) shown in bold.', general_title = '') %>%
+#         footnote(general = 'Correlations above r = .70 (i.e., 50% shared variance) shown in bold.', general_title = '') %>%
 #         kable_styling('striped', full_width = F) %>%
 #         column_spec(1, bold = T)
 #       ),
@@ -3592,7 +3593,7 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$
 
 <div style = "background-color: #FCFCFC; text-align: justify; padding-top: 27px; padding-right: 36px; padding-left: 32px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
 
-**Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would. By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor of lexical properties, or yielded a different polarity from the haptic and visual ratings, thus demonstrating sound symbolism. Standardised coefficients ($\beta$) presented below, with asterisks indicating significance (<sup>\*\*\*</sup>*p* < .001; <sup>\*\*</sup>*p* < .01; <sup>\*</sup>*p* < .05). Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). [External corpora used](#info). 'PC' = Kaiser-normalised, varimax-rotated principal component.
+**Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would ([see external corpora](#info)). By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor of lexical properties, or yielded a different polarity from the haptic and visual ratings, thus demonstrating sound symbolism. Standardised coefficients ($\beta$) presented below, with asterisks indicating significance (<sup>\*</sup>*p* < .05; <sup>\*\*</sup>*p* < .01; <sup>\*\*\*</sup>*p* < .001). Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). 'PC' = Kaiser-normalised, varimax-rotated principal component.
 
 </div>
 
@@ -3652,7 +3653,7 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$
 #                PC3 = ifelse(abs(as.numeric(PC3)) > .7, cell_spec(PC3, "html", bold = TRUE, color = 'black'),
 #                             cell_spec(PC3, "html")) ) %>%
 #         kable(format = "html", escape = FALSE) %>%
-#         footnote(general = 'Correlations above r = .70 (i.e., over 50% shared variance) shown in bold.', general_title = '') %>%
+#         footnote(general = 'Correlations above r = .70 (i.e., 50% shared variance) shown in bold.', general_title = '') %>%
 #         kable_styling('striped', full_width = F) %>%
 #         column_spec(1, bold = T)
 #       ),
@@ -3755,7 +3756,7 @@ HTML(
 Row {style="data-width:100%; padding-top: 0px;"}
 -----------------------------------------------------------------------
 
-### <span style="padding-bottom:5px; text-align:justify;"> <b>Loadings of principal components (see 'PC' dependent variables above), in the form of correlations, for properties</b>. Coefficients above <i>r</i> = .70 (i.e., over 50% shared variance) shown in bold. </span>
+### <span style="padding-bottom:5px; text-align:justify;"> <b>Loadings of principal components for properties (see 'PC' dependent variables above), in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </span>
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:4px;"> </div>
@@ -3811,7 +3812,7 @@ column_spec(1, bold = T)
 ```
 
 
-### <span style="padding-bottom:5px; text-align:justify;"> <b>Loadings of principal components (see 'PC' dependent variables above), in the form of correlations, for concepts</b>. Coefficients above <i>r</i> = .70 (i.e., over 50% shared variance) shown in bold. </span>
+### <span style="padding-bottom:5px; text-align:justify;"> <b>Loadings of principal components for concepts (see 'PC' dependent variables above), in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </span>
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:4px;"> </div>
