@@ -520,7 +520,7 @@ observeEvent(input$properties_DefinitionsCorporaLink, {
                   
                   <p style="font-size:13px"><b> Perceptual strength:</b> Highest rating across modalities.<sup>*</sup> </p>
                   
-                  <p style="font-size:11px !important; padding-bottom:4px;">* Calculated following <a href="#info"> Lynott and Connell (2009, 2013)</a>.</p>
+                  <p style="font-size:11px !important; padding-bottom:4px;">* Calculated following <a href="#section-info"> Lynott and Connell (2009, 2013)</a>.</p>
                   
                   <h4 style="background-color: #FFFEF0; padding-top:6px; padding-bottom:2px;"><b> Corpora </b></h4>
                   
@@ -574,7 +574,7 @@ actionLink("properties_loadings", " Principal component loadings", class = 'fa f
 
 observeEvent(input$properties_loadings, {
   showModal(modalDialog(
-    title = HTML('<div style="padding-bottom:0px; font-size:14px;"> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </div>'),
+    title = HTML('<div style="padding-bottom:0px; font-size:14px; text-align:justify;"> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. When the three modalities are reduced to two principal components, the visual and haptic modalities load on the components similarly--both with positive polarities--, whereas the auditory modality is relatively independent--with a negative polarity.</div>'),
     HTML( 	# Below, table constructed
       properties_modality_loadings %>%
         # Highlight correlations above .7
@@ -586,7 +586,7 @@ observeEvent(input$properties_loadings, {
         kable_styling('striped', full_width = F, position = "left") %>%
         column_spec(1, bold = T)
       ),
-    size = 's', easyClose = TRUE, footer = modalButton('Close')
+    size = 'm', easyClose = TRUE, footer = modalButton('Close')
     ))
   })
 
@@ -777,7 +777,7 @@ sliderInput("properties_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 
 Column {style="height:1000px"}
 -----------------------------------------------------------------------
 
-### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, the visual and haptic modalities load on the components similarly--both with positive polarities--, whereas the auditory modality is relatively independent--with a negative polarity (cf. [Lynott & Connell, 2009](#cf-lc-english-norms)). {style='padding-top:13px'}
+### <span style = 'font-size: 16px !important;'> Principal component analysis (PCA; see loadings on the sidebar) reflecting different relationships among the modalities (cf. <a href="#section-cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>) </span> {style="padding-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:8px;"> </div>
@@ -930,7 +930,7 @@ observeEvent(input$concepts_DefinitionsCorporaLink, {
                   
                   <p style="font-size:13px"><b> Perceptual strength:</b> Highest rating across modalities.<sup>*</sup> </p>
                   
-                  <p style="font-size:11px !important; padding-bottom:4px;">* Calculated following <a href="#info"> Lynott and Connell (2009, 2013)</a>.</p>
+                  <p style="font-size:11px !important; padding-bottom:4px;">* Calculated following <a href="#section-info"> Lynott and Connell (2009, 2013)</a>.</p>
                   
                   <h4 style="background-color: #FFFEF0; padding-top:3px; padding-bottom:3px;"><b> Corpora </b></h4>
                   
@@ -984,7 +984,7 @@ actionLink("concepts_loadings", " Principal component loadings", class = 'fa fa-
 
 observeEvent(input$concepts_loadings, {
   showModal(modalDialog(
-    title = HTML('<div style="padding-bottom:0px; font-size:14px;"> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </div>'),
+    title = HTML('<div style="padding-bottom:0px; font-size:14px; text-align:justify;"> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, whereas the auditory modality is relatively independent, having its own component.</div>'),
     HTML( 	# Below, table constructed
       concepts_modality_loadings %>%
         # Highlight correlations above .7
@@ -996,7 +996,7 @@ observeEvent(input$concepts_loadings, {
         kable_styling('striped', full_width = F, position = "left") %>%
         column_spec(1, bold = T)
       ),
-    size = 's', easyClose = TRUE, footer = modalButton("Close")
+    size = 'm', easyClose = TRUE, footer = modalButton("Close")
     ))
   })
 
@@ -1187,7 +1187,7 @@ sliderInput("concepts_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.
 Column {style="height:1000px"}
 -----------------------------------------------------------------------
 
-### Principal component analysis (PCA) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, whereas the auditory modality is relatively independent, having its own component (cf. [Lynott & Connell, 2013](#cf-lc-english-norms)). {style='padding-top:13px'}
+### <span style = 'font-size: 16px !important;'> Principal component analysis (PCA; see loadings on the sidebar) reflecting different relationships among the modalities (cf. <a href="#section-cf-lc-english-norms">Lynott & Connell's 2013 data for English</a>) </span> {style="padding-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:8px;"> </div>
@@ -3508,7 +3508,7 @@ observeEvent(input$properties_lexicals_loadings, {
 
 
 
-<div style = "background-color: #FCFCFC; text-align: justify; padding-top: 27px; padding-right: 36px; padding-left: 32px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
+<div style = "background-color: #FCFCFC; text-align: justify; padding-top: 27px; padding-right: 32px; padding-left: 32px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
 
 **Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would ([see external corpora](#info)). By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor of lexical properties, or yielded a different polarity from the haptic and visual ratings, thus demonstrating sound symbolism. Standardised coefficients ($\beta$) presented below, with asterisks indicating significance (<sup>\*</sup>*p* < .05; <sup>\*\*</sup>*p* < .01; <sup>\*\*\*</sup>*p* < .001). Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). 'PC' = Kaiser-normalised, varimax-rotated principal component.
 

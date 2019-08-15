@@ -524,7 +524,7 @@ Inputs {.sidebar}
 # 
 #                   <p><b> Perceptual strength:</b> Highest rating across modalities.<sup>*</sup> </p>
 # 
-#                   <p style="font-size:11px !important; padding-bottom:4px;">* Calculated following <a href="#info"> Lynott and Connell (2009, 2013)</a>.</p>
+#                   <p style="font-size:11px !important; padding-bottom:4px;">* Calculated following <a href="#section-info"> Lynott and Connell (2009, 2013)</a>.</p>
 # 
 #                   <h4 style="background-color: #FFFEF0; padding-top:6px; padding-bottom:2px;"><b> Corpora </b></h4>
 # 
@@ -536,7 +536,7 @@ Inputs {.sidebar}
 # 
 #                   <p><b> Lemma frequency:</b> CELEX (Baayen, Piepenbrock, & van Rijn, 1993).</p>
 # 
-#                   <p><i class="fas fa-book-open"></i> <a href="#info">References</a></p>
+#                   <p><i class="fas fa-book-open"></i> <a href="#section-info">References</a></p>
 # 
 #                   </div>'))
 #   })
@@ -783,7 +783,7 @@ Inputs {.sidebar}
 Row {data-height=1000 padding-bottom=7}
 -----------------------------------------------------------------------
 
-### Principal component analysis (PCA; see loadings below) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, the visual and haptic modalities load on the components similarly--both with positive polarities--, whereas the auditory modality is relatively independent--with a negative polarity (cf. [Lynott & Connell, 2009](#cf-lc-english-norms)). {style='padding-top:13px'}
+### <span style = 'font-size: 16px !important;'> Principal component analysis (PCA; see loadings below) reflecting different relationships among the modalities (cf. <a href="#section-cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>) </span> {style="text-align:justify; padding-top: 17px !important; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:6px;"> </div>
@@ -901,7 +901,7 @@ Row {data-height=1000 padding-bottom=7}
 Row {style="data-width:100%;"}
 -----------------------------------------------------------------------
 
-### <span> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </span>
+### <span> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. When the three modalities are reduced to two principal components, the visual and haptic modalities load on the components similarly--both with positive polarities--, whereas the auditory modality is relatively independent--with a negative polarity.</span> {style="font-size: 15px !important; text-align:justify; padding-top: 8px !important; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:6px;"> </div>
@@ -978,7 +978,7 @@ Inputs {.sidebar}
 # 
 #                   <p><b> Perceptual strength:</b> Highest rating across modalities.<sup>*</sup> </p>
 # 
-#                   <p style="font-size:11px !important; padding-bottom:4px;">* Calculated following <a href="#info"> Lynott and Connell (2009, 2013)</a>.</p>
+#                   <p style="font-size:11px !important; padding-bottom:4px;">* Calculated following <a href="#section-info"> Lynott and Connell (2009, 2013)</a>.</p>
 # 
 #                   <h4 style="background-color: #FFFEF0; padding-top:3px; padding-bottom:3px;"><b> Corpora </b></h4>
 # 
@@ -990,7 +990,7 @@ Inputs {.sidebar}
 # 
 #                   <p><b> Lemma frequency:</b> CELEX (Baayen, Piepenbrock, & van Rijn, 1993).</p>
 # 
-#                   <p><i class="fas fa-book-open"></i> <a href="#info">References</a></p>
+#                   <p><i class="fas fa-book-open"></i> <a href="#section-info">References</a></p>
 # 
 #                   </div>'))
 #   })
@@ -1236,7 +1236,7 @@ Inputs {.sidebar}
 Row {data-height=1000 padding-bottom=7}
 -----------------------------------------------------------------------
 
-### Principal component analysis (PCA; see loadings below) reflecting different relationships among the modalities. Result plotted by word and dominant modality. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, whereas the auditory modality is relatively independent, having its own component (cf. [Lynott & Connell, 2013](#cf-lc-english-norms)). {style='padding-top:13px'}
+### <span style = 'font-size: 16px !important;'> Principal component analysis (PCA; see loadings below) reflecting different relationships among the modalities (cf. <a href="#section-cf-lc-english-norms">Lynott & Connell's 2013 data for English</a>) </span> {style="text-align:justify; padding-top: 17px !important; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:6px;"> </div>
@@ -1356,7 +1356,7 @@ Row {data-height=1000 padding-bottom=7}
 Row {style="data-width:100%;"}
 -----------------------------------------------------------------------
 
-### <span> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </span>
+### <span> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, whereas the auditory modality is relatively independent, having its own component.</span> {style="font-size: 15px !important; text-align:justify; padding-top: 8px !important; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:6px;"> </div>
@@ -3581,7 +3581,7 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$
 #         kable_styling('striped', full_width = F) %>%
 #         column_spec(1, bold = T)
 #       ),
-#     size = 's', easyClose = TRUE, footer = modalButton("Close")
+#     size = 'm', easyClose = TRUE, footer = modalButton("Close")
 #     ))
 #   })
 
@@ -3657,7 +3657,7 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$
 #         kable_styling('striped', full_width = F) %>%
 #         column_spec(1, bold = T)
 #       ),
-#     size = 's', easyClose = TRUE, footer = modalButton("Close")
+#     size = 'm', easyClose = TRUE, footer = modalButton("Close")
 #     ))
 #   })
 
@@ -3756,7 +3756,7 @@ HTML(
 Row {style="data-width:100%; padding-top: 0px;"}
 -----------------------------------------------------------------------
 
-### <span style="padding-bottom:5px; text-align:justify;"> <b>Loadings of principal components for properties (see 'PC' dependent variables above), in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </span>
+### <span> <b>Loadings of principal components for properties (see 'PC' dependent variables above), in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </span> {style="padding-top:8px; padding-bottom:5px; text-align:justify;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:4px;"> </div>
@@ -3812,7 +3812,7 @@ column_spec(1, bold = T)
 ```
 
 
-### <span style="padding-bottom:5px; text-align:justify;"> <b>Loadings of principal components for concepts (see 'PC' dependent variables above), in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </span>
+### <span> <b>Loadings of principal components for concepts (see 'PC' dependent variables above), in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </span> {style="padding-top:8px; padding-bottom:5px; text-align:justify;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:4px;"> </div>
