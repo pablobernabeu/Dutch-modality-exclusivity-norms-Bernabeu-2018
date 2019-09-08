@@ -416,9 +416,9 @@ The norms, which are ratings of linguistic stimuli, served a twofold purpose: fi
 
 > <div style = "text-align: justify; font-size: 14px; background-color: #FCFCFC;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
 
-These norms were validated in an experiment showing that shifts across trials with different dominant modalities (e.g., visual versus auditory) incurred semantic processing costs ([Bernabeu, Willems, & Louwerse, 2017](https://mindmodeling.org/cogsci2017/papers/0318/index.html)). All data for that study are [available](https://osf.io/97unm/wiki/home/), including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/).
+These norms were validated in an experiment showing that shifts across trials with different dominant modalities incurred semantic processing costs ([Bernabeu, Willems, & Louwerse, 2017](https://mindmodeling.org/cogsci2017/papers/0318/index.html)). All data for that study are [available](https://osf.io/97unm/wiki/home/), including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/).
 
-The [properties](#properties){style='background-color:#F2F7FF'} and the [concepts](#concepts){style='background-color:#F2F7FF'} were separately analysed. Properties were more strongly perceptual than concepts. Distinct relationships also emerged among the modalities emerged, with the visual and haptic modalities being closely related, and the auditory modality being relatively independent ([cf. Lynott & Connell's data for English](#cf-lc-english-norms){style='background-color:#F2F7FF'}). This ties in with findings that, in conceptual processing, modalities can be collated based on language statistics (Louwerse & Connell, 2011).
+The [properties](#properties){style='background-color:#F2F7FF'} and the [concepts](#concepts){style='background-color:#F2F7FF'} were analysed separately. Properties were more strongly perceptual than concepts. Distinct relationships also emerged among the modalities emerged, with the visual and haptic modalities being closely related, and the auditory modality being relatively independent ([cf. Lynott & Connell's data for English](#cf-lc-english-norms){style='background-color:#F2F7FF'}). This ties in with findings that, in conceptual processing, modalities can be collated based on language statistics (Louwerse & Connell, 2011).
 
 <div style = "padding-top: 5px; padding-left: 25px; padding-bottom: 8px; float: right; width: 22%; font-size: 85%;">
 <div style = "text-align: center !important; padding-right: 0 !important; padding-left: 0 !important; padding-bottom: 0 !important;"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Booba-Kiki.svg" alt="Bouba-Kiki" width=80px height=55px></img></div>
@@ -426,7 +426,7 @@ The [properties](#properties){style='background-color:#F2F7FF'} and the [concept
 <div style="font-size:65%; padding-top:6px;"> https://commons.wikimedia.org/wiki/File:Booba-Kiki.svg. Monochrome version 1 June 2007 by BendžVectorized with Inkscape --Qef (talk) 21:21, 23 June 2008 (UTC) [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)] </div> 
 </div>
 
-The norms also served to investigate [sound symbolism](#sound-symbolism){style='background-color:#F2F7FF'}, which is the relation between the form of words and their meaning. The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would. Lynott and Connell's (2013) findings were replicated, as auditory ratings were either the best predictor of lexical properties, or yielded a different polarity from the haptic and visual ratings.
+The norms also served to investigate [sound symbolism](#sound-symbolism){style='background-color:#F2F7FF'}, which is the relation between the form of words and their meaning. The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would. Lynott and Connell's (2013) findings were replicated, as auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings.
 
 The present analyses and further ones will be reported in a forthcoming paper. All data and analysis code for the norms are [available for re-use](https://osf.io/brkjw/wiki/home/) under a [CC-BY licence](https://creativecommons.org/licenses/by/4.0/), provided acknowledgment of the following publication:
 
@@ -574,7 +574,7 @@ actionLink("properties_loadings", " Principal component loadings", class = 'fa f
 
 observeEvent(input$properties_loadings, {
   showModal(modalDialog(
-    title = HTML('<div style="padding-bottom:0px; font-size:14px; text-align:justify;"> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. When the three modalities are reduced to two principal components, the visual and haptic modalities load on the components similarly--both with positive polarities--, whereas the auditory modality is relatively independent--with a negative polarity.</div>'),
+    title = HTML('<div style="padding-bottom:0px; font-size:14px; text-align:justify;"> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = &plusmn;.70 (i.e., 50% shared variance) shown in bold. When the three modalities were reduced to two principal components, the visual and haptic modalities loaded onto the components similarly, both with positive polarities, whereas the auditory modality was relatively independent, with a negative polarity.</div>'),
     HTML( 	# Below, table constructed
       properties_modality_loadings %>%
         # Highlight correlations above .7
@@ -753,11 +753,11 @@ sliderInput("properties_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 
 
 **Principal component analysis (PCA):** Method for reducing dimensionality of data while retaining the main patterns ([read more](https://www.nature.com/articles/nmeth.4346)).
 
-<div><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Defined as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Dominant modality: </b></span> Highest-rated modality. </div>
+<div><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Dominant modality: </b></span> Highest-rated modality. </div>
 
-<div style="padding-top:5px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Defined as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Modality exclusivity: </b></span> Range of the three modality ratings divided by the sum. </div>
+<div style="padding-top:5px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Modality exclusivity: </b></span> Range of the three modality ratings divided by the sum. </div>
 
-<div style="padding-top:5px; padding-bottom:6px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Defined as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Perceptual strength: </b> </span> Highest rating across modalities. </div>
+<div style="padding-top:5px; padding-bottom:6px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Perceptual strength: </b> </span> Highest rating across modalities. </div>
 
 
 #### **Corpora**
@@ -777,7 +777,7 @@ sliderInput("properties_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 
 Column {style="height:1000px"}
 -----------------------------------------------------------------------
 
-### <span style = 'font-size: 16px !important;'> Principal component analysis (PCA; see loadings on the sidebar) reflecting different relationships among the modalities (cf. <a href="#section-cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>) </span> {style="padding-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
+### <span style = 'font-size: 16px !important;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings below; cf. <a href="#section-cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). </span> {style="padding-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:8px;"> </div>
@@ -984,7 +984,7 @@ actionLink("concepts_loadings", " Principal component loadings", class = 'fa fa-
 
 observeEvent(input$concepts_loadings, {
   showModal(modalDialog(
-    title = HTML('<div style="padding-bottom:0px; font-size:14px; text-align:justify;"> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. When the three modalities are reduced to two principal components, visual and haptic ratings share one component, whereas the auditory modality is relatively independent, having its own component.</div>'),
+    title = HTML('<div style="padding-bottom:0px; font-size:14px; text-align:justify;"> <b>Loadings of principal components (PC) in the form of correlations.</b> Coefficients above <i>r</i> = &plusmn;.70 (i.e., 50% shared variance) shown in bold. When the three modalities were reduced to two principal components, visual and haptic ratings shared one component, whereas the auditory modality was relatively independent, having its own component.</div>'),
     HTML( 	# Below, table constructed
       concepts_modality_loadings %>%
         # Highlight correlations above .7
@@ -1163,11 +1163,11 @@ sliderInput("concepts_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.
 
 **Principal component analysis (PCA):** Method for reducing dimensionality of data while retaining the main patterns ([read more](https://www.nature.com/articles/nmeth.4346)).
 
-<div><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Defined as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Dominant modality: </b></span> Highest-rated modality. </div>
+<div><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Dominant modality: </b></span> Highest-rated modality. </div>
 
-<div style="padding-top:5px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Defined as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Modality exclusivity: </b></span> Range of the three modality ratings divided by the sum. </div>
+<div style="padding-top:5px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Modality exclusivity: </b></span> Range of the three modality ratings divided by the sum. </div>
 
-<div style="padding-top:5px; padding-bottom:6px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Defined as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Perceptual strength: </b> </span> Highest rating across modalities. </div>
+<div style="padding-top:5px; padding-bottom:6px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Perceptual strength: </b> </span> Highest rating across modalities. </div>
 
 
 #### **Corpora**
@@ -1187,7 +1187,7 @@ sliderInput("concepts_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.
 Column {style="height:1000px"}
 -----------------------------------------------------------------------
 
-### <span style = 'font-size: 16px !important;'> Principal component analysis (PCA; see loadings on the sidebar) reflecting different relationships among the modalities (cf. <a href="#section-cf-lc-english-norms">Lynott & Connell's 2013 data for English</a>) </span> {style="padding-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
+### <span style = 'font-size: 16px !important;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings below; cf. <a href="#section-cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). </span> {style="padding-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:8px;"> </div>
@@ -1316,7 +1316,7 @@ Cf. L&C English norms
 =======================================================================
 
 <div style = "background-color: #FCFCFC; text-align: center; font-size: 15px; padding-top: 20px; padding-bottom: 5px;">
-<b> Comparison with Lynott and Connell's (2009, 2013) English norms ([data sets](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html))</b>
+<b> Comparison with Lynott and Connell's (2009, 2013) English norms ([data sets](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html)).</b> In both languages, properties were visibly more perceptual than concepts.
 </div>
 
 Column {style="height:50%;" data-padding=1}
@@ -3484,7 +3484,7 @@ actionLink("properties_lexicals_loadings",
            HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding-top:3px; padding-bottom:0px; padding-left:6px; padding-right:6px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Principal component loadings for properties.</p>'), style = 'border-bottom:none !important')
 observeEvent(input$properties_lexicals_loadings, {
   showModal(modalDialog(
-    title = HTML('<div style="padding-bottom:0px; padding-left:2px; font-size:14px; text-align:justify;"> <b>Loadings of principal components for properties (see \'PC\' dependent variables), in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </div>'),
+    title = HTML('<div style="padding-bottom:0px; padding-left:2px; font-size:14px; text-align:justify;"> <b>Loadings of principal components for properties (see \'PC\' dependent variables), in the form of correlations.</b> Coefficients above <i>r</i> = &plusmn;.70 (i.e., 50% shared variance) shown in bold. </div>'),
     HTML( 	# Below, table constructed
       properties_lexicals_loadings %>%
       # Highlight correlations above .7
@@ -3510,7 +3510,7 @@ observeEvent(input$properties_lexicals_loadings, {
 
 <div style = "background-color: #FCFCFC; text-align: justify; padding-top: 27px; padding-right: 32px; padding-left: 32px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
 
-**Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would ([see external corpora](#info)). By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor of lexical properties, or yielded a different polarity from the haptic and visual ratings, thus demonstrating sound symbolism. Standardised coefficients ($\beta$) presented below, with asterisks indicating significance (<sup>\*</sup>*p* < .05; <sup>\*\*</sup>*p* < .01; <sup>\*\*\*</sup>*p* < .001). Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). 'PC' = Kaiser-normalised, varimax-rotated principal component.
+**Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would ([see external corpora](#info)). By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings, thus supporting sound symbolism. Standardised coefficients ($\beta$) presented below, with asterisks indicating significance (<sup>\*</sup>*p* < .05; <sup>\*\*</sup>*p* < .01; <sup>\*\*\*</sup>*p* < .001). Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). 'PC' = Kaiser-normalised, varimax-rotated principal component.
 
 </div>
 
@@ -3559,7 +3559,7 @@ actionLink("concepts_lexicals_loadings",
            HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding-top:3px; padding-bottom:0px; padding-left:6px; padding-right:6px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Principal component loadings for concepts.</p>'), style = 'border-bottom:none !important')
 observeEvent(input$concepts_lexicals_loadings, {
   showModal(modalDialog(
-    title = HTML('<div style="padding-bottom:0px; padding-left:2px; font-size:14px; text-align:justify;"> <b>Loadings of principal components for concepts (see \'PC\' dependent variables), in the form of correlations.</b> Coefficients above <i>r</i> = .70 (i.e., 50% shared variance) shown in bold. </div>'),
+    title = HTML('<div style="padding-bottom:0px; padding-left:2px; font-size:14px; text-align:justify;"> <b>Loadings of principal components for concepts (see \'PC\' dependent variables), in the form of correlations.</b> Coefficients above <i>r</i> = &plusmn;.70 (i.e., 50% shared variance) shown in bold. </div>'),
     HTML( 	# Below, table constructed
       concepts_lexicals_loadings %>%
       # Highlight correlations above .7
