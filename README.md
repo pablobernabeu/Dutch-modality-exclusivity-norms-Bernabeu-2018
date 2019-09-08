@@ -1,5 +1,7 @@
 # Modality exclusivity norms for 747 Dutch properties and concepts in Dutch: a replication of English
 
+<div style="text-align: justify !important;">
+
 <div style="text-align: right !important;"> <a href="https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master" alt="Launch editable code"> <img alt="Launch editable code" src="https://mybinder.org/badge_logo.svg"></img> </a> </div>
 
 This repository contains all experimental data, including each response survey in raw, the compilation of those alongside English norms data from Lynott and Connell (2009, 2013) (all.csv), the analysis code in R (norms.R), and the Dutch norms themselves (norms.xlsx).
@@ -70,3 +72,5 @@ Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating p
 Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
 
 [Webpage](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu)
+
+</div>
