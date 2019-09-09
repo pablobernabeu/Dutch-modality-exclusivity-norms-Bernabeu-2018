@@ -1,6 +1,6 @@
 # Modality exclusivity norms for 747 Dutch properties and concepts in Dutch: a replication of English
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=rstudio)
+Edit and run any of the R code: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=rstudio)
 
 This repository contains all experimental data, including each response survey in raw, the compilation of those alongside English norms data from Lynott and Connell (2009, 2013) (all.csv), the analysis code in R (norms.R), and the Dutch norms themselves (norms.xlsx).
 
