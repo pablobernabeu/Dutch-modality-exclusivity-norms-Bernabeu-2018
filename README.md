@@ -28,22 +28,22 @@ Further links:
 
 ### **Definitions** (as in Lynott & Connell, 2009, 2013)
 
-- Dominant modality: Highest-rated modality.
+- Dominant modality: Highest-rated modality
 
-- Modality exclusivity: Range of the three modality ratings divided by the sum.
+- Modality exclusivity: Range of the three modality ratings divided by the sum
 
-- Perceptual strength: Highest rating across modalities.
+- Perceptual strength: Highest rating across modalities
 
 
 ### Corpus measures used
 
-* Concreteness and age of acquisition: Brysbaert et al. (2014).
+* Concreteness and age of acquisition: Brysbaert et al. (2014)
 
-* Phonological and orthographic neighbours: Marian et al.'s (2012) DutchPOND.
+* Phonological and orthographic neighbours: Marian et al.'s (2012) DutchPOND
 
-* Word frequency and contextual diversity: Keuleers et al.'s (2010) SUBTLEX-NL.
+* Word frequency and contextual diversity: Keuleers et al.'s (2010) SUBTLEX-NL
 
-* Lemma frequency: Baayen et al.'s (1993) CELEX.
+* Lemma frequency: Baayen et al.'s (1993) CELEX
 
 
 ### References
@@ -52,17 +52,17 @@ Baayen, R. H., Piepenbrock, R., & van Rijn, H. (1993). *The CELEX Lexical Databa
 
 Field, A. P., Miles, J., & Field, Z. (2012). *Discovering Statistics Using R*. London, UK: Sage.
 
-Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measure for Dutch words based on film subtitles. *Behavior Research Methods, 42*, 3, 643-650. https://doi.org/10.3758/BRM.42.3.643
+Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measure for Dutch words based on film subtitles. *Behavior Research Methods, 42*, 3, 643-650. https://doi.org/10.3758/BRM.42.3.643.
 
-Louwerse, M., & Connell, L. (2011). A taste of words: linguistic context and perceptual simulation predict the modality of words. *Cognitive Science, 35*, 2, 381-98. https://doi.org/10.1111/j.1551-6709.2010.01157.x
+Louwerse, M., & Connell, L. (2011). A taste of words: linguistic context and perceptual simulation predict the modality of words. *Cognitive Science, 35*, 2, 381-98. https://doi.org/10.1111/j.1551-6709.2010.01157.x.
 
-Lynott, D., & Connell, L. (2009). Modality exclusivity norms for 423 object concepts. *Behavior Research Methods, 41*, 2, 558-564. https://doi.org/10.3758/BRM.41.2.558
+Lynott, D., & Connell, L. (2009). Modality exclusivity norms for 423 object concepts. *Behavior Research Methods, 41*, 2, 558-564. https://doi.org/10.3758/BRM.41.2.558.
 
-Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The relationship between perceptual experience and surface word form. *Behavior Research Methods, 45*, 2, 516-526. https://doi.org/10.3758/s13428-012-0267-0
+Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The relationship between perceptual experience and surface word form. *Behavior Research Methods, 45*, 2, 516-526. https://doi.org/10.3758/s13428-012-0267-0.
 
-Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. https://doi.org/10.1371/journal.pone.0043230
+Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. https://doi.org/10.1371/journal.pone.0043230.
 
-Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. https://doi.org/10.3758/s13428-017-0852-3
+Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. https://doi.org/10.3758/s13428-017-0852-3.
 
 
 ### Contact
