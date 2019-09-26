@@ -21,8 +21,6 @@ Further links:
  
 ![The relation among auditory, haptic, and visual modalities in property and concept words, in English and Dutch.](https://i.imgur.com/gS1vpcM.gif)
 
-.
-
 #### [**Summarised report**](https://www.linkedin.com/pulse/modality-exclusivity-norms-336-properties-411-dutch-english-bernabeu)
 
 ![Dashboard](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png)
