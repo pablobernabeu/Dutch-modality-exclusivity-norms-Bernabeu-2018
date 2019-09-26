@@ -2,8 +2,6 @@
 
 This repository contains all experimental data, including each response survey in raw, the compilation of those alongside English norms data from Lynott and Connell (2009, 2013) (all.csv), the analysis code in R (norms.R), and the Dutch norms themselves (norms.xlsx).
 
-Edit and run any of the R code in RStudio: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=rstudio)
-
 These Dutch modality norms were created to facilitate research about language. On average, each word was rated by eight respondents, with a minimum of five and a maximum of nine respondents per word (overall *N* = 42). The [instructions](https://osf.io/ungey/) were similar to those in Lynott and Connell (2009, 2013), but three modalities were elicited instead of five.
 
 > <span style = "font-size: 14px;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </span>
