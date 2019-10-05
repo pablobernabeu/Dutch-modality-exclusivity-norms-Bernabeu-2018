@@ -421,7 +421,7 @@ The [properties](#properties){style='background-color:#F2F7FF'} and the [concept
 
 <div style = "padding-top: 5px; padding-left: 25px; padding-bottom: 8px; float: right; width: 22%; font-size: 85%;">
 <div style = "text-align: center !important; padding-right: 0 !important; padding-left: 0 !important; padding-bottom: 0 !important;"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Booba-Kiki.svg" alt="Bouba-Kiki" width=80px height=55px></img></div>
-<div style="text-align: justify !important; padding-top: 0 !important;"> When people are asked to match the words 'bouba' and 'kiki' to the above objects, most name the rounded object 'bouba' and the spiky one 'kiki'. This has been interpreted as sound symbolism, insofar as pronouncing the word 'bouba' puts the lips into a more rounded shape than 'kiki' does (Köhler, 1929; see also Cuskley, Simner, & Kirby, 2017). </div>
+<div style="text-align: justify !important; padding-top: 0 !important;"> When people are asked to match the words 'bouba' and 'kiki' to the above objects, most name the rounded object 'bouba' and the spiky one 'kiki'. This has been interpreted as sound symbolism, insofar as pronouncing the word 'bouba' puts the lips into a more rounded shape than 'kiki' does (Köhler, 1929; Sourav et al., 2019). </div>
 <div style="font-size:65%; padding-top:6px;"> https://commons.wikimedia.org/wiki/File:Booba-Kiki.svg. Monochrome version 1 June 2007 by BendžVectorized with Inkscape --Qef (talk) 21:21, 23 June 2008 (UTC) [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)] </div> 
 </div>
 
@@ -471,6 +471,8 @@ Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The 
 Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. https://doi.org/10.1371/journal.pone.0043230.
 
 Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. https://doi.org/10.3758/s13428-017-0852-3.
+
+Sourav, S., Kekunnaya, R., Shareef, I., Banerjee, S., Bottari, D., & Röder, B. (2019). A protracted sensitive period regulates the development of cross-modal sound–shape associations in humans. *Psychological Science*. https://doi.org/10.1177/0956797619866625.
 
 </div>
 
