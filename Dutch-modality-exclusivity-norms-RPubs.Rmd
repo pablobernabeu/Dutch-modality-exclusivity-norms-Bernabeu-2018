@@ -407,7 +407,13 @@ Row {style="height:1550px; background-color:#FCFCFC;"}
 <div style="text-align: center; font-size: 18px; padding-top: 21px; margin-top: 2px; margin-bottom: 2px;"> This *RPubs* website is a reduced version of a dashboard. </div>
 
 <!-- Link to source code on OSF.io -->
-<div style = "text-align: center; padding-top: 12px; padding-bottom: 13px;"> <a href="https://pablobernabeu.shinyapps.io/Dutch-modality-exclusivity-norms/" style="border-bottom:none !important"> <button style = 'background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size: 18px; font-weight: bold; font-family: "Courier New", Courier, monospace;'> <i class="fas fa-external-link-alt" aria-hidden="true" style='padding-top:4px; padding-bottom:6px; font-size:17px; color:#5A647B;'></i> See complete dashboard </button> </a> </div>
+<div style = "text-align: center; padding-top: 12px; padding-bottom: 13px;">
+
+<a href="https://pablobernabeu.shinyapps.io/Dutch-modality-exclusivity-norms/" style="border-bottom:none !important"> <button style = 'background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size: 18px; font-weight: bold; font-family: "Courier New", Courier, monospace;'> <i class="fas fa-external-link-alt" aria-hidden="true" style='padding-top:4px; padding-bottom:6px; font-size:17px; color:#5A647B;'></i> See complete dashboard </button> </a> 
+
+<a style='font-size: 15px; font-weight: bold; font-family: "Courier New"' href="https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=rstudio"> Edit and run code in RStudio </a>
+
+</div>
 
 <!-- Enable this once the Binder feature is enabled (https://github.com/jupyter/repo2docker/issues/799) -->
 <!-- <div style="text-align: center; color: #A9AEC1; font-size: 12px; padding-top: 21px; margin-top: 2px; margin-bottom: 2px;"> In case of downtime, please [visit here](https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=shiny/Shiny-app/). </div> -->
