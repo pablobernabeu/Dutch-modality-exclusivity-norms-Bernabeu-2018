@@ -678,9 +678,9 @@ output$properties_png = downloadHandler(
 ```{r}
 
 modalities_labels = c(
-  sprintf('<span style="margin: 0px 0px 4px -1px !important;"><button style="font-size: 14px !important; text-align: center !important; text-decoration: none !important; background-color: #ff3030; border: none !important; border-radius: 4px !important; color: #FDFDFD !important; cursor: pointer !important; padding: 1.9px 5px 5.6px !important;"> Auditory </button></span>'),
-  sprintf('<span style="margin: 0px 0px 4px -1px !important;"><button style="font-size: 14px !important; text-align: center !important; text-decoration: none !important; background-color: dodgerblue; border-radius: 4px !important; border: none !important; color: #FDFDFD !important; cursor: pointer !important; padding: 1.9px 5px 5.6px !important;"> Haptic </button></span>'),
-  sprintf('<span style="margin: 0px 0px 4px -1px !important;"><button style="font-size: 14px !important; text-align: center !important; text-decoration: none !important; background-color: forestgreen; border-radius: 4px !important; border: none !important; color: #FDFDFD !important; cursor: pointer !important; padding: 1.9px 5px 5.6px !important;"> Visual </button></span>')
+  sprintf('<span style="margin: 0px 0px 4px 0px !important; font-size: 14px !important; text-align: center !important; text-decoration: none !important; background-color: #ff3030; border: none !important; border-radius: 4px !important; color: #FDFDFD !important; cursor: pointer !important; padding: 0.9px 3px 4.6px !important;"> Auditory </span>'),
+  sprintf('<span style="margin: 0px 0px 4px 0px !important; font-size: 14px !important; text-align: center !important; text-decoration: none !important; background-color: dodgerblue; border-radius: 4px !important; border: none !important; color: #FDFDFD !important; cursor: pointer !important; padding: 0.9px 3px 4.6px !important;"> Haptic </span>'),
+  sprintf('<span style="margin: 0px 0px 4px 0px !important; font-size: 14px !important; text-align: center !important; text-decoration: none !important; background-color: forestgreen; border-radius: 4px !important; border: none !important; color: #fdfdfd !important; cursor: pointer !important; padding: 0.9px 3px 4.6px !important;"> Visual </span>')
   )
 
 pickerInput(inputId = "properties_modalities", label = "Dominant modalities",
@@ -1088,9 +1088,9 @@ output$concepts_png = downloadHandler(
 ```{r}
 
 modalities_labels = c(
-  sprintf('<span style="margin: 0px 0px 4px -1px !important;"><button style="font-size: 14px !important; text-align: center !important; text-decoration: none !important; background-color: #ff3030; border: none !important; border-radius: 4px !important; color: #FDFDFD !important; cursor: pointer !important; padding: 1.9px 5px 5.6px !important;"> Auditory </button></span>'),
-  sprintf('<span style="margin: 0px 0px 4px -1px !important;"><button style="font-size: 14px !important; text-align: center !important; text-decoration: none !important; background-color: dodgerblue; border-radius: 4px !important; border: none !important; color: #FDFDFD !important; cursor: pointer !important; padding: 1.9px 5px 5.6px !important;"> Haptic </button></span>'),
-  sprintf('<span style="margin: 0px 0px 4px -1px !important;"><button style="font-size: 14px !important; text-align: center !important; text-decoration: none !important; background-color: forestgreen; border-radius: 4px !important; border: none !important; color: #FDFDFD !important; cursor: pointer !important; padding: 1.9px 5px 5.6px !important;"> Visual </button></span>')
+  sprintf('<span style="margin: 0px 0px 4px 0px !important; font-size: 14px !important; text-align: center !important; text-decoration: none !important; background-color: #ff3030; border: none !important; border-radius: 4px !important; color: #FDFDFD !important; cursor: pointer !important; padding: 0.9px 3px 4.6px !important;"> Auditory </span>'),
+  sprintf('<span style="margin: 0px 0px 4px 0px !important; font-size: 14px !important; text-align: center !important; text-decoration: none !important; background-color: dodgerblue; border-radius: 4px !important; border: none !important; color: #FDFDFD !important; cursor: pointer !important; padding: 0.9px 3px 4.6px !important;"> Haptic </span>'),
+  sprintf('<span style="margin: 0px 0px 4px 0px !important; font-size: 14px !important; text-align: center !important; text-decoration: none !important; background-color: forestgreen; border-radius: 4px !important; border: none !important; color: #fdfdfd !important; cursor: pointer !important; padding: 0.9px 3px 4.6px !important;"> Visual </span>')
   )
 
 pickerInput(inputId = "concepts_modalities", label = "Dominant modalities",
