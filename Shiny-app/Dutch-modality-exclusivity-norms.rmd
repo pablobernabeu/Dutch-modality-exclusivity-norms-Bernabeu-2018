@@ -405,9 +405,11 @@ Column {style="height:1300px; background-color:#FCFCFC;"}
 <!-- Link to source code on OSF.io -->
 <div style = "text-align: right; padding-top: 30px; padding-bottom: 0; padding-right: 38px;"> 
 
-<a href="https://osf.io/brkjw/files/github/Shiny-app/Dutch-modality-exclusivity-norms.rmd/" style="border-bottom:none !important"> <button style = 'background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size: 15px; font-weight: bold; font-family: "Courier New", Courier, monospace;'> <i class="fab fa-r-project" aria-hidden="true" style='padding-top:4px; padding-bottom:6px; font-size:20px; color:#5A647B;'></i> Code for analyses and dashboard <span style = "font-size: 9px">(CC-BY licensed)</span> </button> </a> 
+<a href="https://osf.io/brkjw/files/github/Shiny-app/Dutch-modality-exclusivity-norms.rmd/" style="border-bottom:none !important"> <button style = 'background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size: 15px; font-weight: bold; font-family: "Courier New", Courier, monospace;'> <i class="fab fa-r-project" aria-hidden="true" style='padding-top:4px; padding-bottom:6px; font-size:20px; color:#5A647B;'></i> Code for analyses and dashboard </button></a> 
 
 <a style='font-size: 15px; font-weight: bold; font-family: "Courier New"' href="https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=rstudio"> Edit and run code in RStudio </a>
+
+<a href="http://creativecommons.org/licenses/by/4.0/" rel="license"><img style="border-width: 0;" src="https://i.creativecommons.org/l/by/4.0/80x15.png" alt="Creative Commons License" /></a>
 
 </div>
 
