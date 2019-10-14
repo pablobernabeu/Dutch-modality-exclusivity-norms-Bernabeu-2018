@@ -413,6 +413,8 @@ Row {style="height:1550px; background-color:#FCFCFC;"}
 
 <a style='font-size: 15px; font-weight: bold; font-family: "Courier New"' href="https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=rstudio"> Edit and run code in RStudio </a>
 
+<a href="http://creativecommons.org/licenses/by/4.0/" rel="license"> <img style="border-width: 0;" src="https://i.creativecommons.org/l/by/4.0/80x15.png" alt="Creative Commons License" /></a>
+
 </div>
 
 <!-- Enable this once the Binder feature is enabled (https://github.com/jupyter/repo2docker/issues/799) -->
