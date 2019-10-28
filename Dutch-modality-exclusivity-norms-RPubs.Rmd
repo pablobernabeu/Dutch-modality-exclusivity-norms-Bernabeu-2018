@@ -404,32 +404,32 @@ Row {style="height:1550px; background-color:#FCFCFC;"}
 
 <div style = "padding-left: 30px; padding-right: 38px; padding-bottom:40px; text-align: justify; background-color: #FCFCFC;">
 
-<div style="text-align: center; font-size: 18px; padding-top: 21px; margin-top: 2px; margin-bottom: 2px;"> This *RPubs* website is a reduced version of a dashboard. </div>
+<div style="text-align: center; font-size: 18px; padding-top: 21px; margin-top: 2px; margin-bottom: 0px;"> This *RPubs* website is a reduced version of a dashboard. </div>
 
 <!-- Link to source code on OSF.io -->
 <div style = "text-align: center; padding-top: 12px; padding-bottom: 13px;">
 
-<a href="https://pablobernabeu.shinyapps.io/Dutch-modality-exclusivity-norms/" style="border-bottom:none !important"> <button style = 'background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size: 18px; font-weight: bold; font-family: "Courier New", Courier, monospace;'> <i class="fas fa-external-link-alt" aria-hidden="true" style='padding-top:4px; padding-bottom:6px; font-size:17px; color:#5A647B;'></i> See complete dashboard </button> </a> 
+<a href="https://pablobernabeu.shinyapps.io/Dutch-modality-exclusivity-norms/" target="_blank" style="border-bottom:none !important"> <button style = 'background-color:#FFF9F6; outline:#C3AEAE dotted 0.8px; font-size: 18px; font-weight: bold; font-family: "Courier New", Courier, monospace;'> <i class="fas fa-external-link-alt" aria-hidden="true" style='padding-top:4px; padding-bottom:6px; font-size:17px; color:#5A647B;'></i> See complete dashboard </button> </a> 
 
-<a style='font-size: 15px; font-weight: bold; font-family: "Courier New"' href="https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=rstudio"> Edit and run code in RStudio </a>
+<a href="https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=rstudio" target="_blank" style='font-size: 15px; font-weight: bold; font-family: "Courier New"'> Edit and run code in RStudio </a>
 
-<a href="http://creativecommons.org/licenses/by/4.0/" rel="license"> <img style="border-width: 0;" src="https://i.creativecommons.org/l/by/4.0/80x15.png" alt="Creative Commons License" /></a>
+<a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license"> <img style="border-width: 0;" src="https://i.creativecommons.org/l/by/4.0/80x15.png" alt="Creative Commons License" /></a>
 
 </div>
 
 <!-- Enable this once the Binder feature is enabled (https://github.com/jupyter/repo2docker/issues/799) -->
-<!-- <div style="text-align: center; color: #A9AEC1; font-size: 12px; padding-top: 21px; margin-top: 2px; margin-bottom: 2px;"> In case of downtime, please [visit here](https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=shiny/Shiny-app/). </div> -->
+<!-- <div style="text-align: center; color: #A9AEC1; font-size: 12px; padding-top: 21px; margin-top: 2px; margin-bottom: 2px;"> In case of downtime, please [visit here](https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=shiny/Shiny-app/){target="_blank"}. </div> -->
 
 
 #### Information
 
 This dashboard presents the data and analyses of a set of modality exclusivity norms for Dutch. Various tabs and interactive plots are available.
 
-The norms, which are ratings of linguistic stimuli, served a twofold purpose: first, the creation of linguistic stimuli (see also Speed & Majid, 2017), and second, the replication of Lynott and Connell's (2009, 2013) analyses. In the collection of the ratings, forty-two respondents completed surveys for the properties or the concepts separately. Each word was rated by eight participants on average, with a minimum of five and a maximum of nine. The [instructions to participants](https://osf.io/ungey/) were similar to those used by Lynott and Connell (2009, 2013), except that we elicited three modalities (auditory, haptic, visual) instead of five.
+The norms, which are ratings of linguistic stimuli, served a twofold purpose: first, the creation of linguistic stimuli (see also Speed & Majid, 2017), and second, the replication of Lynott and Connell's (2009, 2013) analyses. In the collection of the ratings, forty-two respondents completed surveys for the properties or the concepts separately. Each word was rated by eight participants on average (see [data set](https://osf.io/ge7pn/){target="_blank"}), with a minimum of five (e.g., *bevriezend*) and a maximum of ten ratings per word (e.g., *donzig*). The [instructions to participants](https://osf.io/ungey/){target="_blank"} were similar to those used by Lynott and Connell (2009, 2013), except that we elicited three modalities (auditory, haptic, visual) instead of five.
 
 > <div style = "text-align: justify; font-size: 14px; background-color: #FCFCFC;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
 
-These norms were validated in an experiment showing that shifts across trials with different dominant modalities incurred semantic processing costs ([Bernabeu, Willems, & Louwerse, 2017](https://mindmodeling.org/cogsci2017/papers/0318/index.html)). All data for that study are [available](https://osf.io/97unm/wiki/home/), including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/) (in case of downtime of the dashboard site, please see [this alternative](https://mybinder.org/v2/gh/pablobernabeu/Modality-switch-effects-emerge-early-and-increase-throughout-conceptual-processing/master?urlpath=shiny/Shiny-app/)).
+These norms were validated in an experiment showing that shifts across trials with different dominant modalities incurred semantic processing costs ([Bernabeu, Willems, & Louwerse, 2017](https://mindmodeling.org/cogsci2017/papers/0318/index.html){target="_blank"}). All data for that study are [available](https://osf.io/97unm/wiki/home/){target="_blank"}, including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/){target="_blank"} (in case of downtime of the dashboard site, please see [this alternative](https://mybinder.org/v2/gh/pablobernabeu/Modality-switch-effects-emerge-early-and-increase-throughout-conceptual-processing/master?urlpath=shiny/Shiny-app/){target="_blank"}).
 
 The [properties](#properties){style='background-color:#F2F7FF'} and the [concepts](#concepts){style='background-color:#F2F7FF'} were analysed separately. Properties were more strongly perceptual than concepts. Distinct relationships also emerged among the modalities emerged, with the visual and haptic modalities being closely related, and the auditory modality being relatively independent ([cf. Lynott & Connell's data for English](#cf-lc-english-norms){style='background-color:#F2F7FF'}). This ties in with findings that, in conceptual processing, modalities can be collated based on language statistics (Louwerse & Connell, 2011).
 
@@ -441,9 +441,9 @@ The [properties](#properties){style='background-color:#F2F7FF'} and the [concept
 
 The norms also served to investigate [sound symbolism](#sound-symbolism){style='background-color:#F2F7FF'}, which is the relation between the form of words and their meaning. The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would. Lynott and Connell's (2013) findings were replicated, as auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings.
 
-The present analyses and further ones will be reported in a forthcoming paper. All data and analysis code for the norms are [available for re-use](https://osf.io/brkjw/wiki/home/) under a [CC-BY licence](https://creativecommons.org/licenses/by/4.0/), provided acknowledgment of the following publication:
+The present analyses and further ones will be reported in a forthcoming paper. All data and analysis code for the norms are [available for re-use](https://osf.io/brkjw/wiki/home/){target="_blank"} under a [CC-BY licence](https://creativecommons.org/licenses/by/4.0/){target="_blank"}, provided acknowledgment of the following publication:
 
-> <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 14.1px; background-color: #FCFCFC;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). [Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs.](https://mindmodeling.org/cogsci2017/papers/0318/index.html) In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society.</div>
+> <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 14.1px; background-color: #FCFCFC;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). [Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs.](https://mindmodeling.org/cogsci2017/papers/0318/index.html){target="_blank"} In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society.</div>
 
 
 #### External corpora
@@ -468,25 +468,25 @@ This research was greatly supported by the help of Tilburg University, which pro
 
 Baayen, R. H., Piepenbrock, R., & van Rijn, H. (1993). *The CELEX Lexical Database* [CD-ROM]. Philadelphia: Linguistic Data Consortium, University of Pennsylvania.
 
-Brysbaert, M., Warriner, A.B., & Kuperman, V. (2014). Concreteness ratings for 40 thousand generally known English word lemmas. *Behavior Research Methods, 46*, 3, 904-911. https://doi.org/10.3758/s13428-013-0403-5
+Brysbaert, M., Warriner, A.B., & Kuperman, V. (2014). Concreteness ratings for 40 thousand generally known English word lemmas. *Behavior Research Methods, 46*, 3, 904-911. [https://doi.org/10.3758/s13428-013-0403-5](https://doi.org/10.3758/s13428-013-0403-5){target="_blank"}.
 
 Field, A. P., Miles, J., & Field, Z. (2012). *Discovering Statistics Using R*. London, UK: Sage.
 
-Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measure for Dutch words based on film subtitles. *Behavior Research Methods, 42*, 3, 643-650. https://doi.org/10.3758/BRM.42.3.643.
+Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measure for Dutch words based on film subtitles. *Behavior Research Methods, 42*, 3, 643-650. [https://doi.org/10.3758/BRM.42.3.643](https://doi.org/10.3758/BRM.42.3.643){target="_blank"}.
 
 Köhler, W. (1929). *Gestalt Psychology*. New York: Liveright.
 
-Louwerse, M., & Connell, L. (2011). A taste of words: linguistic context and perceptual simulation predict the modality of words. *Cognitive Science, 35*, 2, 381-98. https://doi.org/10.1111/j.1551-6709.2010.01157.x.
+Louwerse, M., & Connell, L. (2011). A taste of words: linguistic context and perceptual simulation predict the modality of words. *Cognitive Science, 35*, 2, 381-98. [https://doi.org/10.1111/j.1551-6709.2010.01157.x](https://doi.org/10.1111/j.1551-6709.2010.01157.x){target="_blank"}.
 
-Lynott, D., & Connell, L. (2009). Modality exclusivity norms for 423 object concepts. *Behavior Research Methods, 41*, 2, 558-564. https://doi.org/10.3758/BRM.41.2.558.
+Lynott, D., & Connell, L. (2009). Modality exclusivity norms for 423 object concepts. *Behavior Research Methods, 41*, 2, 558-564. [https://doi.org/10.3758/BRM.41.2.558](https://doi.org/10.3758/BRM.41.2.558){target="_blank"}.
 
-Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The relationship between perceptual experience and surface word form. *Behavior Research Methods, 45*, 2, 516-526. https://doi.org/10.3758/s13428-012-0267-0.
+Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The relationship between perceptual experience and surface word form. *Behavior Research Methods, 45*, 2, 516-526. [https://doi.org/10.3758/s13428-012-0267-0](https://doi.org/10.3758/s13428-012-0267-0){target="_blank"}.
 
-Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. https://doi.org/10.1371/journal.pone.0043230.
+Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. [https://doi.org/10.1371/journal.pone.0043230](https://doi.org/10.1371/journal.pone.0043230){target="_blank"}.
 
-Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. https://doi.org/10.3758/s13428-017-0852-3.
+Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. [https://doi.org/10.3758/s13428-017-0852-3](https://doi.org/10.3758/s13428-017-0852-3){target="_blank"}.
 
-Sourav, S., Kekunnaya, R., Shareef, I., Banerjee, S., Bottari, D., & Röder, B. (2019). A protracted sensitive period regulates the development of cross-modal sound–shape associations in humans. *Psychological Science*. https://doi.org/10.1177/0956797619866625.
+Sourav, S., Kekunnaya, R., Shareef, I., Banerjee, S., Bottari, D., & Röder, B. (2019). A protracted sensitive period regulates the development of cross-modal sound–shape associations in humans. *Psychological Science*. [https://doi.org/10.1177/0956797619866625](https://doi.org/10.1177/0956797619866625){target="_blank"}.
 
 </div>
 
@@ -496,7 +496,7 @@ Sourav, S., Kekunnaya, R., Shareef, I., Banerjee, S., Bottari, D., & Röder, B. 
 
 Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
 
-[Webpage](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu)
+[Webpage](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu){target="_blank"}
 
 </div>
 
@@ -526,7 +526,7 @@ Inputs {.sidebar}
 # 
 #                   <h4 style="background-color: #FFFEF0; padding-top:2px; padding-bottom:2px;"><b> Definitions </b></h4>
 # 
-#                   <p><b>Principal component analysis (PCA):</b> Method for reducing dimensionality of data while retaining the main patterns (<a href="https://www.nature.com/articles/nmeth.4346">read more</a>).</p>
+#                   <p><b>Principal component analysis (PCA):</b> Method for reducing dimensionality of data while retaining the main patterns (<a href="https://www.nature.com/articles/nmeth.4346" target="_blank">read more</a>).</p>
 # 
 #                   <p><b> Dominant modality:</b> Highest-rated modality.<sup>*</sup> </p>
 # 
@@ -767,7 +767,7 @@ Inputs {.sidebar}
 
 #### **Definitions**
 
-**Principal component analysis (PCA):** Method for reducing dimensionality of data while retaining the main patterns ([read more](https://www.nature.com/articles/nmeth.4346)).
+**Principal component analysis (PCA):** Method for reducing dimensionality of data while retaining the main patterns ([read more](https://www.nature.com/articles/nmeth.4346){target="_blank"}).
 
 <div><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Dominant modality: </b></span> Highest-rated modality. </div>
 
@@ -980,7 +980,7 @@ Inputs {.sidebar}
 # 
 #                   <h4 style="background-color: #FFFEF0; padding-top:3px; padding-bottom:3px;"><b> Definitions </b></h4>
 # 
-#                   <p><b>Principal component analysis (PCA):</b> Method for reducing dimensionality of data while retaining the main patterns (<a href="https://www.nature.com/articles/nmeth.4346">read more</a>).</p>
+#                   <p><b>Principal component analysis (PCA):</b> Method for reducing dimensionality of data while retaining the main patterns (<a href="https://www.nature.com/articles/nmeth.4346" target="_blank">read more</a>).</p>
 # 
 #                   <p><b> Dominant modality:</b> Highest-rated modality.<sup>*</sup> </p>
 # 
@@ -1220,7 +1220,7 @@ Inputs {.sidebar}
 
 #### **Definitions**
 
-**Principal component analysis (PCA):** Method for reducing dimensionality of data while retaining the main patterns ([read more](https://www.nature.com/articles/nmeth.4346)).
+**Principal component analysis (PCA):** Method for reducing dimensionality of data while retaining the main patterns ([read more](https://www.nature.com/articles/nmeth.4346){target="_blank"}).
 
 <div><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Dominant modality: </b></span> Highest-rated modality. </div>
 
@@ -1417,13 +1417,13 @@ Cf. L&C English norms
 =======================================================================
 
 <div style = "background-color: #FCFCFC; text-align: center; font-size: 15px; padding-top: 16px; padding-bottom: 5px; margin-bottom:4px">
-<b> Comparison with Lynott and Connell's (2009, 2013) English norms ([data sets](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html)).</b> In both languages, properties were visibly more perceptual than concepts.
+<b> Comparison with Lynott and Connell's (2009, 2013) English norms ([data sets](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html){target="_blank"}).</b> In both languages, properties were visibly more perceptual than concepts.
 </div>
 
 Column {style="height:50%;" data-padding=1}
 -----------------------------------------------------------------------
 
-### Reanalysis of [Lynott and Connell's (2009) English properties](https://doi.org/10.3758/BRM.41.2.558) narrowed to three modalities
+### Reanalysis of [Lynott and Connell's (2009) English properties](https://doi.org/10.3758/BRM.41.2.558){target="_blank"} narrowed to three modalities
 
 ```{r include = FALSE}
 
@@ -1524,7 +1524,7 @@ ggplotly( ggplot(eng_props,
 
 
 
-### Reanalysis of [Lynott and Connell's (2013) English concepts](https://doi.org/10.3758/s13428-012-0267-0) narrowed to three modalities
+### Reanalysis of [Lynott and Connell's (2013) English concepts](https://doi.org/10.3758/s13428-012-0267-0){target="_blank"} narrowed to three modalities
 
 ```{r include = FALSE}
 
@@ -3603,7 +3603,7 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$
 
 <div style = "background-color: #FCFCFC; text-align: justify; padding-top: 27px; padding-right: 36px; padding-left: 32px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
 
-**Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would ([see external corpora](#info)). By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings, thus supporting sound symbolism. Standardised coefficients ($\beta$) presented below, with asterisks indicating significance (<sup>\*</sup>*p* < .05; <sup>\*\*</sup>*p* < .01; <sup>\*\*\*</sup>*p* < .001). Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). 'PC' = Kaiser-normalised, varimax-rotated principal component.
+**Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would ([see external corpora](#info)). By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4){target="_blank"}), we found that auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings, thus supporting sound symbolism. Standardised coefficients ($\beta$) presented below, with asterisks indicating significance (<sup>\*</sup>*p* < .05; <sup>\*\*</sup>*p* < .01; <sup>\*\*\*</sup>*p* < .001). Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). 'PC' = Kaiser-normalised, varimax-rotated principal component.
 
 </div>
 
