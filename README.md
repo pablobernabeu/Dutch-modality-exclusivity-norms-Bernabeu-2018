@@ -34,22 +34,22 @@ Further links:
 
 ### **Definitions** (as in Lynott & Connell, 2009, 2013)
 
-- Dominant modality: Highest-rated modality
+- Dominant modality: Highest-rated modality;
 
-- Modality exclusivity: Range of the three modality ratings divided by the sum
+- Modality exclusivity: Range of the three modality ratings divided by the sum;
 
-- Perceptual strength: Highest rating across modalities
+- Perceptual strength: Highest rating across modalities.
 
 
 ### Corpus measures used
 
-* Concreteness and age of acquisition: Brysbaert et al. (2014)
+* Concreteness and age of acquisition: Brysbaert et al. (2014);
 
-* Phonological and orthographic neighbours: Marian et al.'s (2012) DutchPOND
+* Phonological and orthographic neighbours: Marian et al.'s (2012) DutchPOND;
 
-* Word frequency and contextual diversity: Keuleers et al.'s (2010) SUBTLEX-NL
+* Word frequency and contextual diversity: Keuleers et al.'s (2010) SUBTLEX-NL;
 
-* Lemma frequency: Baayen et al.'s (1993) CELEX
+* Lemma frequency: Baayen et al.'s (1993) CELEX.
 
 
 ### References
