@@ -31,7 +31,7 @@ Further links:
 
 ![Dashboard](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png)
 
-- Online [RStudio environment with data and code](https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=rstudio)
+- Online [RStudio environment with data and code](https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=rstudio).
 
 
 ### **Definitions** (as in Lynott & Connell, 2009, 2013)
