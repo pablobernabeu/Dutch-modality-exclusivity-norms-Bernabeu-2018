@@ -297,7 +297,7 @@ props[is.na(props$phon_neighbours_DUTCHPOND), 'phon_neighbours_DUTCHPOND'] = 0
 props[is.na(props$AoA_Brysbaertetal2014), 'AoA_Brysbaertetal2014'] = 0
 props[is.na(props$concrete_Brysbaertetal2014), 'concrete_Brysbaertetal2014'] = 0
 
-# Turn modality exclusivity into percentage
+# Turn modality exclusivity into percentage format
 props$Exclusivity = props$Exclusivity * 100
 
 
@@ -384,7 +384,7 @@ concs[is.na(concs$phon_neighbours_DUTCHPOND), 'phon_neighbours_DUTCHPOND'] = 0
 concs[is.na(concs$AoA_Brysbaertetal2014), 'AoA_Brysbaertetal2014'] = 0
 concs[is.na(concs$concrete_Brysbaertetal2014), 'concrete_Brysbaertetal2014'] = 0
 
-# Turn modality exclusivity into percentage
+# Turn modality exclusivity into percentage format
 concs$Exclusivity = concs$Exclusivity * 100
 
 # Colors for plots
@@ -747,6 +747,9 @@ levels(table_data$main)[levels(table_data$main) == 'v'] = 'Visual'
 levels(table_data$cat)[levels(table_data$cat) == 'conc'] = 'Concept'
 levels(table_data$cat)[levels(table_data$cat) == 'prop'] = 'Property'
 
+# Turn modality exclusivity into percentage format
+table_data$Exclusivity = table_data$Exclusivity * 100
+
 # Create function to have tooltips on column titles (from https://glin.github.io/reactable/articles/cookbook/cookbook.html)
 with_tooltip <- function(value, tooltip) {
   span(style = 'text-decoration: underline; text-decoration-style: dotted;', title = tooltip, value)
@@ -799,7 +802,7 @@ renderReactable({
             
             defaultSorted = list(cat = 'desc', word = 'asc'),
             defaultColDef = colDef(footerStyle = list(fontWeight = "bold")),
-            striped = TRUE, height = 26800, pagination = FALSE, highlight = TRUE,
+            striped = TRUE, pagination = FALSE, highlight = TRUE,
 
             columns = list(
 
@@ -818,25 +821,27 @@ renderReactable({
               main = colDef(header = with_tooltip('Dominant Modality',
                                                   'Highest-rated modality (as defined in Lynott & Connell, 2009, 2013). Values: Auditory, Haptic, Visual.')),
 
-              Exclusivity = colDef(format = colFormat(percent = TRUE, digits = 2),
-                                   header = with_tooltip('Modality Exclusivity',
-                                                         'Range of the three modality ratings divided by the sum (as defined in Lynott & Connell, 2009, 2013). Ranges colour-coded from grey to dark violet.'),
-                                   style = function(value) {
-                                     if (value < 0.33) {
-                                       color = '#9D9D9D'
-                                       } else if (value < 0.67) {
-                                         color = '#7A5151'
-                                         } else {
-                                           color = '#541E1E'
-                                           }
-                                     list(color = color)
-                                     },
-                                   # On line below, multiply by 100 because original values were in % format
-                                   footer = function(values) paste0(round(mean(values),2) *100,'%')),
+              Exclusivity = colDef(cell = function(value) { 
+                paste0(value,'%') 
+                },
+                format = colFormat(digits = 2),
+                header = with_tooltip('Modality Exclusivity',
+                                      'Range of the three modality ratings divided by the sum (as defined in Lynott & Connell, 2009, 2013). Value ranges colour-coded from grey to dark violet.'),
+                style = function(value) {
+                  if (value < 33) {
+                    color = '#9D9D9D'
+                                 } else if (value < 67) {
+                                   color = '#7A5151'
+                                   } else {
+                                     color = '#541E1E'
+                                     }
+                               list(color = color)
+                               },
+                             footer = function(values) paste0(round(mean(values),2),'%')),
 
               Perceptualstrength = colDef(format = colFormat(digits = 2),
                                           header = with_tooltip('Perceptual Strength',
-                                                         'Highest rating across modalities (as defined in Lynott & Connell, 2009, 2013). Ranges colour-coded from grey to dark violet.'),
+                                                         'Highest rating across modalities (as defined in Lynott & Connell, 2009, 2013). Value ranges colour-coded from grey to dark violet.'),
                                           style = function(value) {
                                             if (value < 1.7) {
                                               color = '#9D9D9D'
@@ -850,7 +855,7 @@ renderReactable({
                                           footer = function(values) round(mean(values),2)),
 
               Auditory = colDef(header = with_tooltip('Auditory Rating',
-                                                      'Mean rating of each word on the auditory modality across participants. Ranges colour-coded from grey to dark violet.'),
+                                                      'Mean rating of each word on the auditory modality across participants. Value ranges colour-coded from grey to dark violet.'),
                                 style = function(value) {
                                   if (value < 1.7) {
                                     color = '#9D9D9D'
@@ -865,7 +870,7 @@ renderReactable({
                                 footer = function(values) round(mean(values),2)),
               
               Haptic = colDef(header = with_tooltip('Haptic Rating', 
-                                                      'Mean rating of each word on the haptic (tactile) modality across participants. Ranges colour-coded from grey to dark violet.'),
+                                                      'Mean rating of each word on the haptic (tactile) modality across participants. Value ranges colour-coded from grey to dark violet.'),
                                 style = function(value) {
                                   if (value < 1.7) {
                                     color = '#9D9D9D'
@@ -879,7 +884,7 @@ renderReactable({
                                 format = colFormat(digits = 2),
                               footer = function(values) round(mean(values),2)),
               
-              Visual = colDef(header = with_tooltip('Visual Rating', 'Mean rating of each word on the visual modality across participants. Ranges colour-coded from grey to dark violet.'),
+              Visual = colDef(header = with_tooltip('Visual Rating', 'Mean rating of each word on the visual modality across participants. Value ranges colour-coded from grey to dark violet.'),
                                 style = function(value) {
                                   if (value < 1.7) {
                                     color = '#9D9D9D'
@@ -1282,7 +1287,6 @@ selected_props = reactive({
   		),]
   })
 
-
 # Variables to have to on table
 properties_columns = c('word','inflected_prop','main','Exclusivity','Perceptualstrength','Auditory',
                        'Haptic','Visual','concrete_Brysbaertetal2014','letters','phonemes_DUTCHPOND',
@@ -1312,25 +1316,27 @@ renderReactable({
               main = colDef(header = with_tooltip('Dominant Modality',
                                                   'Highest-rated modality (as defined in Lynott & Connell, 2009, 2013). Values: Auditory, Haptic, Visual.')),
 
-              Exclusivity = colDef(format = colFormat(percent = TRUE, digits = 2),
-                                   header = with_tooltip('Modality Exclusivity',
-                                                         'Range of the three modality ratings divided by the sum (as defined in Lynott & Connell, 2009, 2013). Ranges colour-coded from grey to dark violet.'),
-                                   style = function(value) {
-                                     if (value < 0.33) {
-                                       color = '#9D9D9D'
-                                       } else if (value < 0.67) {
-                                         color = '#7A5151'
-                                         } else {
-                                           color = '#541E1E'
-                                           }
-                                     list(color = color)
-                                     },
-                                   # On line below, multiply by 100 because original values were in % format
-                                   footer = function(values) paste0(round(mean(values),2),'%')),
+              Exclusivity = colDef(cell = function(value) { 
+                paste0(value,'%') 
+                },
+                format = colFormat(digits = 2),
+                header = with_tooltip('Modality Exclusivity',
+                                      'Range of the three modality ratings divided by the sum (as defined in Lynott & Connell, 2009, 2013). Value ranges colour-coded from grey to dark violet.'),
+                style = function(value) {
+                  if (value < 33) {
+                    color = '#9D9D9D'
+                                 } else if (value < 67) {
+                                   color = '#7A5151'
+                                   } else {
+                                     color = '#541E1E'
+                                     }
+                               list(color = color)
+                               },
+                             footer = function(values) paste0(round(mean(values),2),'%')),
 
               Perceptualstrength = colDef(format = colFormat(digits = 2),
                                           header = with_tooltip('Perceptual Strength',
-                                                         'Highest rating across modalities (as defined in Lynott & Connell, 2009, 2013). Ranges colour-coded from grey to dark violet.'),
+                                                         'Highest rating across modalities (as defined in Lynott & Connell, 2009, 2013). Value ranges colour-coded from grey to dark violet.'),
                                           style = function(value) {
                                             if (value < 1.7) {
                                               color = '#9D9D9D'
@@ -1344,7 +1350,7 @@ renderReactable({
                                           footer = function(values) round(mean(values),2)),
 
               Auditory = colDef(header = with_tooltip('Auditory Rating',
-                                                      'Mean rating of each word on the auditory modality across participants. Ranges colour-coded from grey to dark violet.'),
+                                                      'Mean rating of each word on the auditory modality across participants. Value ranges colour-coded from grey to dark violet.'),
                                 style = function(value) {
                                   if (value < 1.7) {
                                     color = '#9D9D9D'
@@ -1359,7 +1365,7 @@ renderReactable({
                                 footer = function(values) round(mean(values),2)),
               
               Haptic = colDef(header = with_tooltip('Haptic Rating', 
-                                                      'Mean rating of each word on the haptic (tactile) modality across participants. Ranges colour-coded from grey to dark violet.'),
+                                                      'Mean rating of each word on the haptic (tactile) modality across participants. Value ranges colour-coded from grey to dark violet.'),
                                 style = function(value) {
                                   if (value < 1.7) {
                                     color = '#9D9D9D'
@@ -1373,7 +1379,7 @@ renderReactable({
                                 format = colFormat(digits = 2),
                               footer = function(values) round(mean(values),2)),
               
-              Visual = colDef(header = with_tooltip('Visual Rating', 'Mean rating of each word on the visual modality across participants. Ranges colour-coded from grey to dark violet.'),
+              Visual = colDef(header = with_tooltip('Visual Rating', 'Mean rating of each word on the visual modality across participants. Value ranges colour-coded from grey to dark violet.'),
                                 style = function(value) {
                                   if (value < 1.7) {
                                     color = '#9D9D9D'
@@ -1902,25 +1908,27 @@ renderReactable({
               main = colDef(header = with_tooltip('Dominant Modality',
                                                   'Highest-rated modality (as defined in Lynott & Connell, 2009, 2013). Values: Auditory, Haptic, Visual.')),
 
-              Exclusivity = colDef(format = colFormat(percent = TRUE, digits = 2),
-                                   header = with_tooltip('Modality Exclusivity',
-                                                         'Range of the three modality ratings divided by the sum (as defined in Lynott & Connell, 2009, 2013). Ranges colour-coded from grey to dark violet.'),
-                                   style = function(value) {
-                                     if (value < 0.33) {
-                                       color = '#9D9D9D'
-                                       } else if (value < 0.67) {
-                                         color = '#7A5151'
-                                         } else {
-                                           color = '#541E1E'
-                                           }
-                                     list(color = color)
-                                     },
-                                   # On line below, multiply by 100 because original values were in % format
-                                   footer = function(values) paste0(round(mean(values),2),'%')),
+              Exclusivity = colDef(cell = function(value) { 
+                paste0(value,'%') 
+                },
+                format = colFormat(digits = 2),
+                header = with_tooltip('Modality Exclusivity',
+                                      'Range of the three modality ratings divided by the sum (as defined in Lynott & Connell, 2009, 2013). Value ranges colour-coded from grey to dark violet.'),
+                style = function(value) {
+                  if (value < 33) {
+                    color = '#9D9D9D'
+                                 } else if (value < 67) {
+                                   color = '#7A5151'
+                                   } else {
+                                     color = '#541E1E'
+                                     }
+                               list(color = color)
+                               },
+                             footer = function(values) paste0(round(mean(values),2),'%')),
 
               Perceptualstrength = colDef(format = colFormat(digits = 2),
                                           header = with_tooltip('Perceptual Strength',
-                                                         'Highest rating across modalities (as defined in Lynott & Connell, 2009, 2013). Ranges colour-coded from grey to dark violet.'),
+                                                         'Highest rating across modalities (as defined in Lynott & Connell, 2009, 2013). Value ranges colour-coded from grey to dark violet.'),
                                           style = function(value) {
                                             if (value < 1.7) {
                                               color = '#9D9D9D'
@@ -1934,7 +1942,7 @@ renderReactable({
                                           footer = function(values) round(mean(values),2)),
 
               Auditory = colDef(header = with_tooltip('Auditory Rating',
-                                                      'Mean rating of each word on the auditory modality across participants. Ranges colour-coded from grey to dark violet.'),
+                                                      'Mean rating of each word on the auditory modality across participants. Value ranges colour-coded from grey to dark violet.'),
                                 style = function(value) {
                                   if (value < 1.7) {
                                     color = '#9D9D9D'
@@ -1949,7 +1957,7 @@ renderReactable({
                                 footer = function(values) round(mean(values),2)),
               
               Haptic = colDef(header = with_tooltip('Haptic Rating', 
-                                                      'Mean rating of each word on the haptic (tactile) modality across participants. Ranges colour-coded from grey to dark violet.'),
+                                                      'Mean rating of each word on the haptic (tactile) modality across participants. Value ranges colour-coded from grey to dark violet.'),
                                 style = function(value) {
                                   if (value < 1.7) {
                                     color = '#9D9D9D'
@@ -1963,7 +1971,7 @@ renderReactable({
                                 format = colFormat(digits = 2),
                               footer = function(values) round(mean(values),2)),
               
-              Visual = colDef(header = with_tooltip('Visual Rating', 'Mean rating of each word on the visual modality across participants. Ranges colour-coded from grey to dark violet.'),
+              Visual = colDef(header = with_tooltip('Visual Rating', 'Mean rating of each word on the visual modality across participants. Value ranges colour-coded from grey to dark violet.'),
                                 style = function(value) {
                                   if (value < 1.7) {
                                     color = '#9D9D9D'
@@ -4164,11 +4172,11 @@ results_total$F_p.asterisks = as.character(results_total$F_p.asterisks)
 
 results_total$F_p.asterisks = ifelse(results_total$F_p < .001, '***', NA)
 
-results_total$F_p.asterisks = 
+results_total$F_p.asterisks =
 	ifelse(results_total$F_p > .001 & results_total$F_p < .01, '**',
 	results_total$F_p.asterisks)
 
-results_total$F_p.asterisks = 
+results_total$F_p.asterisks =
 	ifelse(results_total$F_p >= .01 & results_total$F_p < .05, '*',
 	results_total$F_p.asterisks)
 
