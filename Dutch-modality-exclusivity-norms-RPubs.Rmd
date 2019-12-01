@@ -33,6 +33,7 @@ library(grid)
 library(gridExtra)
 library(gtools)
 library(Hmisc)
+library(htmltools)
 library(irr)
 library(kableExtra)
 library(knitr)
@@ -156,6 +157,7 @@ section-properties, section-concepts, section-cf-lc-english-norms, section-sound
 
 
 <!-- Define CSS style for customising output to specific screen sizes -->
+
   .desktop-only {display: inline;}
   /* Smartphone Portrait and Landscape */
   @media only screen
@@ -215,6 +217,11 @@ $(document).ready(function(){
 all = read.csv('https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/all.csv', fileEncoding = 'Latin1')
 #nrow(all)
 
+
+# Set correct numeric class for standard deviation variables
+all$SD_Auditory = as.numeric(all$SD_Auditory)
+all$SD_Haptic = as.numeric(all$SD_Haptic)
+all$SD_Visual = as.numeric(all$SD_Visual)
 
 
 # PROPERTIES
@@ -299,7 +306,7 @@ props[is.na(props$phon_neighbours_DUTCHPOND), 'phon_neighbours_DUTCHPOND'] = 0
 props[is.na(props$AoA_Brysbaertetal2014), 'AoA_Brysbaertetal2014'] = 0
 props[is.na(props$concrete_Brysbaertetal2014), 'concrete_Brysbaertetal2014'] = 0
 
-# Turn modality exclusivity into percentage
+# Turn modality exclusivity into percentage format
 props$Exclusivity = props$Exclusivity * 100
 
 
@@ -386,7 +393,7 @@ concs[is.na(concs$phon_neighbours_DUTCHPOND), 'phon_neighbours_DUTCHPOND'] = 0
 concs[is.na(concs$AoA_Brysbaertetal2014), 'AoA_Brysbaertetal2014'] = 0
 concs[is.na(concs$concrete_Brysbaertetal2014), 'concrete_Brysbaertetal2014'] = 0
 
-# Turn modality exclusivity into percentage
+# Turn modality exclusivity into percentage format
 concs$Exclusivity = concs$Exclusivity * 100
 
 # Colors for plots
@@ -520,13 +527,13 @@ Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
 
 
 
-<i class="fas fa-table"></i> {#table style="position:absolute !important; background-color:#FCFCFC; data-width:100%;"}
+<i class="fas fa-table" title='Tab with table containing both property and concept words'></i> {#table style="position:absolute !important; background-color:#FCFCFC; data-width:100%;"}
 =======================================================================
 
 Column  {style="height:26500px"}
 -----------------------------------------------------------------------
 
-### Table comprising 336 properties and 411 concepts, with twenty columns (please scroll horizontally and vertically). Column information available by hovering on header. Multiple columns may be simultaneously filtered and sorted (e.g., to find out range). Words may be searched (sidebar filters not adjusted thereby). Mean values displayed at bottom of table. Complete spreadsheet [also available](https://osf.io/ge7pn/){target="_blank"}.
+### **Filterable table containing both property and concept words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. CSV spreadsheet [also available](https://osf.io/ge7pn/){target="_blank"}.
 
 <div style = "padding-top: 0px; padding-left: 30px; padding-right: 38px; text-align: justify; background-color:#FCFCFC;">
 
@@ -534,10 +541,11 @@ Column  {style="height:26500px"}
 
 # Arrange data set and create reactive version taking sidebar input
 
-table_data = all[!is.na(all$word), c('cat', 'conc_cat', 'word', 'inflected_prop', 'main', 'Exclusivity', 'Perceptualstrength', 'Auditory', 
-                                     'Haptic', 'Visual', 'concrete_Brysbaertetal2014', 'letters', 'phonemes_DUTCHPOND', 
-                                     'freq_lg10CD_SUBTLEXNL', 'inflected_adj_freq_lg10CD_SUBTLEXNL', 'freq_lg10WF_SUBTLEXNL', 'freq_CELEX_lem', 
-                                     'phon_neighbours_DUTCHPOND', 'orth_neighbours_DUTCHPOND', 'AoA_Brysbaertetal2014'
+table_data = all[!is.na(all$word), c('cat', 'conc_cat', 'word', 'inflected_prop', 'main', 'Exclusivity', 'Perceptualstrength', 'Auditory',
+                                     'Haptic', 'Visual', 'SD_Auditory', 'SD_Haptic', 'SD_Visual', 'concrete_Brysbaertetal2014', 'letters', 
+                                     'phonemes_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL', 'inflected_adj_freq_lg10CD_SUBTLEXNL', 
+                                     'freq_lg10WF_SUBTLEXNL', 'freq_CELEX_lem', 'phon_neighbours_DUTCHPOND', 'orth_neighbours_DUTCHPOND', 
+                                     'AoA_Brysbaertetal2014'
                                      )]
 
 # Replace missing values in corpus variables with zeros to allow filtering and calculation of means.
@@ -560,55 +568,66 @@ levels(table_data$main)[levels(table_data$main) == 'v'] = 'Visual'
 levels(table_data$cat)[levels(table_data$cat) == 'conc'] = 'Concept'
 levels(table_data$cat)[levels(table_data$cat) == 'prop'] = 'Property'
 
+# Turn modality exclusivity into percentage format
+table_data$Exclusivity = table_data$Exclusivity * 100
+
 # Create function to have tooltips on column titles (from https://glin.github.io/reactable/articles/cookbook/cookbook.html)
 with_tooltip <- function(value, tooltip) {
   span(style = 'text-decoration: underline; text-decoration-style: dotted;', title = tooltip, value)
 }
 
-# Table
+
+# Table. Begin by creating structure for descriptive bars inside cells.
+
+bar_chart <- function(label, width = "100%", height = "16px", fill = "#00bfc4", background = NULL) {
+  bar <- div(style = list(background = fill, width = width, height = height, marginRight = "6px"))
+  chart <- div(style = list(flexGrow = 1, marginLeft = "8px", background = background), bar)
+  div(style = list(display = "flex", alignItems = "center"), label, chart)
+}
+
+
 reactable(table_data,
             
             defaultSorted = list(cat = 'desc', word = 'asc'),
             defaultColDef = colDef(footerStyle = list(fontWeight = "bold")),
-            striped = TRUE, fullWidth = TRUE,
-            pagination = FALSE, highlight = TRUE,
+            striped = TRUE, pagination = FALSE, highlight = TRUE, compact = TRUE,
 
             columns = list(
 
-              cat = colDef(header = with_tooltip('Word category', 'Property / Concept'),
-                           footer = 'Mean'),
+              cat = colDef(header = with_tooltip('Word category', 'Property / Concept')),
               
-              conc_cat = colDef(header = with_tooltip('Noun Category', "Definite article 'de' is used for feminine and masculine nouns, whereas 'het' is used for neuter nouns.")),
+              conc_cat = colDef(header = with_tooltip('Definite article', "Definite article 'de' is used for feminine and masculine nouns, whereas 'het' is used for neuter nouns.")),
               
               word = colDef(name='Word', filterable=TRUE, minWidth = 160,
                             style = list(fontWeight='bold', color='#453246')),
               
               inflected_prop = colDef(filterable=TRUE, minWidth = 140,
                                       header = with_tooltip('Inflected adjective',
-                                                            "Adjectives inflected for masculine and feminine words.")),
+                                                            "Adjectives inflected for masculine and feminine nouns.")),
 
               main = colDef(header = with_tooltip('Dominant Modality',
                                                   'Highest-rated modality (as defined in Lynott & Connell, 2009, 2013). Values: Auditory, Haptic, Visual.')),
 
-              Exclusivity = colDef(format = colFormat(percent = TRUE, digits = 2),
-                                   header = with_tooltip('Modality Exclusivity',
-                                                         'Range of the three modality ratings divided by the sum (as defined in Lynott & Connell, 2009, 2013). Ranges colour-coded from grey to dark violet.'),
-                                   style = function(value) {
-                                     if (value < 0.33) {
-                                       color = '#9D9D9D'
-                                       } else if (value < 0.67) {
-                                         color = '#7A5151'
-                                         } else {
-                                           color = '#541E1E'
-                                           }
-                                     list(color = color)
-                                     },
-                                   # On line below, multiply by 100 because original values were in % format
-                                   footer = function(values) paste0(round(mean(values),4)*100,'%')),
+              Exclusivity = colDef(cell = function(value) {
+                paste0(value,'%') 
+                },
+                format = colFormat(digits = 2),
+                header = with_tooltip('Modality Exclusivity',
+                                      'Range of the three modality ratings divided by the sum (as defined in Lynott & Connell, 2009, 2013). Values colour-coded from lower, in grey, to higher, in violet.'),
+                style = function(value) {
+                  if (value < 33) {
+                    color = '#9D9D9D'
+                                 } else if (value < 67) {
+                                   color = '#7A5151'
+                                   } else {
+                                     color = '#541E1E'
+                                     }
+                               list(color = color)
+                               }),
 
               Perceptualstrength = colDef(format = colFormat(digits = 2),
                                           header = with_tooltip('Perceptual Strength',
-                                                         'Highest rating across modalities (as defined in Lynott & Connell, 2009, 2013). Ranges colour-coded from grey to dark violet.'),
+                                                         'Highest rating across modalities (as defined in Lynott & Connell, 2009, 2013). Values colour-coded from lower, in grey, to higher, in violet.'),
                                           style = function(value) {
                                             if (value < 1.7) {
                                               color = '#9D9D9D'
@@ -618,99 +637,81 @@ reactable(table_data,
                                                   color = '#541E1E'
                                                   }
                                             list(color = color)
-                                            },
-                                          footer = function(values) round(mean(values),2)),
+                                            }),
 
               Auditory = colDef(header = with_tooltip('Auditory Rating',
-                                                      'Mean rating of each word on the auditory modality across participants. Ranges colour-coded from grey to dark violet.'),
-                                style = function(value) {
-                                  if (value < 1.7) {
-                                    color = '#9D9D9D'
-                                    } else if (value < 3.3) {
-                                      color = '#7A5151'
-                                      } else {
-                                        color = '#541E1E'
-                                        }
-                                  list(color = color)
+                                                      'Mean rating of each word on the auditory modality across participants.'),
+                                cell = function(value) {
+                                  width <- paste0(value / max(table_data$Auditory) * 100, "%")
+                                  value = sprintf("%.2f", round(value,2))  # Round to two digits by keeping trailing zeros
+                                  bar_chart(value, width = width, fill = '#ff3030')
                                   },
-                                format = colFormat(digits = 2),
-                                footer = function(values) round(mean(values),2)),
-              
-              Haptic = colDef(header = with_tooltip('Haptic Rating', 
-                                                      'Mean rating of each word on the haptic (tactile) modality across participants. Ranges colour-coded from grey to dark violet.'),
-                                style = function(value) {
-                                  if (value < 1.7) {
-                                    color = '#9D9D9D'
-                                    } else if (value < 3.3) {
-                                      color = '#7A5151'
-                                      } else {
-                                        color = '#541E1E'
-                                        }
-                                  list(color = color)
+                                align = 'left'),
+
+              Haptic = colDef(header = with_tooltip('Haptic Rating',
+                                                    'Mean rating of each word on the haptic (tactile) modality across participants.'),
+                                cell = function(value) {
+                                  width <- paste0(value / max(table_data$Haptic) * 100, "%")
+                                  value = sprintf("%.2f", round(value,2))  # Round to two digits by keeping trailing zeros
+                                  bar_chart(value, width = width, fill = 'dodgerblue')
                                   },
-                                format = colFormat(digits = 2),
-                              footer = function(values) round(mean(values),2)),
-              
-              Visual = colDef(header = with_tooltip('Visual Rating', 'Mean rating of each word on the visual modality across participants. Ranges colour-coded from grey to dark violet.'),
-                                style = function(value) {
-                                  if (value < 1.7) {
-                                    color = '#9D9D9D'
-                                    } else if (value < 3.3) {
-                                      color = '#7A5151'
-                                      } else {
-                                        color = '#541E1E'
-                                        }
-                                  list(color = color)
+                                align = 'left'),
+
+              Visual = colDef(header = with_tooltip('Visual Rating', 'Mean rating of each word on the visual modality across participants.'),
+                                cell = function(value) {
+                                  width <- paste0(value / max(table_data$Visual) * 100, "%")
+                                  value = sprintf("%.2f", round(value,2))  # Round to two digits by keeping trailing zeros
+                                  bar_chart(value, width = width, fill = 'forestgreen')
                                   },
-                              format = colFormat(digits = 2),
-                              footer = function(values) round(mean(values),2)),
+                                align = 'left'),
               
+              SD_Auditory = colDef(header = with_tooltip('SD Auditory Rating',
+                                                         'Standard Deviation of Auditory ratings across participants.'),
+                                   format = colFormat(digits = 2)),
+
+              SD_Haptic = colDef(header = with_tooltip('SD Haptic Rating',
+                                                       'Standard Deviation of Haptic ratings across participants.'),
+                                format = colFormat(digits = 2)),
+              
+              SD_Visual = colDef(header = with_tooltip('SD Visual Rating',
+                                                         'Standard Deviation of Visual ratings across participants.'),
+                                format = colFormat(digits = 2)),
+
               concrete_Brysbaertetal2014 = colDef(header = with_tooltip('Concreteness', 'Norms by Brysbaert, Warriner, and Kuperman (2014)'),
-                                                  format = colFormat(digits = 2), minWidth = 110,
-                                                  footer = function(values) round(mean(values),2)),
+                                                  format = colFormat(digits = 2), minWidth = 110),
               
-              letters = colDef(header = with_tooltip('Letters', 'Number of letters'),
-                                                  format = colFormat(digits = 0),
-                                                  footer = function(values) round(mean(values),0)),
+              letters = colDef(name = 'Letters', format = colFormat(digits = 0)),
               
               phonemes_DUTCHPOND = colDef(header = with_tooltip('Phonemes', 'DutchPOND corpus (Marian et al., 2012).'),
-                                                  format = colFormat(digits = 0),
-                                                  footer = function(values) round(mean(values),0)),
+                                                  format = colFormat(digits = 0)),
               
               freq_lg10CD_SUBTLEXNL = colDef(header = with_tooltip('Contextual Diversity (CD)',
                                                                    "An advanced measure of word frequency for 'Word' column, based on SUBTLEX-NL corpus (Keuleers, Brysbaert, & New, 2010)."),
-                                             format = colFormat(digits = 2), minWidth = 120,
-                                             footer = function(values) round(mean(values),2)),
-              
+                                             format = colFormat(digits = 2), minWidth = 120),
+
               inflected_adj_freq_lg10CD_SUBTLEXNL = colDef(header = with_tooltip('Inflected Adjective CD',
-                                                                   "An advanced measure of word frequency for 'Inflected Adjective' column, based on SUBTLEX-NL corpus (Keuleers, Brysbaert, & New, 2010). Zeros are shown for concepts, although no value applies, and these values do not affect mean."),
-                                             format = colFormat(digits = 2), minWidth = 120,
-                                             footer = function(values) round(sum(values)/336,2)),  # This average thus calculated to keep denominator to number of properties, without concepts.
-              
+                                                                   "An advanced measure of word frequency for 'Inflected Adjective' column, based on SUBTLEX-NL corpus (Keuleers, Brysbaert, & New, 2010)."),
+                                             format = colFormat(digits = 2), minWidth = 120),
+
               freq_lg10WF_SUBTLEXNL = colDef(header = with_tooltip('Word Frequency',
                                                                    "A measure of word frequency for 'Word' column, based on SUBTLEX-NL corpus (Keuleers, Brysbaert, & New, 2010)."),
-                                             format = colFormat(digits = 2),
-                                             footer = function(values) round(mean(values),2)),
-  
+                                             format = colFormat(digits = 2)),
+
               freq_CELEX_lem = colDef(header = with_tooltip('Lemma Frequency',
                                                             "A measure of word frequency for 'Word' column, based on the lemma, i.e., word root (Baayen, Piepenbrock, & van Rijn, 1993)."),
-                                      format = colFormat(digits = 2),
-                                      footer = function(values) round(mean(values),2)),
+                                      format = colFormat(digits = 2)),
               
               phon_neighbours_DUTCHPOND = colDef(header = with_tooltip('Phonological Neighbours', 'DutchPOND corpus (Marian et al., 2012).'),
-                                                  format = colFormat(digits = 0),
-                                                  footer = function(values) round(mean(values),0)),
+                                                  format = colFormat(digits = 0)),
               
               orth_neighbours_DUTCHPOND = colDef(header = with_tooltip('Orthographic Neighbours', 'DutchPOND corpus (Marian et al., 2012).'),
-                                                  format = colFormat(digits = 0), minWidth = 110,
-                                                  footer = function(values) round(mean(values),0)),
-              
+                                                  format = colFormat(digits = 0), minWidth = 110),
+
               AoA_Brysbaertetal2014 = colDef(header = with_tooltip('Age of Acquisition',
                                                                    "Norms by Brysbaert, Warriner, and Kuperman (2014)."),
-                                             format = colFormat(digits = 2),
-                                             footer = function(values) round(mean(values),2))
+                                             format = colFormat(digits = 2))
             )
-          )
+            )
 
 ```
 
@@ -721,7 +722,7 @@ reactable(table_data,
 
 
 
-Properties {data-orientation=rows style="position:absolute !important;"}
+Properties {data-orientation=rows style="position: absolute !important;"}
 =======================================================================
 
 Inputs {.sidebar}
@@ -1019,7 +1020,7 @@ Row {data-height=1000 padding-bottom=7}
 # # reactive for the word bar
 # highlighted_properties = reactive(input$highlighted_properties)
 # 
-# # reactive for the sliders
+# Reactive for the sliders
 # props = reactive({
 #   	# Values above or equal to minimum selected, and below or equal to maximum selected
 # 	props[which(
@@ -1472,7 +1473,7 @@ Row {data-height=1000 padding-bottom=7}
 # # reactive for the word bar
 # highlighted_concepts = reactive(input$highlighted_concepts)
 # 
-# # reactive for the sliders
+# Reactive for the sliders
 # concs = reactive({
 #   	# Values above or equal to minimum selected, and below or equal to maximum selected.
 # 	concs[which(
