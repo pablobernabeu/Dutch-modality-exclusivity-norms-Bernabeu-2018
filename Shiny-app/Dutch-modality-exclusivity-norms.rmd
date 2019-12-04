@@ -417,7 +417,7 @@ Column {style="height:1300px; background-color:#FCFCFC;"}
 <!-- Links -->
 <div style = "text-align: right; padding-top: 30px; padding-bottom: 0; padding-right: 38px;">
 
-<a href="https://github.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/blob/master/Shiny-app%2FDutch-modality-exclusivity-norms.rmd" style="color:#9FB05F; border-bottom:none !important;font-size: 15px; font-weight: bold; font-family: 'Courier New', Courier, monospace;"> <i class='fas fa-database' style='font-size:20px; color:#577787'></i> <i class='fab fa-r-project' style='font-size:20px; color:#526772'></i> Data and code for analyses and dashboard </a>
+<a href="https://github.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/blob/master/Shiny-app%2FDutch-modality-exclusivity-norms.rmd" style="color:#9FB05F; border-bottom:none !important;font-size: 15px; font-weight: bold; font-family: 'Courier New', Courier, monospace;"> <i class='fas fa-database' aria-hidden="true" style='font-size:20px; color:#577787'></i> <i class='fab fa-r-project' aria-hidden="true" style='font-size:20px; color:#526772'></i> Data and code for analyses and dashboard </a>
 
 <a href="https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=rstudio" style="color:#9FB05F; border-bottom:none !important; font-size: 15px; font-weight: bold; font-family: 'Courier New', Courier, monospace;"> <img src='https://img.shields.io/badge/Binder-RStudio-579ACA.svg?logo=data:image/png;base64,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' alt='Launch Binder RStudio'></img> Edit and run R code online </a>
 
@@ -430,9 +430,9 @@ Column {style="height:1300px; background-color:#FCFCFC;"}
 
 #### Information
 
-This dashboard presents the data and analyses of a set of modality exclusivity norms for Dutch. All this can be visualised through tables and plots that are accessible through the tabs above.
+This dashboard presents the data and analyses of a set of modality exclusivity norms for Dutch. Various tabs and interactive plots are available. In addition, the data set is available in [CSV format](https://osf.io/ge7pn/) and [Excel format including column definitions](https://osf.io/58gzs/).
 
-The modality norms, which are ratings of linguistic stimuli, served a twofold purpose: first, the creation of linguistic stimuli (see also Speed & Majid, 2017), and second, the replication of Lynott and Connell's (2009, 2013) analyses. In the collection of the ratings, forty-two respondents completed surveys for the properties or the concepts separately. Each word was rated by eight participants on average (see [raw data](https://osf.io/ge7pn/)), with a minimum of five (e.g., for *bevriezend*) and a maximum of ten ratings per word (e.g., for *donzig*). The [instructions to participants](https://osf.io/ungey/) were similar to those used by Lynott and Connell (2009, 2013), except that we elicited three modalities (auditory, haptic, visual) instead of five.
+The norms, which are ratings of linguistic stimuli, served a twofold purpose: first, the creation of linguistic stimuli (see also Speed & Majid, 2017), and second, a conceptual replication of Lynott and Connell's (2009, 2013) analyses. In the collection of the ratings, forty-two respondents completed surveys for the properties or the concepts separately. Each word was rated by eight participants on average, with a minimum of five (e.g., for *bevriezend*) and a maximum of ten ratings per word (e.g., for *donzig*). The [instructions to participants](https://osf.io/ungey/) were similar to those used by Lynott and Connell (2009, 2013), except that we elicited three modalities (auditory, haptic, visual) instead of five.
 
 > <div style = "text-align: justify; font-size: 14px; background-color: #FCFCFC;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
 
@@ -522,7 +522,7 @@ Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
 
 
 
-<i class="fas fa-table" title='Tab with table containing both property and concept words'></i> {#table style="position:absolute !important; background-color:#FCFCFC;"}
+<i class="fas fa-table" title='Tab with table containing both property and concept words'></i> Norms {#table style="position:absolute !important; background-color:#FCFCFC;"}
 =======================================================================
 
 Inputs {.sidebar}
@@ -563,7 +563,7 @@ observeEvent(input$table_DefinitionsCorporaLink, {
                   
                   <p style="font-size:13px"><b> Lemma frequency:</b> CELEX (Baayen, Piepenbrock, & van Rijn, 1993).</p>
                   
-                  <p><i class="fas fa-book-open"></i> <a href="#section-info">References</a></p>
+                  <p><i class="fas fa-book-open" aria-hidden="true"></i> <a href="#section-info">References</a></p>
                   
                   </div>'))
   })
@@ -605,7 +605,7 @@ output$table_csv_link = renderUI({
 # Add download handling
 output$table_csv = downloadHandler(
   filename = function() {
-    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.csv') },
+    paste0('Selected-Dutch-modality-norms-Bernabeu-et-al-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.csv') },
   content = function(file) {
     write.csv(selected_words(),
 	file, row.names = FALSE, fileEncoding = 'Latin1')
@@ -737,7 +737,7 @@ reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words(
 Column  {style="height:27000px"}
 -----------------------------------------------------------------------
 
-### **Filterable table containing both property and concept words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. CSV spreadsheet [also available](https://osf.io/ge7pn/){target="_blank"}.
+### **Filterable table containing both property and concept words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.
 
 <div style = "padding-top: 0px; text-align: justify; background-color:#FCFCFC;">
 
@@ -970,7 +970,7 @@ renderReactable({
 
 
 
-Properties {data-orientation=rows data-height=3000 style="position:absolute !important;"}
+<i class="fas fa-chart-bar" aria-hidden="true"></i> Properties {data-orientation=rows data-height=3000 style="position:absolute !important;"}
 =======================================================================
 
 Inputs {.sidebar}
@@ -1011,7 +1011,7 @@ observeEvent(input$properties_DefinitionsCorporaLink, {
                   
                   <p style="font-size:13px"><b> Lemma frequency:</b> CELEX (Baayen, Piepenbrock, & van Rijn, 1993).</p>
                   
-                  <p><i class="fas fa-book-open"></i> <a href="#section-info">References</a></p>
+                  <p><i class="fas fa-book-open" aria-hidden="true"></i> <a href="#section-info">References</a></p>
                   
                   </div>'))
   })
@@ -1106,7 +1106,7 @@ output$properties_csv_link = renderUI({
 # Add download handling
 output$properties_csv = downloadHandler(
   filename = function() {
-    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.csv') },
+    paste0('Selected-Dutch-modality-norms-Bernabeu-et-al-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.csv') },
   content = function(file) {
 	# Leave Dutch data inside and remove English data, which aren't used in the tabs that have CSV download
 	drops = c('id','file','normed','word_eng','main_eng','perceptualstrength_eng','exc_eng','Aud_eng','Hap_eng','Vis_eng','lett_eng','RC1','RC2')
@@ -1130,7 +1130,7 @@ output$properties_png_link = renderUI({
 # Add download handling
 output$properties_png = downloadHandler(
   filename = function() {
-    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.png') },
+    paste0('Selected-Dutch-modality-norms-Bernabeu-et-al-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.png') },
 	content = function(file){
 			png(file, units='in', width=13, height=11, res=900)
 			print(properties_png())
@@ -1271,7 +1271,7 @@ reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props(
 Row {data-height=310px padding-bottom=0 style='data-width:100%; padding-bottom:-290px; margin-bottom:2px;'}
 -----------------------------------------------------------------------
 
-### **Property words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. CSV spreadsheet [also available](https://osf.io/ge7pn/){target="_blank"}.
+### **Property words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.
 
 <div style = "padding-bottom: 160px; text-align: justify; background-color:#FCFCFC;">
 
@@ -1461,7 +1461,7 @@ renderReactable({
 Row {data-height=800 style="data-height:100%;"}
 -----------------------------------------------------------------------
 
-### <span style = 'font-size: 15px !important;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings on side bar; cf. <a href="#section-cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). </span> {style="padding-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
+### <span style = 'font-size: 15px !important;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings on side bar; cf. <a href="#cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). </span> {style="padding-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:8px;"> </div>
@@ -1549,7 +1549,7 @@ properties_png = reactive({ ggplot(selected_props(), aes(RC1, RC2, color = main,
 
 
 
-Concepts  {data-orientation=rows data-height=3000 style="position:absolute !important;"}
+<i class="fas fa-chart-bar" aria-hidden="true"></i> Concepts  {data-orientation=rows data-height=3000 style="position:absolute !important;"}
 =======================================================================
 
 Inputs {.sidebar}
@@ -1590,7 +1590,7 @@ observeEvent(input$concepts_DefinitionsCorporaLink, {
                   
                   <p style="font-size:13px"><b> Lemma frequency:</b> CELEX (Baayen, Piepenbrock, & van Rijn, 1993).</p>
                   
-                  <p><i class="fas fa-book-open"></i> <a href="#section-info">References</a></p>
+                  <p><i class="fas fa-book-open" aria-hidden="true"></i> <a href="#section-info">References</a></p>
                   
                   </div>'))
   })
@@ -1685,7 +1685,7 @@ output$concepts_csv_link = renderUI({
 # Add download handling
 output$concepts_csv = downloadHandler(
   filename = function() {
-    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.csv') },
+    paste0('Selected-Dutch-modality-norms-Bernabeu-et-al-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.csv') },
   content = function(file) {
 	# Leave Dutch data inside and remove English data, which aren't used in the tabs that have CSV download
 	drops = c('id','file','normed','word_eng','main_eng','perceptualstrength_eng','exc_eng','Aud_eng','Hap_eng','Vis_eng','lett_eng','RC1','RC2')
@@ -1709,7 +1709,7 @@ output$concepts_png_link = renderUI({
 # Add download handling
 output$concepts_png = downloadHandler(
   filename = function() {
-    paste0('Selected-data-Dutch-modality-norms-Bernabeu-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.png') },
+    paste0('Selected-Dutch-modality-norms-Bernabeu-et-al-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.png') },
 	content = function(file){
 			png(file, units='in', width=13, height=11, res=900)
 			print(concepts_png())
@@ -1860,7 +1860,7 @@ reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs(
 Row {data-height=310px padding-bottom=0 style='data-width:100%; padding-bottom:-290px; margin-bottom:2px;'}
 -----------------------------------------------------------------------
 
-### **Concept words.** Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. CSV spreadsheet [also available](https://osf.io/ge7pn/){target="_blank"}.
+### **Concept words.** Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.
 
 <div style = "padding-top: 0px; text-align: justify; background-color:#FCFCFC;">
 
@@ -2045,7 +2045,7 @@ renderReactable({
 Row {data-height=800 style="data-height:100%;"}
 -----------------------------------------------------------------------
 
-### <span style = 'font-size: 15px !important;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings on side bar; cf. <a href="#section-cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). </span> {style="padding-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
+### <span style = 'font-size: 15px !important;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings on side bar; cf. <a href="#cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). </span> {style="padding-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:8px;"> </div>
@@ -2137,7 +2137,7 @@ Cf. L&C English norms
 =======================================================================
 
 <div style = "background-color: #FCFCFC; text-align: center; font-size: 15px; padding-top: 20px; padding-bottom: 5px;">
-<b> Comparison with Lynott and Connell's (2009, 2013) English norms ([data sets](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html)).</b> In both languages, properties were visibly more perceptual than concepts.
+<b> Comparison with Lynott and Connell's (2009, 2013) English norms ([see complete data](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html)).</b> In both languages, properties were visibly more perceptual than concepts.
 </div>
 
 Row {style="height:1500;" data-padding=1}
