@@ -11,13 +11,13 @@
 # Dutch and English data are described in separate columns. All analyses separate for 
 # properties and concepts, except for a translation check. 
 # Stat tests (specifying treatment of English and Dutch norms): reliability analysis
-# (only Dutch norms), Pearson’s correlation (norms independent and paired), one-sample 
+# (only Dutch norms), Pearson?s correlation (norms independent and paired), one-sample 
 # t-test (norms independent), Principal Components Analysis (norms independent), ANOVA 
 # (norms paired), and multiple regression (norms independent).
 # The code is extensively annotated, but some clarifications are in order. Subsetting is
 # done throughout the code, and is essential due to the different norms (see 'normed'
 # column: English, Dutch, or both). Subsetting is often done on the basis of variables
-# that are unique to either norms, especially, 'Exclusivity' and 'exc_eng'.
+# that are unique to either norms, especially, 'Exclusivity' and 'English_Exclusivity_Lynott_Connell_2009_2013'.
 # At first, the code must be run right from the top, as different objects bear the 
 # same name. In its entirety, it takes ~20 mins. Note the annotations for theoretical 
 # matters. Long variables are never presented entirely, but rather in sections or via
@@ -154,7 +154,7 @@ file6 <- read.csv('file6_gral.csv')
 # Concepts
 
 all <- read.csv('all.csv')
-concs <- all[all$cat == 'conc',]
+concs <- all[all$cat == 'Concept',]
 a_concs <- concs[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10')]
 h_concs <- concs[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'a10')]
 v_concs <- concs[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'a10')]
@@ -206,15 +206,15 @@ function(rater, i.col){
     
     # For tied modalities, randomly select one of them
     } else if( !length(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)]))) > 1) {
-	result = ifelse( sample(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])), size=1) == 1, 'a',
-	  ifelse( sample(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])), size=1) == 2, 'h',
-	    'v' ) )
+	result = ifelse( sample(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])), size=1) == 1, 'Auditory',
+	  ifelse( sample(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])), size=1) == 2, 'Haptic',
+	    'Visual' ) )
     
     # For plain cases with one dominant modality, assign that modality
     } else{
-	result = ifelse( which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])) == 1, 'a',
-	  ifelse( which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])) == 2, 'h',
-	    'v' ) )
+	result = ifelse( which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])) == 1, 'Auditory',
+	  ifelse( which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])) == 2, 'Haptic',
+	    'Visual' ) )
     }
 
   results = rbind(results, c(rater, as.character(all.Dutch[i.row, 'id']), result))
@@ -279,7 +279,7 @@ kappam.fleiss(all[,c('main1', 'main2', 'main3', 'main4', 'main5', 'main6', 'main
 
 # Interitem consistency
 
-props <- all[all$cat == 'prop',]
+props <- all[all$cat == 'Property',]
 a_props <- props[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10')]
 h_props <- props[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'h10')]
 v_props <- props[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10')]
@@ -315,11 +315,11 @@ icc(v_props, "oneway", "consistency")
 all <- read.csv('all.csv')
 
 # PROPERTIES
-props <- all[all$cat=='prop',]
+props <- all[all$cat=='Property',]
 nrow(props)  # 366 Dutch + a few from Lynott&Connell for comparisons
 
 # CONCEPTS 
-concs <- all[all$cat=='conc',]
+concs <- all[all$cat=='Concept',]
 nrow(concs)  # 411 Dutch + a few from Lynott&Connell for comparison
 
 
@@ -329,8 +329,8 @@ nrow(concs)  # 411 Dutch + a few from Lynott&Connell for comparison
 summaryBy(Perceptualstrength ~ cat, FUN=stat.desc, data=all)
 
 # English
-summaryBy(perceptualstrength_eng ~ cat, FUN=stat.desc, 
-data=all[!is.na(all$perceptualstrength_eng),])
+summaryBy(English_Perceptualstrength_Lynott_Connell_2009_2013 ~ cat, FUN=stat.desc, 
+data=all[!is.na(all$English_Perceptualstrength_Lynott_Connell_2009_2013),])
 
 # The differences make sense considering the sampling method applied in the different
 # norms. The difference between the English and the Dutch norms is a bit larger for 
@@ -344,43 +344,43 @@ data=all[!is.na(all$perceptualstrength_eng),])
 
 # PROPERTIES
 # Modalities
-rcor.test(props[, c('Auditory', 'Aud_eng')], use = 'complete.obs')
-rcor.test(props[, c('Haptic', 'Hap_eng')], use = 'complete.obs')
-rcor.test(props[, c('Visual', 'Vis_eng')], use = 'complete.obs')
+rcor.test(props[, c('Auditory', 'English_Auditory_Lynott_Connell_2009_2013')], use = 'complete.obs')
+rcor.test(props[, c('Haptic', 'English_Haptic_Lynott_Connell_2009_2013')], use = 'complete.obs')
+rcor.test(props[, c('Visual', 'English_Visual_Lynott_Connell_2009_2013')], use = 'complete.obs')
 # Significant, large correlations ranging from .69 to .80
 
 # Exclusivity 
-rcor.test(props[, c('Exclusivity', 'exc_eng')], use = 'complete.obs')
+rcor.test(props[, c('Exclusivity', 'English_Exclusivity_Lynott_Connell_2009_2013')], use = 'complete.obs')
 # Medium-sized corr Eng-Dutch
 
 
 # CONCEPTS
 # Modalities
-rcor.test(concs[, c('Auditory', 'Aud_eng')], use = 'complete.obs')
-rcor.test(concs[, c('Haptic', 'Hap_eng')], use = 'complete.obs')
-rcor.test(concs[, c('Visual', 'Vis_eng')], use = 'complete.obs')
+rcor.test(concs[, c('Auditory', 'English_Auditory_Lynott_Connell_2009_2013')], use = 'complete.obs')
+rcor.test(concs[, c('Haptic', 'English_Haptic_Lynott_Connell_2009_2013')], use = 'complete.obs')
+rcor.test(concs[, c('Visual', 'English_Visual_Lynott_Connell_2009_2013')], use = 'complete.obs')
 # Significant, large correlations ranging from .63 to .69
 
 # Exclusivity 
-rcor.test(concs[, c('Exclusivity', 'exc_eng')], use = 'complete.obs')
+rcor.test(concs[, c('Exclusivity', 'English_Exclusivity_Lynott_Connell_2009_2013')], use = 'complete.obs')
 # Medium-sized corr Eng-Dutch
 
 
 # Descriptives: M, SD, SE...
 # English
-psych::describe(props$Aud_eng)
-psych::describe(props$Hap_eng)
-psych::describe(props$Vis_eng)
-psych::describe(concs$Aud_eng)
-psych::describe(concs$Hap_eng)
-psych::describe(concs$Vis_eng)
+psych::describe(props$English_Auditory_Lynott_Connell_2009_2013)
+psych::describe(props$English_Haptic_Lynott_Connell_2009_2013)
+psych::describe(props$English_Visual_Lynott_Connell_2009_2013)
+psych::describe(concs$English_Auditory_Lynott_Connell_2009_2013)
+psych::describe(concs$English_Haptic_Lynott_Connell_2009_2013)
+psych::describe(concs$English_Visual_Lynott_Connell_2009_2013)
 
-stat.desc(props$Aud_eng)
-stat.desc(props$Hap_eng)
-stat.desc(props$Vis_eng)
-stat.desc(concs$Aud_eng)
-stat.desc(concs$Hap_eng)
-stat.desc(concs$Vis_eng)
+stat.desc(props$English_Auditory_Lynott_Connell_2009_2013)
+stat.desc(props$English_Haptic_Lynott_Connell_2009_2013)
+stat.desc(props$English_Visual_Lynott_Connell_2009_2013)
+stat.desc(concs$English_Auditory_Lynott_Connell_2009_2013)
+stat.desc(concs$English_Haptic_Lynott_Connell_2009_2013)
+stat.desc(concs$English_Visual_Lynott_Connell_2009_2013)
 
 
 # Dutch
@@ -400,25 +400,18 @@ stat.desc(concs$Visual)
 
 
 # Sample sizes for English and Dutch
-nrow(props[!is.na(props$exc_eng),]) # total items w/ English norms = 343
-nrow(props[props$main_eng=='a' & !is.na(props$exc_eng),])
-nrow(props[props$main_eng=='h' & !is.na(props$exc_eng),])
-nrow(props[props$main_eng=='v' & !is.na(props$exc_eng),])
+nrow(props[!is.na(props$English_Exclusivity_Lynott_Connell_2009_2013),]) # total properties w/ English norms (Lynott & Connell, 2013) = 343
+nrow(concs[!is.na(concs$English_Exclusivity_Lynott_Connell_2009_2013),]) # total concepts w/ English norms (Lynott & Connell, 2013) = 392
 
-nrow(props[!is.na(concs$exc_eng),]) # total items w/ English norms = 392
-nrow(props[concs$main_eng=='a' & !is.na(concs$exc_eng),])
-nrow(props[concs$main_eng=='h' & !is.na(concs$exc_eng),])
-nrow(props[concs$main_eng=='v' & !is.na(concs$exc_eng),])
+nrow(props[!is.na(props$Exclusivity),]) # total properties w/ Dutch norms = 336
+nrow(props[props$main=='Auditory' & !is.na(props$Exclusivity),])
+nrow(props[props$main=='Haptic' & !is.na(props$Exclusivity),])
+nrow(props[props$main=='Visual' & !is.na(props$Exclusivity),])
 
-nrow(props[!is.na(props$Exclusivity),]) # total props w/ Dutch norms = 336
-nrow(props[props$main=='a' & !is.na(props$Exclusivity),])
-nrow(props[props$main=='h' & !is.na(props$Exclusivity),])
-nrow(props[props$main=='v' & !is.na(props$Exclusivity),])
-
-nrow(props[!is.na(concs$Exclusivity),]) # total props w/ Dutch norms = 411
-nrow(props[concs$main=='a' & !is.na(concs$Exclusivity),])
-nrow(props[concs$main=='h' & !is.na(concs$Exclusivity),])
-nrow(props[concs$main=='v' & !is.na(concs$Exclusivity),])
+nrow(props[!is.na(concs$Exclusivity),]) # total concepts w/ Dutch norms = 411
+nrow(props[concs$main=='Auditory' & !is.na(concs$Exclusivity),])
+nrow(props[concs$main=='Haptic' & !is.na(concs$Exclusivity),])
+nrow(props[concs$main=='Visual' & !is.na(concs$Exclusivity),])
 # _______________________________________________________________
 
 
@@ -429,16 +422,16 @@ nrow(props[concs$main=='v' & !is.na(concs$Exclusivity),])
 # Relation between modality strength, dominant modalities, and mod exclusivitY
 # ENGLISH
 # properties
-summaryBy(Aud_eng ~ main_eng, data=props, FUN=mean)
-summaryBy(Hap_eng ~ main_eng, data=props, FUN=mean)
-summaryBy(Vis_eng ~ main_eng, data=props, FUN=mean)
-summaryBy(exc_eng ~ main_eng, data=props, FUN=mean)
+summaryBy(English_Auditory_Lynott_Connell_2009_2013 ~ English_Main_Lynott_Connell_2009_2013, data=props, FUN=mean)
+summaryBy(English_Haptic_Lynott_Connell_2009_2013 ~ English_Main_Lynott_Connell_2009_2013, data=props, FUN=mean)
+summaryBy(English_Visual_Lynott_Connell_2009_2013 ~ English_Main_Lynott_Connell_2009_2013, data=props, FUN=mean)
+summaryBy(English_Exclusivity_Lynott_Connell_2009_2013 ~ English_Main_Lynott_Connell_2009_2013, data=props, FUN=mean)
 
 # concepts
-summaryBy(Aud_eng ~ main_eng, data=concs, FUN=mean)
-summaryBy(Hap_eng ~ main_eng, data=concs, FUN=mean)
-summaryBy(Vis_eng ~ main_eng, data=concs, FUN=mean)
-summaryBy(exc_eng ~ main_eng, data=concs, FUN=mean)
+summaryBy(English_Auditory_Lynott_Connell_2009_2013 ~ English_Main_Lynott_Connell_2009_2013, data=concs, FUN=mean)
+summaryBy(English_Haptic_Lynott_Connell_2009_2013 ~ English_Main_Lynott_Connell_2009_2013, data=concs, FUN=mean)
+summaryBy(English_Visual_Lynott_Connell_2009_2013 ~ English_Main_Lynott_Connell_2009_2013, data=concs, FUN=mean)
+summaryBy(English_Exclusivity_Lynott_Connell_2009_2013 ~ English_Main_Lynott_Connell_2009_2013, data=concs, FUN=mean)
 
 
 # DUTCH 
@@ -461,11 +454,11 @@ summaryBy(Exclusivity ~ main, data=concs, FUN=mean)
 
 # Yet, there is clearly a greater exclusivity in the English norms.
 # Properties
-psych::describe(props$exc_eng)      # M = 0.48
+psych::describe(props$English_Exclusivity_Lynott_Connell_2009_2013)      # M = 0.48
 psych::describe(props$Exclusivity)  # M = 0.40
 
 # Concepts
-psych::describe(concs$exc_eng)      # M = 0.40
+psych::describe(concs$English_Exclusivity_Lynott_Connell_2009_2013)      # M = 0.40
 psych::describe(concs$Exclusivity)  # M = 0.29
 
 # Indeed lower exclusivity and higher SD for Dutch items >> Check significance
@@ -479,15 +472,15 @@ psych::describe(concs$Exclusivity)  # M = 0.29
 
 # ENGLISH
 # PROPERTIES
-rcor.test(props[, c('Aud_eng', 'Hap_eng', 'Vis_eng', 'exc_eng')], use = 
+rcor.test(props[, c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013', 'English_Exclusivity_Lynott_Connell_2009_2013')], use = 
 'complete.obs')
-corr3 = rcor.test(props[, c('Aud_eng', 'Hap_eng', 'Vis_eng', 'exc_eng')], 
+corr3 = rcor.test(props[, c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013', 'English_Exclusivity_Lynott_Connell_2009_2013')], 
 use = 'complete.obs')
 #write.csv(corr3$cor.mat, file = "corr3.csv",na="") # saved for manuscript
 
 # CONCEPTS
-rcor.test(concs[, c('Aud_eng', 'Hap_eng', 'Vis_eng', 'exc_eng')], use = 'complete.obs')
-corr4 = rcor.test(concs[, c('Aud_eng', 'Hap_eng', 'Vis_eng', 'exc_eng')], use = 
+rcor.test(concs[, c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013', 'English_Exclusivity_Lynott_Connell_2009_2013')], use = 'complete.obs')
+corr4 = rcor.test(concs[, c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013', 'English_Exclusivity_Lynott_Connell_2009_2013')], use = 
 'complete.obs')
 #write.csv(corr4$cor.mat, file = "corr4.csv",na="") # saved for manuscript
 
@@ -513,11 +506,11 @@ corr2 = rcor.test(concs[, c('Auditory', 'Haptic', 'Visual', 'Exclusivity')], use
 
 # ENGLISH
 # Setting contrasts based on means
-contrasts(all$main_eng) <- cbind(c(2,0,-2), c(-1,2,-1))
+contrasts(all$English_Main_Lynott_Connell_2009_2013) <- cbind(c(2,0,-2), c(-1,2,-1))
 # (1) Aud vs Vis; (2) Hap vs Aud-&-Vis
-contrasts(all$main_eng)
+contrasts(all$English_Main_Lynott_Connell_2009_2013)
 
-fitt <- aov(exc_eng ~ main_eng * cat, data=all)
+fitt <- aov(English_Exclusivity_Lynott_Connell_2009_2013 ~ English_Main_Lynott_Connell_2009_2013 * cat, data=all)
 plot(fitt)
 summary(fitt)
 drop1(fitt,~.,test="F")
@@ -573,15 +566,13 @@ all<-read.csv('all.csv')
 allNL = all[!all$main == '',]
 allNL$main = levels(droplevels(allNL$main))
 
-concs <- allNL[allNL$cat == 'conc' & !allNL$normed == 'English' & !allNL$main == '',]
-props <- allNL[allNL$cat == 'prop' & !allNL$normed == 'English' & !allNL$main == '',]
+concs <- allNL[allNL$cat == 'Concept' & !allNL$normed == 'English' & !allNL$main == '',]
+props <- allNL[allNL$cat == 'Property' & !allNL$normed == 'English' & !allNL$main == '',]
 
 concs$main = levels(droplevels(as.factor(concs$main)))
 props$main = levels(droplevels(as.factor(props$main)))
 concs$main = as.factor(concs$main)
 props$main = as.factor(props$main)
-nrow(concs$main)
-nrow(props$main)
 
 allNL$catmain <- with(allNL, interaction(cat,  main))
 str(allNL$catmain)
@@ -614,20 +605,20 @@ png(file="stacked_exc.png", units="in", width=6, height=6, res=1000)
 par(mar=c(2,-.3,3,-.3)+.4)  # run twice, if necessary 
 barplot(counts, width=10, main = 'Modality exclusivity of Dutch properties and concepts   
 per dominant modality (Y axis = n)      ', legend = rownames(counts), xlim=c(0,100), 
-axes=FALSE, args.legend = list(x = "topright", bty = "n", inset=c(.1, .2)))
+axes=FALSE, args.legend = list(x = "topright", bty = "n", inset=c(.1, .2)), col = gray.colors(5, rev=TRUE))
 dev.off()
 
 
 # Same plot for the English items of Lynott and Connell (of course w/out gustatory 
 # or olfactory)
 
-allENG = all[!all$main_eng == '',]
-allENG$main_eng = levels(droplevels(allENG$main_eng))
+allENG = all[!all$English_Main_Lynott_Connell_2009_2013 == '',]
+allENG$English_Main_Lynott_Connell_2009_2013 = levels(droplevels(allENG$English_Main_Lynott_Connell_2009_2013))
 
-allENG$catmain <- with(allENG, interaction(cat,  main_eng))
+allENG$catmain <- with(allENG, interaction(cat,  English_Main_Lynott_Connell_2009_2013))
 str(allENG$catmain)
 
-allENG$section = floor(allENG$exc_eng * 5)
+allENG$section = floor(allENG$English_Exclusivity_Lynott_Connell_2009_2013 * 5)
 table(allENG$section)
 str(allENG$section)
 table(allENG$section)  # order = 01234
@@ -644,23 +635,23 @@ counts
 counts = prop.table(counts, 2)
 
 # below, run first line, then return and keep running:
-png(file="stacked_exc_eng.png", units="in", width=6, height=6, res=1000)
+png(file="stacked_English_Exclusivity_Lynott_Connell_2009_2013.png", units="in", width=6, height=6, res=1000)
 par(mar=c(2,-.3,3,-.3)+.4)  # run twice, if necessary 
 barplot(counts, width=10, main = 'Modality exclusivity of English properties and concepts      
 per dominant modality (Y axis = n)      ', legend = rownames(counts), xlim=c(0,100), 
-axes=FALSE, args.legend = list(x = "topright", bty = "n", inset=c(.1, .2)))
+axes=FALSE, args.legend = list(x = "topright", bty = "n", inset=c(.1, .2)), col = gray.colors(5, rev=TRUE))
 dev.off()
 # See in folder and compare.
 
 
 # Comparison English Dutch on exclusivity
 # Properties
-t.test(props$exc_eng, mu = 0.40)
+t.test(props$English_Exclusivity_Lynott_Connell_2009_2013, mu = 0.40)
 # The difference is considerable, t(734) = 18.8, p < .001
 # dz = t/vn = 0.47
 
 # Concepts
-t.test(concs$exc_eng, mu = 0.29)
+t.test(concs$English_Exclusivity_Lynott_Connell_2009_2013, mu = 0.29)
 # The difference is considerable, t(734) = 18.8, p < .001
 # dz = t/vn = 0.83
 # ___________________________________________________________________________
@@ -692,7 +683,7 @@ nrow(all)   # 747 used in Dutch norms + 12 from English not used
 # check conditions for a PCA
 # matrix
 
-eng_prop <- all[all$cat == 'prop', c('Aud_eng', 'Hap_eng', 'Vis_eng')]
+eng_prop <- all[all$cat == 'Property', c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013')]
 nrow(eng_prop)
 eng_prop_matrix <- cor(eng_prop, use = 'complete.obs')
 eng_prop_matrix
@@ -738,7 +729,7 @@ pc2_eng_prop$communality
 # values > 0.05. Model fit good, > .90. Communalities good, all > .7. 
 
 # subset and add PCs
-eng_props <- all[all$cat == 'prop', ]
+eng_props <- all[all$cat == 'Property', ]
 nrow(eng_props)
 eng_props <- cbind(eng_props, pc2_eng_prop$scores)
 nrow(eng_props)
@@ -748,16 +739,16 @@ head(eng_props)
 # Finally, plot
 
 # Set sample words to show on plot (first word in each modality)
-auditory_w = as.character(sort(eng_props[eng_props$main_eng=='a', 'word_eng'])[1])
-haptic_w = as.character(sort(eng_props[eng_props$main_eng=='h', 'word_eng'])[1])
-visual_w = as.character(sort(eng_props[eng_props$main_eng=='v', 'word_eng'])[1])
+auditory_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_2009_2013=='Auditory', 'English_word_Lynott_Connell_2009_2013'])[1])
+haptic_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_2009_2013=='Haptic', 'English_word_Lynott_Connell_2009_2013'])[1])
+visual_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_2009_2013=='Visual', 'English_word_Lynott_Connell_2009_2013'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
 Engprops <- ggplot(eng_props,
-  aes(RC1, RC2, label = as.character(main_eng))) + stat_density2d (color = "gray87") +
-  geom_text(size = ifelse(eng_props$word_eng %in% w_set, 12, 7),
-	fontface = ifelse(eng_props$word_eng %in% w_set, 'bold', 'plain')) +
-  geom_point(data=eng_props[eng_props$word_eng %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
+  aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + stat_density2d (color = "gray87") +
+  geom_text(size = ifelse(eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set, 12, 7),
+	fontface = ifelse(eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
+  geom_point(data=eng_props[eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
   labs(subtitle='(Data from Lynott & Connell, 2009)', x = "Varimax-rotated Principal Component 1", 
 	y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
@@ -768,7 +759,7 @@ Engprops <- ggplot(eng_props,
 	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
 	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
 	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
-  geom_label_repel(data = eng_props[eng_props$word_eng %in% w_set,], aes(label = word_eng), size = 8, 
+  geom_label_repel(data = eng_props[eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_word_Lynott_Connell_2009_2013), size = 8, 
 	alpha = 0.77, color = 'black', box.padding = 1.5 )
 
 plot(Engprops)  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
@@ -781,10 +772,10 @@ plot(Engprops)  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 # Adjust for combined plots:
 
 Engprops4 <- ggplot(eng_props,
-  aes(RC1, RC2, label = as.character(main_eng))) + stat_density2d (color = "gray87") +
-  geom_text(size = ifelse(eng_props$word_eng %in% w_set, 12, 7),
-	fontface = ifelse(eng_props$word_eng %in% w_set, 'bold', 'plain')) +
-  geom_point(data=eng_props[eng_props$word_eng %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
+  aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + stat_density2d (color = "gray87") +
+  geom_text(size = ifelse(eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set, 12, 7),
+	fontface = ifelse(eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
+  geom_point(data=eng_props[eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
   ggtitle('English properties') + 
   labs(subtitle='(Data from Lynott & Connell, 2009)', x = "", 
 	y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
@@ -796,7 +787,7 @@ Engprops4 <- ggplot(eng_props,
 	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
 	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
 	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
-  geom_label_repel(data = eng_props[eng_props$word_eng %in% w_set,], aes(label = word_eng), size = 8, 
+  geom_label_repel(data = eng_props[eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_word_Lynott_Connell_2009_2013), size = 8, 
 	alpha = 0.77, color = 'black', box.padding = 1.5 )
 
 
@@ -806,7 +797,7 @@ Engprops4 <- ggplot(eng_props,
 
 # check conditions for a PCA
 # matrix
-eng_conc <- all[all$cat == 'conc', c('Aud_eng', 'Hap_eng', 'Vis_eng')]
+eng_conc <- all[all$cat == 'Concept', c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013')]
 nrow(eng_conc)
 eng_conc_matrix <- cor(eng_conc, use = 'complete.obs')
 eng_conc_matrix
@@ -853,7 +844,7 @@ pc2_eng_conc$communality
 # values > 0.05. Model fit good, > .90. Communalities good, all > .7.
 
 # subset and add PCs
-eng_concs <- all[all$cat == 'conc', ]
+eng_concs <- all[all$cat == 'Concept', ]
 nrow(eng_concs)
 eng_concs <- cbind(eng_concs, pc2_eng_conc$scores)
 summary(eng_concs$RC1, eng_concs$RC2)
@@ -866,16 +857,16 @@ summary(eng_concs$RC1, eng_concs$RC2)
 # Finally, plot
 
 # Set sample words to show on plot (first word in each modality)
-auditory_w = as.character(sort(eng_concs[eng_concs$main_eng=='a', 'word_eng'])[1])
-haptic_w = as.character(sort(eng_concs[eng_concs$main_eng=='h', 'word_eng'])[1])
-visual_w = as.character(sort(eng_concs[eng_concs$main_eng=='v', 'word_eng'])[1])
+auditory_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_2009_2013=='Auditory', 'English_word_Lynott_Connell_2009_2013'])[1])
+haptic_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_2009_2013=='Haptic', 'English_word_Lynott_Connell_2009_2013'])[1])
+visual_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_2009_2013=='Visual', 'English_word_Lynott_Connell_2009_2013'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
 Engconcs <- ggplot(eng_concs,
-  aes(RC1, RC2, label = as.character(main_eng))) + stat_density2d (color = "gray87") +
-  geom_text(size = ifelse(eng_concs$word_eng %in% w_set, 12, 7),
-	fontface = ifelse(eng_concs$word_eng %in% w_set, 'bold', 'plain')) +
-  geom_point(data=eng_concs[eng_concs$word_eng %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
+  aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + stat_density2d (color = "gray87") +
+  geom_text(size = ifelse(eng_concs$English_word_Lynott_Connell_2009_2013 %in% w_set, 12, 7),
+	fontface = ifelse(eng_concs$English_word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
+  geom_point(data=eng_concs[eng_concs$English_word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
   ggtitle('English concepts') + 
   labs(subtitle='(Data from Lynott & Connell, 2013)', x = "Varimax-rotated Principal Component 1", 
 	y = "Varimax-rotated Principal Component 2") +	theme_bw() +
@@ -887,7 +878,7 @@ Engconcs <- ggplot(eng_concs,
 	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
 	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
 	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
-  geom_label_repel(data = eng_concs[eng_concs$word_eng %in% w_set,], aes(label = word_eng), size = 8, 
+  geom_label_repel(data = eng_concs[eng_concs$English_word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_word_Lynott_Connell_2009_2013), size = 8, 
 	alpha = 0.77, color = 'black', box.padding = 1.5 )
 
 Engconcs  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
@@ -906,16 +897,16 @@ Engconcs  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 # check conditions for a PCA
 
 # matrix
-prop <- all[all$cat == 'prop' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
-nrow(prop)
-prop_matrix <- cor(prop, use = 'complete.obs')
+Property <- all[all$cat == 'Property' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
+nrow(Property)
+prop_matrix <- cor(Property, use = 'complete.obs')
 prop_matrix
 round(prop_matrix, 2)
 # POOR: correlations not apt for a PCA, with too many below .3
 
 # now on the raw vars:
-nrow(prop)
-cortest.bartlett(prop)
+nrow(Property)
+cortest.bartlett(Property)
 # GOOD: Bartlett's test significant 
 
 # KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
@@ -928,7 +919,7 @@ det(prop_matrix)
 # GOOD: > 0.00001
 
 # start off with unrotated PCA
-pc1_prop <- psych::principal(prop, nfactors = 3, rotate = "none")
+pc1_prop <- psych::principal(Property, nfactors = 3, rotate = "none")
 pc1_prop
 # RESULT: Only PC1, with eigenvalue > 1, should be extracted, 
 # acc to Kaiser's criterion (Jolliffe's threshold of 0.7 way too lax; 
@@ -942,7 +933,7 @@ plot(pc1_prop$values, type = "b")
 # Always preferable because it captures explained variance best. 
 # Compare eigenvalues w/ 1 & 2 factors
 
-pc2_prop <- psych::principal(prop, nfactors = 2, rotate = "varimax", scores = TRUE)
+pc2_prop <- psych::principal(Property, nfactors = 2, rotate = "varimax", scores = TRUE)
 pc2_prop
 pc2_prop$loadings
 # good to extract 2 factors, as they both explain quite the same variance,
@@ -958,7 +949,7 @@ pc2_prop$communality
 # Communalities good, all > .7 (av = .83). 
 
 # subset and add PCs
-props <- all[all$cat == 'prop' & !is.na(all$word), ]
+props <- all[all$cat == 'Property' & !is.na(all$word), ]
 nrow(props)
 props <- cbind(props, pc2_prop$scores)
 nrow(props)
@@ -966,9 +957,9 @@ nrow(props)
 # Finally, plot: letters+density (cf. Lynott & Connell, 2009, 2013)
 
 # Set sample words to show on plot (first word in each modality)
-auditory_w = as.character(sort(props[props$main=='a', 'word'])[1])
-haptic_w = as.character(sort(props[props$main=='h', 'word'])[1])
-visual_w = as.character(sort(props[props$main=='v', 'word'])[1])
+auditory_w = as.character(sort(props[props$main=='Auditory', 'word'])[1])
+haptic_w = as.character(sort(props[props$main=='Haptic', 'word'])[1])
+visual_w = as.character(sort(props[props$main=='Visual', 'word'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
 NLprops <- ggplot(props,
@@ -1045,16 +1036,16 @@ NLprops4 <- ggplot(props,
 
 # check conditions for a PCA
 # matrix
-conc <- all[all$cat == 'conc' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
-nrow(conc)
-conc_matrix <- cor(conc, use = 'complete.obs')
+Concept <- all[all$cat == 'Concept' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
+nrow(Concept)
+conc_matrix <- cor(Concept, use = 'complete.obs')
 conc_matrix
 round(conc_matrix, 2)
 # POOR: correlations not apt for a PCA, with too many below .3
 
 # now on the raw data:
-nrow(conc)
-cortest.bartlett(conc)
+nrow(Concept)
+cortest.bartlett(Concept)
 # GOOD: Bartlett's test significant 
 
 # KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
@@ -1067,7 +1058,7 @@ det(conc_matrix)
 # GOOD: > 0.00001
 
 # start off with unrotated PCA
-pc1_conc <- psych::principal(conc, nfactors = 3, rotate = "none")
+pc1_conc <- psych::principal(Concept, nfactors = 3, rotate = "none")
 pc1_conc
 # RESULT good: PC1 and PC2, with eigenvalue > 1, should be extracted, 
 # acc to Kaiser's criterion (Jolliffe's threshold of 0.7 way too lax; 
@@ -1081,7 +1072,7 @@ plot(pc1_conc$values, type = "b")
 # Always preferable because it captures explained variance best. 
 # Compare eigenvalues w/ 1 & 2 Principal Components
 
-pc2_conc <- psych::principal(conc, nfactors = 2, rotate = "varimax", scores = TRUE)
+pc2_conc <- psych::principal(Concept, nfactors = 2, rotate = "varimax", scores = TRUE)
 pc2_conc
 pc2_conc$loadings
 
@@ -1096,7 +1087,7 @@ pc2_conc$communality
 # values > 0.05. Model fit good, > .90. Communalities good, all > .7 (av = .82). 
 
 # subset and add PCs
-concs <- all[all$cat == 'conc' & !is.na(all$word), ]
+concs <- all[all$cat == 'Concept' & !is.na(all$word), ]
 nrow(concs)
 concs <- cbind(concs, pc2_conc$scores)
 nrow(concs)
@@ -1104,9 +1095,9 @@ nrow(concs)
 # Finally, plot
 
 # Set sample words to show on plot (first word in each modality)
-auditory_w = as.character(sort(concs[concs$main=='a', 'word'])[1])
-haptic_w = as.character(sort(concs[concs$main=='h', 'word'])[1])
-visual_w = as.character(sort(concs[concs$main=='v', 'word'])[1])
+auditory_w = as.character(sort(concs[concs$main=='Auditory', 'word'])[1])
+haptic_w = as.character(sort(concs[concs$main=='Haptic', 'word'])[1])
+visual_w = as.character(sort(concs[concs$main=='Visual', 'word'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
 NLconcs <- ggplot(concs,
@@ -1226,7 +1217,7 @@ nrow(all)
 # the iconicity analysis is hereby performed also on the Dutch properties, in 
 # addition to the concepts.
 
-props <- subset(all, subset = cat == 'prop')
+props <- subset(all, subset = cat == 'Property')
 nrow(props)
 
 # There aren't lexical data for every single word.
@@ -1748,7 +1739,7 @@ summary(fit_concrete_Brysbaertetal2014_props)
 
 # Iconicity within concepts alone, as in Lynott and Connell (2013)
 
-concs <- all[all$cat == 'conc' & c(all$normed == 'Dutch' | all$normed == 'Dut_Eng'),]
+concs <- all[all$cat == 'Concept' & c(all$normed == 'Dutch' | all$normed == 'Dut_Eng'),]
 nrow(concs)
 
 # There aren't lexical data for every single word.
