@@ -231,7 +231,7 @@ all$SD_Visual = as.numeric(all$SD_Visual)
 # Check conditions for a PCA
 
 # matrix
-prop = all[all$cat == 'prop' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
+prop = all[all$cat == 'Property' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
 #nrow(prop)
 prop_matrix = cor(prop, use = 'complete.obs')
 #prop_matrix
@@ -283,15 +283,15 @@ pc2_prop = psych::principal(prop, nfactors = 2, rotate = "varimax", scores = TRU
 # Communalities good, all > .7 (av = .83). 
 
 # subset and add PCs
-props = all[all$cat == 'prop' & !is.na(all$word),]
+props = all[all$cat == 'Property' & !is.na(all$word),]
 #nrow(props)
 props = cbind(props, pc2_prop$scores)
 #nrow(props)
 
 # Extend initial of main modality into full word
-levels(props$main)[levels(props$main) == 'a'] = 'Auditory'
-levels(props$main)[levels(props$main) == 'h'] = 'Haptic'
-levels(props$main)[levels(props$main) == 'v'] = 'Visual'
+levels(props$main)[levels(props$main) == 'Auditory'] = 'Auditory'
+levels(props$main)[levels(props$main) == 'Haptic'] = 'Haptic'
+levels(props$main)[levels(props$main) == 'Visual'] = 'Visual'
 
 # Set to character format
 props$word = as.character(props$word)
@@ -320,7 +320,7 @@ props$Exclusivity = props$Exclusivity * 100
 
 # Check conditions for a PCA
 # matrix
-conc = all[all$cat == 'conc' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
+conc = all[all$cat == 'Concept' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
 #nrow(conc)
 conc_matrix = cor(conc, use = 'complete.obs')
 #conc_matrix
@@ -371,15 +371,15 @@ pc2_conc = psych::principal(conc, nfactors = 2, rotate = "varimax", scores = TRU
 # values > 0.05. Model fit good, > .90. Communalities good, all > .7 (av = .82). 
 
 # subset and add PCs
-concs = all[all$cat == 'conc' & !is.na(all$word),]
+concs = all[all$cat == 'Concept' & !is.na(all$word),]
 #nrow(concs)
 concs = cbind(concs, pc2_conc$scores)
 #nrow(concs)
 
 # Extend initial of main modality into full word
-levels(concs$main)[levels(concs$main) == 'a'] = 'Auditory'
-levels(concs$main)[levels(concs$main) == 'h'] = 'Haptic'
-levels(concs$main)[levels(concs$main) == 'v'] = 'Visual'
+levels(concs$main)[levels(concs$main) == 'Auditory'] = 'Auditory'
+levels(concs$main)[levels(concs$main) == 'Haptic'] = 'Haptic'
+levels(concs$main)[levels(concs$main) == 'Visual'] = 'Visual'
 
 # Set to character format
 concs$word = as.character(concs$word)
@@ -765,13 +765,13 @@ table_data[is.na(table_data$orth_neighbours_DUTCHPOND),'orth_neighbours_DUTCHPON
 table_data[is.na(table_data$phon_neighbours_DUTCHPOND),'phon_neighbours_DUTCHPOND'] = 0
 
 # Extend initial of main modality into full word
-levels(table_data$main)[levels(table_data$main) == 'a'] = 'Auditory'
-levels(table_data$main)[levels(table_data$main) == 'h'] = 'Haptic'
-levels(table_data$main)[levels(table_data$main) == 'v'] = 'Visual'
+levels(table_data$main)[levels(table_data$main) == 'Auditory'] = 'Auditory'
+levels(table_data$main)[levels(table_data$main) == 'Haptic'] = 'Haptic'
+levels(table_data$main)[levels(table_data$main) == 'Visual'] = 'Visual'
 
 # Extend abbreviation of category
-levels(table_data$cat)[levels(table_data$cat) == 'conc'] = 'Concept'
-levels(table_data$cat)[levels(table_data$cat) == 'prop'] = 'Property'
+levels(table_data$cat)[levels(table_data$cat) == 'Concept'] = 'Concept'
+levels(table_data$cat)[levels(table_data$cat) == 'Property'] = 'Property'
 
 # Turn modality exclusivity into percentage format
 table_data$Exclusivity = table_data$Exclusivity * 100
@@ -1109,7 +1109,7 @@ output$properties_csv = downloadHandler(
     paste0('Selected-Dutch-modality-norms-Bernabeu-et-al-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.csv') },
   content = function(file) {
 	# Leave Dutch data inside and remove English data, which aren't used in the tabs that have CSV download
-	drops = c('id','file','normed','word_eng','main_eng','perceptualstrength_eng','exc_eng','Aud_eng','Hap_eng','Vis_eng','lett_eng','RC1','RC2')
+	drops = c('id','file','normed','English_Word_Lynott_Connell_2009_2013','English_Main_Lynott_Connell_2009_2013','English_Perceptualstrength_Lynott_Connell_2009_2013','English_Exclusivity_Lynott_Connell_2009_2013','English_Auditory_Lynott_Connell_2009_2013','English_Haptic_Lynott_Connell_2009_2013','English_Visual_Lynott_Connell_2009_2013','English_Letters_Lynott_Connell_2009_2013','RC1','RC2')
     write.csv(selected_props()[,!(names(selected_props()) %in% drops)],
 	file, row.names = FALSE, fileEncoding = 'Latin1')
   }
@@ -1688,7 +1688,7 @@ output$concepts_csv = downloadHandler(
     paste0('Selected-Dutch-modality-norms-Bernabeu-et-al-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.csv') },
   content = function(file) {
 	# Leave Dutch data inside and remove English data, which aren't used in the tabs that have CSV download
-	drops = c('id','file','normed','word_eng','main_eng','perceptualstrength_eng','exc_eng','Aud_eng','Hap_eng','Vis_eng','lett_eng','RC1','RC2')
+	drops = c('id','file','normed','English_Word_Lynott_Connell_2009_2013','English_Main_Lynott_Connell_2009_2013','English_Perceptualstrength_Lynott_Connell_2009_2013','English_Exclusivity_Lynott_Connell_2009_2013','English_Auditory_Lynott_Connell_2009_2013','English_Haptic_Lynott_Connell_2009_2013','English_Visual_Lynott_Connell_2009_2013','English_Letters_Lynott_Connell_2009_2013','RC1','RC2')
 	write.csv(selected_concs()[,!(names(selected_concs()) %in% drops)],
 	file, row.names = FALSE, fileEncoding = 'Latin1')
   }
@@ -2150,7 +2150,7 @@ Row {style="height:1500;" data-padding=1}
 # Check conditions for a PCA
 # Matrix
 
-eng_prop = all[all$cat == 'prop', c('Aud_eng', 'Hap_eng', 'Vis_eng')]
+eng_prop = all[all$cat == 'Property', c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013')]
 #nrow(eng_prop)
 eng_prop_matrix = cor(eng_prop, use = 'complete.obs')
 #eng_prop_matrix
@@ -2196,35 +2196,35 @@ pc2_eng_prop = psych::principal(eng_prop, nfactors = 2, rotate = "varimax",
 # values > 0.05. Model fit good, > .90. Communalities good, all > .7. 
 
 # subset and add PCs
-eng_props = all[all$cat == 'prop', ]
+eng_props = all[all$cat == 'Property', ]
 #nrow(eng_props)
 eng_props = cbind(eng_props, pc2_eng_prop$scores)
 #nrow(eng_props)
 #head(eng_props)
 
 # Set word factor to character format
-eng_props$word_eng = as.character(eng_props$word_eng)
+eng_props$English_Word_Lynott_Connell_2009_2013 = as.character(eng_props$English_Word_Lynott_Connell_2009_2013)
 
 # Extend initial of main modality into full word
-levels(eng_props$main_eng)[levels(eng_props$main_eng) == 'a'] = 'Auditory'
-levels(eng_props$main_eng)[levels(eng_props$main_eng) == 'h'] = 'Haptic'
-levels(eng_props$main_eng)[levels(eng_props$main_eng) == 'v'] = 'Visual'
+levels(eng_props$English_Main_Lynott_Connell_2009_2013)[levels(eng_props$English_Main_Lynott_Connell_2009_2013) == 'Auditory'] = 'Auditory'
+levels(eng_props$English_Main_Lynott_Connell_2009_2013)[levels(eng_props$English_Main_Lynott_Connell_2009_2013) == 'Haptic'] = 'Haptic'
+levels(eng_props$English_Main_Lynott_Connell_2009_2013)[levels(eng_props$English_Main_Lynott_Connell_2009_2013) == 'Visual'] = 'Visual'
 
 ```
 
 ```{r}
 
 ggplotly( ggplot(eng_props,
-  aes(RC1, RC2, label = as.character(word_eng), color = main_eng,
-    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(word_eng), '</b></span> ',
-			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', main_eng, ' ',
-			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', round(perceptualstrength_eng, 2),
-			' ', '</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', round(exc_eng, 2) * 100, '% ',  
+  aes(RC1, RC2, label = as.character(English_Word_Lynott_Connell_2009_2013), color = English_Main_Lynott_Connell_2009_2013,
+    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(English_Word_Lynott_Connell_2009_2013), '</b></span> ',
+			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', English_Main_Lynott_Connell_2009_2013, ' ',
+			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', round(English_Perceptualstrength_Lynott_Connell_2009_2013, 2),
+			' ', '</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', round(English_Exclusivity_Lynott_Connell_2009_2013, 2) * 100, '% ',  
 			# Multiplied by 100 to make percentage
-			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', round(Aud_eng, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', round(Hap_eng, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', round(Vis_eng, 2), ' ',
-			'</b><br><span style="color:#EEEEEE; padding-bottom:3px;"> Number of letters: </span><b style="color:#EEEEEE">', lett_eng, ' '
+			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', round(English_Auditory_Lynott_Connell_2009_2013, 2), ' ',
+			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', round(English_Haptic_Lynott_Connell_2009_2013, 2), ' ',
+			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', round(English_Visual_Lynott_Connell_2009_2013, 2), ' ',
+			'</b><br><span style="color:#EEEEEE; padding-bottom:3px;"> Number of letters: </span><b style="color:#EEEEEE">', English_Letters_Lynott_Connell_2009_2013, ' '
 			 ) ) ) +
     labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
     geom_text(size = 2.8, show.legend=FALSE) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
@@ -2250,7 +2250,7 @@ ggplotly( ggplot(eng_props,
 
 # check conditions for a PCA
 # matrix
-eng_conc = all[all$cat == 'conc', c('Aud_eng', 'Hap_eng', 'Vis_eng')]
+eng_conc = all[all$cat == 'Concept', c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013')]
 #nrow(eng_conc)
 eng_conc_matrix = cor(eng_conc, use = 'complete.obs')
 #eng_conc_matrix
@@ -2296,7 +2296,7 @@ pc2_eng_conc = psych::principal(eng_conc, nfactors = 2, rotate = "varimax",
 # values > 0.05. Model fit good, > .90. Communalities good, all > .7.
 
 # subset and add PCs
-eng_concs = all[all$cat == 'conc', ]
+eng_concs = all[all$cat == 'Concept', ]
 #nrow(eng_concs)
 eng_concs = cbind(eng_concs, pc2_eng_conc$scores)
 #summary(eng_concs$RC1, eng_concs$RC2)
@@ -2306,28 +2306,28 @@ eng_concs = eng_concs[eng_concs$normed == 'Dut_Eng' | eng_concs$normed ==
 #summary(eng_concs$RC1, eng_concs$RC2)
 
 # Set word factor to character format
-eng_concs$word_eng = as.character(eng_concs$word_eng)
+eng_concs$English_Word_Lynott_Connell_2009_2013 = as.character(eng_concs$English_Word_Lynott_Connell_2009_2013)
 
 # Extend initial of main modality into full word
-levels(eng_concs$main_eng)[levels(eng_concs$main_eng) == 'a'] = 'Auditory'
-levels(eng_concs$main_eng)[levels(eng_concs$main_eng) == 'h'] = 'Haptic'
-levels(eng_concs$main_eng)[levels(eng_concs$main_eng) == 'v'] = 'Visual'
+levels(eng_concs$English_Main_Lynott_Connell_2009_2013)[levels(eng_concs$English_Main_Lynott_Connell_2009_2013) == 'Auditory'] = 'Auditory'
+levels(eng_concs$English_Main_Lynott_Connell_2009_2013)[levels(eng_concs$English_Main_Lynott_Connell_2009_2013) == 'Haptic'] = 'Haptic'
+levels(eng_concs$English_Main_Lynott_Connell_2009_2013)[levels(eng_concs$English_Main_Lynott_Connell_2009_2013) == 'Visual'] = 'Visual'
 
 ```
 
 ```{r}
 
 ggplotly( ggplot(eng_concs,
-  aes(RC1, RC2, label = as.character(word_eng), color = main_eng,
-    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(word_eng), '</b></span> ',
-			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', main_eng, ' ',
-			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', round(perceptualstrength_eng, 2), 
-			' ', '</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', round(exc_eng, 2) * 100, '% ',  
+  aes(RC1, RC2, label = as.character(English_Word_Lynott_Connell_2009_2013), color = English_Main_Lynott_Connell_2009_2013,
+    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(English_Word_Lynott_Connell_2009_2013), '</b></span> ',
+			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', English_Main_Lynott_Connell_2009_2013, ' ',
+			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', round(English_Perceptualstrength_Lynott_Connell_2009_2013, 2), 
+			' ', '</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', round(English_Exclusivity_Lynott_Connell_2009_2013, 2) * 100, '% ',  
 			# Multiplied by 100 to make percentage
-			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', round(Aud_eng, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', round(Hap_eng, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', round(Vis_eng, 2), ' ',
-			'</b><br><span style="color:#EEEEEE; padding-bottom:3px;"> Number of letters: </span><b style="color:#EEEEEE">', lett_eng, ' '
+			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', round(English_Auditory_Lynott_Connell_2009_2013, 2), ' ',
+			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', round(English_Haptic_Lynott_Connell_2009_2013, 2), ' ',
+			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', round(English_Visual_Lynott_Connell_2009_2013, 2), ' ',
+			'</b><br><span style="color:#EEEEEE; padding-bottom:3px;"> Number of letters: </span><b style="color:#EEEEEE">', English_Letters_Lynott_Connell_2009_2013, ' '
 			 ) ) ) +
     labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
     geom_text(size = 2.8, show.legend=FALSE) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
@@ -2468,7 +2468,7 @@ Row {data-height=212 data-padding=0.5 padding-top=34}
 # the iconicity analysis is hereby performed also on the Dutch properties, in 
 # addition to the concepts.
 
-properties_Dutch2 = subset(all, subset = cat == 'prop')
+properties_Dutch2 = subset(all, subset = cat == 'Property')
 #nrow(properties_Dutch2)
 
 # There aren't lexical data for every single word.
@@ -3349,7 +3349,7 @@ results_total = rbind(results_total, results)
 
 # Iconicity within concepts alone, as in Lynott and Connell (2013)
 
-concepts_Dutch2 = all[all$cat == 'conc' & c(all$normed == 'Dutch' | all$normed == 'Dut_Eng'),]
+concepts_Dutch2 = all[all$cat == 'Concept' & c(all$normed == 'Dutch' | all$normed == 'Dut_Eng'),]
 #nrow(concepts_Dutch2)
 
 # There aren't lexical data for every single word.
