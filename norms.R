@@ -316,11 +316,11 @@ all <- read.csv('all.csv')
 
 # PROPERTIES
 props <- all[all$cat=='Property',]
-nrow(props)  # 366 Dutch + a few from Lynott&Connell for comparisons
+nrow(props)  # 336 Dutch + a few items from Lynott and Connell (2009) that weren't translated but were kept in to have all items from the three modalities in the PCA reanalysis.
 
 # CONCEPTS 
 concs <- all[all$cat=='Concept',]
-nrow(concs)  # 411 Dutch + a few from Lynott&Connell for comparison
+nrow(concs)  # 411 Dutch + a few items from Lynott and Connell (2013) that weren't translated but were kept in to have all items from the three modalities in the PCA reanalysis.
 
 
 
