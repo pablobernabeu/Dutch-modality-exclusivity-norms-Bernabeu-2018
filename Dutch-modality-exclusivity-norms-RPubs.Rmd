@@ -404,7 +404,7 @@ colours = c('firebrick1', 'dodgerblue', 'forestgreen')
 
 
 
-Info {style="background-color:#FCFCFC; data-width:100%"}
+Info {style="background-color:#FCFCFC; data-width:100%; width: 900px; margin: 0 auto;"}
 =======================================================================
 
 Row {style="height:1550px; background-color:#FCFCFC;"}
@@ -1928,10 +1928,10 @@ ggplotly( ggplot(concepts_Dutch,
 
 
 
-Sound symbolism {data-orientation=rows background-color=#FBFBFB}
+Sound symbolism {data-orientation=rows background-color=#FBFBFB style='width: 900px; margin: 0 auto;'}
 =======================================================================
 
-Row {data-height=190 padding-top=9 padding-bottom=14px}
+Row {data-height=260 padding-top=9 padding-bottom=14px}
 -----------------------------------------------------------------------
 
 ```{r include = FALSE}
