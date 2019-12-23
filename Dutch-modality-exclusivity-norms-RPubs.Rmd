@@ -410,7 +410,7 @@ Info {style="background-color:#FCFCFC; data-width:100%; width: 900px; margin: 0 
 Row {style="height:1550px; background-color:#FCFCFC;"}
 --------------------------------------------------------
 
-<div style = "padding-left: 30px; padding-right: 38px; padding-bottom:40px; text-align: justify; background-color: #FCFCFC;">
+<div style = "padding-left: 60px; padding-right: 60px; padding-bottom:40px; text-align: justify; background-color: #FCFCFC;">
 
 <div style="text-align: center; font-size: 18px; padding-top: 21px; margin-top: 2px; margin-bottom: 0px;"> This *RPubs* website is a reduced version of a dashboard. </div>
 
@@ -1928,7 +1928,7 @@ ggplotly( ggplot(concepts_Dutch,
 
 
 
-Sound symbolism {data-orientation=rows background-color=#FBFBFB style='width: 900px; margin: 0 auto;'}
+Sound symbolism {data-orientation=rows background-color=#FBFBFB style='width:950px; margin:0 auto;'}
 =======================================================================
 
 Row {data-height=260 padding-top=9 padding-bottom=14px}
@@ -3818,7 +3818,7 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$
 
 
 
-<div style = "background-color: #FCFCFC; text-align: justify; padding-top: 27px; padding-right: 36px; padding-left: 32px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
+<div style = "background-color: #FCFCFC; text-align: justify; padding-top: 27px; padding-right: 60px; padding-left: 60px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
 
 **Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would ([see external corpora](#info)). By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4){target="_blank"}), we found that auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings, thus supporting sound symbolism. Standardised coefficients ($\beta$) presented below, with asterisks indicating significance (<sup>\*</sup>*p* < .05; <sup>\*\*</sup>*p* < .01; <sup>\*\*\*</sup>*p* < .001). Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). 'PC' = Kaiser-normalised, varimax-rotated principal component.
 
@@ -3983,10 +3983,10 @@ HTML(
 Row {style="data-width:100%; padding-top: 0px;"}
 -----------------------------------------------------------------------
 
-### <span> <b>Loadings of principal components for properties (see 'PC' dependent variables above), in the form of correlations.</b> Coefficients above <i>r</i> = &plusmn;.70 (i.e., 50% shared variance) shown in bold. </span> {style="padding-top:8px; padding-bottom:5px; text-align:justify;"}
+### <span> <b>Loadings of principal components for properties (see 'PC' dependent variables above), in the form of correlations.</b> Coefficients above <i>r</i> = &plusmn;.70 (i.e., 50% shared variance) shown in bold. </span> {style="background-color:#FFFAF4; padding-top:8px; padding-bottom:5px; text-align:justify;"}
 
 <!-- create margin -->
-<div style="font-size:8px; padding-top:4px;"> </div>
+<div style="background-color:white; padding-top:4px;">
 
 ```{r}
 
@@ -4038,11 +4038,13 @@ column_spec(1, bold = T)
 
 ```
 
+</div>
 
-### <span> <b>Loadings of principal components for concepts (see 'PC' dependent variables above), in the form of correlations.</b> Coefficients above <i>r</i> = &plusmn;.70 (i.e., 50% shared variance) shown in bold. </span> {style="padding-top:8px; padding-bottom:5px; text-align:justify;"}
+
+### <span> <b>Loadings of principal components for concepts (see 'PC' dependent variables above), in the form of correlations.</b> Coefficients above <i>r</i> = &plusmn;.70 (i.e., 50% shared variance) shown in bold. </span> {style="background-color:#FFFEF3; padding-top:8px; padding-bottom:5px; text-align:justify;"}
 
 <!-- create margin -->
-<div style="font-size:8px; padding-top:4px;"> </div>
+<div style="background-color:white; padding-top:4px;">
 
 ```{r}
 
@@ -4093,3 +4095,5 @@ concepts_lexicals_loadings %>%
   column_spec(1, bold = T)
 
 ```
+
+</div>
