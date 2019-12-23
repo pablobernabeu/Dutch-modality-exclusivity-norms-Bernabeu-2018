@@ -415,7 +415,7 @@ Column {style="height:1300px; background-color:#FCFCFC;"}
 --------------------------------------------------------
 
 <!-- Links -->
-<div style = "text-align: right; padding-top: 30px; padding-bottom: 0; padding-right: 38px;">
+<div style = "text-align: right; padding-top: 60px; padding-bottom: 0; padding-right: 60px;">
 
 <a href="https://github.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/blob/master/Shiny-app%2FDutch-modality-exclusivity-norms.rmd" style="color:#9FB05F; border-bottom:none !important;font-size: 15px; font-weight: bold; font-family: 'Courier New', Courier, monospace;"> <i class='fas fa-database' aria-hidden="true" style='font-size:20px; color:#577787'></i> <i class='fab fa-r-project' aria-hidden="true" style='font-size:20px; color:#526772'></i> Data and code for analyses and dashboard </a>
 
@@ -426,7 +426,7 @@ Column {style="height:1300px; background-color:#FCFCFC;"}
 </div>
 
 
-<div style = "padding-top: 0px; padding-left: 30px; padding-right: 38px; text-align: justify; background-color:#FCFCFC;">
+<div style = "padding-top: 0px; padding-left: 60px; padding-right: 60px; text-align: justify; background-color:#FCFCFC;">
 
 #### Information
 
@@ -2432,7 +2432,7 @@ ggplotly( ggplot(concepts_Dutch,
 
 
 
-Sound symbolism {data-orientation=rows data-padding=0.5 background-color=#FBFBFB style='width: 900px; margin: 0 auto;'}
+Sound symbolism {data-orientation=rows data-padding=0.5 background-color=#FBFBFB style='width: 950px; margin: 0 auto;'}
 =======================================================================
 
 Row {data-height=300 data-padding=0.5 padding-top=34}
@@ -4329,7 +4329,7 @@ observeEvent(input$properties_lexicals_loadings, {
 
 
 
-<div style = "background-color: #FCFCFC; text-align: justify; padding-top: 27px; padding-right: 32px; padding-left: 32px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
+<div style = "background-color: #FCFCFC; text-align: justify; padding-top: 27px; padding-right: 40px; padding-left: 40px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
 
 **Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would ([see external corpora](#info)). By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings, thus supporting sound symbolism. Standardised coefficients ($\beta$) presented below, with asterisks indicating significance (<sup>\*</sup>*p* < .05; <sup>\*\*</sup>*p* < .01; <sup>\*\*\*</sup>*p* < .001). Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). 'PC' = Kaiser-normalised, varimax-rotated principal component.
 
