@@ -298,8 +298,8 @@ props$word = as.character(props$word)
 
 # Replace NAs in corpora with 0 to allow selection
 props[is.na(props$phonemes_DUTCHPOND), 'phonemes_DUTCHPOND'] = 0
-props[is.na(props$freq_lg10WF_SUBTLEXNL), 'freq_lg10WF_SUBTLEXNL'] = 0
 props[is.na(props$freq_lg10CD_SUBTLEXNL), 'freq_lg10CD_SUBTLEXNL'] = 0
+props[is.na(props$freq_lg10WF_SUBTLEXNL), 'freq_lg10WF_SUBTLEXNL'] = 0
 props[is.na(props$freq_CELEX_lem), 'freq_CELEX_lem'] = 0
 props[is.na(props$orth_neighbours_DUTCHPOND), 'orth_neighbours_DUTCHPOND'] = 0
 props[is.na(props$phon_neighbours_DUTCHPOND), 'phon_neighbours_DUTCHPOND'] = 0
@@ -385,8 +385,8 @@ concs$word = as.character(concs$word)
 
 # Replace NAs in corpora with 0 to allow selection
 concs[is.na(concs$phonemes_DUTCHPOND), 'phonemes_DUTCHPOND'] = 0
-concs[is.na(concs$freq_lg10WF_SUBTLEXNL), 'freq_lg10WF_SUBTLEXNL'] = 0
 concs[is.na(concs$freq_lg10CD_SUBTLEXNL), 'freq_lg10CD_SUBTLEXNL'] = 0
+concs[is.na(concs$freq_lg10WF_SUBTLEXNL), 'freq_lg10WF_SUBTLEXNL'] = 0
 concs[is.na(concs$freq_CELEX_lem), 'freq_CELEX_lem'] = 0
 concs[is.na(concs$orth_neighbours_DUTCHPOND), 'orth_neighbours_DUTCHPOND'] = 0
 concs[is.na(concs$phon_neighbours_DUTCHPOND), 'phon_neighbours_DUTCHPOND'] = 0
@@ -609,9 +609,8 @@ reactable(table_data,
                                                   'Highest-rated modality (as defined in Lynott & Connell, 2009, 2013). Values: Auditory, Haptic, Visual.')),
 
               Exclusivity = colDef(cell = function(value) {
-                paste0(value,'%') 
+                paste0(sprintf("%.2f", round(value,2)),'%')   # Round to two digits, keeping trailing zeros
                 },
-                format = colFormat(digits = 2),
                 header = with_tooltip('Modality Exclusivity',
                                       'Range of the three modality ratings divided by the sum (as defined in Lynott & Connell, 2009, 2013). Values colour-coded from lower, in grey, to higher, in violet.'),
                 style = function(value) {
@@ -625,9 +624,9 @@ reactable(table_data,
                                list(color = color)
                                }),
 
-              Perceptualstrength = colDef(format = colFormat(digits = 2),
-                                          header = with_tooltip('Perceptual Strength',
+              Perceptualstrength = colDef(header = with_tooltip('Perceptual Strength',
                                                          'Highest rating across modalities (as defined in Lynott & Connell, 2009, 2013). Values colour-coded from lower, in grey, to higher, in violet.'),
+                                          cell = function(value) {value = sprintf("%.2f", round(value,2))},  # Round to two digits, keeping trailing zeros
                                           style = function(value) {
                                             if (value < 1.7) {
                                               color = '#9D9D9D'
@@ -643,7 +642,7 @@ reactable(table_data,
                                                       'Mean rating of each word on the auditory modality across participants.'),
                                 cell = function(value) {
                                   width <- paste0(value / max(table_data$Auditory) * 100, "%")
-                                  value = sprintf("%.2f", round(value,2))  # Round to two digits by keeping trailing zeros
+                                  value = sprintf("%.2f", round(value,2))  # Round to two digits, keeping trailing zeros
                                   bar_chart(value, width = width, fill = '#ff3030')
                                   },
                                 align = 'left'),
@@ -652,7 +651,7 @@ reactable(table_data,
                                                     'Mean rating of each word on the haptic (tactile) modality across participants.'),
                                 cell = function(value) {
                                   width <- paste0(value / max(table_data$Haptic) * 100, "%")
-                                  value = sprintf("%.2f", round(value,2))  # Round to two digits by keeping trailing zeros
+                                  value = sprintf("%.2f", round(value,2))  # Round to two digits, keeping trailing zeros
                                   bar_chart(value, width = width, fill = 'dodgerblue')
                                   },
                                 align = 'left'),
@@ -660,7 +659,7 @@ reactable(table_data,
               Visual = colDef(header = with_tooltip('Visual Rating', 'Mean rating of each word on the visual modality across participants.'),
                                 cell = function(value) {
                                   width <- paste0(value / max(table_data$Visual) * 100, "%")
-                                  value = sprintf("%.2f", round(value,2))  # Round to two digits by keeping trailing zeros
+                                  value = sprintf("%.2f", round(value,2))  # Round to two digits, keeping trailing zeros
                                   bar_chart(value, width = width, fill = 'forestgreen')
                                   },
                                 align = 'left'),
@@ -815,8 +814,7 @@ Inputs {.sidebar}
 #                             cell_spec(PC2, "html")) ) %>%
 #         kable(format = "html", escape = FALSE) %>%
 #         footnote(general = 'Correlations above r = .70 (i.e., 50% shared variance) shown in bold.') %>%
-#         kable_styling('striped', full_width = F) %>%
-#         column_spec(1, bold = T)
+#         kable_styling('striped', full_width = F)
 #       ),
 #     size = 's', easyClose = TRUE, footer = modalButton('Close')
 #     ))
@@ -1045,10 +1043,10 @@ Row {data-height=1000 padding-bottom=7}
 # 		props$phon_neighbours_DUTCHPOND <= as.numeric(max(input$properties_phon_neighbours_DutchPOND)) &
 # 		props$orth_neighbours_DUTCHPOND >= as.numeric(min(input$properties_orth_neighbours_DutchPOND)) &
 # 		props$orth_neighbours_DUTCHPOND <= as.numeric(max(input$properties_orth_neighbours_DutchPOND)) &
-# 		props$freq_lg10WF_SUBTLEXNL >= as.numeric(min(input$properties_WF_SUBTLEXNL)) &
-# 		props$freq_lg10WF_SUBTLEXNL <= as.numeric(max(input$properties_WF_SUBTLEXNL)) &
 # 		props$freq_lg10CD_SUBTLEXNL >= as.numeric(min(input$properties_ContextualDiversity)) &
 # 		props$freq_lg10CD_SUBTLEXNL <= as.numeric(max(input$properties_ContextualDiversity)) &
+# 		props$freq_lg10WF_SUBTLEXNL >= as.numeric(min(input$properties_WF_SUBTLEXNL)) &
+# 		props$freq_lg10WF_SUBTLEXNL <= as.numeric(max(input$properties_WF_SUBTLEXNL)) &
 # 		props$freq_CELEX_lem >= as.numeric(min(input$properties_lemma_CELEX)) &
 # 		props$freq_CELEX_lem <= as.numeric(max(input$properties_lemma_CELEX)) &
 # 		props$AoA_Brysbaertetal2014 >= as.numeric(min(input$properties_AoA)) &
@@ -1062,27 +1060,28 @@ Row {data-height=1000 padding-bottom=7}
     # Html tags below used for format. Decimals rounded to two.
     text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(word), '</b></span> ',
 			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', main, ' ',
-			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', round(Perceptualstrength, 2), 
-			' ', '</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', round(Exclusivity, 2), '% ',
-			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', round(Auditory, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', round(Haptic, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', round(Visual, 2), ' ',
+			' ', '</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Exclusivity, 2)), '% ',
+			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Perceptualstrength, 2)),
+			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Auditory, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Haptic, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Visual, 2)), ' ',
 			'</b><br><span style="color:#EEEEEE"> Concreteness (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">', 
-			round(concrete_Brysbaertetal2014, 2), ' ',
+			sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' ',
 			'</b><br><span style="color:#EEEEEE"> Number of letters: </span><b style="color:#EEEEEE">', letters, ' ',
 			'</b><br><span style="color:#EEEEEE"> Number of phonemes (DutchPOND): </span><b style="color:#EEEEEE">', 
 			round(phonemes_DUTCHPOND, 2), ' ',
+			'</b><br><span style="color:#EEEEEE"> Contextual diversity (lg10CD SUBTLEX-NL): </span><b style="color:#EEEEEE">', 
+			sprintf("%.2f", round(freq_lg10CD_SUBTLEXNL, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Word frequency (lg10WF SUBTLEX-NL): </span><b style="color:#EEEEEE">', 
+			sprintf("%.2f", round(freq_lg10WF_SUBTLEXNL, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Lemma frequency (CELEX): </span><b style="color:#EEEEEE">', sprintf("%.2f", round(freq_CELEX_lem, 2)), ' ',
 			'</b><br><span style="color:#EEEEEE"> Phonological neighbourhood size (DutchPOND): </span><b style="color:#EEEEEE">', 
 			round(phon_neighbours_DUTCHPOND, 2), ' ',
 			'</b><br><span style="color:#EEEEEE"> Orthographic neighbourhood size (DutchPOND): </span><b style="color:#EEEEEE">', 
 			round(orth_neighbours_DUTCHPOND, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Word frequency (lg10WF SUBTLEX-NL): </span><b style="color:#EEEEEE">', 
-			round(freq_lg10WF_SUBTLEXNL, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Contextual diversity (lg10CD SUBTLEX-NL): </span><b style="color:#EEEEEE">', 
-			round(freq_lg10CD_SUBTLEXNL, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Lemma frequency (CELEX): </span><b style="color:#EEEEEE">', round(freq_CELEX_lem, 2), ' ',
 			'</b><br><span style="color:#EEEEEE"> Age of acquisition (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">', 
-			round(AoA_Brysbaertetal2014, 2), ' '  ) ) ) +
+			sprintf("%.2f", round(AoA_Brysbaertetal2014, 2)), ' '
+			) ) ) +
   geom_text(size = 3) +
   geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
   scale_colour_manual(values = colours, drop = FALSE) + theme_bw() + ggtitle('Property words') +
@@ -1165,8 +1164,7 @@ properties_modality_loadings %>%
          PC2 = ifelse(abs(as.numeric(PC2)) > .7, cell_spec(PC2, "html", bold = TRUE, color = 'black'),
                       cell_spec(PC2, "html")) ) %>%
   kable(format = "html", escape = FALSE) %>%
-  kable_styling('striped', full_width = F) %>%
-  column_spec(1, bold = T)
+  kable_styling('striped', full_width = F)
 
 ```
 
@@ -1269,8 +1267,7 @@ Inputs {.sidebar}
 #                             cell_spec(PC2, "html")) ) %>%
 #         kable(format = "html", escape = FALSE) %>%
 #         footnote(general = 'Correlations above r = .70 (i.e., 50% shared variance) shown in bold.', general_title = '') %>%
-#         kable_styling('striped', full_width = F) %>%
-#         column_spec(1, bold = T)
+#         kable_styling('striped', full_width = F)
 #       ),
 #     size = 's', easyClose = TRUE, footer = modalButton("Close")
 #     ))
@@ -1498,10 +1495,10 @@ Row {data-height=1000 padding-bottom=7}
 # 		concs$phon_neighbours_DUTCHPOND <= as.numeric(max(input$concepts_phon_neighbours_DutchPOND)) &
 # 		concs$orth_neighbours_DUTCHPOND >= as.numeric(min(input$concepts_orth_neighbours_DutchPOND)) &
 # 		concs$orth_neighbours_DUTCHPOND <= as.numeric(max(input$concepts_orth_neighbours_DutchPOND)) &
-# 		concs$freq_lg10WF_SUBTLEXNL >= as.numeric(min(input$concepts_WF_SUBTLEXNL)) &
-# 		concs$freq_lg10WF_SUBTLEXNL <= as.numeric(max(input$concepts_WF_SUBTLEXNL)) &
 # 		concs$freq_lg10CD_SUBTLEXNL >= as.numeric(min(input$concepts_ContextualDiversity)) &
 # 		concs$freq_lg10CD_SUBTLEXNL <= as.numeric(max(input$concepts_ContextualDiversity)) &
+# 		concs$freq_lg10WF_SUBTLEXNL >= as.numeric(min(input$concepts_WF_SUBTLEXNL)) &
+# 		concs$freq_lg10WF_SUBTLEXNL <= as.numeric(max(input$concepts_WF_SUBTLEXNL)) &
 # 		concs$freq_CELEX_lem >= as.numeric(min(input$concepts_lemma_CELEX)) &
 # 		concs$freq_CELEX_lem <= as.numeric(max(input$concepts_lemma_CELEX)) &
 # 		concs$AoA_Brysbaertetal2014 >= as.numeric(min(input$concepts_AoA)) &
@@ -1516,25 +1513,25 @@ Row {data-height=1000 padding-bottom=7}
     text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(word), 
                   '</b></span> ',
 			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', main, ' ',
-			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', round(Perceptualstrength, 2), 
-			' ', '</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', round(Exclusivity, 2), '% ',
-			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', round(Auditory, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', round(Haptic, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', round(Visual, 2), ' ',
+			' ', '</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Exclusivity, 2)), '% ',
+			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Perceptualstrength, 2)),
+			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Auditory, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Haptic, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Visual, 2)), ' ',
 			'</b><br><span style="color:#EEEEEE"> Concreteness (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">', 
-			round(concrete_Brysbaertetal2014, 2), ' ',
+			sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' ',
 			'</b><br><span style="color:#EEEEEE"> Number of letters: </span><b style="color:#EEEEEE">', letters, ' ',
 			'</b><br><span style="color:#EEEEEE"> Number of phonemes (DutchPOND): </span><b style="color:#EEEEEE">', 
 			round(phonemes_DUTCHPOND, 2), ' ',
+			'</b><br><span style="color:#EEEEEE"> Contextual diversity (lg10CD SUBTLEX-NL): </span><b style="color:#EEEEEE">', 
+			sprintf("%.2f", round(freq_lg10CD_SUBTLEXNL, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Word frequency (lg10WF SUBTLEX-NL): </span><b style="color:#EEEEEE">', 
+			sprintf("%.2f", round(freq_lg10WF_SUBTLEXNL, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Lemma frequency (CELEX): </span><b style="color:#EEEEEE">', sprintf("%.2f", round(freq_CELEX_lem, 2)), ' ',
 			'</b><br><span style="color:#EEEEEE"> Phonological neighbourhood size (DutchPOND): </span><b style="color:#EEEEEE">', 
 			round(phon_neighbours_DUTCHPOND, 2), ' ',
 			'</b><br><span style="color:#EEEEEE"> Orthographic neighbourhood size (DutchPOND): </span><b style="color:#EEEEEE">', 
 			round(orth_neighbours_DUTCHPOND, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Word frequency (lg10WF SUBTLEX-NL): </span><b style="color:#EEEEEE">', 
-			round(freq_lg10WF_SUBTLEXNL, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Contextual diversity (lg10CD SUBTLEX-NL): </span><b style="color:#EEEEEE">', 
-			round(freq_lg10CD_SUBTLEXNL, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Lemma frequency (CELEX): </span><b style="color:#EEEEEE">', round(freq_CELEX_lem, 2), ' ',
 			'</b><br><span style="color:#EEEEEE; padding-bottom:3px;"> Age of acquisition (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">', 
 			round(AoA_Brysbaertetal2014, 2), ' '  ) ) ) +
   geom_text(size = 3) +
@@ -1621,8 +1618,7 @@ concepts_modality_loadings %>%
          PC2 = ifelse(abs(as.numeric(PC2)) > .7, cell_spec(PC2, "html", bold = TRUE, color = 'black'),
                       cell_spec(PC2, "html")) ) %>%
   kable(format = "html", escape = FALSE) %>%
-  kable_styling('striped', full_width = F) %>%
-  column_spec(1, bold = T)
+  kable_styling('striped', full_width = F)
 
 ```
 
@@ -1630,7 +1626,7 @@ concepts_modality_loadings %>%
 
 
 
-Cf. L&C English norms
+Cf. L&C English Norms
 =======================================================================
 
 <div style = "background-color: #FCFCFC; text-align: center; font-size: 15px; padding-top: 16px; padding-bottom: 5px; margin-bottom:4px">
@@ -1715,13 +1711,12 @@ ggplotly( ggplot(eng_props,
   aes(RC1, RC2, label = as.character(English_Word_Lynott_Connell_2009_2013), color = English_Main_Lynott_Connell_2009_2013,
     text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(English_Word_Lynott_Connell_2009_2013), '</b></span> ',
 			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', English_Main_Lynott_Connell_2009_2013, ' ',
-			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', round(English_Perceptualstrength_Lynott_Connell_2009_2013, 2),
-			' ', '</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', round(English_Exclusivity_Lynott_Connell_2009_2013, 2) * 100, '% ',  
+			' ', '</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', paste0(sprintf("%.2f", round(English_Exclusivity_Lynott_Connell_2009_2013 * 100, 2)), '% '),   # Percent format
+			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(English_Perceptualstrength_Lynott_Connell_2009_2013, 2)),
 			# Multiplied by 100 to make percentage
-			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', round(English_Auditory_Lynott_Connell_2009_2013, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', round(English_Haptic_Lynott_Connell_2009_2013, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', round(English_Visual_Lynott_Connell_2009_2013, 2), ' ',
-			'</b><br><span style="color:#EEEEEE; padding-bottom:3px;"> Number of letters: </span><b style="color:#EEEEEE">', English_Letters_Lynott_Connell_2009_2013, ' '
+			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(English_Auditory_Lynott_Connell_2009_2013, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(English_Haptic_Lynott_Connell_2009_2013, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(English_Visual_Lynott_Connell_2009_2013, 2)), ' '
 			 ) ) ) +
     labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
     geom_text(size = 2.8, show.legend=FALSE) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
@@ -1818,13 +1813,12 @@ ggplotly( ggplot(eng_concs,
   aes(RC1, RC2, label = as.character(English_Word_Lynott_Connell_2009_2013), color = English_Main_Lynott_Connell_2009_2013,
     text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(English_Word_Lynott_Connell_2009_2013), '</b></span> ',
 			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', English_Main_Lynott_Connell_2009_2013, ' ',
-			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', round(English_Perceptualstrength_Lynott_Connell_2009_2013, 2), 
-			' ', '</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', round(English_Exclusivity_Lynott_Connell_2009_2013, 2) * 100, '% ',  
+			' ', '</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', paste0(sprintf("%.2f", round(English_Exclusivity_Lynott_Connell_2009_2013 * 100, 2)), '% '),   # Percent format
+			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(English_Perceptualstrength_Lynott_Connell_2009_2013, 2)),
 			# Multiplied by 100 to make percentage
-			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', round(English_Auditory_Lynott_Connell_2009_2013, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', round(English_Haptic_Lynott_Connell_2009_2013, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', round(English_Visual_Lynott_Connell_2009_2013, 2), ' ',
-			'</b><br><span style="color:#EEEEEE; padding-bottom:3px;"> Number of letters: </span><b style="color:#EEEEEE">', English_Letters_Lynott_Connell_2009_2013, ' '
+			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(English_Auditory_Lynott_Connell_2009_2013, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(English_Haptic_Lynott_Connell_2009_2013, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(English_Visual_Lynott_Connell_2009_2013, 2)), ' '
 			 ) ) ) +
     labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
     geom_text(size = 2.8, show.legend=FALSE) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
@@ -1858,16 +1852,13 @@ ggplotly( ggplot(properties_Dutch,
     # Html tags below used for format. Decimals rounded to two.
     text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(word), '</b></span> ',
 			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', main, ' ',
-			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', round(Perceptualstrength, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', round(Exclusivity, 2), '% ',
-			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', round(Auditory, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', round(Haptic, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', round(Visual, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Concreteness (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">', 
-			round(concrete_Brysbaertetal2014, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Number of letters: </span><b style="color:#EEEEEE">', letters, ' ',
-			'</b><br><span style="color:#EEEEEE; padding-bottom:3px;"> Number of phonemes (DutchPOND): </span><b style="color:#EEEEEE">', 
-			round(phonemes_DUTCHPOND, 2), ' '
+			'</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', paste0(sprintf("%.2f", round(Exclusivity, 2)), '% '),
+			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Perceptualstrength, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Auditory, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Haptic, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Visual, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Concreteness (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">',
+			sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' '
 			 ) ) ) +
   labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
   geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE) + 
@@ -1897,16 +1888,14 @@ ggplotly( ggplot(concepts_Dutch,
     # Html tags below used for format. Decimals rounded to two.
     text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(word), '</b></span> ',
 			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', main, ' ',
-			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', round(Perceptualstrength, 2), ' ', 			'</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', round(Exclusivity, 2), '% ',  
-			# Multiplied by 100 to make percentage
-			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', round(Auditory, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', round(Haptic, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', round(Visual, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Concreteness (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">', 
-			round(concrete_Brysbaertetal2014, 2), ' ',
-			'</b><br><span style="color:#EEEEEE"> Number of letters: </span><b style="color:#EEEEEE">', letters, ' ',
-			'</b><br><span style="color:#EEEEEE; padding-bottom:3px;"> Number of phonemes (DutchPOND): </span><b style="color:#EEEEEE">', 
-			round(phonemes_DUTCHPOND, 2), ' ' 
+			'</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', paste0(sprintf("%.2f", round(Exclusivity, 2)), '% '),
+			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', 
+			sprintf("%.2f", round(Perceptualstrength, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Auditory rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Auditory, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Haptic, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Visual, 2)), ' ',
+			'</b><br><span style="color:#EEEEEE"> Concreteness (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">',
+			sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' '
 			 ) ) ) +
   labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") + 
   geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE) + 
@@ -1928,7 +1917,7 @@ ggplotly( ggplot(concepts_Dutch,
 
 
 
-Sound symbolism {data-orientation=rows background-color=#FBFBFB style='width:950px; margin:0 auto;'}
+Sound Symbolism {data-orientation=rows background-color=#FBFBFB style='width:950px; margin:0 auto;'}
 =======================================================================
 
 Row {data-height=260 padding-top=9 padding-bottom=14px}
@@ -2214,68 +2203,6 @@ results_total = rbind(results_total, results)
 
 
 
-# freq: SUBTLEX-NL log-10 WF
-fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2 = lm(properties_Dutch2$s_freq_lg10WF_SUBTLEXNL ~ 
-properties_Dutch2$s_Auditory + properties_Dutch2$s_Haptic + properties_Dutch2$s_Visual, data = properties_Dutch2)
-#stat.desc(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2$residuals, norm = TRUE)
-
-# residuals distribution: skew. Raw scores/2.SE > 1
-# have to log-transform DV and re-run regression
-
-#psych::describe(properties_Dutch2$s_freq_lg10WF_SUBTLEXNL)
-properties_Dutch2$log_s_freq_lg10WF_SUBTLEXNL <- log(3 + properties_Dutch2$s_freq_lg10WF_SUBTLEXNL)
-
-fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2 = lm(properties_Dutch2$log_s_freq_lg10WF_SUBTLEXNL ~ 
-properties_Dutch2$s_Auditory + properties_Dutch2$s_Haptic + properties_Dutch2$s_Visual, data = properties_Dutch2)
-
-# check residuals again
-#stat.desc(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2$residuals, norm = TRUE)
-# quite better
-
-# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
-# tolerance (pref. > 0.2)
-#vif(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)
-#mean(vif(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2))
-#1/vif(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)
-# RESULTS: all good
-
-step_freq_lg10WF_SUBTLEXNL_properties_Dutch2_AIC = stepAIC(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2, 
-direction="both")
-step_freq_lg10WF_SUBTLEXNL_properties_Dutch2_F = stepAIC(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2, 
-direction="both", test="F")
-summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)
-
-# Save results
-
-Category = 'Properties'
-Dependent = 'Word frequency'
-
-# Save F-test part of the regression
-Variable = rownames(anova(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2))
-DF = anova(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)[,'Df']
-Sum_Sq = anova(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)[,'Sum Sq']
-Mean_Sq = anova(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)[,'Mean Sq']
-F = anova(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)[,'F value']
-F_p = anova(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)[,'Pr(>F)']
-F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
-
-# Save t-test part of the regression
-Variable = rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)))
-Estimate = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)))), 'Estimate'])
-SE = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)))), 'Std. Error'])
-t = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)))), 't value'])
-t_p = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)))), 'Pr(>|t|)'])
-t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
-
-results = merge(F_results, t_results, all = TRUE)
-
-results_total = rbind(results_total, results)
-
-
-
-
-
-
 # freq: SUBTLEX-NL log-10 CD
 
 fit_freq_lg10CD_SUBTLEXNL_properties_Dutch2 = lm(properties_Dutch2$s_freq_lg10CD_SUBTLEXNL ~ 
@@ -2328,6 +2255,68 @@ Estimate = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_properties_D
 SE = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_properties_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_properties_Dutch2)))), 'Std. Error'])
 t = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_properties_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_properties_Dutch2)))), 't value'])
 t_p = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_properties_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_properties_Dutch2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# freq: SUBTLEX-NL log-10 WF
+fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2 = lm(properties_Dutch2$s_freq_lg10WF_SUBTLEXNL ~ 
+properties_Dutch2$s_Auditory + properties_Dutch2$s_Haptic + properties_Dutch2$s_Visual, data = properties_Dutch2)
+#stat.desc(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2$residuals, norm = TRUE)
+
+# residuals distribution: skew. Raw scores/2.SE > 1
+# have to log-transform DV and re-run regression
+
+#psych::describe(properties_Dutch2$s_freq_lg10WF_SUBTLEXNL)
+properties_Dutch2$log_s_freq_lg10WF_SUBTLEXNL <- log(3 + properties_Dutch2$s_freq_lg10WF_SUBTLEXNL)
+
+fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2 = lm(properties_Dutch2$log_s_freq_lg10WF_SUBTLEXNL ~ 
+properties_Dutch2$s_Auditory + properties_Dutch2$s_Haptic + properties_Dutch2$s_Visual, data = properties_Dutch2)
+
+# check residuals again
+#stat.desc(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2$residuals, norm = TRUE)
+# quite better
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+#vif(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)
+#mean(vif(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2))
+#1/vif(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)
+# RESULTS: all good
+
+step_freq_lg10WF_SUBTLEXNL_properties_Dutch2_AIC = stepAIC(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2, 
+direction="both")
+step_freq_lg10WF_SUBTLEXNL_properties_Dutch2_F = stepAIC(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2, 
+direction="both", test="F")
+summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)
+
+# Save results
+
+Category = 'Properties'
+Dependent = 'Word frequency'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2))
+DF = anova(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)[,'Df']
+Sum_Sq = anova(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)[,'Sum Sq']
+Mean_Sq = anova(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)[,'Mean Sq']
+F = anova(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)[,'F value']
+F_p = anova(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)))
+Estimate = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_properties_Dutch2)))), 'Pr(>|t|)'])
 t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
 
 results = merge(F_results, t_results, all = TRUE)
@@ -3092,58 +3081,6 @@ results_total = rbind(results_total, results)
 
 
 
-
-# freq: SUBTLEX-NL log-10 WF
-fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2 <- 
-lm(concepts_Dutch2$s_freq_lg10WF_SUBTLEXNL ~ concepts_Dutch2$s_Auditory + concepts_Dutch2$s_Haptic + concepts_Dutch2$s_Visual,
- data = concepts_Dutch2)
-#stat.desc(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2$residuals, norm = TRUE)
-# residuals distribution: good. Raw scores/2.SE < 1
-
-# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
-# tolerance (pref. > 0.2)
-#vif(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)
-#mean(vif(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2))
-#1/vif(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)
-# RESULTS: all good
-
-step_freq_lg10WF_SUBTLEXNL_concepts_Dutch2_AIC = stepAIC(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2, 
-direction="both")
-step_freq_lg10WF_SUBTLEXNL_concepts_Dutch2_F = stepAIC(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2, 
-direction="both", test="F")
-#summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)
-
-# Save results
-
-Category = 'Concepts'
-Dependent = 'Word frequency'
-
-# Save F-test part of the regression
-Variable = rownames(anova(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2))
-DF = anova(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)[,'Df']
-Sum_Sq = anova(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)[,'Sum Sq']
-Mean_Sq = anova(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)[,'Mean Sq']
-F = anova(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)[,'F value']
-F_p = anova(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)[,'Pr(>F)']
-F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
-
-# Save t-test part of the regression
-Variable = rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)))
-Estimate = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)))), 'Estimate'])
-SE = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)))), 'Std. Error'])
-t = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)))), 't value'])
-t_p = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)))), 'Pr(>|t|)'])
-t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
-
-results = merge(F_results, t_results, all = TRUE)
-
-results_total = rbind(results_total, results)
-
-
-
-
-
-
 # freq: SUBTLEX-NL log-10 CD
 
 fit_freq_lg10CD_SUBTLEXNL_concepts_Dutch2 = lm(concepts_Dutch2$s_freq_lg10CD_SUBTLEXNL ~ 
@@ -3198,6 +3135,57 @@ Estimate = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concepts_Dut
 SE = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concepts_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concepts_Dutch2)))), 'Std. Error'])
 t = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concepts_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concepts_Dutch2)))), 't value'])
 t_p = as.vector(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concepts_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10CD_SUBTLEXNL_concepts_Dutch2)))), 'Pr(>|t|)'])
+t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
+
+results = merge(F_results, t_results, all = TRUE)
+
+results_total = rbind(results_total, results)
+
+
+
+
+
+
+# freq: SUBTLEX-NL log-10 WF
+fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2 <- 
+lm(concepts_Dutch2$s_freq_lg10WF_SUBTLEXNL ~ concepts_Dutch2$s_Auditory + concepts_Dutch2$s_Haptic + concepts_Dutch2$s_Visual,
+ data = concepts_Dutch2)
+#stat.desc(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2$residuals, norm = TRUE)
+# residuals distribution: good. Raw scores/2.SE < 1
+
+# Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
+# tolerance (pref. > 0.2)
+#vif(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)
+#mean(vif(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2))
+#1/vif(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)
+# RESULTS: all good
+
+step_freq_lg10WF_SUBTLEXNL_concepts_Dutch2_AIC = stepAIC(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2, 
+direction="both")
+step_freq_lg10WF_SUBTLEXNL_concepts_Dutch2_F = stepAIC(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2, 
+direction="both", test="F")
+#summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)
+
+# Save results
+
+Category = 'Concepts'
+Dependent = 'Word frequency'
+
+# Save F-test part of the regression
+Variable = rownames(anova(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2))
+DF = anova(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)[,'Df']
+Sum_Sq = anova(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)[,'Sum Sq']
+Mean_Sq = anova(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)[,'Mean Sq']
+F = anova(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)[,'F value']
+F_p = anova(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)[,'Pr(>F)']
+F_results = data.frame(Category, Dependent, Variable, DF, Sum_Sq, Mean_Sq, F, F_p)
+
+# Save t-test part of the regression
+Variable = rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)))
+Estimate = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)))), 'Estimate'])
+SE = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)))), 'Std. Error'])
+t = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)))), 't value'])
+t_p = as.vector(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2))[1:length(rownames(coefficients(summary(fit_freq_lg10WF_SUBTLEXNL_concepts_Dutch2)))), 'Pr(>|t|)'])
 t_results = data.frame(Category, Dependent, Variable, Estimate, SE, t, t_p)
 
 results = merge(F_results, t_results, all = TRUE)
@@ -3709,14 +3697,14 @@ results_total$t_p.asterisks =
 # APA format for numbers
 
 # Round decimals
-results_total$Sum_Sq = round(as.numeric(results_total$Sum_Sq), 2)
-results_total$Mean_Sq = round(as.numeric(results_total$Mean_Sq), 2)
-results_total$F = round(as.numeric(results_total$F), 2)
-results_total$F_p = round(as.numeric(results_total$F_p), 3)
-results_total$Estimate = round(as.numeric(results_total$Estimate), 2)
-results_total$SE = round(as.numeric(results_total$SE), 2)
-results_total$t = round(as.numeric(results_total$t), 2)
-results_total$t_p = round(as.numeric(results_total$t_p), 3)
+results_total$Sum_Sq = sprintf("%.2f", round(as.numeric(results_total$Sum_Sq), 2))
+results_total$Mean_Sq = sprintf("%.2f", round(as.numeric(results_total$Mean_Sq), 2))
+results_total$F = sprintf("%.2f", round(as.numeric(results_total$F), 2))
+results_total$F_p = sprintf("%.2f", round(as.numeric(results_total$F_p), 3))
+results_total$Estimate = sprintf("%.2f", round(as.numeric(results_total$Estimate), 2))
+results_total$SE = sprintf("%.2f", round(as.numeric(results_total$SE), 2))
+results_total$t = sprintf("%.2f", round(as.numeric(results_total$t), 2))
+results_total$t_p = sprintf("%.2f", round(as.numeric(results_total$t_p), 3))
 
 # Replace single zeros with '< .001'
 results_total$F_p = ifelse(results_total$F_p < .001, '< .001', results_total$F_p)
@@ -3764,15 +3752,15 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$
 # 
 # rownames(properties_lexicals_loadings) = NULL
 # 
-# properties_lexicals_loadings[,1] = as.factor(properties_lexicals_loadings[,1])
+# properties_lexicals_loadings[,'Dependent'] = as.factor(properties_lexicals_loadings[,'Dependent'])
 # 
-# levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="letters"] = "Letters"
-# levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="phonemes_DUTCHPOND"] = "Phonemes"
-# levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="orth_neighbours_DUTCHPOND"] = "Orthographic neighbours"
-# levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="phon_neighbours_DUTCHPOND"] = "Phonological neighbours"
-# levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="freq_lg10CD_SUBTLEXNL"] = "Contextual diversity"
-# levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="freq_lg10WF_SUBTLEXNL"] = "Word frequency"
-# levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="freq_CELEX_lem"] = "Lemma frequency"
+# levels(properties_lexicals_loadings[,'Dependent'])[levels(properties_lexicals_loadings[,'Dependent'])=="letters"] = "Letters"
+# levels(properties_lexicals_loadings[,'Dependent'])[levels(properties_lexicals_loadings[,'Dependent'])=="phonemes_DUTCHPOND"] = "Phonemes"
+# levels(properties_lexicals_loadings[,'Dependent'])[levels(properties_lexicals_loadings[,'Dependent'])=="orth_neighbours_DUTCHPOND"] = "Orthographic neighbours"
+# levels(properties_lexicals_loadings[,'Dependent'])[levels(properties_lexicals_loadings[,'Dependent'])=="phon_neighbours_DUTCHPOND"] = "Phonological neighbours"
+# levels(properties_lexicals_loadings[,'Dependent'])[levels(properties_lexicals_loadings[,'Dependent'])=="freq_lg10CD_SUBTLEXNL"] = "Contextual diversity"
+# levels(properties_lexicals_loadings[,'Dependent'])[levels(properties_lexicals_loadings[,'Dependent'])=="freq_lg10WF_SUBTLEXNL"] = "Word frequency"
+# levels(properties_lexicals_loadings[,'Dependent'])[levels(properties_lexicals_loadings[,'Dependent'])=="freq_CELEX_lem"] = "Lemma frequency"
 # 
 # # RC (Rotated Component) renamed PC for clarity
 # colnames(properties_lexicals_loadings)[colnames(properties_lexicals_loadings)=="names.lexicals_properties_Dutch2."] = "Variable"
@@ -3805,8 +3793,7 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$
 #                             cell_spec(PC3, "html")) ) %>%
 #         kable(format = "html", escape = FALSE) %>%
 #         footnote(general = 'Correlations above r = .70 (i.e., 50% shared variance) shown in bold.', general_title = '') %>%
-#         kable_styling('striped', full_width = F) %>%
-#         column_spec(1, bold = T)
+#         kable_styling('striped', full_width = F)
 #       ),
 #     size = 'm', easyClose = TRUE, footer = modalButton("Close")
 #     ))
@@ -3840,15 +3827,15 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$
 # 
 # rownames(concepts_lexicals_loadings) = NULL
 # 
-# concepts_lexicals_loadings[,1] = as.factor(concepts_lexicals_loadings[,1])
+# concepts_lexicals_loadings[,'Dependent'] = as.factor(concepts_lexicals_loadings[,'Dependent'])
 # 
-# levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="letters"] = "Letters"
-# levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="phonemes_DUTCHPOND"] = "Phonemes"
-# levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="orth_neighbours_DUTCHPOND"] = "Orthographic neighbours"
-# levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="phon_neighbours_DUTCHPOND"] = "Phonological neighbours"
-# levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="freq_lg10CD_SUBTLEXNL"] = "Contextual diversity"
-# levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="freq_lg10WF_SUBTLEXNL"] = "Word frequency"
-# levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="freq_CELEX_lem"] = "Lemma frequency"
+# levels(concepts_lexicals_loadings[,'Dependent'])[levels(concepts_lexicals_loadings[,'Dependent'])=="letters"] = "Letters"
+# levels(concepts_lexicals_loadings[,'Dependent'])[levels(concepts_lexicals_loadings[,'Dependent'])=="phonemes_DUTCHPOND"] = "Phonemes"
+# levels(concepts_lexicals_loadings[,'Dependent'])[levels(concepts_lexicals_loadings[,'Dependent'])=="orth_neighbours_DUTCHPOND"] = "Orthographic neighbours"
+# levels(concepts_lexicals_loadings[,'Dependent'])[levels(concepts_lexicals_loadings[,'Dependent'])=="phon_neighbours_DUTCHPOND"] = "Phonological neighbours"
+# levels(concepts_lexicals_loadings[,'Dependent'])[levels(concepts_lexicals_loadings[,'Dependent'])=="freq_lg10CD_SUBTLEXNL"] = "Contextual diversity"
+# levels(concepts_lexicals_loadings[,'Dependent'])[levels(concepts_lexicals_loadings[,'Dependent'])=="freq_lg10WF_SUBTLEXNL"] = "Word frequency"
+# levels(concepts_lexicals_loadings[,'Dependent'])[levels(concepts_lexicals_loadings[,'Dependent'])=="freq_CELEX_lem"] = "Lemma frequency"
 # 
 # # RC (Rotated Component) renamed PC for clarity
 # colnames(concepts_lexicals_loadings)[colnames(concepts_lexicals_loadings)=="names.lexicals_concepts_Dutch2."] = "Variable"
@@ -3881,8 +3868,7 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$
 #                             cell_spec(PC3, "html")) ) %>%
 #         kable(format = "html", escape = FALSE) %>%
 #         footnote(general = 'Correlations above r = .70 (i.e., 50% shared variance) shown in bold.', general_title = '') %>%
-#         kable_styling('striped', full_width = F) %>%
-#         column_spec(1, bold = T)
+#         kable_styling('striped', full_width = F)
 #       ),
 #     size = 'm', easyClose = TRUE, footer = modalButton("Close")
 #     ))
@@ -3929,8 +3915,7 @@ HTML(
     spread(properties_Dutch2_results[,c('Dependent', 'Variable', 'betas_and_asterisks')],
            Variable, betas_and_asterisks)
 	) %>%
-    kable_styling('striped', full_width = F) %>%
-    column_spec(1, bold = T)
+    kable_styling('striped', full_width = F)
   )
 
 ```
@@ -3969,8 +3954,7 @@ HTML(
   kable(
     spread(concepts_Dutch2_results[,c('Dependent', 'Variable', 'betas_and_asterisks')],
            Variable, betas_and_asterisks)) %>%
-    kable_styling('striped', full_width = F) %>%
-    column_spec(1, bold = T)
+    kable_styling('striped', full_width = F)
   )
 
 ```
@@ -3998,17 +3982,17 @@ properties_lexicals_loadings =
   data.frame(PCA_lexicals_properties_Dutch2$loadings[, c('RC1','RC2','RC3')])
 ) )
 
-rownames(properties_lexicals_loadings) = NULL
+names(properties_lexicals_loadings)[1] = "Dependent"
 
-properties_lexicals_loadings[,1] = as.factor(properties_lexicals_loadings[,1])
+properties_lexicals_loadings[,'Dependent'] = as.factor(properties_lexicals_loadings[,'Dependent'])
 
-levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="letters"] = "Letters"
-levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="phonemes_DUTCHPOND"] = "Phonemes"
-levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="orth_neighbours_DUTCHPOND"] = "Orthographic neighbours"
-levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="phon_neighbours_DUTCHPOND"] = "Phonological neighbours"
-levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="freq_lg10CD_SUBTLEXNL"] = "Contextual diversity"
-levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="freq_lg10WF_SUBTLEXNL"] = "Word frequency"
-levels(properties_lexicals_loadings[,1])[levels(properties_lexicals_loadings[,1])=="freq_CELEX_lem"] = "Lemma frequency"
+levels(properties_lexicals_loadings[,'Dependent'])[levels(properties_lexicals_loadings[,'Dependent'])=="letters"] = "Letters"
+levels(properties_lexicals_loadings[,'Dependent'])[levels(properties_lexicals_loadings[,'Dependent'])=="phonemes_DUTCHPOND"] = "Phonemes"
+levels(properties_lexicals_loadings[,'Dependent'])[levels(properties_lexicals_loadings[,'Dependent'])=="freq_lg10CD_SUBTLEXNL"] = "Contextual diversity"
+levels(properties_lexicals_loadings[,'Dependent'])[levels(properties_lexicals_loadings[,'Dependent'])=="freq_lg10WF_SUBTLEXNL"] = "Word frequency"
+levels(properties_lexicals_loadings[,'Dependent'])[levels(properties_lexicals_loadings[,'Dependent'])=="freq_CELEX_lem"] = "Lemma frequency"
+levels(properties_lexicals_loadings[,'Dependent'])[levels(properties_lexicals_loadings[,'Dependent'])=="phon_neighbours_DUTCHPOND"] = "Phonological neighbours"
+levels(properties_lexicals_loadings[,'Dependent'])[levels(properties_lexicals_loadings[,'Dependent'])=="orth_neighbours_DUTCHPOND"] = "Orthographic neighbours"
 
 # RC (Rotated Component) renamed PC for clarity
 colnames(properties_lexicals_loadings)[colnames(properties_lexicals_loadings)=="names.lexicals_properties_Dutch2."] = "Variable"
@@ -4016,12 +4000,25 @@ colnames(properties_lexicals_loadings)[colnames(properties_lexicals_loadings)=="
 colnames(properties_lexicals_loadings)[colnames(properties_lexicals_loadings)=="RC2"] = "PC2"
 colnames(properties_lexicals_loadings)[colnames(properties_lexicals_loadings)=="RC3"] = "PC3"
 
-properties_lexicals_loadings[,c('PC1','PC2','PC3')] = round(properties_lexicals_loadings[,c('PC1','PC2','PC3')], 2)
+# Round and keep measurement decimals
+properties_lexicals_loadings$PC1 = sprintf("%.2f", round(properties_lexicals_loadings$PC1, 2))
+properties_lexicals_loadings$PC2 = sprintf("%.2f", round(properties_lexicals_loadings$PC2, 2))
+properties_lexicals_loadings$PC3 = sprintf("%.2f", round(properties_lexicals_loadings$PC3, 2))
 
 # Present values as correlations by removing any zeros before a decimal point
 properties_lexicals_loadings[,'PC1'] = str_replace_all(properties_lexicals_loadings[,'PC1'], "0\\.", "\\.")
 properties_lexicals_loadings[,'PC2'] = str_replace_all(properties_lexicals_loadings[,'PC2'], "0\\.", "\\.")
 properties_lexicals_loadings[,'PC3'] = str_replace_all(properties_lexicals_loadings[,'PC3'], "0\\.", "\\.")
+
+# Order variables
+
+properties_lexicals_loadings[,'Dependent'] = factor(properties_lexicals_loadings[,'Dependent'],
+                                          levels = c("Letters", "Phonemes", "Contextual diversity", "Word frequency",
+                                                     "Lemma frequency", "Phonological neighbours", "Orthographic neighbours"))
+
+properties_lexicals_loadings = with(properties_lexicals_loadings, properties_lexicals_loadings[order(Dependent),])
+
+rownames(properties_lexicals_loadings) = NULL
 
 # Table
 properties_lexicals_loadings %>%
@@ -4033,8 +4030,7 @@ mutate(PC1 = ifelse(abs(as.numeric(PC1)) > .7, cell_spec(PC1, "html", bold = TRU
        PC3 = ifelse(abs(as.numeric(PC3)) > .7, cell_spec(PC3, "html", bold = TRUE, color = 'black'),
                     cell_spec(PC3, "html")) ) %>%
 kable(format = "html", escape = FALSE) %>%
-kable_styling('striped', full_width = F) %>%
-column_spec(1, bold = T)
+kable_styling('striped', full_width = F)
 
 ```
 
@@ -4056,17 +4052,17 @@ concepts_lexicals_loadings =
   data.frame(PCA_lexicals_concepts_Dutch2$loadings[, c('RC1','RC2','RC3')])
 ) )
 
-rownames(concepts_lexicals_loadings) = NULL
+names(concepts_lexicals_loadings)[1] = "Dependent"
 
-concepts_lexicals_loadings[,1] = as.factor(concepts_lexicals_loadings[,1])
+concepts_lexicals_loadings[,'Dependent'] = as.factor(concepts_lexicals_loadings[,'Dependent'])
 
-levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="letters"] = "Letters"
-levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="phonemes_DUTCHPOND"] = "Phonemes"
-levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="orth_neighbours_DUTCHPOND"] = "Orthographic neighbours"
-levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="phon_neighbours_DUTCHPOND"] = "Phonological neighbours"
-levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="freq_lg10CD_SUBTLEXNL"] = "Contextual diversity"
-levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="freq_lg10WF_SUBTLEXNL"] = "Word frequency"
-levels(concepts_lexicals_loadings[,1])[levels(concepts_lexicals_loadings[,1])=="freq_CELEX_lem"] = "Lemma frequency"
+levels(concepts_lexicals_loadings[,'Dependent'])[levels(concepts_lexicals_loadings[,'Dependent'])=="letters"] = "Letters"
+levels(concepts_lexicals_loadings[,'Dependent'])[levels(concepts_lexicals_loadings[,'Dependent'])=="phonemes_DUTCHPOND"] = "Phonemes"
+levels(concepts_lexicals_loadings[,'Dependent'])[levels(concepts_lexicals_loadings[,'Dependent'])=="freq_lg10CD_SUBTLEXNL"] = "Contextual diversity"
+levels(concepts_lexicals_loadings[,'Dependent'])[levels(concepts_lexicals_loadings[,'Dependent'])=="freq_lg10WF_SUBTLEXNL"] = "Word frequency"
+levels(concepts_lexicals_loadings[,'Dependent'])[levels(concepts_lexicals_loadings[,'Dependent'])=="freq_CELEX_lem"] = "Lemma frequency"
+levels(concepts_lexicals_loadings[,'Dependent'])[levels(concepts_lexicals_loadings[,'Dependent'])=="phon_neighbours_DUTCHPOND"] = "Phonological neighbours"
+levels(concepts_lexicals_loadings[,'Dependent'])[levels(concepts_lexicals_loadings[,'Dependent'])=="orth_neighbours_DUTCHPOND"] = "Orthographic neighbours"
 
 # RC (Rotated Component) renamed PC for clarity
 colnames(concepts_lexicals_loadings)[colnames(concepts_lexicals_loadings)=="names.lexicals_concepts_Dutch2."] = "Variable"
@@ -4074,12 +4070,25 @@ colnames(concepts_lexicals_loadings)[colnames(concepts_lexicals_loadings)=="RC1"
 colnames(concepts_lexicals_loadings)[colnames(concepts_lexicals_loadings)=="RC2"] = "PC2"
 colnames(concepts_lexicals_loadings)[colnames(concepts_lexicals_loadings)=="RC3"] = "PC3"
 
-concepts_lexicals_loadings[,c('PC1','PC2','PC3')] = round(concepts_lexicals_loadings[,c('PC1','PC2','PC3')], 2)
+# Round and keep measurement decimals
+concepts_lexicals_loadings$PC1 = sprintf("%.2f", round(concepts_lexicals_loadings$PC1, 2))
+concepts_lexicals_loadings$PC2 = sprintf("%.2f", round(concepts_lexicals_loadings$PC2, 2))
+concepts_lexicals_loadings$PC3 = sprintf("%.2f", round(concepts_lexicals_loadings$PC3, 2))
 
 # Present values as correlations by removing any zeros before a decimal point
 concepts_lexicals_loadings[,'PC1'] = str_replace_all(concepts_lexicals_loadings[,'PC1'], "0\\.", "\\.")
 concepts_lexicals_loadings[,'PC2'] = str_replace_all(concepts_lexicals_loadings[,'PC2'], "0\\.", "\\.")
 concepts_lexicals_loadings[,'PC3'] = str_replace_all(concepts_lexicals_loadings[,'PC3'], "0\\.", "\\.")
+
+# Order variables
+
+concepts_lexicals_loadings[,'Dependent'] = factor(concepts_lexicals_loadings[,'Dependent'],
+                                          levels = c("Letters", "Phonemes", "Contextual diversity", "Word frequency",
+                                                     "Lemma frequency", "Phonological neighbours", "Orthographic neighbours"))
+
+concepts_lexicals_loadings = with(concepts_lexicals_loadings, concepts_lexicals_loadings[order(Dependent),])
+
+rownames(concepts_lexicals_loadings) = NULL
 
 # Table
 concepts_lexicals_loadings %>%
@@ -4091,8 +4100,7 @@ concepts_lexicals_loadings %>%
          PC3 = ifelse(abs(as.numeric(PC3)) > .7, cell_spec(PC3, "html", bold = TRUE, color = 'black'),
                       cell_spec(PC3, "html")) ) %>%
   kable(format = "html", escape = FALSE) %>%
-  kable_styling('striped', full_width = F) %>%
-  column_spec(1, bold = T)
+  kable_styling('striped', full_width = F)
 
 ```
 
