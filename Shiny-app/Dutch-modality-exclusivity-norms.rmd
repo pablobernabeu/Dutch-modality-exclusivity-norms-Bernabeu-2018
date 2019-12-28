@@ -1,12 +1,11 @@
 ---
-title: Dutch modality exclusivity norms
-author: '<a href="#info" style="color:#E4E5E8 !important; text-decoration:none !important; font-size:10px"> Bernabeu et al. (2017) </a>'
+title: Dutch Modality Exclusivity Norms
+author: '<a href="#section-info" style="color:#E4E5E8 !important; text-decoration:none !important; font-size:10px">Bernabeu et al. (2017)</a>'
 output:
   flexdashboard::flex_dashboard:
     theme: 'spacelab'
     orientation: columns
     vertical_layout: scroll
-    source_code: "https://github.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/blob/master/Shiny-app%2FDutch-modality-exclusivity-norms.rmd"
     favicon: https://i.ibb.co/bB9fCfr/norms-favicon.png
 runtime: shiny
 ---
@@ -20,7 +19,7 @@ library(car)
 library(contrast)
 library(corpcor)
 library(doBy)
-library(plyr)
+library(plyr)  # Load before `dplyr` (https://github.com/tidyverse/dplyr/issues/347)
 library(dplyr)
 library(flexdashboard)
 library(formattable)
@@ -170,26 +169,93 @@ section-properties, section-concepts, section-cf-lc-english-norms, section-sound
     and (min-width : 766px){
       .mobile-only {display: none;}
 }
+
+
+<!-- Define CSS style for fonts -->
+
+body{ /* Normal  */
+      font-size: 16px;
+  }
   
-/* modal dialog closing button */
-.swal-button {
-  padding: 7px 19px;
-  border-radius: 2px;
-  color: #72715B;
-  background-color: #EAE9D8;
-  font-size: 12px;
-  border: 1px solid #3e549a;
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+td {  /* Table  */
+  font-size: 14px;
+}
+
+h1.title {
+  font-size: 38px;
+  font-weight: bold;
+  color: #28002E
+}
+
+h1 { /* Header 1 */
+  font-size: 28px;
+  font-weight: bold;
+  color: #28002E
+}
+
+h2 { /* Header 2 */
+  font-size: 22px;
+  font-weight: bold;
+  color: #28002E
+}
+
+h3 { /* Header 3 */
+  font-size: 18px;
+  font-weight: bold;
+}
+
+h4 { /* Header 4 */
+  font-size: 16px;
+}
+
+h5 { /* Header 5 */
+  font-size: 15px;
+}
+
+h6 { /* Header 6 */
+  font-size: 14px;
+}
+
+code.r{ /* Code block */
+    font-size: 12px;
+}
+
+pre { /* Code block - determines code spacing between lines */
+    font-size: 14px;
+}
+
+
+
+<!-- Define CSS style for splitting columns -->
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 </style>
 
 
-<!-- Load CSS libraries for icons -->
+<!-- Setting for splitting columns -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Load Bootstrap libraries for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
 
-<!-- CSS style to enable a hovering tooltip -->
+<!-- Javascript function to enable a hovering tooltip -->
 <script>
 $(document).ready(function(){
     $('[data-toggle="tooltip1"]').tooltip();
@@ -408,7 +474,7 @@ colours = c('firebrick1', 'dodgerblue', 'forestgreen')
 
 
 
-Info {style="background-color:#FCFCFC; data-width:100%; width: 900px; margin: 0 auto;"}
+<i class="fas fa-code" aria-hidden="true"></i> Info {style="background-color: #FCFCFC; data-width: 100%; width: 900px; margin: 0 auto;"}
 =======================================================================
 
 Column {style="height:1300px; background-color:#FCFCFC;"}
@@ -426,69 +492,76 @@ Column {style="height:1300px; background-color:#FCFCFC;"}
 </div>
 
 
-<div style = "padding-top: 0px; padding-left: 60px; padding-right: 60px; text-align: justify; background-color:#FCFCFC;">
+<div style = "padding-left: 60px; padding-right: 60px; text-align: justify; background-color:#FCFCFC; font-size: 16px; line-height: 1.6;">
 
-#### Information
+## Information
 
 This dashboard presents the data and analyses of a set of modality exclusivity norms for Dutch. Various tabs and interactive plots are available. In addition, the data set is available in [CSV format](https://osf.io/ge7pn/) and [Excel format including column definitions](https://osf.io/58gzs/).
 
 The norms, which are ratings of linguistic stimuli, served a twofold purpose: first, the creation of linguistic stimuli (see also Speed & Majid, 2017), and second, a conceptual replication of Lynott and Connell's (2009, 2013) analyses. In the collection of the ratings, forty-two respondents completed surveys for the properties or the concepts separately. Each word was rated by eight participants on average, with a minimum of five (e.g., for *bevriezend*) and a maximum of ten ratings per word (e.g., for *donzig*). The [instructions to participants](https://osf.io/ungey/) were similar to those used by Lynott and Connell (2009, 2013), except that we elicited three modalities (auditory, haptic, visual) instead of five.
 
-> <div style = "text-align: justify; font-size: 14px; background-color: #FCFCFC;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
+> <div style = "text-align: justify; background-color: #FCFCFC; font-size: 15px;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
 
 These norms were validated in an experiment showing that shifts across trials with different dominant modalities incurred semantic processing costs ([Bernabeu, Willems, & Louwerse, 2017](https://mindmodeling.org/cogsci2017/papers/0318/index.html)). All data for that study are [available](https://osf.io/97unm/wiki/home/), including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/) (in case of downtime of the dashboard site, please see [this alternative](https://mybinder.org/v2/gh/pablobernabeu/Modality-switch-effects-emerge-early-and-increase-throughout-conceptual-processing/master?urlpath=shiny/Shiny-app/)).
 
 The [properties](#properties){style='background-color:#F9FFFF'} and the [concepts](#concepts){style='background-color:#F9FFFF'} were differentiated during their collection and analysis. They may also be consulted together [on a table](#table){style='background-color:#F9FFFF'}. The properties were found to be more strongly perceptual than concepts. Distinct relationships also emerged among the modalities, with the visual and haptic modalities being closely related, and the auditory modality being relatively independent ([cf. Lynott & Connell's data for English](#cf-lc-english-norms){style='background-color:#F9FDFF'}). This ties in with findings that, in conceptual processing, modalities can be collated based on language statistics (Louwerse & Connell, 2011).
 
-<div style = "padding-top: 5px; padding-left: 25px; padding-bottom: 8px; float: right; width: 22%; font-size: 85%;">
-<div style = "text-align: center !important; padding-right: 0 !important; padding-left: 0 !important; padding-bottom: 0 !important;"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Booba-Kiki.svg" alt="Bouba-Kiki" width=80px height=55px></img></div>
-<div style="text-align: justify !important; padding-top: 0 !important;"> When people are asked to match the pseudowords *bouba* and *kiki* to the above objects, most name the rounded object *bouba* and the spiky one *kiki*. This has been interpreted as sound symbolism, insofar as pronouncing *bouba* puts the lips into a more rounded shape than pronouncing *kiki* does (Köhler, 1929; Sourav et al., 2019). </div>
-<div style="font-size:65%; padding-top:6px;"> https://commons.wikimedia.org/wiki/File:Booba-Kiki.svg. Monochrome version 1 June 2007 by BendžVectorized with Inkscape --Qef (talk) 21:21, 23 June 2008 (UTC) [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)] </div> 
-</div>
+<div class="row">
+  <div class="column" style="width: 65%;">
 
+<div>
 The norms also served to investigate [sound symbolism](#sound-symbolism){style='background-color:#F9FFFF'}, which is the relation between the form of words and their meaning. The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would. Lynott and Connell's (2013) findings were replicated, as auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings.
 
-The present analyses and further ones will be reported in a forthcoming paper. All data and analysis code for the norms are [available for re-use](https://osf.io/brkjw/wiki/home/) under a [CC-BY licence](https://creativecommons.org/licenses/by/4.0/), provided acknowledgment of the following publication:
+The present analyses and further ones will be reported in a forthcoming paper. All data and analysis code for the norms are [available for re-use](https://osf.io/brkjw/wiki/home/) under a [CC BY licence](https://creativecommons.org/licenses/by/4.0/), provided acknowledgment of the following publication:
+</div>
+</div>
 
-> <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 14.1px; background-color: #FCFCFC;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). [Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs.](https://mindmodeling.org/cogsci2017/papers/0318/index.html) In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society.</div>
+<div class="column" style="width: 35%; padding-left: 8px;">
+<div style = "padding-top: 5px; padding-bottom: 8px; float: right; font-size: 12px; display: inline-block; background-color: #FFFAFF;">
+<div style = "text-align: center !important; padding-bottom: 0 !important;"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Booba-Kiki.svg" alt="Bouba-Kiki" width=80px height=55px></img></div>
+<div style="text-align: justify !important; padding-top: 0 !important; padding-right: 5px; padding-left: 5px;"> Sound symbolism is a psycholinguistic effect whereby sound properties of words influence their meaning. For instance, when people are asked to match the pseudowords *bouba* and *kiki* to the above objects, most name the rounded object *bouba* and the spiky one *kiki* (Köhler, 1929; Sourav et al., 2019). </div>
+<div style="font-size:70%; padding-top:4px; padding-right: 5px; padding-left: 5px; text-align:left;"> Image: https://commons.wikimedia.org/wiki/File:Booba-Kiki.svg. Monochrome version 1 June 2007 by BendžVectorized with Inkscape --Qef (talk) 21:21, 23 June 2008 (UTC) [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)] </div>
+</div>
+
+  </div>
+</div>
+
+> <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 16px; background-color: #FCFCFC; font-size: 15px;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). [Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs.](https://mindmodeling.org/cogsci2017/papers/0318/index.html) In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society.</div>
 
 
-#### Definitions (as in Lynott & Connell, 2009, 2013)
+### Definitions (as in Lynott & Connell, 2009, 2013)
 
 * Dominant modality: Highest-rated modality;
-
 * Modality exclusivity: Range of the three modality ratings divided by the sum;
-
 * Perceptual strength: Highest rating across modalities.
 
 
-#### External corpora
+### External corpora
 
 * Concreteness and age of acquisition: Norms by Brysbaert, Warriner, and Kuperman (2014);
-
 * Phonological and orthographic neighbours: DutchPOND (Marian et al., 2012);
-
 * Word frequency and contextual diversity: SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010);
-
 * Lemma frequency: CELEX (Baayen, Piepenbrock, & van Rijn, 1993).
 
 
-#### Acknowledgements {style='padding-top:5px;'}
+### Acknowledgements {style='padding-top:5px;'}
 
 This research was greatly supported by the help of Tilburg University, which provided funding; Wendy Leijten, who provided linguistic advice; and the forty-two Tilburg University students who completed the surveys.
 
 
-#### References {style='padding-top:5px;'}
+### References {style='padding-top:5px;'}
 
-<div style = "text-align: justify; text-indent:-2em; margin-left:2em; background-color:#FCFCFC;">
+<div style = "text-align: justify; text-indent:-2em; margin-left:2em; background-color:#FCFCFC; font-size:14px;">
 
 Baayen, R. H., Piepenbrock, R., & van Rijn, H. (1993). *The CELEX Lexical Database* [CD-ROM]. Philadelphia: Linguistic Data Consortium, University of Pennsylvania.
 
-Brysbaert, M., Warriner, A.B., & Kuperman, V. (2014). Concreteness ratings for 40 thousand generally known English word lemmas. *Behavior Research Methods, 46*, 3, 904-911. [https://doi.org/10.3758/s13428-013-0403-5](https://doi.org/10.3758/s13428-013-0403-5).
+Brysbaert, M., Warriner, A.B., & Kuperman, V. (2014). Concreteness ratings for 40 thousand generally known English word lemmas. *Behavior Research Methods, 46*, 3, 904-911. 
+[https://doi.org/10.3758/s13428-013-0403-5](https://doi.org/10.3758/s13428-013-0403-5).
 
 Field, A. P., Miles, J., & Field, Z. (2012). *Discovering Statistics Using R*. London, UK: Sage.
 
-Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measure for Dutch words based on film subtitles. *Behavior Research Methods, 42*, 3, 643-650. [https://doi.org/10.3758/BRM.42.3.643](https://doi.org/10.3758/BRM.42.3.643).
+Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measure for Dutch words based on film subtitles. *Behavior Research Methods, 42*, 3, 643-650. 
+[https://doi.org/10.3758/BRM.42.3.643](https://doi.org/10.3758/BRM.42.3.643).
 
 Köhler, W. (1929). *Gestalt Psychology*. New York: Liveright.
 
@@ -507,7 +580,7 @@ Sourav, S., Kekunnaya, R., Shareef, I., Banerjee, S., Bottari, D., & Röder, B. 
 </div>
 
 
-#### Contact {style='padding-top:5px;'}
+## Contact {style='padding-top:5px;'}
 
 Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
 
@@ -522,13 +595,13 @@ Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
 
 
 
-<i class="fas fa-table" title='Tab with table containing both property and concept words'></i> Norms {#table style="position:absolute !important; background-color:#FCFCFC;"}
+Table {#table style="background-color:#FCFCFC;"}
 =======================================================================
 
-Inputs {.sidebar}
+Inputs {.sidebar style='position:fixed; padding-bottom:30px;'}
 -----------------------------------------------------------------------
   
-<div style="padding-top: 27px;">
+<div style="padding-top: 55px;">
     
 ```{r}
   
@@ -592,7 +665,7 @@ reactive(cat(paste0('Words selected below:', '\n',
 
 ```{r}
 
-# Download csv file with data selected on sidebar
+# Download selected on sidebar as a CSV file
 
 # Create placeholder for download link
 uiOutput("table_csv_link")
@@ -615,7 +688,7 @@ output$table_csv = downloadHandler(
 ```
 
 
-#### **Word categories**
+#### **Word Categories**
 
 ```{r}
 
@@ -734,22 +807,22 @@ reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words(
 
 
 
-Column  {style="height:27000px"}
+Column {style="data-width:100%; position:static; height:1000px;"}
 -----------------------------------------------------------------------
 
-### **Filterable table containing both property and concept words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.
+### <span style = 'font-size: 15px;'> **Property and concept words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.</span> {style="margin-top:10px; padding-top:30px; text-align:justify;"}
 
-<div style = "padding-top: 0px; padding-left: 30px; padding-right: 38px; text-align: justify; background-color:#FCFCFC;">
+<div style = "text-align: justify; background-color: #FCFCFC;">
 
 ```{r}
 
 # Arrange data set and create reactive version taking sidebar input
 
-table_data = all[!is.na(all$word), c('cat', 'conc_cat', 'word', 'inflected_prop', 'main', 'Exclusivity', 'Perceptualstrength', 'Auditory',
-                                     'Haptic', 'Visual', 'SD_Auditory', 'SD_Haptic', 'SD_Visual', 'concrete_Brysbaertetal2014', 'letters', 
-                                     'phonemes_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL', 'inflected_adj_freq_lg10CD_SUBTLEXNL', 
-                                     'freq_lg10WF_SUBTLEXNL', 'freq_CELEX_lem', 'phon_neighbours_DUTCHPOND', 'orth_neighbours_DUTCHPOND', 
-                                     'AoA_Brysbaertetal2014'
+table_data = all[!is.na(all$word), c('word','cat','inflected_prop','conc_cat','main','Exclusivity','Perceptualstrength','Auditory',
+                                     'Haptic','Visual','SD_Auditory','SD_Haptic','SD_Visual','concrete_Brysbaertetal2014','letters',
+                                     'phonemes_DUTCHPOND','freq_lg10CD_SUBTLEXNL','inflected_adj_freq_lg10CD_SUBTLEXNL',
+                                     'freq_lg10WF_SUBTLEXNL','freq_CELEX_lem','phon_neighbours_DUTCHPOND', 
+                                     'orth_neighbours_DUTCHPOND','AoA_Brysbaertetal2014'
                                      )]
 
 # Replace missing values in corpus variables with zeros to allow filtering and calculation of means.
@@ -824,7 +897,7 @@ selected_words = reactive({
 
 # Table. Begin by creating structure for descriptive bars inside cells.
 
-bar_chart <- function(label, width = "100%", height = "16px", fill = "#00bfc4", background = NULL) {
+bar_chart <- function(label, width = "100%", height = "8px", fill = "#00bfc4", background = NULL) {
   bar <- div(style = list(background = fill, width = width, height = height, marginRight = "6px"))
   chart <- div(style = list(flexGrow = 1, marginLeft = "8px", background = background), bar)
   div(style = list(display = "flex", alignItems = "center"), label, chart)
@@ -836,21 +909,21 @@ renderReactable({
             
             defaultSorted = list(cat = 'desc', word = 'asc'),
             defaultColDef = colDef(footerStyle = list(fontWeight = "bold")),
-            striped = TRUE, pagination = FALSE, highlight = TRUE, compact = TRUE,
+            height = 840, striped = TRUE, pagination = FALSE, highlight = TRUE,
 
             columns = list(
-
-              cat = colDef(header = with_tooltip('Word category', 'Property / Concept')),
-
-              conc_cat = colDef(header = with_tooltip('Definite article', "Definite article 'de' is used for feminine and masculine nouns, whereas 'het' is used for neuter nouns.")),
               
               word = colDef(name='Word', filterable=TRUE, minWidth = 160,
                             style = list(fontWeight='bold', color='#453246')),
 
+              cat = colDef(header = with_tooltip('Word category', 'Property / Concept')),
+              
               inflected_prop = colDef(filterable=TRUE, minWidth = 140,
                                       header = with_tooltip('Inflected adjective',
                                                             "Adjectives inflected for masculine and feminine nouns.")),
 
+              conc_cat = colDef(header = with_tooltip('Definite article', "Definite article 'de' is used for feminine and masculine nouns, whereas 'het' is used for neuter nouns.")),
+              
               main = colDef(header = with_tooltip('Dominant Modality',
                                                   'Highest-rated modality (as defined in Lynott & Connell, 2009, 2013). Values: Auditory, Haptic, Visual.')),
 
@@ -969,13 +1042,13 @@ renderReactable({
 
 
 
-<i class="fas fa-chart-bar" aria-hidden="true"></i> Properties {data-orientation=rows data-height=3000 style="position:absolute !important;"}
+Properties {data-orientation=rows data-height=3200}
 =======================================================================
 
-Inputs {.sidebar}
+Inputs {.sidebar style='position:fixed; padding-bottom:30px;'}
 -----------------------------------------------------------------------
 
-<div style="padding-top: 27px;">
+<div style="padding-top: 55px;">
 
 ```{r}
 
@@ -1070,7 +1143,7 @@ observeEvent(input$properties_loadings, {
 
 # Highlight words
 selectizeInput("highlighted_properties", label = NULL, choices = sort(props$word), multiple = TRUE,
-               options = list(placeholder = 'Words to highlight on plot  '))
+               options = list(placeholder = 'Words to highlight on plot      '))
 
 ```
 
@@ -1091,7 +1164,7 @@ reactive(cat(paste0('Words selected below: ', nrow(selected_props()))))
 
 ```{r}
 
-# Download csv file with data selected on sidebar
+# Download selected on sidebar as a CSV file
 
 # Create placeholder for download link
 uiOutput("properties_csv_link")
@@ -1115,7 +1188,7 @@ output$properties_csv = downloadHandler(
 
 
 
-# Download png plot
+# Download selected on sidebar as a plot
 
 # Create placeholder for download link
 uiOutput("properties_png_link")
@@ -1266,12 +1339,12 @@ reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props(
 
 
 
-Row {data-height=310px padding-bottom=0 style='data-width:100%; padding-bottom:-290px; margin-bottom:2px;'}
+Row {data-height=510px style='data-width:100%; position:static;'}
 -----------------------------------------------------------------------
 
-### **Property words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.
+### <span style = 'font-size: 15px;'> **Property words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.</span> {style='margin-top:10px; padding-top:30px; text-align:justify;'}
 
-<div style = "padding-bottom: 160px; text-align: justify; background-color:#FCFCFC;">
+<div style = "padding-top: 10px; text-align: justify; background-color:#FCFCFC;">
 
 ```{r}
 
@@ -1328,8 +1401,7 @@ renderReactable({
 
             defaultSorted = list(word = 'asc'),
             defaultColDef = colDef(footerStyle = list(fontWeight = "bold")),
-            height = 300, striped = TRUE, fullWidth = TRUE,
-            pagination = FALSE, highlight = TRUE,
+            height = 390, striped = TRUE, pagination = FALSE, highlight = TRUE,
 
             columns = list(
 
@@ -1456,10 +1528,10 @@ renderReactable({
 
 
 
-Row {data-height=800 style="data-height:100%;"}
+Row {data-height=800 style='position:static;'}
 -----------------------------------------------------------------------
 
-### <span style = 'font-size: 15px !important;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings on side bar; cf. <a href="#cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). </span> {style="padding-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
+### <span style = 'font-size: 15px;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings on side bar; cf. <a href="#cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). </span> {style="margin-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important; text-align:justify;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:8px;"> </div>
@@ -1548,13 +1620,13 @@ properties_png = reactive({ ggplot(selected_props(), aes(RC1, RC2, color = main,
 
 
 
-<i class="fas fa-chart-bar" aria-hidden="true"></i> Concepts  {data-orientation=rows data-height=3000 style="position:absolute !important;"}
+Concepts  {data-orientation=rows data-height=3200}
 =======================================================================
 
-Inputs {.sidebar}
+Inputs {.sidebar style='position:fixed; padding-bottom:30px;'}
 -----------------------------------------------------------------------
 
-<div style="padding-top: 27px;">
+<div style="padding-top: 55px;">
 
 ```{r}
 
@@ -1649,7 +1721,7 @@ observeEvent(input$concepts_loadings, {
 
 # Highlight words
 selectizeInput("highlighted_concepts", label = NULL, choices = sort(concs$word), multiple = TRUE,
-               options = list(placeholder = 'Words to highlight on plot  '))
+               options = list(placeholder = 'Words to highlight on plot      '))
 
 ```
 
@@ -1670,7 +1742,7 @@ reactive(cat(paste0('Words selected below: ', nrow(selected_concs()))))
 
 ```{r}
 
-# Download csv file with data selected on sidebar
+# Download selected on sidebar as a CSV file
 
 # Create placeholder for download link
 uiOutput("concepts_csv_link")
@@ -1694,7 +1766,7 @@ output$concepts_csv = downloadHandler(
 
 
 
-# Download png plot
+# Download selected on sidebar as a plot
 
 # Create placeholder for download link
 uiOutput("concepts_png_link")
@@ -1855,12 +1927,12 @@ reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs(
 
 
 
-Row {data-height=310px padding-bottom=0 style='data-width:100%; padding-bottom:-290px; margin-bottom:2px;'}
+Row {data-height=510px style='data-width:100%; position:static;'}
 -----------------------------------------------------------------------
 
-### **Concept words.** Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.
+### <span style = 'font-size: 15px;'> **Concept words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.</span> {style='margin-top:10px; padding-top:30px; text-align: justify'}
 
-<div style = "padding-top: 0px; text-align: justify; background-color:#FCFCFC;">
+<div style = "padding-top: 10px; text-align: justify; background-color:#FCFCFC;">
 
 ```{r}
 
@@ -1904,7 +1976,7 @@ selected_concs = reactive({
 
 
 # Variables to have on table
-concepts_columns = c('word','main','conc_cat','Exclusivity','Perceptualstrength','Auditory',
+concepts_columns = c('word','conc_cat','main','Exclusivity','Perceptualstrength','Auditory',
                      'Haptic', 'Visual', 'SD_Auditory', 'SD_Haptic', 'SD_Visual',
                      'concrete_Brysbaertetal2014','letters','phonemes_DUTCHPOND',
                      'freq_lg10CD_SUBTLEXNL','freq_lg10WF_SUBTLEXNL','freq_CELEX_lem',
@@ -1917,15 +1989,14 @@ renderReactable({
 
             defaultSorted = list(word = 'asc'),
             defaultColDef = colDef(footerStyle = list(fontWeight = "bold")),
-            height = 300, striped = TRUE, fullWidth = TRUE,
-            pagination = FALSE, highlight = TRUE,
+            height = 390, striped = TRUE, pagination = FALSE, highlight = TRUE,
 
             columns = list(
 
               word = colDef(name='Word', filterable=TRUE, minWidth = 160,
                             style = list(fontWeight='bold', color='#453246')),
               
-              conc_cat = colDef(header = with_tooltip('Noun category',
+              conc_cat = colDef(header = with_tooltip('Definite article',
                                                      "Definite article 'de' is used for feminine and masculine nouns, whereas 'het' is used for neuter nouns.")),
 
               main = colDef(header = with_tooltip('Dominant Modality',
@@ -2040,10 +2111,10 @@ renderReactable({
 
 
 
-Row {data-height=800 style="data-height:100%;"}
+Row {data-height=800 style='position:static;}
 -----------------------------------------------------------------------
 
-### <span style = 'font-size: 15px !important;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings on side bar; cf. <a href="#cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). </span> {style="padding-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
+### <span style = 'font-size: 15px; text-align: justify !important;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings on side bar; cf. <a href="#cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). </span> {style="margin-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:8px;"> </div>
@@ -2134,14 +2205,14 @@ concepts_png = reactive({ ggplot(selected_concs(), aes(RC1, RC2, color = main, l
 Cf. L&C English Norms
 =======================================================================
 
-<div style = "background-color: #FCFCFC; text-align: center; font-size: 15px; padding-top: 20px; padding-bottom: 5px;">
+<div style = "background-color: #FCFCFC; text-align: center; font-size: 15px; margin-top: 10px; padding-top: 30px; padding-bottom: 5px;">
 <b> Comparison with Lynott and Connell's (2009, 2013) English norms ([see complete data](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html)).</b> In both languages, properties were visibly more perceptual than concepts.
 </div>
 
-Row {style="height:1500;" data-padding=1}
+Column {style="height:1500;" data-padding=1}
 -----------------------------------------------------------------------
 
-### Reanalysis of [Lynott and Connell's (2009) English properties](https://doi.org/10.3758/BRM.41.2.558) narrowed to three modalities
+### <span style='font-size:15px; text-align: justify !important;'> Reanalysis of [Lynott and Connell's (2009) English properties](https://doi.org/10.3758/BRM.41.2.558) narrowed to three modalities</span>
 
 ```{r include = FALSE}
 
@@ -2245,7 +2316,7 @@ ggplotly( ggplot(eng_props,
 
 
 
-### Reanalysis of [Lynott and Connell's (2013) English concepts](https://doi.org/10.3758/s13428-012-0267-0) narrowed to three modalities
+### <span style='font-size:15px; text-align: justify !important;'> Reanalysis of [Lynott and Connell's (2013) English concepts](https://doi.org/10.3758/s13428-012-0267-0) narrowed to three modalities</span>
 
 ```{r include = FALSE}
 
@@ -2353,7 +2424,7 @@ ggplotly( ggplot(eng_concs,
 Column {style="height:50%;" data-padding=1}
 -----------------------------------------------------------------------
 
-### &nbsp;&nbsp;&nbsp; [Dutch properties](#properties)
+### <span style='font-size:15px; text-align: justify !important;'> &nbsp;&nbsp;&nbsp; [Dutch properties](#properties)</span>
 
 ```{r}
 
@@ -2392,7 +2463,7 @@ ggplotly( ggplot(properties_Dutch,
 
 
 
-### &nbsp;&nbsp;&nbsp; [Dutch concepts](#concepts)
+### <span style='font-size:15px; text-align: justify !important;'> &nbsp;&nbsp;&nbsp; [Dutch concepts](#concepts)</span>
 
 ```{r}
 
@@ -2436,7 +2507,7 @@ ggplotly( ggplot(concepts_Dutch,
 Sound Symbolism {data-orientation=rows data-padding=0.5 background-color=#FBFBFB style='width: 950px; margin: 0 auto;'}
 =======================================================================
 
-Row {data-height=300 data-padding=0.5 padding-top=34}
+Row {data-height=390px data-padding=0.5}
 -----------------------------------------------------------------------
 
 ```{r include = FALSE}
@@ -4262,7 +4333,7 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$
 
 
 
-<div style = "background-color: #FCFCFC; padding-top: 50px; padding-left: 15px; padding-right: 1px; padding-bottom: 0px; margin-bottom:6px;">
+<div style = "background-color: #FCFCFC; padding-top: 60px; padding-left: 15px; padding-right: 1px; margin-bottom:6px;">
 
 ```{r}
 
@@ -4343,7 +4414,7 @@ observeEvent(input$properties_lexicals_loadings, {
 
 
 
-<div style = "background-color: #FCFCFC; text-align: justify; padding-top: 27px; padding-right: 45px; padding-left: 45px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
+<div style = "background-color: #FCFCFC; text-align: justify; padding-top: 37px; padding-right: 45px; padding-left: 45px; padding-bottom: 38px; margin-top: 10; margin-bottom: 7px; line-height: 1.6; font-size: 16px;">
 
 **Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would ([see external corpora](#info)). By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings, thus supporting sound symbolism. Standardised coefficients ($\beta$) presented below, with asterisks indicating significance (<sup>\*</sup>*p* < .05; <sup>\*\*</sup>*p* < .01; <sup>\*\*\*</sup>*p* < .001). Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). 'PC' = Kaiser-normalised, varimax-rotated principal component.
 
@@ -4351,7 +4422,7 @@ observeEvent(input$properties_lexicals_loadings, {
 
 
 
-<div style = "background-color: #FCFCFC; padding-top: 50px; padding-right: 22px; padding-left: 1px; padding-bottom: 0px; margin-bottom:6px;">
+<div style = "background-color: #FCFCFC; padding-top: 60px; padding-right: 22px; padding-left: 1px; margin-bottom:6px;">
 
 ```{r}
 
@@ -4432,7 +4503,7 @@ observeEvent(input$concepts_lexicals_loadings, {
 Row {style="data-width:100%;"}
 -----------------------------------------------------------------------
 
-### <span style="font-size:1.7em; color:black;"> &nbsp; **Property words** </span> {style="background-color:#FFFAF4; padding-top:0px; padding-bottom:15px !important; margin-bottom:2px !important;"}
+### <span style="font-size:15px; color:black; text-align: justify !important;"> &nbsp; **Property words**</span> {style="background-color:#FFFAF4; padding-top:0px; padding-bottom:15px !important; margin-bottom:2px !important;"}
 
 <div style = "background-color: white; padding-top:4px;">
 
@@ -4472,7 +4543,7 @@ HTML(
 
 
 
-### <span style="font-size:1.7em; color:black;"> &nbsp; **Concept words** </span> {style="background-color:#FFFEF3; padding-top:0px; padding-bottom:15px !important; margin-bottom:2px !important;"}
+### <span style="font-size:15px; color:black; text-align: justify !important;"> &nbsp; **Concept words**</span> {style="background-color:#FFFEF3; padding-top:0px; padding-bottom:15px !important; margin-bottom:2px !important;"}
 
 <div style = "background-color:white; padding-top:4px;">
 
