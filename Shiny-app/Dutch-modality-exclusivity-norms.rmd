@@ -364,8 +364,8 @@ props$word = as.character(props$word)
 
 # Replace NAs in corpora with 0 to allow selection
 props[is.na(props$phonemes_DUTCHPOND), 'phonemes_DUTCHPOND'] = 0
-props[is.na(props$freq_lg10WF_SUBTLEXNL), 'freq_lg10WF_SUBTLEXNL'] = 0
 props[is.na(props$freq_lg10CD_SUBTLEXNL), 'freq_lg10CD_SUBTLEXNL'] = 0
+props[is.na(props$freq_lg10WF_SUBTLEXNL), 'freq_lg10WF_SUBTLEXNL'] = 0
 props[is.na(props$inflected_adj_freq_lg10CD_SUBTLEXNL), 'inflected_adj_freq_lg10CD_SUBTLEXNL'] = 0
 props[is.na(props$freq_CELEX_lem), 'freq_CELEX_lem'] = 0
 props[is.na(props$orth_neighbours_DUTCHPOND), 'orth_neighbours_DUTCHPOND'] = 0
