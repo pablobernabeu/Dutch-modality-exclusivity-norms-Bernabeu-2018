@@ -66,7 +66,7 @@ knitr::opts_chunk$set(cache = FALSE)
 ```
 
 
-<!-- Begin definition of setup parameters -->
+<!-- Begin definition of layout parameters -->
 <head>
 <style type="text/css">
 
@@ -217,11 +217,15 @@ h6 { /* Header 6 */
 }
 
 code.r{ /* Code block */
-    font-size: 12px;
+  font-size: 12px;
 }
 
-pre { /* Code block - determines code spacing between lines */
-    font-size: 14px;
+pre { /* Code-fromatted output */
+  font-size: 14px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: -15px;
+  margin-bottom: 18px;
 }
 
 
@@ -483,11 +487,11 @@ Column {style="height:1300px; background-color:#FCFCFC;"}
 <!-- Links -->
 <div style = "text-align: right; padding-top: 60px; padding-bottom: 0; padding-right: 60px;">
 
-<a href="https://github.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/blob/master/Shiny-app%2FDutch-modality-exclusivity-norms.rmd" style="color:#5C746D; border-bottom:none !important;font-size: 20px; font-weight: bold; font-family: 'Courier New', Courier, monospace;"> <i class='fas fa-database' aria-hidden="true" style='font-size:20px; color:#577787'></i> Data</a>
+<a href="https://github.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/blob/master/Shiny-app%2FDutch-modality-exclusivity-norms.rmd" style="color:#5C746D; border-bottom:none;font-size: 20px; font-weight: bold; font-family: 'Courier New', Courier, monospace;"> <i class='fas fa-database' aria-hidden="true" style='font-size:20px; color:#577787'></i> Data</a>
 
-<a href="https://github.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/blob/master/Shiny-app%2FDutch-modality-exclusivity-norms.rmd" style="color:#5C746D; border-bottom:none !important;font-size: 20px; font-weight: bold; font-family: 'Courier New', Courier, monospace;"> <i class='fab fa-r-project' aria-hidden="true" style='font-size:20px; color:#526772'></i><i class='fas fa-code' aria-hidden="true" style='font-size:12px; color:#526772'></i> Code</a>
+<a href="https://github.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/blob/master/Shiny-app%2FDutch-modality-exclusivity-norms.rmd" style="color:#5C746D; border-bottom:none;font-size: 20px; font-weight: bold; font-family: 'Courier New', Courier, monospace;"> <i class='fab fa-r-project' aria-hidden="true" style='font-size:20px; color:#526772'></i><i class='fas fa-code' aria-hidden="true" style='font-size:12px; color:#526772'></i> Code</a>
 
-<a href="https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=rstudio" style="color:#5C746D; border-bottom:none !important; font-size: 15px; font-weight: bold; font-family: 'Courier New', Courier, monospace;"> <img src='https://img.shields.io/badge/Binder-RStudio-579ACA.svg?logo=data:image/png;base64,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' alt='Launch Binder RStudio'></img> Edit and run code online</a>
+<a href="https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=rstudio" style="color:#5C746D; border-bottom:none; font-size: 15px; font-weight: bold; font-family: 'Courier New', Courier, monospace;"> <img src='https://img.shields.io/badge/Binder-RStudio-579ACA.svg?logo=data:image/png;base64,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' alt='Launch Binder RStudio'></img> Edit and run code online</a>
 
 <a href="http://creativecommons.org/licenses/by/4.0/" rel="Attribution licence" style="color:#9AA7A3; font-size:15px"> Licence &nbsp;<img style="border-width:0;" src="https://i.creativecommons.org/l/by/4.0/80x15.png" alt="Creative Commons License"></img></a>
 
@@ -511,7 +515,7 @@ The norms, which are ratings of linguistic stimuli, served a twofold purpose: fi
 * Perceptual strength: Highest rating across modalities.
 
 
-```{r fig.width = 6}
+```{r}
 
 allNL = all[!is.na(all$main),]
 
@@ -540,12 +544,12 @@ renderPlot(p)
 
 ```
 
-##### Figure 1. Number of words in the norms per word category, dominant modality, and modality exclusivity. {style='text-align:justify; padding-left:5px; padding-right:5px;'}
+##### Figure 1. Number of words in the norms per word category, dominant modality, and modality exclusivity. [[Image]](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/stacked_exc.png). {style='text-align:justify; padding-left:5px; padding-right:5px; line-height: 1.4;'}
 
 
 These norms were validated in an experiment demonstrating that shifts across trials with different dominant modalities incurred semantic processing costs ([Bernabeu, Willems, & Louwerse, 2017](https://mindmodeling.org/cogsci2017/papers/0318/index.html)). All data for that study are [available](https://osf.io/97unm/wiki/home/), including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/) (in case of downtime of the dashboard site, please see [this alternative](https://mybinder.org/v2/gh/pablobernabeu/Modality-switch-effects-emerge-early-and-increase-throughout-conceptual-processing/master?urlpath=shiny/Shiny-app/)).
 
-The [**properties**](#properties){style='background-color:#FDFFFF'} and the [**concepts**](#concepts){style='background-color:#FDFFFF'} were differentiated during their collection and analysis. They may also be consulted together on a [**table**](#table){style='background-color:#FDFFFF'}. The properties were found to be more strongly perceptual than concepts. Distinct relationships also emerged among the modalities, with the visual and haptic modalities being closely related, and the auditory modality being relatively independent ([**cf. English norms by Lynott & Connell, 2009, 2013**](#cf-lc-english-norms){style='background-color:#FDFFFF'}). This ties in with findings that, in conceptual processing, modalities can be collated based on language statistics (Louwerse & Connell, 2011).
+The [**properties**](#properties){style='background-color:#FDFFFF'} and the [**concepts**](#concepts){style='background-color:#FDFFFF'} may also be consulted together on a [**table**](#table){style='background-color:#FDFFFF'}. Distinct relationships emerged among the modalities, with the visual and haptic modalities being more related to each other than to the auditory modality. This ties in with findings that, in conceptual processing, modalities can be collated based on language statistics (Louwerse & Connell, 2011). Furthermore, properties were found to be more strongly perceptual than concepts ([**cf. English norms by Lynott & Connell, 2009, 2013**](#section-cf-lc-english-norms){style='background-color:#FDFFFF'}).
 
 ```{r}
 
@@ -622,7 +626,7 @@ Engprops = ggplot(eng_props,
 	fontface = ifelse(eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
   geom_point(data=eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=8, stroke=2, alpha=.6) +
   ggtitle('English properties (Lynott & Connell, 2009)') + 
-  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
+  labs(x = "", y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
 	panel.grid.minor = element_blank(), panel.border = element_blank(),
   	axis.line = element_line(color = 'black'),
@@ -803,7 +807,7 @@ NLprops = ggplot(properties,
   geom_text(size = ifelse(properties$word %in% w_set, 8, 5),
 	fontface = ifelse(properties$word %in% w_set, 'bold', 'plain')) +
   geom_point(data=properties[properties$word %in% w_set,], pch=21, fill=NA, size=8, stroke=2, alpha=.6) +
-  ggtitle('Dutch properties') +  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +  theme_bw() +   
+  ggtitle('Dutch properties') +  labs(x = "", y = "") +  theme_bw() +   
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
 	panel.grid.minor = element_blank(), panel.border = element_blank(),
   	axis.line = element_line(color = 'black'),
@@ -893,7 +897,7 @@ NLconcs = ggplot(concepts,
 	fontface = ifelse(concepts$word %in% w_set, 'bold', 'plain')) +
   geom_point(data=concepts[concepts$word %in% w_set,], pch=21, fill=NA, size=8, stroke=2, alpha=.6) +
   ggtitle('Dutch concepts') +
-  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +  theme_bw() +   
+  labs(x = "Varimax-rotated Principal Component 1", y = "") +  theme_bw() +   
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
 	panel.grid.minor = element_blank(), panel.border = element_blank(),
   	axis.line = element_line(color = 'black'),
@@ -909,15 +913,15 @@ NLconcs = ggplot(concepts,
 
 div(
   style = "display: flex; flex-wrap: wrap; justify-content: center",
-  div(renderPlot(Engprops), style = "width: 50%; border: solid;"),
-  div(renderPlot(NLprops), style = "width: 50%; border: solid;"),
-  div(renderPlot(Engconcs), style = "width: 50%; border: solid;"),
-  div(renderPlot(NLconcs), style = "width: 50%; border: solid;")
+  div(renderPlot(Engprops), style = "width: 50%; border: none;"),
+  div(renderPlot(NLprops), style = "width: 50%; border: none;"),
+  div(renderPlot(Engconcs), style = "width: 50%; border: none;"),
+  div(renderPlot(NLconcs), style = "width: 50%; border: none;")
 )
 
 ```
 
-##### Figure 2. Dutch norms compared to English norms (reanalysis of Lynott & Connell, 2009, 2013, narrowed to three modalities) based on a principal component analysis of the auditory, haptic, and visual ratings for each word. Letters indicate the dominant modality of each word (*a* = auditory word, *h* = haptic word, *v* = visual word). The consistency of the modalities is further displayed by contours. The first word alphabetically in each modality is highlighted. {style='text-align:justify; padding-left:5px; padding-right:5px;'}
+##### Figure 2. Dutch norms compared to English norms (reanalysis of Lynott & Connell, 2009, 2013, narrowed to three modalities) based on a principal component analysis of the auditory, haptic, and visual ratings for each word. Letters indicate the dominant modality of each word (*a* = auditory, *h* = haptic, *v* = visual), and contours further display the degree of consistency of the modalities. [[Image]](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png). {style='text-align:justify; padding-left:5px; padding-right:5px; line-height:1.4;'}
 
 
 
@@ -925,23 +929,25 @@ div(
 <div class="row">
   <div class="column" style="width: 65%;">
 <div>
-The norms also served to investigate [**sound symbolism**](#sound-symbolism){style='background-color:#FDFFFF'}, which is the relation between the form of words and their meaning. The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would. Lynott and Connell's (2013) findings were replicated, as auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings.
+The norms also served to investigate [**sound symbolism**](#sound-symbolism){style='background-color:#FDFFFF'}, which is the relation between the form of words and their meaning. The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would. Lynott and Connell's (2013) findings were replicated, as auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings. The present analyses and further ones will be reported in a forthcoming paper.
 
-The present analyses and further ones will be reported in a forthcoming paper. All data and analysis code for the norms are [available for re-use](https://osf.io/brkjw/wiki/home/) under a [CC BY licence](https://creativecommons.org/licenses/by/4.0/), provided acknowledgment of the following publication:
+All data and code for the norms and this data dashboard are [available for re-use](https://osf.io/brkjw/wiki/home/) under a [CC BY licence](https://creativecommons.org/licenses/by/4.0/), provided acknowledgement of the following publication or of this website:
 </div>
   </div>
 
   <div class="column" style="width: 35%; padding-left: 8px;">
-<div style = "padding-top: 5px; padding-bottom: 8px; float: right; font-size: 12px; display: inline-block; background-color: #FDFFFF;">
+<div style = "padding-top: 5px; padding-bottom: 8px; float: right; font-size: 13px; display: inline-block; background-color: #FAFAFA;">
 <div style = "text-align: center !important; padding-bottom: 0 !important;"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Booba-Kiki.svg" alt="Bouba-Kiki" width=80px height=55px></img></div>
 <div style="text-align: justify !important; padding-top: 0 !important; padding-right: 5px; padding-left: 5px;"> Sound symbolism is a psycholinguistic effect whereby sound properties of words influence their meaning. For instance, when people are asked to match the pseudowords *bouba* and *kiki* to the above objects, most name the rounded object *bouba* and the spiky one *kiki* (Köhler, 1929; Sourav et al., 2019). </div>
-<div style="font-size:70%; padding-top:4px; padding-right: 5px; padding-left: 5px; text-align:left;"> Image: https://commons.wikimedia.org/wiki/File:Booba-Kiki.svg. Monochrome version 1 June 2007 by BendžVectorized with Inkscape --Qef (talk) 21:21, 23 June 2008 (UTC) [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)] </div>
+<div style="font-size:65%; padding-top:4px; padding-right: 5px; padding-left: 5px; text-align:left;"> Image: https://commons.wikimedia.org/wiki/File:Booba-Kiki.svg. Monochrome version 1 June 2007 by Bendž. Vectorized with Inkscape--Qef (talk) 21:21, 23 June 2008 (UTC) [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)].</div>
 </div>
   </div>
 <!-- End two-column format -->
 </div>
 
 > <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 16px; background-color: #FCFCFC; font-size: 15px;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). [Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs.](https://mindmodeling.org/cogsci2017/papers/0318/index.html) In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society.</div>
+
+> <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 16px; background-color: #FCFCFC; font-size: 15px;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). [Online data dashboard.] Dutch Modality Exclusivity Norms. Retrieved from https://pablobernabeu.shinyapps.io/dutch-modality-exclusivity-norms/.</div>
 
 
 ### External corpora
@@ -959,7 +965,7 @@ This research was greatly supported by the help of Tilburg University, which pro
 
 ### References {style='padding-top:5px;'}
 
-<div style = "text-align: justify; text-indent:-2em; margin-left:2em; background-color:#FCFCFC; font-size:14px;">
+<div style = "text-align: justify; text-indent:-2em; margin-left:2em; background-color:#FCFCFC; font-size:15px;">
 
 Baayen, R. H., Piepenbrock, R., & van Rijn, H. (1993). *The CELEX Lexical Database* [CD-ROM]. Philadelphia: Linguistic Data Consortium, University of Pennsylvania.
 
@@ -973,17 +979,19 @@ Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measur
 
 Köhler, W. (1929). *Gestalt Psychology*. New York: Liveright.
 
-Louwerse, M., & Connell, L. (2011). A taste of words: linguistic context and perceptual simulation predict the modality of words. *Cognitive Science, 35*, 2, 381-98. [https://doi.org/10.1111/j.1551-6709.2010.01157.x](https://doi.org/10.1111/j.1551-6709.2010.01157.x).
+Louwerse, M., & Connell, L. (2011). A taste of words: Linguistic context and perceptual simulation predict the modality of words. *Cognitive Science, 35*, 2, 381-98. [https://doi.org/10.1111/j.1551-6709.2010.01157.x](https://doi.org/10.1111/j.1551-6709.2010.01157.x).
 
 Lynott, D., & Connell, L. (2009). Modality exclusivity norms for 423 object concepts. *Behavior Research Methods, 41*, 2, 558-564. [https://doi.org/10.3758/BRM.41.2.558](https://doi.org/10.3758/BRM.41.2.558).
 
-Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The relationship between perceptual experience and surface word form. *Behavior Research Methods, 45*, 2, 516-526. [https://doi.org/10.3758/s13428-012-0267-0](https://doi.org/10.3758/s13428-012-0267-0).
+Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The relationship between perceptual experience and surface word form. *Behavior Research Methods, 45*, 2, 516-526. 
+[https://doi.org/10.3758/s13428-012-0267-0](https://doi.org/10.3758/s13428-012-0267-0).
 
-Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. [https://doi.org/10.1371/journal.pone.0043230](https://doi.org/10.1371/journal.pone.0043230).
+Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. 
+[https://doi.org/10.1371/journal.pone.0043230](https://doi.org/10.1371/journal.pone.0043230).
 
 Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. [https://doi.org/10.3758/s13428-017-0852-3](https://doi.org/10.3758/s13428-017-0852-3).
 
-Sourav, S., Kekunnaya, R., Shareef, I., Banerjee, S., Bottari, D., & Röder, B. (2019). A protracted sensitive period regulates the development of cross-modal sound–shape associations in humans. *Psychological Science*. [https://doi.org/10.1177/0956797619866625](https://doi.org/10.1177/0956797619866625).
+Sourav, S., Kekunnaya, R., Shareef, I., Banerjee, S., Bottari, D., & Röder, B. (2019). A protracted sensitive period regulates the development of cross-modal sound–shape associations in humans. *Psychological Science, 30*, 10, 1473–1482. [https://doi.org/10.1177/0956797619866625](https://doi.org/10.1177/0956797619866625).
 
 </div>
 
@@ -994,7 +1002,7 @@ Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
 
 [Webpage](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu)
 
-<br></br>
+<br/>
 
 </div>
 
@@ -1006,16 +1014,14 @@ Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
 Table {#table style="background-color:#FCFCFC;"}
 =======================================================================
 
-Inputs {.sidebar style='position:fixed; padding-bottom:30px;'}
+Inputs {.sidebar style='position:fixed; padding-top: 65px; padding-bottom:30px;'}
 -----------------------------------------------------------------------
-  
-<div style="padding-top: 55px;">
-    
+
 ```{r}
   
 # Modal dialogs containing definitions and corpora
   
-actionLink('table_DefinitionsCorporaLink', HTML('<div style="font-size: 14px; font-weight:bold; border-bottom:none !important"><i class="far fa-clipboard" aria-hidden="true"></i> Definitions and corpora </div>'))
+actionLink('table_DefinitionsCorporaLink', HTML('<div style="font-size: 14px; font-weight:bold; border-bottom:none;"><i class="far fa-clipboard" aria-hidden="true"></i> Definitions and corpora </div>'))
   
 observeEvent(input$table_DefinitionsCorporaLink, {
   sendSweetAlert(session, type = NULL, title = NULL, html = TRUE,
@@ -1050,22 +1056,26 @@ observeEvent(input$table_DefinitionsCorporaLink, {
   })
 
 ```
-  
-</div>
-    
-    
-<!-- Chunk right below removed from mobiles because it's badly displayed -->
+
+<br/>
+
+
+##### Data selected below {style='margin-top:-16px;'}
+
+<!-- Output right below removed from mobiles because it's badly displayed -->
 #### {.desktop-only}
+
+<div style='padding-top:9px; margin-bottom:-12px;'>
 
 ```{r}
 
 # Number of words selected on sidebar below
-reactive(cat(paste0('Words selected below:', '\n',
-                    '  ', nrow(selected_words()[selected_words()$cat=='Property',]), ' Properties', '\n',
-                    '  ', nrow(selected_words()[selected_words()$cat=='Concept',]), ' Concepts')))
+reactive(cat(paste0(nrow(selected_words()[selected_words()$cat=='Property',]), ' Property words', '\n',
+                    nrow(selected_words()[selected_words()$cat=='Concept',]), ' Concept words')))
 
 ```
 
+</div>
 
 <!-- Show again on all devices -->
 ####
@@ -1080,7 +1090,7 @@ uiOutput("table_csv_link")
 
 # Create the actual downloadLink
 output$table_csv_link = renderUI({
-  downloadLink("table_csv", " Data selected below (.csv)", class = "fa fa-download", style = 'border-bottom:none !important')
+  downloadLink("table_csv", " Download spreadsheet", class = "fa fa-download", style = 'border-bottom:none !important')
 })
 
 # Add download handling
@@ -1096,7 +1106,7 @@ output$table_csv = downloadHandler(
 ```
 
 
-#### **Word Categories**
+#### **Word Categories** {style='margin-top:22px;'}
 
 ```{r}
 
@@ -1113,7 +1123,7 @@ pickerInput(inputId = "table_nouncategory", choices = c('de', 'het'),
 ```
 
 
-#### **Modality**
+#### **Modality** {style='margin-top:22px;'}
 
 ```{r}
 
@@ -1130,86 +1140,112 @@ pickerInput(inputId = "table_modalities", label = "Dominant modalities",
             options = list(style = "light", size = 15))
 
 sliderInput("table_Exclusivity", "Modality exclusivity (%)", min = 0, max = 100, value = c(0, 100))
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words()$Exclusivity),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$Exclusivity),2)))))
 
 sliderInput("table_Strength", "Perceptual strength", min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words()$Perceptualstrength),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$Perceptualstrength),2)))))
 
 sliderInput("table_Auditory", "Auditory rating", min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words()$Auditory),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$Auditory),2)))))
 
 sliderInput("table_Haptic", "Haptic rating", min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words()$Haptic),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$Haptic),2)))))
 
 sliderInput("table_Visual", "Visual rating", min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words()$Visual),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$Visual),2)))))
 
 ```
 
 
-#### **Concreteness**
+#### **Concreteness** {style='margin-top:22px;'}
 
 ```{r}
 
 sliderInput("table_concreteness", NULL, min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words()$concrete_Brysbaertetal2014),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$concrete_Brysbaertetal2014),2)))))
 
 ```
 
 
-#### **Length**
+#### **Length** {style='margin-top:22px;'}
 
 ```{r}
 
 sliderInput("table_letters", "Number of letters", min = 3, max = 17, value = c(3, 17), step = 1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words()$letters),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$letters),2)))))
 
 sliderInput("table_phonemes_DutchPOND", "Number of phonemes", min = 0, max = 15, value = c(0, 15), step = 1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words()$phonemes_DUTCHPOND),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$phonemes_DUTCHPOND),2)))))
 
 ```
 
 
-#### **Word Frequency**
+#### **Word Frequency** {style='margin-top:22px;'}
 
 ```{r}
 
 sliderInput("table_ContextualDiversity", "Contextual diversity (CD)", min = 0, max = 4, value = c(0, 4), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words()$freq_lg10CD_SUBTLEXNL),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$freq_lg10CD_SUBTLEXNL),2)))))
 
 sliderInput("table_InflectedContextualDiversity", "CD Inflected adjective", min = 0, max = 4, value = c(0, 4), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(sum(selected_words()$inflected_adj_freq_lg10CD_SUBTLEXNL)/336,2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(sum(selected_words()$inflected_adj_freq_lg10CD_SUBTLEXNL)/336,2)))))
 
 sliderInput("table_WF_SUBTLEXNL", "Word frequency", min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words()$freq_lg10WF_SUBTLEXNL),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$freq_lg10WF_SUBTLEXNL),2)))))
 
 sliderInput("table_lemma_CELEX", "Lemma frequency", min = 0, max = 3.2, value = c(0, 3.2), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words()$freq_CELEX_lem),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$freq_CELEX_lem),2)))))
 
 ```
 
 
-#### **Distinctiveness**
+#### **Distinctiveness** {style='margin-top:22px;'}
 
 ```{r}
 
-sliderInput("table_phon_neighbours_DutchPOND", "Phonological neighbours", min = 0, max = 50, value = c(0, 50), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words()$phon_neighbours_DUTCHPOND),2)))))
+sliderInput("table_phon_neighbours_DutchPOND", "Phonological neighbours", min = 0, max = 50, value = c(0, 50), step = 1)
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$phon_neighbours_DUTCHPOND),2)))))
 
-sliderInput("table_orth_neighbours_DutchPOND", "Orthographic neighbours", min = 0, max = 32, value = c(0, 32), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words()$orth_neighbours_DUTCHPOND),2)))))
+sliderInput("table_orth_neighbours_DutchPOND", "Orthographic neighbours", min = 0, max = 32, value = c(0, 32), step = 1)
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$orth_neighbours_DUTCHPOND),2)))))
 
 ```
 
 
-#### **Age of Acquisition**
+#### **Age of Acquisition** {style='margin-top:22px;'}
 
 ```{r}
 
 sliderInput("table_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words()$AoA_Brysbaertetal2014),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$AoA_Brysbaertetal2014),2)))))
 
 ```
+
+
+<div style = "padding-top: 4px; font-size = 0.6em; text-align: left">
+
+#### **Definitions**
+
+**Principal component analysis (PCA):** Method for reducing dimensionality of data while retaining the main patterns ([read more](https://www.nature.com/articles/nmeth.4346)).
+
+<div><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Dominant modality: </b></span> Highest-rated modality. </div>
+
+<div style="padding-top:5px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Modality exclusivity: </b></span> Range of the three modality ratings divided by the sum. </div>
+
+<div style="padding-top:5px; padding-bottom:6px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Perceptual strength: </b> </span> Highest rating across modalities. </div>
+
+
+#### **Corpora**
+
+**Concreteness and age of acquisition:** [Norms by Brysbaert, Warriner, and Kuperman (2014)](#info).
+
+**Phonological and orthographic neighbours**: [DutchPOND (Marian et al., 2012)](#info).
+
+**Word frequency and contextual diversity**: [SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010)](#info).
+
+**Lemma frequency**: [CELEX (Baayen, Piepenbrock, & van Rijn, 1993)](#info).
+
+</div>
 
 
 
@@ -1218,7 +1254,7 @@ reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_words(
 Column {style="data-width:100%; position:static; height:1000px;"}
 -----------------------------------------------------------------------
 
-### <span style = 'font-size: 15px;'> **Property and concept words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.</span> {style="margin-top:10px; padding-top:30px; text-align:justify;"}
+### <span style = 'font-size: 15px;'> **Property and concept words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched under the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.</span> {style="margin-top:10px; padding-top:30px; text-align:justify;"}
 
 <div style = "text-align: justify; background-color: #FCFCFC;">
 
@@ -1453,22 +1489,20 @@ renderReactable({
 Properties {data-orientation=rows data-height=3200}
 =======================================================================
 
-Inputs {.sidebar style='position:fixed; padding-bottom:30px;'}
+Inputs {.sidebar style='position:fixed; padding-top: 65px; padding-bottom:30px;'}
 -----------------------------------------------------------------------
-
-<div style="padding-top: 55px;">
 
 ```{r}
 
 # Modal dialogs containing definitions and corpora
 
-actionLink('properties_DefinitionsCorporaLink', HTML('<div style="font-size: 14px; font-weight:bold; border-bottom:none !important"><i class="far fa-clipboard" aria-hidden="true"></i> Definitions and corpora </div>'))
+actionLink('properties_DefinitionsCorporaLink', HTML('<div style="font-size: 14px; font-weight:bold; border-bottom:none; margin-bottom: 6px;"><i class="far fa-clipboard" aria-hidden="true"></i> Definitions and corpora </div>'))
 
 observeEvent(input$properties_DefinitionsCorporaLink, {
   sendSweetAlert(session, type = NULL, title = NULL, html = TRUE,
                  closeOnClickOutside = TRUE, btn_labels = 'Close',
                  text = HTML('<div style = "font-size = 14px; text-align: justify;">
-                 
+
                   <h4 style="background-color: #FFFEF0; padding-top:2px; padding-bottom:2px;"><b> Definitions </b></h4>
 
                   <p style="font-size:13px"><b>Principal component analysis (PCA):</b> Method for reducing dimensionality of data while retaining the main patterns (<a href="https://www.nature.com/articles/nmeth.4346">read more</a>).</p>
@@ -1478,28 +1512,25 @@ observeEvent(input$properties_DefinitionsCorporaLink, {
                   <p style="font-size:13px"><b> Modality exclusivity:</b> Range of the three modality ratings divided by the sum.<sup>*</sup> </p>
 
                   <p style="font-size:13px"><b> Perceptual strength:</b> Highest rating across modalities.<sup>*</sup> </p>
-                  
+
                   <p style="font-size:11px !important; padding-bottom:4px;">* Calculated following <a href="#section-info"> Lynott and Connell (2009, 2013)</a>.</p>
-                  
+
                   <h4 style="background-color: #FFFEF0; padding-top:6px; padding-bottom:2px;"><b> Corpora </b></h4>
-                  
+
                   <p style="font-size:13px"><b> Concreteness and age of acquisition:</b> Norms by Brysbaert, Warriner, and Kuperman (2014).</p>
-                  
+
                   <p style="font-size:13px"><b> Phonological and orthographic neighbours:</b> DutchPOND (Marian et al., 2012).</p>
-                  
+
                   <p style="font-size:13px"><b> Word frequency and contextual diversity:</b> SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010).</p>
-                  
+
                   <p style="font-size:13px"><b> Lemma frequency:</b> CELEX (Baayen, Piepenbrock, & van Rijn, 1993).</p>
-                  
+
                   <p><i class="fas fa-book-open" aria-hidden="true"></i> <a href="#section-info">References</a></p>
-                  
+
                   </div>'))
   })
 
 ```
-
-</div>
-
 
 
 ```{r}
@@ -1548,6 +1579,12 @@ observeEvent(input$properties_loadings, {
     ))
   })
 
+```
+
+
+<div style='padding-top:15px;' />
+
+```{r}
 
 # Highlight words
 selectizeInput("highlighted_properties", label = NULL, choices = sort(props$word), multiple = TRUE,
@@ -1556,19 +1593,25 @@ selectizeInput("highlighted_properties", label = NULL, choices = sort(props$word
 ```
 
 
-<!-- Chunk right below removed from mobiles because it's badly displayed -->
+##### Data selected below
+
+<!-- Output right below removed from mobiles because it's badly displayed -->
 #### {.desktop-only}
+
+<div style='padding-top:9px; margin-bottom:-12px;'>
 
 ```{r}
 
 # Number of words selected on sidebar below
-reactive(cat(paste0('Words selected below: ', nrow(selected_props()))))
+reactive(cat(paste0(nrow(selected_props()), ' Property words')))
 
 ```
 
+</div>
 
 <!-- Show again on all devices -->
 ####
+
 
 ```{r}
 
@@ -1579,7 +1622,7 @@ uiOutput("properties_csv_link")
 
 # Create the actual downloadLink
 output$properties_csv_link = renderUI({
-  downloadLink("properties_csv", " Data selected below (.csv)", class = "fa fa-download", style = 'border-bottom:none !important')
+  downloadLink("properties_csv", " Download spreadsheet", class = "fa fa-download", style = 'border-bottom:none;')
 })
 
 # Add download handling
@@ -1596,14 +1639,14 @@ output$properties_csv = downloadHandler(
 
 
 
-# Download selected on sidebar as a plot
+# Download data selected on sidebar as a plot
 
 # Create placeholder for download link
 uiOutput("properties_png_link")
 
 # Create the actual downloadLink
 output$properties_png_link = renderUI({
-  downloadLink("properties_png", " HD Plot with selected data", class = "fa fa-download", style = 'border-bottom:none !important')
+  downloadLink("properties_png", " Download plot", class = "fa fa-download", style = 'border-bottom:none !important')
 })
 
 # Add download handling
@@ -1620,7 +1663,7 @@ output$properties_png = downloadHandler(
 ```
 
 
-#### **Modality**
+#### **Modality** {style='margin-top:22px;'}
 
 ```{r}
 
@@ -1637,84 +1680,84 @@ pickerInput(inputId = "properties_modalities", label = "Dominant modalities",
             options = list(style = "light", size = 15))
 
 sliderInput("properties_Exclusivity", "Modality exclusivity (%)", min = 0, max = 100, value = c(0, 100))
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props()$Exclusivity),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$Exclusivity),2)))))
 
 sliderInput("properties_Strength", "Perceptual strength", min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props()$Perceptualstrength),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$Perceptualstrength),2)))))
 
 sliderInput("properties_Auditory", "Auditory rating", min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props()$Auditory),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$Auditory),2)))))
 
 sliderInput("properties_Haptic", "Haptic rating", min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props()$Haptic),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$Haptic),2)))))
 
 sliderInput("properties_Visual", "Visual rating", min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props()$Visual),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$Visual),2)))))
 
 ```
 
 
-#### **Concreteness**
+#### **Concreteness** {style='margin-top:22px;'}
 
 ```{r}
 
 sliderInput("properties_concreteness", NULL, min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props()$concrete_Brysbaertetal2014),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$concrete_Brysbaertetal2014),2)))))
 
 ```
 
 
-#### **Length**
+#### **Length** {style='margin-top:22px;'}
 
 ```{r}
 
 sliderInput("properties_letters", "Number of letters", min = 3, max = 17, value = c(3, 17), step = 1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props()$letters),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$letters),2)))))
 
 sliderInput("properties_phonemes_DutchPOND", "Number of phonemes", min = 0, max = 15, value = c(0, 15), step = 1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props()$phonemes_DUTCHPOND),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$phonemes_DUTCHPOND),2)))))
 
 ```
 
 
-#### **Word Frequency**
+#### **Word Frequency** {style='margin-top:22px;'}
 
 ```{r}
 
 sliderInput("properties_ContextualDiversity", "Contextual diversity (CD)", min = 0, max = 4, value = c(0, 4), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props()$freq_lg10CD_SUBTLEXNL),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$freq_lg10CD_SUBTLEXNL),2)))))
 
 sliderInput("properties_InflectedContextualDiversity", "CD Inflected adjective", min = 0, max = 4, value = c(0, 4), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(sum(selected_props()$inflected_adj_freq_lg10CD_SUBTLEXNL)/336,2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(sum(selected_props()$inflected_adj_freq_lg10CD_SUBTLEXNL)/336,2)))))
 
 sliderInput("properties_WF_SUBTLEXNL", "Word frequency", min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props()$freq_lg10WF_SUBTLEXNL),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$freq_lg10WF_SUBTLEXNL),2)))))
 
 sliderInput("properties_lemma_CELEX", "Lemma frequency", min = 0, max = 3.2, value = c(0, 3.2), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props()$freq_CELEX_lem),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$freq_CELEX_lem),2)))))
 
 ```
 
 
-#### **Distinctiveness**
+#### **Distinctiveness** {style='margin-top:22px;'}
 
 ```{r}
 
-sliderInput("properties_phon_neighbours_DutchPOND", "Phonological neighbours", min = 0, max = 50, value = c(0, 50), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props()$phon_neighbours_DUTCHPOND),2)))))
+sliderInput("properties_phon_neighbours_DutchPOND", "Phonological neighbours", min = 0, max = 50, value = c(0, 50), step = 1)
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$phon_neighbours_DUTCHPOND),2)))))
 
-sliderInput("properties_orth_neighbours_DutchPOND", "Orthographic neighbours", min = 0, max = 32, value = c(0, 32), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props()$orth_neighbours_DUTCHPOND),2)))))
+sliderInput("properties_orth_neighbours_DutchPOND", "Orthographic neighbours", min = 0, max = 32, value = c(0, 32), step = 1)
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$orth_neighbours_DUTCHPOND),2)))))
 
 ```
 
 
-#### **Age of Acquisition**
+#### **Age of Acquisition** {style='margin-top:22px;'}
 
 ```{r}
 
 sliderInput("properties_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props()$AoA_Brysbaertetal2014),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$AoA_Brysbaertetal2014),2)))))
 
 ```
 
@@ -1742,15 +1785,14 @@ reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_props(
 
 **Lemma frequency**: [CELEX (Baayen, Piepenbrock, & van Rijn, 1993)](#info).
 
-</div style="padding-bottom:14px;">
-
+</div>
 
 
 
 Row {data-height=510px style='data-width:100%; position:static;'}
 -----------------------------------------------------------------------
 
-### <span style = 'font-size: 15px;'> **Property words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.</span> {style='margin-top:10px; padding-top:30px; text-align:justify;'}
+### <span style = 'font-size: 15px;'> **Property words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched under the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.</span> {style='margin-top:10px; padding-top:30px; text-align:justify;'}
 
 <div style = "padding-top: 10px; text-align: justify; background-color:#FCFCFC;">
 
@@ -1939,7 +1981,7 @@ renderReactable({
 Row {data-height=800 style='position:static;'}
 -----------------------------------------------------------------------
 
-### <span style = 'font-size: 15px;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings on side bar; cf. <a href="#cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). </span> {style="margin-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important; text-align:justify;"}
+### <span style = 'font-size: 15px;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings on side bar; cf. <a href="#section-cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). </span> {style="margin-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important; text-align:justify;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:8px;"> </div>
@@ -1953,7 +1995,7 @@ renderPlotly({
  ggplotly(
   ggplot( selected_props(), aes(RC1, RC2, label = as.character(word), color = main, 
     # Html tags below used for format. Decimals rounded to two.
-    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(word), '</b></span> ',
+    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2.2em; color:#EEEEEE">', capitalize(word), '</span> ', '<br>',
 			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', main, ' ',
 			' ', '</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Exclusivity, 2)), '% ',
 			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Perceptualstrength, 2)),
@@ -1976,7 +2018,7 @@ renderPlotly({
 			'</b><br><span style="color:#EEEEEE"> Orthographic neighbourhood size (DutchPOND): </span><b style="color:#EEEEEE">',
 			round(orth_neighbours_DUTCHPOND, 2), ' ',
 			'</b><br><span style="color:#EEEEEE"> Age of acquisition (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">',
-			sprintf("%.2f", round(AoA_Brysbaertetal2014, 2)), ' '
+			sprintf("%.2f", round(AoA_Brysbaertetal2014, 2)), ' ', '<br> '
 			) ) ) +
   geom_text(size = ifelse(selected_props()$word %in% highlighted_properties(), 7,
 				ifelse(is.null(highlighted_properties()), 3, 2.8)),
@@ -2031,16 +2073,14 @@ properties_png = reactive({ ggplot(selected_props(), aes(RC1, RC2, color = main,
 Concepts  {data-orientation=rows data-height=3200}
 =======================================================================
 
-Inputs {.sidebar style='position:fixed; padding-bottom:30px;'}
+Inputs {.sidebar style='position:fixed; padding-top: 65px; padding-bottom:30px;'}
 -----------------------------------------------------------------------
-
-<div style="padding-top: 55px;">
 
 ```{r}
 
 # Modal dialogs containing definitions and corpora
 
-actionLink('concepts_DefinitionsCorporaLink', HTML('<div style="font-size: 14px; font-weight:bold; border-bottom:none !important"><i class="far fa-clipboard" aria-hidden="true"></i> Definitions and corpora </div>'))
+actionLink('concepts_DefinitionsCorporaLink', HTML('<div style="font-size: 14px; font-weight:bold; border-bottom:none; margin-bottom: 6px;"><i class="far fa-clipboard" aria-hidden="true"></i> Definitions and corpora </div>'))
 
 observeEvent(input$concepts_DefinitionsCorporaLink, {
   sendSweetAlert(session, type = NULL, title = NULL, html = TRUE,
@@ -2075,9 +2115,6 @@ observeEvent(input$concepts_DefinitionsCorporaLink, {
   })
 
 ```
-
-</div>
-
 
 
 ```{r}
@@ -2122,10 +2159,16 @@ observeEvent(input$concepts_loadings, {
         kable(format = "html", escape = FALSE) %>%
         kable_styling('striped', full_width = F, position = "left")
       ),
-    size = 'm', easyClose = TRUE, footer = modalButton("Close")
+    size = 'm', easyClose = TRUE, footer = modalButton('Close')
     ))
   })
 
+```
+
+
+<div style='padding-top:15px;' />
+
+```{r}
 
 # Highlight words
 selectizeInput("highlighted_concepts", label = NULL, choices = sort(concs$word), multiple = TRUE,
@@ -2134,19 +2177,25 @@ selectizeInput("highlighted_concepts", label = NULL, choices = sort(concs$word),
 ```
 
 
-<!-- Chunk right below removed from mobiles because it's badly displayed -->
+##### Data selected below
+
+<!-- Output right below removed from mobiles because it's badly displayed -->
 #### {.desktop-only}
+
+<div style='padding-top:9px; margin-bottom:-12px;'>
 
 ```{r}
 
 # Number of words selected on sidebar below
-reactive(cat(paste0('Words selected below: ', nrow(selected_concs()))))
+reactive(cat(paste0(nrow(selected_concs()), ' Concept words')))
 
 ```
 
+</div>
 
 <!-- Show again on all devices -->
 ####
+
 
 ```{r}
 
@@ -2157,7 +2206,7 @@ uiOutput("concepts_csv_link")
 
 # Create the actual downloadLink
 output$concepts_csv_link = renderUI({
-  downloadLink("concepts_csv", " Data selected below (.csv)", class = "fa fa-download", style = 'border-bottom:none !important')
+  downloadLink("concepts_csv", " Download spreadsheet", class = "fa fa-download", style = 'border-bottom:none !important')
 })
 
 # Add download handling
@@ -2174,14 +2223,14 @@ output$concepts_csv = downloadHandler(
 
 
 
-# Download selected on sidebar as a plot
+# Download data selected on sidebar as a plot
 
 # Create placeholder for download link
 uiOutput("concepts_png_link")
 
 # Create the actual downloadLink
 output$concepts_png_link = renderUI({
-  downloadLink("concepts_png", " HD Plot with selected data", class = "fa fa-download", style = 'border-bottom:none !important')
+  downloadLink("concepts_png", " Download plot", class = "fa fa-download", style = 'border-bottom:none !important')
 })
 
 # Add download handling
@@ -2198,7 +2247,7 @@ output$concepts_png = downloadHandler(
 ```
 
 
-#### Definite Article
+#### **Definite Article** {style='margin-top:22px;'}
 
 ```{r}
 
@@ -2211,7 +2260,7 @@ pickerInput(inputId = "concepts_nouncategory", choices = c('de', 'het'),
 ```
 
 
-#### **Modality**
+#### **Modality** {style='margin-top:22px;'}
 
 ```{r}
 
@@ -2228,81 +2277,81 @@ pickerInput(inputId = "concepts_modalities", label = "Dominant modalities",
             options = list(style = "light", size = 15))
 
 sliderInput("concepts_Exclusivity", "Modality exclusivity (%)", min = 0, max = 100, value = c(0, 100))
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs()$Exclusivity),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_concs()$Exclusivity),2)))))
 
 sliderInput("concepts_Strength", "Perceptual strength", min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs()$Perceptualstrength),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_concs()$Perceptualstrength),2)))))
 
 sliderInput("concepts_Auditory", "Auditory rating", min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs()$Auditory),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_concs()$Auditory),2)))))
 
 sliderInput("concepts_Haptic", "Haptic rating", min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs()$Haptic),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_concs()$Haptic),2)))))
 
 sliderInput("concepts_Visual", "Visual rating", min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs()$Visual),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_concs()$Visual),2)))))
 
 ```
 
 
-#### **Concreteness**
+#### **Concreteness** {style='margin-top:22px;'}
 
 ```{r}
 
 sliderInput("concepts_concreteness", NULL, min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs()$concrete_Brysbaertetal2014),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_concs()$concrete_Brysbaertetal2014),2)))))
 
 ```
 
 
-#### **Length**
+#### **Length** {style='margin-top:22px;'}
 
 ```{r}
 
 sliderInput("concepts_letters", "Number of letters", min = 3, max = 17, value = c(3, 17), step = 1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs()$letters),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_concs()$letters),2)))))
 
 sliderInput("concepts_phonemes_DutchPOND", "Number of phonemes", min = 0, max = 15, value = c(0, 15), step = 1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs()$phonemes_DUTCHPOND),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_concs()$phonemes_DUTCHPOND),2)))))
 
 ```
 
 
-#### **Word Frequency**
+#### **Word Frequency** {style='margin-top:22px;'}
 
 ```{r}
 
 sliderInput("concepts_ContextualDiversity", "Contextual diversity (CD)", min = 0, max = 4, value = c(0, 4), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs()$freq_lg10CD_SUBTLEXNL),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_concs()$freq_lg10CD_SUBTLEXNL),2)))))
 
 sliderInput("concepts_WF_SUBTLEXNL", "Word frequency", min = 0, max = 5, value = c(0, 5), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs()$freq_lg10WF_SUBTLEXNL),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_concs()$freq_lg10WF_SUBTLEXNL),2)))))
 
 sliderInput("concepts_lemma_CELEX", "Lemma frequency", min = 0, max = 3.2, value = c(0, 3.2), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs()$freq_CELEX_lem),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_concs()$freq_CELEX_lem),2)))))
 
 ```
 
 
-#### **Distinctiveness**
+#### **Distinctiveness** {style='margin-top:22px;'}
 
 ```{r}
 
-sliderInput("concepts_phon_neighbours_DutchPOND", "Phonological neighbours", min = 0, max = 50, value = c(0, 50), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs()$phon_neighbours_DUTCHPOND),2)))))
+sliderInput("concepts_phon_neighbours_DutchPOND", "Phonological neighbours", min = 0, max = 50, value = c(0, 50), step = 1)
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_concs()$phon_neighbours_DUTCHPOND),2)))))
 
-sliderInput("concepts_orth_neighbours_DutchPOND", "Orthographic neighbours", min = 0, max = 32, value = c(0, 32), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs()$orth_neighbours_DUTCHPOND),2)))))
+sliderInput("concepts_orth_neighbours_DutchPOND", "Orthographic neighbours", min = 0, max = 32, value = c(0, 32), step = 1)
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_concs()$orth_neighbours_DUTCHPOND),2)))))
 
 ```
 
 
-#### **Age of Acquisition**
+#### **Age of Acquisition** {style='margin-top:22px;'}
 
 ```{r}
 
 sliderInput("concepts_AoA", NULL, min = 0, max = 15, value = c(0, 15), step = 0.1)
-reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs()$AoA_Brysbaertetal2014),2)))))
+reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_concs()$AoA_Brysbaertetal2014),2)))))
 
 ```
 
@@ -2330,7 +2379,7 @@ reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs(
 
 **Lemma frequency**: [CELEX (Baayen, Piepenbrock, & van Rijn, 1993)](#info).
 
-</div style="padding-bottom:14px;">
+</div>
 
 
 
@@ -2338,7 +2387,7 @@ reactive(cat(paste0('Above, Mean = ', sprintf("%.2f", round(mean(selected_concs(
 Row {data-height=510px style='data-width:100%; position:static;'}
 -----------------------------------------------------------------------
 
-### <span style = 'font-size: 15px;'> **Concept words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.</span> {style='margin-top:10px; padding-top:30px; text-align: justify'}
+### <span style = 'font-size: 15px;'> **Concept words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched under the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.</span> {style='margin-top:10px; padding-top:30px; text-align: justify'}
 
 <div style = "padding-top: 10px; text-align: justify; background-color:#FCFCFC;">
 
@@ -2522,7 +2571,7 @@ renderReactable({
 Row {data-height=800 style='position:static;}
 -----------------------------------------------------------------------
 
-### <span style = 'font-size: 15px; text-align: justify !important;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings on side bar; cf. <a href="#cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). </span> {style="margin-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
+### <span style = 'font-size: 15px; text-align: justify !important;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings on side bar; cf. <a href="#section-cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). </span> {style="margin-top: 17px !important; text-align:justify; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:8px;"> </div>
@@ -2536,7 +2585,7 @@ renderPlotly({
  ggplotly(
   ggplot( selected_concs(), aes(RC1, RC2, color = main, label = as.character(word),
     # Html tags below used for format. Decimals rounded to two.
-    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(word), '</b></span> ',
+    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2.2em; color:#EEEEEE">', capitalize(word), '</span> ', '<br>',
 			'</b><br><span style="color:#EEEEEE"> Definite article: </span><b style="color:#EEEEEE">', conc_cat, ' ',
 			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', main, ' ',
 			' ', '</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Exclusivity, 2)), '% ',
@@ -2559,7 +2608,7 @@ renderPlotly({
 			'</b><br><span style="color:#EEEEEE"> Orthographic neighbourhood size (DutchPOND): </span><b style="color:#EEEEEE">', 
 			round(orth_neighbours_DUTCHPOND, 2), ' ',
 			'</b><br><span style="color:#EEEEEE"> Age of acquisition (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">', 
-			round(AoA_Brysbaertetal2014, 2), ' '  ) ) ) +
+			round(AoA_Brysbaertetal2014, 2), ' ', '<br> '  ) ) ) +
   geom_text(size = ifelse(selected_concs()$word %in% highlighted_concepts(), 7,
 			    ifelse(is.null(highlighted_concepts()), 3, 2.8)),
             fontface = ifelse(selected_concs()$word %in% highlighted_concepts(), 'bold', 'plain')) +
@@ -2614,7 +2663,7 @@ Cf. L&C English Norms
 =======================================================================
 
 <div style = "background-color: #FCFCFC; text-align: center; font-size: 15px; margin-top: 10px; padding-top: 30px; padding-bottom: 5px;">
-<b> Comparison with Lynott and Connell's (2009, 2013) English norms ([see complete data](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html)).</b> In both languages, properties were visibly more perceptual than concepts.
+<b> Comparison with Lynott and Connell's (2009, 2013) English norms ([see complete data](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html)).</b> In both languages, the visual and the haptic modalities were more related to each than to the auditory modality. Properties were more strongly perceptual than concepts.
 </div>
 
 Column {style="height:1500;" data-padding=1}
@@ -2693,7 +2742,7 @@ levels(eng_props$English_Main_Lynott_Connell_2009_2013)[levels(eng_props$English
 
 ggplotly( ggplot(eng_props,
   aes(RC1, RC2, label = as.character(English_Word_Lynott_Connell_2009_2013), color = English_Main_Lynott_Connell_2009_2013,
-    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(English_Word_Lynott_Connell_2009_2013), '</b></span> ',
+    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2.3em; color:#EEEEEE">', capitalize(English_Word_Lynott_Connell_2009_2013), '</span> ', '<br>',
 			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', English_Main_Lynott_Connell_2009_2013, ' ',
 			'</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', 
 			  paste0(sprintf("%.2f", round(Exclusivity, 2)), '% '),
@@ -2704,7 +2753,7 @@ ggplotly( ggplot(eng_props,
 			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Haptic, 2)), ' ',
 			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Visual, 2)), ' ',
 			'</b><br><span style="color:#EEEEEE"> Concreteness (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">',
-			  sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' '
+			  sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' ', '<br> '
 			 ) ) ) +
     labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
     geom_text(size = 2.8, show.legend=FALSE) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
@@ -2799,7 +2848,7 @@ levels(eng_concs$English_Main_Lynott_Connell_2009_2013)[levels(eng_concs$English
 
 ggplotly( ggplot(eng_concs,
   aes(RC1, RC2, label = as.character(English_Word_Lynott_Connell_2009_2013), color = English_Main_Lynott_Connell_2009_2013,
-    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(English_Word_Lynott_Connell_2009_2013), '</b></span> ',
+    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2.3em; color:#EEEEEE">', capitalize(English_Word_Lynott_Connell_2009_2013), '</span> ', '<br>',
 			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', English_Main_Lynott_Connell_2009_2013, ' ',
 			'</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', 
 			  paste0(sprintf("%.2f", round(Exclusivity, 2)), '% '),
@@ -2809,7 +2858,7 @@ ggplotly( ggplot(eng_concs,
 			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Haptic, 2)), ' ',
 			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Visual, 2)), ' ',
 			'</b><br><span style="color:#EEEEEE"> Concreteness (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">',
-			sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' '
+			sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' ', '<br> '
 			 ) ) ) +
     labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
     geom_text(size = 2.8, show.legend=FALSE) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
@@ -2841,7 +2890,7 @@ properties_Dutch = props
 ggplotly( ggplot(properties_Dutch,
   aes(RC1, RC2, label = as.character(word), color = main,
     # Html tags below used for format. Decimals rounded to two.
-    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(word), '</b></span> ',
+    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2.2em; color:#EEEEEE">', capitalize(word), '</span> ', '<br>',
 			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', main, ' ',
 			'</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', 
 			  paste0(sprintf("%.2f", round(Exclusivity, 2)), '% '),
@@ -2852,7 +2901,7 @@ ggplotly( ggplot(properties_Dutch,
 			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Haptic, 2)), ' ',
 			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Visual, 2)), ' ',
 			'</b><br><span style="color:#EEEEEE"> Concreteness (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">',
-			sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' '
+			sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' ', '<br> '
 			 ) ) ) +
   labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
   geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE) + 
@@ -2880,7 +2929,7 @@ concepts_Dutch = concs
 ggplotly( ggplot(concepts_Dutch,
   aes(RC1, RC2, label = as.character(word), color = main,
     # Html tags below used for format. Decimals rounded to two.
-    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2em; color:#EEEEEE">', capitalize(word), '</b></span> ',
+    text = paste0(' ', '<span style="padding-top:3px; padding-bottom:3px; font-size:2.2em; color:#EEEEEE">', capitalize(word), '</span> ', '<br>',
 			'</b><br><span style="color:#EEEEEE"> Dominant modality: </span><b style="color:#EEEEEE">', main, ' ',
 			'</b><br><span style="color:#EEEEEE"> Modality exclusivity: </span><b style="color:#EEEEEE">', paste0(sprintf("%.2f", round(Exclusivity, 2)), '% '),
 			'</b><br><span style="color:#EEEEEE"> Perceptual strength: </span><b style="color:#EEEEEE">', 
@@ -2889,7 +2938,7 @@ ggplotly( ggplot(concepts_Dutch,
 			'</b><br><span style="color:#EEEEEE"> Haptic rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Haptic, 2)), ' ',
 			'</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(Visual, 2)), ' ',
 			'</b><br><span style="color:#EEEEEE"> Concreteness (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">',
-			sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' '
+			sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' ', '<br> '
 			 ) ) ) +
   labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") + 
   geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE) + 
