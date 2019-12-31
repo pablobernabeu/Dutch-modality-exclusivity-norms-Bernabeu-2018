@@ -100,17 +100,20 @@ library(irr)
 library(tibble)
 
 
+
+
+
 # Calculate average percentange of unresponded items, i.e., unknown. Since there are 
 # three ratings per word, and indeed the three were left blank whereever participants
 # ignored some word, the calculation includes a division by 3 (besides overall mean,
 # see specific percentage per file).
 
-file1 <- read.csv('file1_gral.csv')
-file2 <- read.csv('file2_gral.csv')
-file3 <- read.csv('file3_gral.csv')
-file4 <- read.csv('file4_gral.csv')
-file5 <- read.csv('file5_gral.csv')
-file6 <- read.csv('file6_gral.csv')
+file1 = read.csv('file1_gral.csv')
+file2 = read.csv('file2_gral.csv')
+file3 = read.csv('file3_gral.csv')
+file4 = read.csv('file4_gral.csv')
+file5 = read.csv('file5_gral.csv')
+file6 = read.csv('file6_gral.csv')
 
 
 
@@ -153,11 +156,11 @@ file6 <- read.csv('file6_gral.csv')
 
 # Concepts
 
-all <- read.csv('all.csv')
-concs <- all[all$cat == 'Concept',]
-a_concs <- concs[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10')]
-h_concs <- concs[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'a10')]
-v_concs <- concs[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'a10')]
+all = read.csv('all.csv')
+concs = all[all$cat == 'Concept',]
+a_concs = concs[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10')]
+h_concs = concs[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'a10')]
+v_concs = concs[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'a10')]
 
 # Interitem consistency
 
@@ -170,9 +173,9 @@ psych::alpha(v_concs)
 
 # Interrater reliability (Koo & Li, 2016)
 
-a_concs <- concs[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9')]
-h_concs <- concs[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9')]
-v_concs <- concs[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9')]
+a_concs = concs[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9')]
+h_concs = concs[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9')]
+v_concs = concs[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9')]
 
 icc(a_concs, "oneway", "consistency")
 icc(h_concs, "oneway", "consistency")
@@ -192,7 +195,7 @@ results = data.frame(rater, id, result)
 
 
 # Safer version of sample(), for use below
-resample <- function(x, ...) x[sample.int(length(x), ...)]
+resample = function(x, ...) x[sample.int(length(x), ...)]
 
 
 getMain =
@@ -219,7 +222,7 @@ function(rater, i.col){
 
   results = rbind(results, c(rater, as.character(all.Dutch[i.row, 'id']), result))
  }
- results <<- results[!is.na(results$rater),]
+ results <= results[!is.na(results$rater),]
 }
 
 
@@ -279,10 +282,10 @@ kappam.fleiss(all[,c('main1', 'main2', 'main3', 'main4', 'main5', 'main6', 'main
 
 # Interitem consistency
 
-props <- all[all$cat == 'Property',]
-a_props <- props[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10')]
-h_props <- props[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'h10')]
-v_props <- props[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10')]
+props = all[all$cat == 'Property',]
+a_props = props[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10')]
+h_props = props[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'h10')]
+v_props = props[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10')]
 
 psych::alpha(a_props)
 psych::alpha(h_props)
@@ -293,9 +296,9 @@ psych::alpha(v_props)
 
 # Interrater reliability (Koo & Li, 2016)
 
-a_props <- props[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8')]
-h_props <- props[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8')]
-v_props <- props[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8')]
+a_props = props[, c('a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8')]
+h_props = props[, c('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8')]
+v_props = props[, c('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8')]
 
 icc(a_props, "oneway", "consistency")
 icc(h_props, "oneway", "consistency")
@@ -312,14 +315,14 @@ icc(v_props, "oneway", "consistency")
 
 # Read in the general norms file, 'all'
 
-all <- read.csv('all.csv')
+all = read.csv('all.csv')
 
 # PROPERTIES
-props <- all[all$cat=='Property',]
+props = all[all$cat=='Property',]
 nrow(props)  # 336 Dutch + a few items from Lynott and Connell (2009) that weren't translated but were kept in to have all items from the three modalities in the PCA reanalysis.
 
 # CONCEPTS 
-concs <- all[all$cat=='Concept',]
+concs = all[all$cat=='Concept',]
 nrow(concs)  # 411 Dutch + a few items from Lynott and Connell (2013) that weren't translated but were kept in to have all items from the three modalities in the PCA reanalysis.
 
 
@@ -506,11 +509,11 @@ corr2 = rcor.test(concs[, c('Auditory', 'Haptic', 'Visual', 'Exclusivity')], use
 
 # ENGLISH
 # Setting contrasts based on means
-contrasts(all$English_Main_Lynott_Connell_2009_2013) <- cbind(c(2,0,-2), c(-1,2,-1))
+contrasts(all$English_Main_Lynott_Connell_2009_2013) = cbind(c(2,0,-2), c(-1,2,-1))
 # (1) Aud vs Vis; (2) Hap vs Aud-&-Vis
 contrasts(all$English_Main_Lynott_Connell_2009_2013)
 
-fitt <- aov(English_Exclusivity_Lynott_Connell_2009_2013 ~ English_Main_Lynott_Connell_2009_2013 * cat, data=all)
+fitt = aov(English_Exclusivity_Lynott_Connell_2009_2013 ~ English_Main_Lynott_Connell_2009_2013 * cat, data=all)
 plot(fitt)
 summary(fitt)
 drop1(fitt,~.,test="F")
@@ -528,11 +531,11 @@ summary.lm(fitt)
 
 # DUTCH
 # Setting contrasts based on means
-contrasts(all$main) <- cbind(c(2,0,-2), c(-1,2,-1))
+contrasts(all$main) = cbind(c(2,0,-2), c(-1,2,-1))
 # (1) Aud vs Vis; (2) Hap vs Aud-&-Vis
 contrasts(all$main)
 
-fitt <- aov(Exclusivity ~ main * cat, data=all)
+fitt = aov(Exclusivity ~ main * cat, data=all)
 plot(fitt)  # must click over the plot several times in order to continue
 summary(fitt)
 drop1(fitt,~.,test="F")
@@ -561,87 +564,75 @@ summary.lm(fitt)
 # Barplot of exclusivity percentiles within modalities for Dutch items (as in 
 # Van Dantzig et al., 2011, but separately for properties and concepts)
 
-all<-read.csv('all.csv')
+all=read.csv('all.csv')
 
-allNL = all[!all$main == '',]
-allNL$main = levels(droplevels(allNL$main))
+allNL = all[!is.na(all$main),]
 
-concs <- allNL[allNL$cat == 'Concept' & !allNL$normed == 'English' & !allNL$main == '',]
-props <- allNL[allNL$cat == 'Property' & !allNL$normed == 'English' & !allNL$main == '',]
+allNL$Range = floor(allNL$Exclusivity * 4)
+allNL$Range = mapvalues(allNL$Range, from = c(0, 1, 2, 3, 4),
+                        to = c("0-20%", "20-40%", "40-60%", "60-80%", "80-100%"))
 
-concs$main = levels(droplevels(as.factor(concs$main)))
-props$main = levels(droplevels(as.factor(props$main)))
-concs$main = as.factor(concs$main)
-props$main = as.factor(props$main)
+allNL$cat = recode(allNL$cat, Concept = "Concepts", Property = "Properties")
 
-allNL$catmain <- with(allNL, interaction(cat,  main))
-str(allNL$catmain)
+# Set order to display properties first, instead of alphabetical 'Concepts-Properties' order
+allNL$cat = factor(allNL$cat, levels=rev(levels(allNL$cat)))
 
-allNL$section = floor(allNL$Exclusivity * 4)  
-table(allNL$section)
-str(allNL$section)
-table(allNL$section)  # order = 01234
-allNL$section = as.factor(allNL$section)
-revalue(allNL$section, c("0"="0-20%", "1"="20-40%", "2"="40-60%", "3"="60-80%", 
-"4"="80-100%"))
-allNL$section = mapvalues(allNL$section, from = c(0, 1, 2, 3, 4), to = c("0-20%", 
-"20-40%", "40-60%", "60-80%", "80-100%"))
-table(allNL$section)
-str(allNL$section)
+savedplot = ggplot(allNL) +
+  geom_bar(mapping = aes(x = main, fill = Range), position = position_stack(reverse = TRUE)) +
+  scale_fill_grey(start=.9, end=0, labels = c("0-20%", "20-40%", "40-60%", "60-80%", "80-100%"),
+                  guide = guide_legend(reverse = TRUE, override.aes = list(size = 11))) +
+  scale_x_discrete(expand = c(.24,0)) + scale_y_continuous(expand = expand_scale(mult = c(0, .05))) +
+  facet_grid(. ~ cat) + labs(fill = "Modality\nExclusivity", x = 'Dominant Modality',  y = 'Number of Words') +
+  theme_bw() + theme(legend.position = c(.17, .61), legend.title = element_text(size = 20, face = 'bold'),
+                     legend.text = element_text(size = 18), legend.background = element_rect(fill=alpha('white', 0)),
+                     axis.title = element_text(size = 21, face = "bold"), axis.text = element_text(size = 19),
+                     panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"),
+                     strip.text = element_text(size = 21, face = 'bold', vjust = .7,
+                                               margin = margin(.3, 0, .3, 0, "cm")),
+                     axis.ticks.x = element_blank())
 
-counts <- table(allNL$section, allNL$catmain)
-counts
-counts = prop.table(counts, 2)
+savedplot
 
-# see plot:
-barplot(counts, width=10, main = 'Modality exclusivity of Dutch properties and concepts   
-per dominant modality (Y axis = n)      ', legend = rownames(counts), xlim=c(0,100), 
-axes=FALSE, args.legend = list(x = "topright", bty = "n", inset=c(.1, .2)))
+# Export to disk
+png(file="stacked_exc.png", units="in", width=10, height=9, res=1000)
+savedplot
+dev.off()
 
-# ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOT. 
 
-# Below, run first line, then return and keep running:
+# Same plot for the English items of Lynott and Connell (witout gustatory and olfactory items)
+
+allENG = allENG[!is.na(all$English_Main_Lynott_Connell_2009_2013),]
+
+allENG$Range = floor(allENG$Exclusivity * 4)
+allENG$Range = mapvalues(allENG$Range, from = c(0, 1, 2, 3, 4),
+                         to = c("0-20%", "20-40%", "40-60%", "60-80%", "80-100%"))
+
+allENG = allENG[!is.na(allENG$Range),]
+
+allENG$cat = recode(allENG$cat, Concept = "Concepts", Property = "Properties")
+
+savedplot = ggplot(allENG) +
+  geom_bar(mapping = aes(x = main, fill = Range), position = position_stack(reverse = TRUE)) +
+  scale_fill_grey(start=.9, end=0, labels = c("0-20%", "20-40%", "40-60%", "60-80%", "80-100%"),
+                  guide = guide_legend(reverse = TRUE, override.aes = list(size = 11))) +
+  scale_x_discrete(expand = c(.24,0)) + scale_y_continuous(expand = expand_scale(mult = c(0, .05))) +
+  facet_grid(. ~ cat) + labs(fill = "Modality\nExclusivity", x = 'Dominant Modality',  y = 'Number of Words') +
+  theme_bw() + theme(legend.position = c(.17, .57), legend.title = element_text(size = 20, face = 'bold'),
+                     legend.text = element_text(size = 18), legend.background = element_rect(fill=alpha('white', 0)),
+                     axis.title = element_text(size = 21, face = "bold"), axis.text = element_text(size = 19),
+                     panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"),
+                     strip.text = element_text(size = 21, face = 'bold', vjust = .7,
+                                               margin = margin(.3, 0, .3, 0, "cm")),
+                     axis.ticks.x = element_blank())
+
+savedplot
+
+# Export to disk
 png(file="stacked_exc.png", units="in", width=6, height=6, res=1000)
-par(mar=c(2,-.3,3,-.3)+.4)  # run twice, if necessary 
-barplot(counts, width=10, main = 'Modality exclusivity of Dutch properties and concepts   
-per dominant modality (Y axis = n)      ', legend = rownames(counts), xlim=c(0,100), 
-axes=FALSE, args.legend = list(x = "topright", bty = "n", inset=c(.1, .2)), col = gray.colors(5, rev=TRUE))
+savedplot
 dev.off()
-
-
-# Same plot for the English items of Lynott and Connell (of course w/out gustatory 
-# or olfactory)
-
-allENG = all[!all$English_Main_Lynott_Connell_2009_2013 == '',]
-allENG$English_Main_Lynott_Connell_2009_2013 = levels(droplevels(allENG$English_Main_Lynott_Connell_2009_2013))
-
-allENG$catmain <- with(allENG, interaction(cat,  English_Main_Lynott_Connell_2009_2013))
-str(allENG$catmain)
-
-allENG$section = floor(allENG$English_Exclusivity_Lynott_Connell_2009_2013 * 5)
-table(allENG$section)
-str(allENG$section)
-table(allENG$section)  # order = 01234
-allENG$section = as.factor(allENG$section)
-revalue(allENG$section, c("0"="0-20%", "1"="20-40%", "2"="40-60%", "3"="60-80%", 
-"4"="80-100%"))
-allENG$section = mapvalues(allENG$section, from = c(0, 1, 2, 3, 4), to = c("0-20%", 
-"20-40%", "40-60%", "60-80%", "80-100%"))
-table(allENG$section)
-str(allENG$section)
-
-counts <- table(allENG$section, allENG$catmain)
-counts
-counts = prop.table(counts, 2)
-
-# below, run first line, then return and keep running:
-png(file="stacked_English_Exclusivity_Lynott_Connell_2009_2013.png", units="in", width=6, height=6, res=1000)
-par(mar=c(2,-.3,3,-.3)+.4)  # run twice, if necessary 
-barplot(counts, width=10, main = 'Modality exclusivity of English properties and concepts      
-per dominant modality (Y axis = n)      ', legend = rownames(counts), xlim=c(0,100), 
-axes=FALSE, args.legend = list(x = "topright", bty = "n", inset=c(.1, .2)), col = gray.colors(5, rev=TRUE))
-dev.off()
-# See in folder and compare.
 
 
 # Comparison English Dutch on exclusivity
@@ -670,7 +661,7 @@ t.test(concs$English_Exclusivity_Lynott_Connell_2009_2013, mu = 0.29)
 # on the Dutch norms, and then on Lynott and Connell's (2009, 2013) English norms 
 # (leaving out gustatory and olfactory scores and words). 
 
-all <- read.csv('all.csv')
+all = read.csv('all.csv')
 nrow(all)   # 747 used in Dutch norms + 12 from English not used
 
 # ON ENGLISH NORMS
@@ -683,9 +674,9 @@ nrow(all)   # 747 used in Dutch norms + 12 from English not used
 # check conditions for a PCA
 # matrix
 
-eng_prop <- all[all$cat == 'Property', c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013')]
+eng_prop = all[all$cat == 'Property', c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013')]
 nrow(eng_prop)
-eng_prop_matrix <- cor(eng_prop, use = 'complete.obs')
+eng_prop_matrix = cor(eng_prop, use = 'complete.obs')
 eng_prop_matrix
 round(eng_prop_matrix, 2)
 # OK: correlations good for a PCA, with enough < .3
@@ -705,7 +696,7 @@ det(eng_prop_matrix)
 # GOOD: > 0.00001
 
 # start off with unrotated PCA
-pc1_eng_prop <- psych::principal(eng_prop, nfactors = 3, rotate = "none")
+pc1_eng_prop = psych::principal(eng_prop, nfactors = 3, rotate = "none")
 pc1_eng_prop
 # RESULT: Extract either one PC, acc to Kaiser's criterion, or two RCs, acc to 
 # Joliffe's (Field, Miles, & Field, 2012)
@@ -715,8 +706,7 @@ plot(pc1_eng_prop$values, type = "b")
 # Result: again one or two RCs should be extracted
 
 # Now with varimax rotation, Kaiser-normalized (by default)
-pc2_eng_prop <- psych::principal(eng_prop, nfactors = 2, rotate = "varimax", 
-scores = TRUE)
+pc2_eng_prop = psych::principal(eng_prop, nfactors = 2, rotate = "varimax", scores = TRUE)
 pc2_eng_prop
 pc2_eng_prop$loadings
 # two components are good, as they both have eigenvalues over 1
@@ -729,9 +719,9 @@ pc2_eng_prop$communality
 # values > 0.05. Model fit good, > .90. Communalities good, all > .7. 
 
 # subset and add PCs
-eng_props <- all[all$cat == 'Property', ]
+eng_props = all[all$cat == 'Property', ]
 nrow(eng_props)
-eng_props <- cbind(eng_props, pc2_eng_prop$scores)
+eng_props = cbind(eng_props, pc2_eng_prop$scores)
 nrow(eng_props)
 
 head(eng_props)
@@ -739,28 +729,29 @@ head(eng_props)
 # Finally, plot
 
 # Set sample words to show on plot (first word in each modality)
-auditory_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_2009_2013=='Auditory', 'English_word_Lynott_Connell_2009_2013'])[1])
-haptic_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_2009_2013=='Haptic', 'English_word_Lynott_Connell_2009_2013'])[1])
-visual_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_2009_2013=='Visual', 'English_word_Lynott_Connell_2009_2013'])[1])
+auditory_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_2009_2013=='Auditory', 'English_Word_Lynott_Connell_2009_2013'])[1])
+haptic_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_2009_2013=='Haptic', 'English_Word_Lynott_Connell_2009_2013'])[1])
+visual_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_2009_2013=='Visual', 'English_Word_Lynott_Connell_2009_2013'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
-Engprops <- ggplot(eng_props,
-  aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + stat_density2d (color = "gray87") +
-  geom_text(size = ifelse(eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set, 12, 7),
-	fontface = ifelse(eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
-  geom_point(data=eng_props[eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
-  labs(subtitle='(Data from Lynott & Connell, 2009)', x = "Varimax-rotated Principal Component 1", 
-	y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
-  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-	panel.grid.minor = element_blank(), panel.border = element_blank(),
-  	axis.line = element_line(color = 'black'),
-	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
-	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
-	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
-  geom_label_repel(data = eng_props[eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_word_Lynott_Connell_2009_2013), size = 8, 
-	alpha = 0.77, color = 'black', box.padding = 1.5 )
+eng_props$English_Main_Lynott_Connell_2009_2013 = recode(eng_props$English_Main_Lynott_Connell_2009_2013, Auditory = "a", Haptic = "h", Visual = "v")
+
+Engprops = ggplot(eng_props,
+                            aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + stat_density2d (color = "gray87") +
+            geom_text(size = ifelse(eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set, 12, 7),
+                      fontface = ifelse(eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
+            geom_point(data=eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
+            labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
+            theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+                   panel.grid.minor = element_blank(), panel.border = element_blank(),
+                   axis.line = element_line(color = 'black'),
+                   axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+                   axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+                   axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
+                   plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
+                   plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
+            geom_label_repel(data = eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_Word_Lynott_Connell_2009_2013), size = 8, 
+                             alpha = 0.77, color = 'black', box.padding = 1.5 )
 
 plot(Engprops)  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 
@@ -771,24 +762,22 @@ plot(Engprops)  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 
 # Adjust for combined plots:
 
-Engprops4 <- ggplot(eng_props,
-  aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + stat_density2d (color = "gray87") +
-  geom_text(size = ifelse(eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set, 12, 7),
-	fontface = ifelse(eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
-  geom_point(data=eng_props[eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
-  ggtitle('English properties') + 
-  labs(subtitle='(Data from Lynott & Connell, 2009)', x = "", 
-	y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
-  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-	panel.grid.minor = element_blank(), panel.border = element_blank(),
-  	axis.line = element_line(color = 'black'),
-	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
-	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
-	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
-  geom_label_repel(data = eng_props[eng_props$English_word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_word_Lynott_Connell_2009_2013), size = 8, 
-	alpha = 0.77, color = 'black', box.padding = 1.5 )
+Engprops4 = ggplot(eng_props,
+                   aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + stat_density2d (color = "gray87") +
+                    geom_text(size = ifelse(eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set, 8, 5),
+                              fontface = ifelse(eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
+                    geom_point(data=eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=8, stroke=2, alpha=.6) +
+                    ggtitle('English properties (Lynott & Connell, 2009)') + 
+                    labs(x = "", y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
+                    theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+                           panel.grid.minor = element_blank(), panel.border = element_blank(),
+                           axis.line = element_line(color = 'black'),
+                           axis.title.x = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
+                           axis.title.y = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
+                           axis.text.x = element_text(size=9), axis.text.y  = element_text(size=9),
+                           plot.title = element_text(hjust = 0.5, size = 17, margin=margin(7,7,7,7)) ) +
+                    geom_label_repel(data = eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_Word_Lynott_Connell_2009_2013), size = 6, 
+                                     alpha = 0.77, color = 'black', box.padding = 1.5 )
 
 
 
@@ -797,9 +786,9 @@ Engprops4 <- ggplot(eng_props,
 
 # check conditions for a PCA
 # matrix
-eng_conc <- all[all$cat == 'Concept', c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013')]
+eng_conc = all[all$cat == 'Concept', c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013')]
 nrow(eng_conc)
-eng_conc_matrix <- cor(eng_conc, use = 'complete.obs')
+eng_conc_matrix = cor(eng_conc, use = 'complete.obs')
 eng_conc_matrix
 round(eng_conc_matrix, 2)
 # POOR: correlations not apt for a PCA, with too many below .3
@@ -819,7 +808,7 @@ det(eng_conc_matrix)
 # GOOD: > 0.00001
 
 # start off with unrotated PCA
-pc1_eng_conc <- psych::principal(eng_conc, nfactors = 3, rotate = "none")
+pc1_eng_conc = psych::principal(eng_conc, nfactors = 3, rotate = "none")
 pc1_eng_conc
 # RESULT: Extract either one PC, acc to Kaiser's criterion, or two RCs, acc to 
 # Joliffe's (Field, Miles, & Field, 2012)
@@ -830,7 +819,7 @@ plot(pc1_eng_conc$values, type = "b")
 
 # Now with varimax rotation, Kaiser-normalized (by default):
 # always preferable because it captures explained variance best. 
-pc2_eng_conc <- psych::principal(eng_conc, nfactors = 2, rotate = "varimax", 
+pc2_eng_conc = psych::principal(eng_conc, nfactors = 2, rotate = "varimax", 
 scores = TRUE)
 pc2_eng_conc
 pc2_eng_conc$loadings
@@ -844,11 +833,11 @@ pc2_eng_conc$communality
 # values > 0.05. Model fit good, > .90. Communalities good, all > .7.
 
 # subset and add PCs
-eng_concs <- all[all$cat == 'Concept', ]
+eng_concs = all[all$cat == 'Concept', ]
 nrow(eng_concs)
-eng_concs <- cbind(eng_concs, pc2_eng_conc$scores)
+eng_concs = cbind(eng_concs, pc2_eng_conc$scores)
 summary(eng_concs$RC1, eng_concs$RC2)
-eng_concs <- eng_concs[eng_concs$normed == 'Dut_Eng' | eng_concs$normed == 
+eng_concs = eng_concs[eng_concs$normed == 'Dut_Eng' | eng_concs$normed == 
 'English',]
 nrow(eng_concs)
 summary(eng_concs$RC1, eng_concs$RC2)
@@ -857,29 +846,30 @@ summary(eng_concs$RC1, eng_concs$RC2)
 # Finally, plot
 
 # Set sample words to show on plot (first word in each modality)
-auditory_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_2009_2013=='Auditory', 'English_word_Lynott_Connell_2009_2013'])[1])
-haptic_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_2009_2013=='Haptic', 'English_word_Lynott_Connell_2009_2013'])[1])
-visual_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_2009_2013=='Visual', 'English_word_Lynott_Connell_2009_2013'])[1])
+auditory_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_2009_2013=='Auditory', 'English_Word_Lynott_Connell_2009_2013'])[1])
+haptic_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_2009_2013=='Haptic', 'English_Word_Lynott_Connell_2009_2013'])[1])
+visual_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_2009_2013=='Visual', 'English_Word_Lynott_Connell_2009_2013'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
-Engconcs <- ggplot(eng_concs,
-  aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + stat_density2d (color = "gray87") +
-  geom_text(size = ifelse(eng_concs$English_word_Lynott_Connell_2009_2013 %in% w_set, 12, 7),
-	fontface = ifelse(eng_concs$English_word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
-  geom_point(data=eng_concs[eng_concs$English_word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
-  ggtitle('English concepts') + 
-  labs(subtitle='(Data from Lynott & Connell, 2013)', x = "Varimax-rotated Principal Component 1", 
-	y = "Varimax-rotated Principal Component 2") +	theme_bw() +
-  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-	panel.grid.minor = element_blank(), panel.border = element_blank(),
-  	axis.line = element_line(color = 'black'),
-	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
-	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
-	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
-  geom_label_repel(data = eng_concs[eng_concs$English_word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_word_Lynott_Connell_2009_2013), size = 8, 
-	alpha = 0.77, color = 'black', box.padding = 1.5 )
+eng_concs$English_Main_Lynott_Connell_2009_2013 = recode(eng_concs$English_Main_Lynott_Connell_2009_2013, Auditory = "a", Haptic = "h", Visual = "v")
+
+Engconcs = ggplot(eng_concs,
+                  aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + stat_density2d (color = "gray87") +
+                  geom_text(size = ifelse(eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set, 8, 5),
+                            fontface = ifelse(eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
+                  geom_point(data=eng_concs[eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=8, stroke=2, alpha=.6) +
+                  ggtitle('English concepts (Lynott & Connell, 2013)') +
+                  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
+                  theme_bw() +
+                  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+                         panel.grid.minor = element_blank(), panel.border = element_blank(),
+                         axis.line = element_line(color = 'black'),
+                         axis.title.x = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
+                         axis.title.y = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
+                         axis.text.x = element_text(size=9), axis.text.y  = element_text(size=9),
+                         plot.title = element_text(hjust = 0.5, size = 17, margin=margin(7,7,7,7)) ) +
+                  geom_label_repel(data = eng_concs[eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_Word_Lynott_Connell_2009_2013), size = 6,
+                                   alpha = 0.77, color = 'black', box.padding = 1.5 )
 
 Engconcs  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 
@@ -897,9 +887,9 @@ Engconcs  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 # check conditions for a PCA
 
 # matrix
-Property <- all[all$cat == 'Property' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
+Property = all[all$cat == 'Property' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
 nrow(Property)
-prop_matrix <- cor(Property, use = 'complete.obs')
+prop_matrix = cor(Property, use = 'complete.obs')
 prop_matrix
 round(prop_matrix, 2)
 # POOR: correlations not apt for a PCA, with too many below .3
@@ -919,7 +909,7 @@ det(prop_matrix)
 # GOOD: > 0.00001
 
 # start off with unrotated PCA
-pc1_prop <- psych::principal(Property, nfactors = 3, rotate = "none")
+pc1_prop = psych::principal(Property, nfactors = 3, rotate = "none")
 pc1_prop
 # RESULT: Only PC1, with eigenvalue > 1, should be extracted, 
 # acc to Kaiser's criterion (Jolliffe's threshold of 0.7 way too lax; 
@@ -933,7 +923,7 @@ plot(pc1_prop$values, type = "b")
 # Always preferable because it captures explained variance best. 
 # Compare eigenvalues w/ 1 & 2 factors
 
-pc2_prop <- psych::principal(Property, nfactors = 2, rotate = "varimax", scores = TRUE)
+pc2_prop = psych::principal(Property, nfactors = 2, rotate = "varimax", scores = TRUE)
 pc2_prop
 pc2_prop$loadings
 # good to extract 2 factors, as they both explain quite the same variance,
@@ -949,9 +939,9 @@ pc2_prop$communality
 # Communalities good, all > .7 (av = .83). 
 
 # subset and add PCs
-props <- all[all$cat == 'Property' & !is.na(all$word), ]
+props = all[all$cat == 'Property' & !is.na(all$word), ]
 nrow(props)
-props <- cbind(props, pc2_prop$scores)
+props = cbind(props, pc2_prop$scores)
 nrow(props)
 
 # Finally, plot: letters+density (cf. Lynott & Connell, 2009, 2013)
@@ -962,24 +952,26 @@ haptic_w = as.character(sort(props[props$main=='Haptic', 'word'])[1])
 visual_w = as.character(sort(props[props$main=='Visual', 'word'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
-NLprops <- ggplot(props,
-  aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
+props$main = recode(props$main, Auditory = "a", Haptic = "h", Visual = "v")
+
+NLprops = ggplot(props,
+                 aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
   geom_text(size = ifelse(props$word %in% w_set, 12, 7),
-	fontface = ifelse(props$word %in% w_set, 'bold', 'plain')) +
+            fontface = ifelse(props$word %in% w_set, 'bold', 'plain')) +
   geom_point(data=props[props$word %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
   ggtitle('Dutch properties') +
-  labs(subtitle='', x = "Varimax-rotated Principal Component 1", 
-	y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
+  labs(x = "Varimax-rotated Principal Component 1", 
+       y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-	panel.grid.minor = element_blank(), panel.border = element_blank(),
-  	axis.line = element_line(color = 'black'),
-	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
-	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
-	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'),
+         axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+         axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+         axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
+         plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
+         plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
   geom_label_repel(data = props[props$word %in% w_set,], aes(label = word), size = 8, 
-	alpha = 0.77, color = 'black', box.padding = 1.5 )
+                   alpha = 0.77, color = 'black', box.padding = 1.5 )
 
 NLprops  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 
@@ -992,42 +984,41 @@ NLprops  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 
 # Adjust for combined plots:
 
-NLprops2 <- ggplot(props,
-  aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
+NLprops2 = ggplot(props,
+                  aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
   geom_text(size = ifelse(props$word %in% w_set, 12, 7),
-	fontface = ifelse(props$word %in% w_set, 'bold', 'plain')) +
+            fontface = ifelse(props$word %in% w_set, 'bold', 'plain')) +
   geom_point(data=props[props$word %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
-  ggtitle('Dutch properties') +  labs(subtitle='', x = "", y = "") +  theme_bw() +   
+  ggtitle('Dutch properties') +  labs(x = "", y = "") +  theme_bw() +   
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-	panel.grid.minor = element_blank(), panel.border = element_blank(),
-  	axis.line = element_line(color = 'black'),
-	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
-	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
-	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'),
+         axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+         axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+         axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
+         plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
+         plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
   geom_label_repel(data = props[props$word %in% w_set,], aes(label = word), size = 8, 
-	alpha = 0.77, color = 'black', box.padding = 1.5 )
+                   alpha = 0.77, color = 'black', box.padding = 1.5 )
 
 
 # Next:
 
-NLprops4 <- ggplot(props,
-  aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
-  geom_text(size = ifelse(props$word %in% w_set, 12, 7),
-	fontface = ifelse(props$word %in% w_set, 'bold', 'plain')) +
-  geom_point(data=props[props$word %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
-  ggtitle('Dutch properties') +  labs(subtitle='', x = "", y = "") +  theme_bw() +   
+NLprops4 = ggplot(props,
+                  aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
+  geom_text(size = ifelse(props$word %in% w_set, 8, 5),
+            fontface = ifelse(props$word %in% w_set, 'bold', 'plain')) +
+  geom_point(data=props[props$word %in% w_set,], pch=21, fill=NA, size=8, stroke=2, alpha=.6) +
+  ggtitle('Dutch properties') +  labs(x = "", y = "") +  theme_bw() +   
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-	panel.grid.minor = element_blank(), panel.border = element_blank(),
-  	axis.line = element_line(color = 'black'),
-	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
-	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
-	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
-  geom_label_repel(data = props[props$word %in% w_set,], aes(label = word), size = 8, 
-	alpha = 0.77, color = 'black', box.padding = 1.5 )
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'),
+         axis.title.x = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
+         axis.title.y = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
+         axis.text.x = element_text(size=9), axis.text.y  = element_text(size=9),
+         plot.title = element_text(hjust = 0.5, size = 18, margin=margin(7,7,7,7)) ) +
+  geom_label_repel(data = props[props$word %in% w_set,], aes(label = word), size = 6, 
+                   alpha = 0.77, color = 'black', box.padding = 1.5 )
 
 
 
@@ -1036,9 +1027,9 @@ NLprops4 <- ggplot(props,
 
 # check conditions for a PCA
 # matrix
-Concept <- all[all$cat == 'Concept' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
+Concept = all[all$cat == 'Concept' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
 nrow(Concept)
-conc_matrix <- cor(Concept, use = 'complete.obs')
+conc_matrix = cor(Concept, use = 'complete.obs')
 conc_matrix
 round(conc_matrix, 2)
 # POOR: correlations not apt for a PCA, with too many below .3
@@ -1058,7 +1049,7 @@ det(conc_matrix)
 # GOOD: > 0.00001
 
 # start off with unrotated PCA
-pc1_conc <- psych::principal(Concept, nfactors = 3, rotate = "none")
+pc1_conc = psych::principal(Concept, nfactors = 3, rotate = "none")
 pc1_conc
 # RESULT good: PC1 and PC2, with eigenvalue > 1, should be extracted, 
 # acc to Kaiser's criterion (Jolliffe's threshold of 0.7 way too lax; 
@@ -1072,7 +1063,7 @@ plot(pc1_conc$values, type = "b")
 # Always preferable because it captures explained variance best. 
 # Compare eigenvalues w/ 1 & 2 Principal Components
 
-pc2_conc <- psych::principal(Concept, nfactors = 2, rotate = "varimax", scores = TRUE)
+pc2_conc = psych::principal(Concept, nfactors = 2, rotate = "varimax", scores = TRUE)
 pc2_conc
 pc2_conc$loadings
 
@@ -1087,9 +1078,9 @@ pc2_conc$communality
 # values > 0.05. Model fit good, > .90. Communalities good, all > .7 (av = .82). 
 
 # subset and add PCs
-concs <- all[all$cat == 'Concept' & !is.na(all$word), ]
+concs = all[all$cat == 'Concept' & !is.na(all$word), ]
 nrow(concs)
-concs <- cbind(concs, pc2_conc$scores)
+concs = cbind(concs, pc2_conc$scores)
 nrow(concs)
 
 # Finally, plot
@@ -1100,23 +1091,25 @@ haptic_w = as.character(sort(concs[concs$main=='Haptic', 'word'])[1])
 visual_w = as.character(sort(concs[concs$main=='Visual', 'word'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
-NLconcs <- ggplot(concs,
-  aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
+concs$main = recode(concs$main, Auditory = "a", Haptic = "h", Visual = "v")
+
+NLconcs = ggplot(concs,
+                 aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
   geom_text(size = ifelse(concs$word %in% w_set, 12, 7),
-	fontface = ifelse(concs$word %in% w_set, 'bold', 'plain')) +
+            fontface = ifelse(concs$word %in% w_set, 'bold', 'plain')) +
   geom_point(data=concs[concs$word %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
   ggtitle('Dutch concepts') +
-  labs(subtitle='', x = "Varimax-rotated Principal Component 1", y = "") +  theme_bw() +   
+  labs(x = "Varimax-rotated Principal Component 1", y = "") +  theme_bw() +   
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-	panel.grid.minor = element_blank(), panel.border = element_blank(),
-  	axis.line = element_line(color = 'black'),
-	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
-	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
-	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'),
+         axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+         axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+         axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
+         plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
+         plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
   geom_label_repel(data = concs[concs$word %in% w_set,], aes(label = word), size = 8, 
-	alpha = 0.77, color = 'black', box.padding = 1.5 )
+                   alpha = 0.77, color = 'black', box.padding = 1.5 )
 
 NLconcs  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 
@@ -1128,30 +1121,30 @@ NLconcs  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 
 # Adjust for combined plots:
 
-NLconcs2 <- ggplot(concs,
-  aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
-  geom_text(size = ifelse(concs$word %in% w_set, 12, 7),
-	fontface = ifelse(concs$word %in% w_set, 'bold', 'plain')) +
-  geom_point(data=concs[concs$word %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
+NLconcs2 = ggplot(concs,
+                  aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
+  geom_text(size = ifelse(concs$word %in% w_set, 8, 5),
+            fontface = ifelse(concs$word %in% w_set, 'bold', 'plain')) +
+  geom_point(data=concs[concs$word %in% w_set,], pch=21, fill=NA, size=8, stroke=2, alpha=.6) +
   ggtitle('Dutch concepts') +
-  labs(subtitle='', x = "Varimax-rotated Principal Component 1", y = "") +  theme_bw() +   
+  labs(x = "Varimax-rotated Principal Component 1", y = "") +  theme_bw() +   
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-	panel.grid.minor = element_blank(), panel.border = element_blank(),
-  	axis.line = element_line(color = 'black'),
-	axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-	axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
-	plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
-	plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
-  geom_label_repel(data = concs[concs$word %in% w_set,], aes(label = word), size = 8,
-	alpha = 0.77, color = 'black', box.padding = 1.5 )
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'),
+         axis.title.x = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
+         axis.title.y = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
+         axis.text.x = element_text(size=9), axis.text.y  = element_text(size=9),
+         plot.title = element_text(hjust = 0.5, size = 18, margin=margin(7,7,7,7)) ) +
+  geom_label_repel(data = concs[concs$word %in% w_set,], aes(label = word), size = 6,
+                   alpha = 0.77, color = 'black', box.padding = 1.5 )
+
 
 
 
 
 # Combined plots:
 
-# Below, run first line, get back and run next.  
+# Below, run first line, get back and run next.
 # High resolution (may be changed at 'res='). Beware of high memory usage.
 
 png(file="allfour_highres.png", units="in", width=18, height=18, res=1000)
@@ -1204,7 +1197,7 @@ dev.off()
 # to isolate them, because they are intercorrelated (see Table 5 in Lynott & Connell,
 # 2013)
 
-all <- read.csv('all.csv')
+all = read.csv('all.csv')
 nrow(all)
 # Length is 759 but only 747 are from these norms. Rest are from Lynott and Connell 
 # (2009, 2013) for comparative analyses. These extra items do not have an id number 
@@ -1217,27 +1210,27 @@ nrow(all)
 # the iconicity analysis is hereby performed also on the Dutch properties, in 
 # addition to the concepts.
 
-props <- subset(all, subset = cat == 'Property')
+props = subset(all, subset = cat == 'Property')
 nrow(props)
 
 # There aren't lexical data for every single word.
 # Number of properties per lexical variable (from the Dutch items only of course)
 describe(complete.cases(props[complete.cases(props$Exclusivity),]
-$phonemes_DUTCHPOND))
+                        $phonemes_DUTCHPOND))
 describe(complete.cases(props[complete.cases(props$Exclusivity),]
-$phon_neighbours_DUTCHPOND))
+                        $phon_neighbours_DUTCHPOND))
 describe(complete.cases(props[complete.cases(props$Exclusivity),]
-$orth_neighbours_DUTCHPOND))
+                        $orth_neighbours_DUTCHPOND))
 describe(complete.cases(props[complete.cases(props$Exclusivity),]
-$freq_lg10CD_SUBTLEXNL))
+                        $freq_lg10CD_SUBTLEXNL))
 describe(complete.cases(props[complete.cases(props$Exclusivity),]
-$freq_lg10WF_SUBTLEXNL))
+                        $freq_lg10WF_SUBTLEXNL))
 describe(complete.cases(props[complete.cases(props$Exclusivity),]
-$freq_CELEX_lem))
+                        $freq_CELEX_lem))
 describe(complete.cases(props[complete.cases(props$Exclusivity),]
-$AoA_Brysbaertetal2014))
+                        $AoA_Brysbaertetal2014))
 describe(complete.cases(props[complete.cases(props$Exclusivity),]
-$concrete_Brysbaertetal2014))
+                        $concrete_Brysbaertetal2014))
 
 # M, SD
 stat.desc(props$letters)
@@ -1253,10 +1246,10 @@ stat.desc(props$concrete_Brysbaertetal2014)
 
 # See and print correlation of all lexical variables:
 
-mat_lexicals_props <- as.matrix(props[c('letters', 'phonemes_DUTCHPOND', 
-'orth_neighbours_DUTCHPOND', 'phon_neighbours_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL', 
-'freq_lg10WF_SUBTLEXNL', 'freq_CELEX_lem', 'AoA_Brysbaertetal2014', 
-'concrete_Brysbaertetal2014')])
+mat_lexicals_props = as.matrix(props[c('letters', 'phonemes_DUTCHPOND', 
+                                       'orth_neighbours_DUTCHPOND', 'phon_neighbours_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL', 
+                                       'freq_lg10WF_SUBTLEXNL', 'freq_CELEX_lem', 'AoA_Brysbaertetal2014', 
+                                       'concrete_Brysbaertetal2014')])
 
 rcor.test(mat_lexicals_props, use='complete.obs')
 corrs_props = rcor.test(mat_lexicals_props, use='complete.obs')
@@ -1268,9 +1261,9 @@ corrs_props = rcor.test(mat_lexicals_props, use='complete.obs')
 # better comparison with the English data, and because no correlations > .7 (i.e. half 
 # of variance explained)
 
-lexicals_props <- props[c('letters', 'phonemes_DUTCHPOND', 'orth_neighbours_DUTCHPOND', 
-'phon_neighbours_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL', 'freq_lg10WF_SUBTLEXNL', 
-'freq_CELEX_lem')]
+lexicals_props = props[c('letters', 'phonemes_DUTCHPOND', 'orth_neighbours_DUTCHPOND', 
+                         'phon_neighbours_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL', 'freq_lg10WF_SUBTLEXNL', 
+                         'freq_CELEX_lem')]
 
 str(lexicals_props)
 
@@ -1288,7 +1281,7 @@ cortest.bartlett(lexicals_props)
 # GOOD: Bartlett's test significant 
 
 # KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
-lexicals_props_matrix <- cor(lexicals_props, use = 'complete.obs')
+lexicals_props_matrix = cor(lexicals_props, use = 'complete.obs')
 KMO(lexicals_props_matrix)
 # Result: .78 = good.
 
@@ -1298,7 +1291,7 @@ det(lexicals_props_matrix)
 
 # start off with unrotated PCA
 
-PCA_lexicals_props <- psych::principal(lexicals_props, nfactors = 7, scores = TRUE)
+PCA_lexicals_props = psych::principal(lexicals_props, nfactors = 7, scores = TRUE)
 PCA_lexicals_props
 # By all standards, extract 3 components
 
@@ -1308,8 +1301,8 @@ plot(PCA_lexicals_props$values, type = "b")
 # result: again, extract 3 components
 
 
-PCA_lexicals_props <- psych::principal(lexicals_props, nfactors = 3, rotate = 
-"varimax", scores = TRUE)
+PCA_lexicals_props = psych::principal(lexicals_props, nfactors = 3, rotate = 
+                                        "varimax", scores = TRUE)
 
 PCA_lexicals_props  # eigenvalues and exp variances good
 PCA_lexicals_props$loadings
@@ -1327,48 +1320,48 @@ PCA_lexicals_props$fit
 # (by default in psych::stats pack). Residuals good: less than half w/ absolute 
 # values > 0.05. Model fit good, > .90. Communalities (h2) good, all well > .7
 
-props <- cbind(props, PCA_lexicals_props$scores)
+props = cbind(props, PCA_lexicals_props$scores)
 
 
 
 # REGRESSION
 
 # standardize (mean-center and scale)
-props$s_Auditory <- scale(props$Auditory)
-props$s_Haptic <- scale(props$Haptic)
-props$s_Visual <- scale(props$Visual)
-props$s_freq_lg10CD_SUBTLEXNL <- scale(props$freq_lg10CD_SUBTLEXNL)
-props$s_freq_lg10WF_SUBTLEXNL <- scale(props$freq_lg10WF_SUBTLEXNL)
-props$s_freq_CELEX_lem <- scale(props$freq_CELEX_lem)
-props$s_AoA_Brysbaertetal2014 <- scale(props$AoA_Brysbaertetal2014)
-props$s_concrete_Brysbaertetal2014 <- scale(props$concrete_Brysbaertetal2014)
-props$s_letters <- scale(props$letters)
-props$s_phonemes_DUTCHPOND <- scale(props$phonemes_DUTCHPOND)
-props$s_orth_neighbours_DUTCHPOND <- scale(props$orth_neighbours_DUTCHPOND)
-props$s_phon_neighbours_DUTCHPOND <- scale(props$phon_neighbours_DUTCHPOND)
-props$s_RC1_lexicals <- scale(props$RC1)
-props$s_RC2_lexicals <- scale(props$RC2) 
-props$s_RC3_lexicals <- scale(props$RC3)
+props$s_Auditory = scale(props$Auditory)
+props$s_Haptic = scale(props$Haptic)
+props$s_Visual = scale(props$Visual)
+props$s_freq_lg10CD_SUBTLEXNL = scale(props$freq_lg10CD_SUBTLEXNL)
+props$s_freq_lg10WF_SUBTLEXNL = scale(props$freq_lg10WF_SUBTLEXNL)
+props$s_freq_CELEX_lem = scale(props$freq_CELEX_lem)
+props$s_AoA_Brysbaertetal2014 = scale(props$AoA_Brysbaertetal2014)
+props$s_concrete_Brysbaertetal2014 = scale(props$concrete_Brysbaertetal2014)
+props$s_letters = scale(props$letters)
+props$s_phonemes_DUTCHPOND = scale(props$phonemes_DUTCHPOND)
+props$s_orth_neighbours_DUTCHPOND = scale(props$orth_neighbours_DUTCHPOND)
+props$s_phon_neighbours_DUTCHPOND = scale(props$phon_neighbours_DUTCHPOND)
+props$s_RC1_lexicals = scale(props$RC1)
+props$s_RC2_lexicals = scale(props$RC2) 
+props$s_RC3_lexicals = scale(props$RC3)
 
 # length: letters
-fit_letters_props <- lm(props$s_letters ~ props$s_Auditory + props$s_Haptic + 
-props$s_Visual, data = props)
+fit_letters_props = lm(props$s_letters ~ props$s_Auditory + props$s_Haptic + 
+                         props$s_Visual, data = props)
 stat.desc(fit_letters_props$residuals, norm = TRUE)
 
 # residuals distribution: kurtose. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(props$s_letters)
-props$log_s_letters <- log(3 + props$s_letters)
+props$log_s_letters = log(3 + props$s_letters)
 
-fit_letters_props <- lm(props$log_s_letters ~ props$s_Auditory + props$s_Haptic + 
-props$s_Visual, data = props)
+fit_letters_props = lm(props$log_s_letters ~ props$s_Auditory + props$s_Haptic + 
+                         props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_letters_props$residuals, norm = TRUE)
 # same; go back
-fit_letters_props <- lm(props$s_letters ~ props$s_Auditory + props$s_Haptic + 
-props$s_Visual, data = props)
+fit_letters_props = lm(props$s_letters ~ props$s_Auditory + props$s_Haptic + 
+                         props$s_Visual, data = props)
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
@@ -1377,30 +1370,30 @@ mean(vif(fit_letters_props))
 1/vif(fit_letters_props)
 # RESULTS: all good
 
-step_letters_props_AIC <- stepAIC(fit_letters_props, direction="both")
-step_letters_props_F <- stepAIC(fit_letters_props, direction="both", test="F")
+step_letters_props_AIC = stepAIC(fit_letters_props, direction="both")
+step_letters_props_F = stepAIC(fit_letters_props, direction="both", test="F")
 summary(fit_letters_props)
 
 
 # length: phonemes_DUTCHPOND
-fit_phonemes_DUTCHPOND_props <- lm(props$s_phonemes_DUTCHPOND ~ props$s_Auditory + 
-props$s_Haptic + props$s_Visual, data = props)
+fit_phonemes_DUTCHPOND_props = lm(props$s_phonemes_DUTCHPOND ~ props$s_Auditory + 
+                                    props$s_Haptic + props$s_Visual, data = props)
 stat.desc(fit_phonemes_DUTCHPOND_props$residuals, norm = TRUE)
 
 # residuals distribution: skew. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(props$s_phonemes_DUTCHPOND)
-props$log_s_phonemes_DUTCHPOND <- log(3 + props$s_phonemes_DUTCHPOND)
+props$log_s_phonemes_DUTCHPOND = log(3 + props$s_phonemes_DUTCHPOND)
 
-fit_phonemes_DUTCHPOND_props <- lm(props$log_s_phonemes_DUTCHPOND ~ props$s_Auditory
- + props$s_Haptic + props$s_Visual, data = props)
+fit_phonemes_DUTCHPOND_props = lm(props$log_s_phonemes_DUTCHPOND ~ props$s_Auditory
+                                  + props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_phonemes_DUTCHPOND_props$residuals, norm = TRUE)
 # worse; back
-fit_phonemes_DUTCHPOND_props <- lm(props$s_phonemes_DUTCHPOND ~ props$s_Auditory + 
-props$s_Haptic + props$s_Visual, data = props)
+fit_phonemes_DUTCHPOND_props = lm(props$s_phonemes_DUTCHPOND ~ props$s_Auditory + 
+                                    props$s_Haptic + props$s_Visual, data = props)
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
@@ -1409,26 +1402,26 @@ mean(vif(fit_phonemes_DUTCHPOND_props))
 1/vif(fit_phonemes_DUTCHPOND_props)
 # RESULTS: all good
 
-step_phonemes_DUTCHPOND_props_AIC <- stepAIC(fit_phonemes_DUTCHPOND_props, 
-direction="both")
-step_phonemes_DUTCHPOND_props_F <- stepAIC(fit_phonemes_DUTCHPOND_props, 
-direction="both", test="F")
+step_phonemes_DUTCHPOND_props_AIC = stepAIC(fit_phonemes_DUTCHPOND_props, 
+                                            direction="both")
+step_phonemes_DUTCHPOND_props_F = stepAIC(fit_phonemes_DUTCHPOND_props, 
+                                          direction="both", test="F")
 summary(fit_phonemes_DUTCHPOND_props)
 
 
 # distinctiveness: orth neigh size
-fit_orth_neighbours_DUTCHPOND_props <- lm(props$s_orth_neighbours_DUTCHPOND ~ 
-props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
+fit_orth_neighbours_DUTCHPOND_props = lm(props$s_orth_neighbours_DUTCHPOND ~ 
+                                           props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 stat.desc(fit_orth_neighbours_DUTCHPOND_props$residuals, norm = TRUE)
 
 # residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(props$s_orth_neighbours_DUTCHPOND)
-props$log_s_orth_neighbours_DUTCHPOND <- log(2 + props$s_orth_neighbours_DUTCHPOND)
+props$log_s_orth_neighbours_DUTCHPOND = log(2 + props$s_orth_neighbours_DUTCHPOND)
 
-fit_orth_neighbours_DUTCHPOND_props <- lm(props$log_s_orth_neighbours_DUTCHPOND ~ 
-props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
+fit_orth_neighbours_DUTCHPOND_props = lm(props$log_s_orth_neighbours_DUTCHPOND ~ 
+                                           props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_orth_neighbours_DUTCHPOND_props$residuals, norm = TRUE)
@@ -1441,28 +1434,28 @@ mean(vif(fit_orth_neighbours_DUTCHPOND_props))
 1/vif(fit_orth_neighbours_DUTCHPOND_props)
 # RESULTS: all good
 
-step_orth_neighbours_DUTCHPOND_props_AIC <- 
-stepAIC(fit_orth_neighbours_DUTCHPOND_props, direction="both")
+step_orth_neighbours_DUTCHPOND_props_AIC = 
+  stepAIC(fit_orth_neighbours_DUTCHPOND_props, direction="both")
 
-step_orth_neighbours_DUTCHPOND_props_F <- 
-stepAIC(fit_orth_neighbours_DUTCHPOND_props, direction="both", test="F")
+step_orth_neighbours_DUTCHPOND_props_F = 
+  stepAIC(fit_orth_neighbours_DUTCHPOND_props, direction="both", test="F")
 
 summary(fit_orth_neighbours_DUTCHPOND_props)
 
 
 # distinctiveness: phon neigh size
-fit_phon_neighbours_DUTCHPOND_props <- lm(props$s_phon_neighbours_DUTCHPOND ~ 
-props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
+fit_phon_neighbours_DUTCHPOND_props = lm(props$s_phon_neighbours_DUTCHPOND ~ 
+                                           props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 stat.desc(fit_phon_neighbours_DUTCHPOND_props$residuals, norm = TRUE)
 
 # residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(props$s_phon_neighbours_DUTCHPOND)
-props$log_s_phon_neighbours_DUTCHPOND <- log(2 + props$s_phon_neighbours_DUTCHPOND)
+props$log_s_phon_neighbours_DUTCHPOND = log(2 + props$s_phon_neighbours_DUTCHPOND)
 
-fit_phon_neighbours_DUTCHPOND_props <- lm(props$log_s_phon_neighbours_DUTCHPOND ~ 
-props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
+fit_phon_neighbours_DUTCHPOND_props = lm(props$log_s_phon_neighbours_DUTCHPOND ~ 
+                                           props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_phon_neighbours_DUTCHPOND_props$residuals, norm = TRUE)
@@ -1475,27 +1468,27 @@ mean(vif(fit_phon_neighbours_DUTCHPOND_props))
 1/vif(fit_phon_neighbours_DUTCHPOND_props)
 # RESULTS: all good
 
-step_phon_neighbours_DUTCHPOND_props_AIC <- 
-stepAIC(fit_phon_neighbours_DUTCHPOND_props, direction="both")
-step_phon_neighbours_DUTCHPOND_props_F <-
- stepAIC(fit_phon_neighbours_DUTCHPOND_props, direction="both", test="F")
+step_phon_neighbours_DUTCHPOND_props_AIC = 
+  stepAIC(fit_phon_neighbours_DUTCHPOND_props, direction="both")
+step_phon_neighbours_DUTCHPOND_props_F =
+  stepAIC(fit_phon_neighbours_DUTCHPOND_props, direction="both", test="F")
 summary(fit_phon_neighbours_DUTCHPOND_props)
 
 
 # freq: SUBTLEX-NL log-10 CD
 
-fit_freq_lg10CD_SUBTLEXNL_props <- lm(props$s_freq_lg10CD_SUBTLEXNL ~ 
-props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
+fit_freq_lg10CD_SUBTLEXNL_props = lm(props$s_freq_lg10CD_SUBTLEXNL ~ 
+                                       props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 stat.desc(fit_freq_lg10CD_SUBTLEXNL_props$residuals, norm = TRUE)
 
 # residuals distribution: skew and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(props$s_freq_lg10CD_SUBTLEXNL)
-props$log_s_freq_lg10CD_SUBTLEXNL <- log(3 + props$s_freq_lg10CD_SUBTLEXNL)
+props$log_s_freq_lg10CD_SUBTLEXNL = log(3 + props$s_freq_lg10CD_SUBTLEXNL)
 
-fit_freq_lg10CD_SUBTLEXNL_props <- lm(props$log_s_freq_lg10CD_SUBTLEXNL ~ 
-props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
+fit_freq_lg10CD_SUBTLEXNL_props = lm(props$log_s_freq_lg10CD_SUBTLEXNL ~ 
+                                       props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_freq_lg10CD_SUBTLEXNL_props$residuals, norm = TRUE)
@@ -1508,26 +1501,26 @@ mean(vif(fit_freq_lg10CD_SUBTLEXNL_props))
 1/vif(fit_freq_lg10CD_SUBTLEXNL_props)
 # RESULTS: all good
 
-step_freq_lg10CD_SUBTLEXNL_props_AIC <- stepAIC(fit_freq_lg10CD_SUBTLEXNL_props, 
-direction="both")
-step_freq_lg10CD_SUBTLEXNL__propsF <- stepAIC(fit_freq_lg10CD_SUBTLEXNL_props, 
-direction="both", test="F")
+step_freq_lg10CD_SUBTLEXNL_props_AIC = stepAIC(fit_freq_lg10CD_SUBTLEXNL_props, 
+                                               direction="both")
+step_freq_lg10CD_SUBTLEXNL__propsF = stepAIC(fit_freq_lg10CD_SUBTLEXNL_props, 
+                                             direction="both", test="F")
 summary(fit_freq_lg10CD_SUBTLEXNL_props)
 
 
 # freq: SUBTLEX-NL log-10 WF
-fit_freq_lg10WF_SUBTLEXNL_props <- lm(props$s_freq_lg10WF_SUBTLEXNL ~ 
-props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
+fit_freq_lg10WF_SUBTLEXNL_props = lm(props$s_freq_lg10WF_SUBTLEXNL ~ 
+                                       props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 stat.desc(fit_freq_lg10WF_SUBTLEXNL_props$residuals, norm = TRUE)
 
 # residuals distribution: skew. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(props$s_freq_lg10WF_SUBTLEXNL)
-props$log_s_freq_lg10WF_SUBTLEXNL <- log(3 + props$s_freq_lg10WF_SUBTLEXNL)
+props$log_s_freq_lg10WF_SUBTLEXNL = log(3 + props$s_freq_lg10WF_SUBTLEXNL)
 
-fit_freq_lg10WF_SUBTLEXNL_props <- lm(props$log_s_freq_lg10WF_SUBTLEXNL ~ 
-props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
+fit_freq_lg10WF_SUBTLEXNL_props = lm(props$log_s_freq_lg10WF_SUBTLEXNL ~ 
+                                       props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_freq_lg10WF_SUBTLEXNL_props$residuals, norm = TRUE)
@@ -1540,32 +1533,32 @@ mean(vif(fit_freq_lg10WF_SUBTLEXNL_props))
 1/vif(fit_freq_lg10WF_SUBTLEXNL_props)
 # RESULTS: all good
 
-step_freq_lg10WF_SUBTLEXNL_props_AIC <- stepAIC(fit_freq_lg10WF_SUBTLEXNL_props, 
-direction="both")
-step_freq_lg10WF_SUBTLEXNL_props_F <- stepAIC(fit_freq_lg10WF_SUBTLEXNL_props, 
-direction="both", test="F")
+step_freq_lg10WF_SUBTLEXNL_props_AIC = stepAIC(fit_freq_lg10WF_SUBTLEXNL_props, 
+                                               direction="both")
+step_freq_lg10WF_SUBTLEXNL_props_F = stepAIC(fit_freq_lg10WF_SUBTLEXNL_props, 
+                                             direction="both", test="F")
 summary(fit_freq_lg10WF_SUBTLEXNL_props)
 
 
 # freq: CELEX log-10 lemma WF
-fit_freq_CELEX_lem_props <- lm(props$s_freq_CELEX_lem ~ props$s_Auditory + 
-props$s_Haptic + props$s_Visual, data = props)
+fit_freq_CELEX_lem_props = lm(props$s_freq_CELEX_lem ~ props$s_Auditory + 
+                                props$s_Haptic + props$s_Visual, data = props)
 stat.desc(fit_freq_CELEX_lem_props$residuals, norm = TRUE)
 
 # residuals distribution: skew and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(props$s_freq_CELEX_lem)
-props$log_s_freq_CELEX_lem <- log(3 + props$s_freq_CELEX_lem)
+props$log_s_freq_CELEX_lem = log(3 + props$s_freq_CELEX_lem)
 
-fit_freq_CELEX_lem_props <- lm(props$log_s_freq_CELEX_lem ~ props$s_Auditory + 
-props$s_Haptic + props$s_Visual, data = props)
+fit_freq_CELEX_lem_props = lm(props$log_s_freq_CELEX_lem ~ props$s_Auditory + 
+                                props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_freq_CELEX_lem_props$residuals, norm = TRUE)
 # same; go back
-fit_freq_CELEX_lem_props <- lm(props$s_freq_CELEX_lem ~ props$s_Auditory + 
-props$s_Haptic + props$s_Visual, data = props)
+fit_freq_CELEX_lem_props = lm(props$s_freq_CELEX_lem ~ props$s_Auditory + 
+                                props$s_Haptic + props$s_Visual, data = props)
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
@@ -1574,25 +1567,25 @@ mean(vif(fit_freq_CELEX_lem_props))
 1/vif(fit_freq_CELEX_lem_props)
 # RESULTS: all good
 
-step_freq_CELEX_lem_props_AIC <- stepAIC(fit_freq_CELEX_lem_props, direction="both")
-step_freq_CELEX_lem_props_F <- stepAIC(fit_freq_CELEX_lem_props, direction="both", 
-test="F")
+step_freq_CELEX_lem_props_AIC = stepAIC(fit_freq_CELEX_lem_props, direction="both")
+step_freq_CELEX_lem_props_F = stepAIC(fit_freq_CELEX_lem_props, direction="both", 
+                                      test="F")
 summary(fit_freq_CELEX_lem_props)
 
 
 # length: RC1 lexicals
-fit_RC1_lexicals_props <- lm(props$s_RC1_lexicals ~ props$s_Auditory + props$s_Haptic 
-+ props$s_Visual, data = props)
+fit_RC1_lexicals_props = lm(props$s_RC1_lexicals ~ props$s_Auditory + props$s_Haptic 
+                            + props$s_Visual, data = props)
 stat.desc(fit_RC1_lexicals_props$residuals, norm = TRUE)
 
 # residuals distribution: skewed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(props$s_RC1_lexicals)
-props$log_s_RC1_lexicals_props <- log(4 + props$s_RC1_lexicals)
+props$log_s_RC1_lexicals_props = log(4 + props$s_RC1_lexicals)
 
-fit_RC1_lexicals_props <- lm(props$log_s_RC1_lexicals ~ props$s_Auditory + 
-props$s_Haptic + props$s_Visual, data = props)
+fit_RC1_lexicals_props = lm(props$log_s_RC1_lexicals ~ props$s_Auditory + 
+                              props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_RC1_lexicals_props$residuals, norm = TRUE)
@@ -1605,25 +1598,25 @@ mean(vif(fit_RC1_lexicals_props))
 1/vif(fit_RC1_lexicals_props)
 # RESULTS: all good
 
-step_RC1_lexicals_props_AIC <- stepAIC(fit_RC1_lexicals_props, direction="both")
-step_RC1_lexicals_props_F <- stepAIC(fit_RC1_lexicals_props, direction="both", 
-test="F")
+step_RC1_lexicals_props_AIC = stepAIC(fit_RC1_lexicals_props, direction="both")
+step_RC1_lexicals_props_F = stepAIC(fit_RC1_lexicals_props, direction="both", 
+                                    test="F")
 summary(fit_RC1_lexicals_props)
 
 
 # distinctiveness: RC3 lexicals
-fit_RC3_lexicals_props <- lm(props$s_RC3_lexicals ~ props$s_Auditory + 
-props$s_Haptic + props$s_Visual, data = props)
+fit_RC3_lexicals_props = lm(props$s_RC3_lexicals ~ props$s_Auditory + 
+                              props$s_Haptic + props$s_Visual, data = props)
 stat.desc(fit_RC3_lexicals_props$residuals, norm = TRUE)
 
 # residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(props$s_RC3_lexicals)
-props$log_s_RC3_lexicals <- log(3 + props$s_RC3_lexicals)
+props$log_s_RC3_lexicals = log(3 + props$s_RC3_lexicals)
 
-fit_RC3_lexicals_props <- lm(props$log_s_RC3_lexicals ~ props$s_Auditory + 
-props$s_Haptic + props$s_Visual, data = props)
+fit_RC3_lexicals_props = lm(props$log_s_RC3_lexicals ~ props$s_Auditory + 
+                              props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_RC3_lexicals_props$residuals, norm = TRUE)
@@ -1636,31 +1629,31 @@ mean(vif(fit_RC3_lexicals_props))
 1/vif(fit_RC3_lexicals_props)
 # RESULTS: all good
 
-step_RC3_lexicals_props_AIC <- stepAIC(fit_RC3_lexicals_props, direction="both")
-step_RC3_lexicals_props_F <- stepAIC(fit_RC3_lexicals_props, direction="both", 
-test="F")
+step_RC3_lexicals_props_AIC = stepAIC(fit_RC3_lexicals_props, direction="both")
+step_RC3_lexicals_props_F = stepAIC(fit_RC3_lexicals_props, direction="both", 
+                                    test="F")
 summary(fit_RC3_lexicals_props)
 
 
 # freq: RC2 lexicals
-fit_RC2_lexicals_props <- lm(props$s_RC2_lexicals ~ props$s_Auditory + props$s_Haptic
- + props$s_Visual, data = props)
+fit_RC2_lexicals_props = lm(props$s_RC2_lexicals ~ props$s_Auditory + props$s_Haptic
+                            + props$s_Visual, data = props)
 stat.desc(fit_RC2_lexicals_props$residuals, norm = TRUE)
 
 # residuals distribution: kurtosed. Raw scores/2.SE < 1
 # have to log-transform DV and re-run regression
 
 psych::describe(props$s_RC2_lexicals)
-props$log_s_RC2_lexicals <- log(3 + props$s_RC2_lexicals)
+props$log_s_RC2_lexicals = log(3 + props$s_RC2_lexicals)
 
-fit_RC2_lexicals_props <- lm(props$log_s_RC2_lexicals ~ props$s_Auditory + 
-props$s_Haptic + props$s_Visual, data = props)
+fit_RC2_lexicals_props = lm(props$log_s_RC2_lexicals ~ props$s_Auditory + 
+                              props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_RC2_lexicals_props$residuals, norm = TRUE)
 # worse; back
-fit_RC2_lexicals_props <- lm(props$s_RC2_lexicals ~ props$s_Auditory + props$s_Haptic
- + props$s_Visual, data = props)
+fit_RC2_lexicals_props = lm(props$s_RC2_lexicals ~ props$s_Auditory + props$s_Haptic
+                            + props$s_Visual, data = props)
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
@@ -1669,15 +1662,15 @@ mean(vif(fit_RC2_lexicals_props))
 1/vif(fit_RC2_lexicals_props)
 # RESULTS: all good
 
-step_RC2_lexicals_props_AIC <- stepAIC(fit_RC2_lexicals_props, direction="both")
-step_RC2_lexicals_props_F <- stepAIC(fit_RC2_lexicals_props, direction="both", 
-test="F")
+step_RC2_lexicals_props_AIC = stepAIC(fit_RC2_lexicals_props, direction="both")
+step_RC2_lexicals_props_F = stepAIC(fit_RC2_lexicals_props, direction="both", 
+                                    test="F")
 summary(fit_RC2_lexicals_props)
 
 
 # additional var: age of acquisition
-fit_AoA_Brysbaertetal2014_props <- lm(props$s_AoA_Brysbaertetal2014 ~ 
-props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
+fit_AoA_Brysbaertetal2014_props = lm(props$s_AoA_Brysbaertetal2014 ~ 
+                                       props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 stat.desc(fit_AoA_Brysbaertetal2014_props$residuals, norm = TRUE)
 # residuals distribution: good
 
@@ -1688,32 +1681,32 @@ mean(vif(fit_AoA_Brysbaertetal2014_props))
 1/vif(fit_AoA_Brysbaertetal2014_props)
 # RESULTS: all good
 
-step_AoA_Brysbaertetal2014_props_AIC <- stepAIC(fit_AoA_Brysbaertetal2014_props,
-direction="both")
-step_AoA_Brysbaertetal2014_props_F <- stepAIC(fit_AoA_Brysbaertetal2014_props, 
-direction="both", test="F")
+step_AoA_Brysbaertetal2014_props_AIC = stepAIC(fit_AoA_Brysbaertetal2014_props,
+                                               direction="both")
+step_AoA_Brysbaertetal2014_props_F = stepAIC(fit_AoA_Brysbaertetal2014_props, 
+                                             direction="both", test="F")
 summary(fit_AoA_Brysbaertetal2014_props)
 
 
 # additional var: concreteness
-fit_concrete_Brysbaertetal2014_props <- lm(props$s_concrete_Brysbaertetal2014 ~ 
-props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
+fit_concrete_Brysbaertetal2014_props = lm(props$s_concrete_Brysbaertetal2014 ~ 
+                                            props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 stat.desc(fit_concrete_Brysbaertetal2014_props$residuals, norm = TRUE)
 
 # residuals distribution: skew. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(props$s_concrete_Brysbaertetal2014)
-props$log_s_concrete_Brysbaertetal2014 <- log(4 + props$s_concrete_Brysbaertetal2014)
+props$log_s_concrete_Brysbaertetal2014 = log(4 + props$s_concrete_Brysbaertetal2014)
 
-fit_concrete_Brysbaertetal2014_props <- lm(props$log_s_concrete_Brysbaertetal2014 ~ 
-props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
+fit_concrete_Brysbaertetal2014_props = lm(props$log_s_concrete_Brysbaertetal2014 ~ 
+                                            props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 
 # check residuals again
 stat.desc(fit_concrete_Brysbaertetal2014_props$residuals, norm = TRUE)
 # worse; back
-fit_concrete_Brysbaertetal2014_props <- lm(props$s_concrete_Brysbaertetal2014 ~ 
-props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
+fit_concrete_Brysbaertetal2014_props = lm(props$s_concrete_Brysbaertetal2014 ~ 
+                                            props$s_Auditory + props$s_Haptic + props$s_Visual, data = props)
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
@@ -1722,10 +1715,10 @@ mean(vif(fit_concrete_Brysbaertetal2014_props))
 1/vif(fit_concrete_Brysbaertetal2014_props)
 # RESULTS: all good
 
-step_concrete_Brysbaertetal2014_props_AIC <- 
-stepAIC(fit_concrete_Brysbaertetal2014_props, direction="both")
-step_concrete_Brysbaertetal2014_props_F <- 
-stepAIC(fit_concrete_Brysbaertetal2014_props, direction="both", test="F")
+step_concrete_Brysbaertetal2014_props_AIC = 
+  stepAIC(fit_concrete_Brysbaertetal2014_props, direction="both")
+step_concrete_Brysbaertetal2014_props_F = 
+  stepAIC(fit_concrete_Brysbaertetal2014_props, direction="both", test="F")
 summary(fit_concrete_Brysbaertetal2014_props)
 
 # RESULTS: iconicity properties: 
@@ -1739,27 +1732,27 @@ summary(fit_concrete_Brysbaertetal2014_props)
 
 # Iconicity within concepts alone, as in Lynott and Connell (2013)
 
-concs <- all[all$cat == 'Concept' & c(all$normed == 'Dutch' | all$normed == 'Dut_Eng'),]
+concs = all[all$cat == 'Concept' & c(all$normed == 'Dutch' | all$normed == 'Dut_Eng'),]
 nrow(concs)
 
 # There aren't lexical data for every single word.
 # Percentage of concepts per lexical variable (from items w/ Dutch norms)
 describe(complete.cases(concs[complete.cases(concs$Exclusivity),]
-$phonemes_DUTCHPOND))
+                        $phonemes_DUTCHPOND))
 describe(complete.cases(concs[complete.cases(concs$Exclusivity),]
-$phon_neighbours_DUTCHPOND))
+                        $phon_neighbours_DUTCHPOND))
 describe(complete.cases(concs[complete.cases(concs$Exclusivity),]
-$orth_neighbours_DUTCHPOND))
+                        $orth_neighbours_DUTCHPOND))
 describe(complete.cases(concs[complete.cases(concs$Exclusivity),]
-$freq_lg10CD_SUBTLEXNL))
+                        $freq_lg10CD_SUBTLEXNL))
 describe(complete.cases(concs[complete.cases(concs$Exclusivity),]
-$freq_lg10WF_SUBTLEXNL))
+                        $freq_lg10WF_SUBTLEXNL))
 describe(complete.cases(concs[complete.cases(concs$Exclusivity),]
-$freq_CELEX_lem))
+                        $freq_CELEX_lem))
 describe(complete.cases(concs[complete.cases(concs$Exclusivity),]
-$AoA_Brysbaertetal2014))
+                        $AoA_Brysbaertetal2014))
 describe(complete.cases(concs[complete.cases(concs$Exclusivity),]
-$concrete_Brysbaertetal2014))
+                        $concrete_Brysbaertetal2014))
 
 # M, SD
 stat.desc(concs$letters)
@@ -1775,10 +1768,10 @@ stat.desc(concs$concrete_Brysbaertetal2014)
 
 # See and print correlation of all lexical variables:
 
-mat_lexicals_concs <- as.matrix(concs[c('letters', 'phonemes_DUTCHPOND', 
-'orth_neighbours_DUTCHPOND', 'phon_neighbours_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL', 
-'freq_lg10WF_SUBTLEXNL', 'freq_CELEX_lem', 'AoA_Brysbaertetal2014', 
-'concrete_Brysbaertetal2014')])
+mat_lexicals_concs = as.matrix(concs[c('letters', 'phonemes_DUTCHPOND', 
+                                       'orth_neighbours_DUTCHPOND', 'phon_neighbours_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL', 
+                                       'freq_lg10WF_SUBTLEXNL', 'freq_CELEX_lem', 'AoA_Brysbaertetal2014', 
+                                       'concrete_Brysbaertetal2014')])
 
 rcor.test(mat_lexicals_concs, use='complete.obs')
 corrs_concs = rcor.test(mat_lexicals_concs, use='complete.obs')
@@ -1789,9 +1782,9 @@ corrs_concs = rcor.test(mat_lexicals_concs, use='complete.obs')
 # better comparison with the English data, and because no correlations > .7 (i.e. half 
 # of variance explained)
 
-lexicals_concs <- concs[c('letters', 'phonemes_DUTCHPOND', 'orth_neighbours_DUTCHPOND', 
-'phon_neighbours_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL', 'freq_lg10WF_SUBTLEXNL', 
-'freq_CELEX_lem')]
+lexicals_concs = concs[c('letters', 'phonemes_DUTCHPOND', 'orth_neighbours_DUTCHPOND', 
+                         'phon_neighbours_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL', 'freq_lg10WF_SUBTLEXNL', 
+                         'freq_CELEX_lem')]
 
 nrow(lexicals_concs)
 
@@ -1809,7 +1802,7 @@ cortest.bartlett(lexicals_concs)
 # GOOD: Bartlett's test significant 
 
 # KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
-lexicals_concs_matrix <- cor(lexicals_concs, use = 'complete.obs')
+lexicals_concs_matrix = cor(lexicals_concs, use = 'complete.obs')
 KMO(lexicals_concs_matrix)
 # Result: .71 = good.
 
@@ -1819,7 +1812,7 @@ det(lexicals_concs_matrix)
 
 # start off with unrotated PCA
 
-PCA_lexicals_concs <- psych::principal(lexicals_concs, nfactors = 7, scores = TRUE)
+PCA_lexicals_concs = psych::principal(lexicals_concs, nfactors = 7, scores = TRUE)
 PCA_lexicals_concs
 # by Kaiser's and Joliffe's standard, extract 3 RCs
 
@@ -1827,8 +1820,8 @@ PCA_lexicals_concs
 plot(PCA_lexicals_concs$values, type = "b")
 # result: again, extract 3 components
 
-PCA_lexicals_concs <- psych::principal(lexicals_concs, nfactors = 3, rotate = 
-"varimax", scores = TRUE)
+PCA_lexicals_concs = psych::principal(lexicals_concs, nfactors = 3, rotate = 
+                                        "varimax", scores = TRUE)
 
 PCA_lexicals_concs #-> check explained variance along components
 PCA_lexicals_concs$loadings
@@ -1848,41 +1841,41 @@ PCA_lexicals_concs$communality
 # (by default in psych::stats pack). Residuals good: less than half w/ absolute 
 # values > 0.05. Model fit good, > .90. Communalities (h2) good, all well > .7
 
-concs <- cbind(concs, PCA_lexicals_concs$scores)
+concs = cbind(concs, PCA_lexicals_concs$scores)
 
 
 # REGRESSION
 
 # standardize (mean-center and scale)
-concs$s_Auditory <- scale(concs$Auditory)
-concs$s_Haptic <- scale(concs$Haptic)
-concs$s_Visual <- scale(concs$Visual)
-concs$s_freq_lg10CD_SUBTLEXNL <- scale(concs$freq_lg10CD_SUBTLEXNL)
-concs$s_freq_lg10WF_SUBTLEXNL <- scale(concs$freq_lg10WF_SUBTLEXNL)
-concs$s_freq_CELEX_lem <- scale(concs$freq_CELEX_lem)
-concs$s_AoA_Brysbaertetal2014 <- scale(concs$AoA_Brysbaertetal2014)
-concs$s_concrete_Brysbaertetal2014 <- scale(concs$concrete_Brysbaertetal2014)
-concs$s_letters <- scale(concs$letters)
-concs$s_phonemes_DUTCHPOND <- scale(concs$phonemes_DUTCHPOND)
-concs$s_orth_neighbours_DUTCHPOND <- scale(concs$orth_neighbours_DUTCHPOND)
-concs$s_phon_neighbours_DUTCHPOND <- scale(concs$phon_neighbours_DUTCHPOND)
-concs$s_RC1_lexicals <- scale(concs$RC1)
-concs$s_RC2_lexicals <- scale(concs$RC2) 
-concs$s_RC3_lexicals <- scale(concs$RC3)
+concs$s_Auditory = scale(concs$Auditory)
+concs$s_Haptic = scale(concs$Haptic)
+concs$s_Visual = scale(concs$Visual)
+concs$s_freq_lg10CD_SUBTLEXNL = scale(concs$freq_lg10CD_SUBTLEXNL)
+concs$s_freq_lg10WF_SUBTLEXNL = scale(concs$freq_lg10WF_SUBTLEXNL)
+concs$s_freq_CELEX_lem = scale(concs$freq_CELEX_lem)
+concs$s_AoA_Brysbaertetal2014 = scale(concs$AoA_Brysbaertetal2014)
+concs$s_concrete_Brysbaertetal2014 = scale(concs$concrete_Brysbaertetal2014)
+concs$s_letters = scale(concs$letters)
+concs$s_phonemes_DUTCHPOND = scale(concs$phonemes_DUTCHPOND)
+concs$s_orth_neighbours_DUTCHPOND = scale(concs$orth_neighbours_DUTCHPOND)
+concs$s_phon_neighbours_DUTCHPOND = scale(concs$phon_neighbours_DUTCHPOND)
+concs$s_RC1_lexicals = scale(concs$RC1)
+concs$s_RC2_lexicals = scale(concs$RC2) 
+concs$s_RC3_lexicals = scale(concs$RC3)
 
 # length: letters
-fit_letters_concs <- lm(concs$s_letters ~ concs$s_Auditory + concs$s_Haptic + 
-concs$s_Visual, data = concs)
+fit_letters_concs = lm(concs$s_letters ~ concs$s_Auditory + concs$s_Haptic + 
+                         concs$s_Visual, data = concs)
 stat.desc(fit_letters_concs$residuals, norm = TRUE)
 
 # residuals distribution: skew. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(concs$s_letters)
-concs$log_s_letters <- log(3 + concs$s_letters)
+concs$log_s_letters = log(3 + concs$s_letters)
 
-fit_letters_concs <- lm(concs$log_s_letters ~ concs$s_Auditory + concs$s_Haptic + 
-concs$s_Visual, data = concs)
+fit_letters_concs = lm(concs$log_s_letters ~ concs$s_Auditory + concs$s_Haptic + 
+                         concs$s_Visual, data = concs)
 
 # check residuals again
 stat.desc(fit_letters_concs$residuals, norm = TRUE)
@@ -1895,24 +1888,24 @@ mean(vif(fit_letters_concs))
 1/vif(fit_letters_concs)
 # RESULTS: all good
 
-step_letters_concs_AIC <- stepAIC(fit_letters_concs, direction="both")
-step_letters_concs_F <- stepAIC(fit_letters_concs, direction="both", test="F")
+step_letters_concs_AIC = stepAIC(fit_letters_concs, direction="both")
+step_letters_concs_F = stepAIC(fit_letters_concs, direction="both", test="F")
 summary(fit_letters_concs)
 
 
 # length: phonemes_DUTCHPOND
-fit_phonemes_DUTCHPOND_concs <- lm(concs$s_phonemes_DUTCHPOND ~ concs$s_Auditory + 
-concs$s_Haptic + concs$s_Visual, data = concs)
+fit_phonemes_DUTCHPOND_concs = lm(concs$s_phonemes_DUTCHPOND ~ concs$s_Auditory + 
+                                    concs$s_Haptic + concs$s_Visual, data = concs)
 stat.desc(fit_phonemes_DUTCHPOND_concs$residuals, norm = TRUE)
 
 # residuals distribution: skew and kurtose. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(concs$s_phonemes_DUTCHPOND)
-concs$log_s_phonemes_DUTCHPOND <- log(3 + concs$s_phonemes_DUTCHPOND)
+concs$log_s_phonemes_DUTCHPOND = log(3 + concs$s_phonemes_DUTCHPOND)
 
-fit_phonemes_DUTCHPOND_concs <- lm(concs$log_s_phonemes_DUTCHPOND ~ concs$s_Auditory
- + concs$s_Haptic + concs$s_Visual, data = concs)
+fit_phonemes_DUTCHPOND_concs = lm(concs$log_s_phonemes_DUTCHPOND ~ concs$s_Auditory
+                                  + concs$s_Haptic + concs$s_Visual, data = concs)
 
 # check residuals again
 stat.desc(fit_phonemes_DUTCHPOND_concs$residuals, norm = TRUE)
@@ -1925,26 +1918,26 @@ mean(vif(fit_phonemes_DUTCHPOND_concs))
 1/vif(fit_phonemes_DUTCHPOND_concs)
 # RESULTS: all good
 
-step_phonemes_DUTCHPOND_concs_AIC <- stepAIC(fit_phonemes_DUTCHPOND_concs, 
-direction="both")
-step_phonemes_DUTCHPOND_concs_F <- stepAIC(fit_phonemes_DUTCHPOND_concs, 
-direction="both", test="F")
+step_phonemes_DUTCHPOND_concs_AIC = stepAIC(fit_phonemes_DUTCHPOND_concs, 
+                                            direction="both")
+step_phonemes_DUTCHPOND_concs_F = stepAIC(fit_phonemes_DUTCHPOND_concs, 
+                                          direction="both", test="F")
 summary(fit_phonemes_DUTCHPOND_concs)
 
 
 # distinctiveness: orth neigh size
-fit_orth_neighbours_DUTCHPOND_concs <- lm(concs$s_orth_neighbours_DUTCHPOND ~ 
-concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
+fit_orth_neighbours_DUTCHPOND_concs = lm(concs$s_orth_neighbours_DUTCHPOND ~ 
+                                           concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
 stat.desc(fit_orth_neighbours_DUTCHPOND_concs$residuals, norm = TRUE)
 
 # residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(concs$s_orth_neighbours_DUTCHPOND)
-concs$log_s_orth_neighbours_DUTCHPOND <- log(2 + concs$s_orth_neighbours_DUTCHPOND)
+concs$log_s_orth_neighbours_DUTCHPOND = log(2 + concs$s_orth_neighbours_DUTCHPOND)
 
-fit_orth_neighbours_DUTCHPOND_concs <- lm(concs$log_s_orth_neighbours_DUTCHPOND ~ 
-concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
+fit_orth_neighbours_DUTCHPOND_concs = lm(concs$log_s_orth_neighbours_DUTCHPOND ~ 
+                                           concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
 
 # check residuals again
 stat.desc(fit_orth_neighbours_DUTCHPOND_concs$residuals, norm = TRUE)
@@ -1957,26 +1950,26 @@ mean(vif(fit_orth_neighbours_DUTCHPOND_concs))
 1/vif(fit_orth_neighbours_DUTCHPOND_concs)
 # RESULTS: all good
 
-step_orth_neighbours_DUTCHPOND_concs_AIC <- 
-stepAIC(fit_orth_neighbours_DUTCHPOND_concs, direction="both")
-step_orth_neighbours_DUTCHPOND_concs_F <- 
-stepAIC(fit_orth_neighbours_DUTCHPOND_concs, direction="both", test="F")
+step_orth_neighbours_DUTCHPOND_concs_AIC = 
+  stepAIC(fit_orth_neighbours_DUTCHPOND_concs, direction="both")
+step_orth_neighbours_DUTCHPOND_concs_F = 
+  stepAIC(fit_orth_neighbours_DUTCHPOND_concs, direction="both", test="F")
 summary(fit_orth_neighbours_DUTCHPOND_concs)
 
 
 # distinctiveness: phon neigh size
-fit_phon_neighbours_DUTCHPOND_concs <- lm(concs$s_phon_neighbours_DUTCHPOND ~ 
-concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
+fit_phon_neighbours_DUTCHPOND_concs = lm(concs$s_phon_neighbours_DUTCHPOND ~ 
+                                           concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
 stat.desc(fit_phon_neighbours_DUTCHPOND_concs$residuals, norm = TRUE)
 
 # residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(concs$s_phon_neighbours_DUTCHPOND)
-concs$log_s_phon_neighbours_DUTCHPOND <- log(2 + concs$s_phon_neighbours_DUTCHPOND)
+concs$log_s_phon_neighbours_DUTCHPOND = log(2 + concs$s_phon_neighbours_DUTCHPOND)
 
-fit_phon_neighbours_DUTCHPOND_concs <- lm(concs$log_s_phon_neighbours_DUTCHPOND ~ 
-concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
+fit_phon_neighbours_DUTCHPOND_concs = lm(concs$log_s_phon_neighbours_DUTCHPOND ~ 
+                                           concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
 
 # check residuals again
 stat.desc(fit_phon_neighbours_DUTCHPOND_concs$residuals, norm = TRUE)
@@ -1989,33 +1982,33 @@ mean(vif(fit_phon_neighbours_DUTCHPOND_concs))
 1/vif(fit_phon_neighbours_DUTCHPOND_concs)
 # RESULTS: all good
 
-step_phon_neighbours_DUTCHPOND_concs_AIC <- 
-stepAIC(fit_phon_neighbours_DUTCHPOND_concs, direction="both")
-step_phon_neighbours_DUTCHPOND_concs_F <- stepAIC(fit_phon_neighbours_DUTCHPOND_concs, 
-direction="both", test="F")
+step_phon_neighbours_DUTCHPOND_concs_AIC = 
+  stepAIC(fit_phon_neighbours_DUTCHPOND_concs, direction="both")
+step_phon_neighbours_DUTCHPOND_concs_F = stepAIC(fit_phon_neighbours_DUTCHPOND_concs, 
+                                                 direction="both", test="F")
 summary(fit_phon_neighbours_DUTCHPOND_concs)
 
 
 # freq: SUBTLEX-NL log-10 CD
 
-fit_freq_lg10CD_SUBTLEXNL_concs <- lm(concs$s_freq_lg10CD_SUBTLEXNL ~ 
-concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
+fit_freq_lg10CD_SUBTLEXNL_concs = lm(concs$s_freq_lg10CD_SUBTLEXNL ~ 
+                                       concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
 stat.desc(fit_freq_lg10CD_SUBTLEXNL_concs$residuals, norm = TRUE)
 
 # residuals distribution: skew. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(concs$s_freq_lg10CD_SUBTLEXNL)
-concs$log_s_freq_lg10CD_SUBTLEXNL <- log(5 + concs$s_freq_lg10CD_SUBTLEXNL)
+concs$log_s_freq_lg10CD_SUBTLEXNL = log(5 + concs$s_freq_lg10CD_SUBTLEXNL)
 
-fit_freq_lg10CD_SUBTLEXNL_concs <- lm(concs$log_s_freq_lg10CD_SUBTLEXNL ~ 
-concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
+fit_freq_lg10CD_SUBTLEXNL_concs = lm(concs$log_s_freq_lg10CD_SUBTLEXNL ~ 
+                                       concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
 
 # check residuals again
 stat.desc(fit_freq_lg10CD_SUBTLEXNL_concs$residuals, norm = TRUE)
 # worse! back 
-fit_freq_lg10CD_SUBTLEXNL_concs <- lm(concs$s_freq_lg10CD_SUBTLEXNL ~ 
-concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
+fit_freq_lg10CD_SUBTLEXNL_concs = lm(concs$s_freq_lg10CD_SUBTLEXNL ~ 
+                                       concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
 
 # Check multicollinearity: largest VIF (pref. < 10), mean VIF (pref. around 1), and 
 # tolerance (pref. > 0.2)
@@ -2024,17 +2017,17 @@ mean(vif(fit_freq_lg10CD_SUBTLEXNL_concs))
 1/vif(fit_freq_lg10CD_SUBTLEXNL_concs)
 # RESULTS: all good
 
-step_freq_lg10CD_SUBTLEXNL_concs_AIC <- stepAIC(fit_freq_lg10CD_SUBTLEXNL_concs, 
-direction="both")
-step_freq_lg10CD_SUBTLEXNL__concsF <- stepAIC(fit_freq_lg10CD_SUBTLEXNL_concs, 
-direction="both", test="F")
+step_freq_lg10CD_SUBTLEXNL_concs_AIC = stepAIC(fit_freq_lg10CD_SUBTLEXNL_concs, 
+                                               direction="both")
+step_freq_lg10CD_SUBTLEXNL__concsF = stepAIC(fit_freq_lg10CD_SUBTLEXNL_concs, 
+                                             direction="both", test="F")
 summary(fit_freq_lg10CD_SUBTLEXNL_concs)
 
 
 # freq: SUBTLEX-NL log-10 WF
-fit_freq_lg10WF_SUBTLEXNL_concs <- 
-lm(concs$s_freq_lg10WF_SUBTLEXNL ~ concs$s_Auditory + concs$s_Haptic + concs$s_Visual,
- data = concs)
+fit_freq_lg10WF_SUBTLEXNL_concs = 
+  lm(concs$s_freq_lg10WF_SUBTLEXNL ~ concs$s_Auditory + concs$s_Haptic + concs$s_Visual,
+     data = concs)
 stat.desc(fit_freq_lg10WF_SUBTLEXNL_concs$residuals, norm = TRUE)
 # residuals distribution: good. Raw scores/2.SE < 1
 
@@ -2045,16 +2038,16 @@ mean(vif(fit_freq_lg10WF_SUBTLEXNL_concs))
 1/vif(fit_freq_lg10WF_SUBTLEXNL_concs)
 # RESULTS: all good
 
-step_freq_lg10WF_SUBTLEXNL_concs_AIC <- stepAIC(fit_freq_lg10WF_SUBTLEXNL_concs, 
-direction="both")
-step_freq_lg10WF_SUBTLEXNL_concs_F <- stepAIC(fit_freq_lg10WF_SUBTLEXNL_concs, 
-direction="both", test="F")
+step_freq_lg10WF_SUBTLEXNL_concs_AIC = stepAIC(fit_freq_lg10WF_SUBTLEXNL_concs, 
+                                               direction="both")
+step_freq_lg10WF_SUBTLEXNL_concs_F = stepAIC(fit_freq_lg10WF_SUBTLEXNL_concs, 
+                                             direction="both", test="F")
 summary(fit_freq_lg10WF_SUBTLEXNL_concs)
 
 
 # freq: CELEX log-10 lemma WF
-fit_freq_CELEX_lem_concs <- lm(concs$s_freq_CELEX_lem ~ concs$s_Auditory + 
-concs$s_Haptic + concs$s_Visual, data = concs)
+fit_freq_CELEX_lem_concs = lm(concs$s_freq_CELEX_lem ~ concs$s_Auditory + 
+                                concs$s_Haptic + concs$s_Visual, data = concs)
 stat.desc(fit_freq_CELEX_lem_concs$residuals, norm = TRUE)
 
 # residuals distribution: good. Raw scores/2.SE < 1
@@ -2066,25 +2059,25 @@ mean(vif(fit_freq_CELEX_lem_concs))
 1/vif(fit_freq_CELEX_lem_concs)
 # RESULTS: all good
 
-step_freq_CELEX_lem_concs_AIC <- stepAIC(fit_freq_CELEX_lem_concs, direction="both")
-step_freq_CELEX_lem_concs_F <- stepAIC(fit_freq_CELEX_lem_concs, direction="both", 
-test="F")
+step_freq_CELEX_lem_concs_AIC = stepAIC(fit_freq_CELEX_lem_concs, direction="both")
+step_freq_CELEX_lem_concs_F = stepAIC(fit_freq_CELEX_lem_concs, direction="both", 
+                                      test="F")
 summary(fit_freq_CELEX_lem_concs)
 
 
 # length: RC1 lexicals
-fit_RC1_lexicals_concs <- lm(concs$s_RC1_lexicals ~ concs$s_Auditory + concs$s_Haptic 
-+ concs$s_Visual, data = concs)
+fit_RC1_lexicals_concs = lm(concs$s_RC1_lexicals ~ concs$s_Auditory + concs$s_Haptic 
+                            + concs$s_Visual, data = concs)
 stat.desc(fit_RC1_lexicals_concs$residuals, norm = TRUE)
 
 # residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(concs$s_RC1_lexicals)
-concs$log_s_RC1_lexicals_concs <- log(3 + concs$s_RC1_lexicals)
+concs$log_s_RC1_lexicals_concs = log(3 + concs$s_RC1_lexicals)
 
-fit_RC1_lexicals_concs <- lm(concs$log_s_RC1_lexicals ~ concs$s_Auditory + 
-concs$s_Haptic + concs$s_Visual, data = concs)
+fit_RC1_lexicals_concs = lm(concs$log_s_RC1_lexicals ~ concs$s_Auditory + 
+                              concs$s_Haptic + concs$s_Visual, data = concs)
 
 # check residuals again
 stat.desc(fit_RC1_lexicals_concs$residuals, norm = TRUE)
@@ -2097,25 +2090,25 @@ mean(vif(fit_RC1_lexicals_concs))
 1/vif(fit_RC1_lexicals_concs)
 # RESULTS: all good
 
-step_RC1_lexicals_concs_AIC <- stepAIC(fit_RC1_lexicals_concs, direction="both")
-step_RC1_lexicals_concs_F <- stepAIC(fit_RC1_lexicals_concs, direction="both", 
-test="F")
+step_RC1_lexicals_concs_AIC = stepAIC(fit_RC1_lexicals_concs, direction="both")
+step_RC1_lexicals_concs_F = stepAIC(fit_RC1_lexicals_concs, direction="both", 
+                                    test="F")
 summary(fit_RC1_lexicals_concs)
 
 
 # distinctiveness: RC3 lexicals
-fit_RC3_lexicals_concs <- lm(concs$s_RC3_lexicals ~ concs$s_Auditory + concs$s_Haptic 
-+ concs$s_Visual, data = concs)
+fit_RC3_lexicals_concs = lm(concs$s_RC3_lexicals ~ concs$s_Auditory + concs$s_Haptic 
+                            + concs$s_Visual, data = concs)
 stat.desc(fit_RC3_lexicals_concs$residuals, norm = TRUE)
 
 # residuals distribution: skewed and kurtosed. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(concs$s_RC3_lexicals)
-concs$log_s_RC3_lexicals <- log(3 + concs$s_RC3_lexicals)
+concs$log_s_RC3_lexicals = log(3 + concs$s_RC3_lexicals)
 
-fit_RC3_lexicals_concs <- lm(concs$log_s_RC3_lexicals ~ concs$s_Auditory + 
-concs$s_Haptic + concs$s_Visual, data = concs)
+fit_RC3_lexicals_concs = lm(concs$log_s_RC3_lexicals ~ concs$s_Auditory + 
+                              concs$s_Haptic + concs$s_Visual, data = concs)
 
 # check residuals again
 stat.desc(fit_RC3_lexicals_concs$residuals, norm = TRUE)
@@ -2128,15 +2121,15 @@ mean(vif(fit_RC3_lexicals_concs))
 1/vif(fit_RC3_lexicals_concs)
 # RESULTS: all good
 
-step_RC3_lexicals_concs_AIC <- stepAIC(fit_RC3_lexicals_concs, direction="both")
-step_RC3_lexicals_concs_F <- stepAIC(fit_RC3_lexicals_concs, direction="both", 
-test="F")
+step_RC3_lexicals_concs_AIC = stepAIC(fit_RC3_lexicals_concs, direction="both")
+step_RC3_lexicals_concs_F = stepAIC(fit_RC3_lexicals_concs, direction="both", 
+                                    test="F")
 summary(fit_RC3_lexicals_concs)
 
 
 # freq: RC2 lexicals
-fit_RC2_lexicals_concs <- lm(concs$s_RC2_lexicals ~ concs$s_Auditory + concs$s_Haptic
- + concs$s_Visual, data = concs)
+fit_RC2_lexicals_concs = lm(concs$s_RC2_lexicals ~ concs$s_Auditory + concs$s_Haptic
+                            + concs$s_Visual, data = concs)
 stat.desc(fit_RC2_lexicals_concs$residuals, norm = TRUE)
 # residuals distribution: good. Raw scores/2.SE < 1
 
@@ -2147,15 +2140,15 @@ mean(vif(fit_RC2_lexicals_concs))
 1/vif(fit_RC2_lexicals_concs)
 # RESULTS: all good
 
-step_RC2_lexicals_concs_AIC <- stepAIC(fit_RC2_lexicals_concs, direction="both")
-step_RC2_lexicals_concs_F <- stepAIC(fit_RC2_lexicals_concs, direction="both", 
-test="F")
+step_RC2_lexicals_concs_AIC = stepAIC(fit_RC2_lexicals_concs, direction="both")
+step_RC2_lexicals_concs_F = stepAIC(fit_RC2_lexicals_concs, direction="both", 
+                                    test="F")
 summary(fit_RC2_lexicals_concs)
 
 
 # additional var: age of acquisition
-fit_AoA_Brysbaertetal2014_concs <- lm(concs$s_AoA_Brysbaertetal2014 ~ 
-concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
+fit_AoA_Brysbaertetal2014_concs = lm(concs$s_AoA_Brysbaertetal2014 ~ 
+                                       concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
 stat.desc(fit_AoA_Brysbaertetal2014_concs$residuals, norm = TRUE)
 # residuals distribution: good. Raw scores/2.SE < 1
 
@@ -2166,26 +2159,26 @@ mean(vif(fit_AoA_Brysbaertetal2014_concs))
 1/vif(fit_AoA_Brysbaertetal2014_concs)
 # RESULTS: all good
 
-step_AoA_Brysbaertetal2014_concs_AIC <- stepAIC(fit_AoA_Brysbaertetal2014_concs,
-direction="both")
-step_AoA_Brysbaertetal2014_concs_F <- stepAIC(fit_AoA_Brysbaertetal2014_concs, 
-direction="both", test="F")
+step_AoA_Brysbaertetal2014_concs_AIC = stepAIC(fit_AoA_Brysbaertetal2014_concs,
+                                               direction="both")
+step_AoA_Brysbaertetal2014_concs_F = stepAIC(fit_AoA_Brysbaertetal2014_concs, 
+                                             direction="both", test="F")
 summary(fit_AoA_Brysbaertetal2014_concs)
 
 
 # additional var: concreteness
-fit_concrete_Brysbaertetal2014_concs <- lm(concs$s_concrete_Brysbaertetal2014 ~ 
-concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
+fit_concrete_Brysbaertetal2014_concs = lm(concs$s_concrete_Brysbaertetal2014 ~ 
+                                            concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
 stat.desc(fit_concrete_Brysbaertetal2014_concs$residuals, norm = TRUE)
 
 # residuals distribution: skew. Raw scores/2.SE > 1
 # have to log-transform DV and re-run regression
 
 psych::describe(concs$s_concrete_Brysbaertetal2014)
-concs$log_s_concrete_Brysbaertetal2014 <- log(3 + concs$s_concrete_Brysbaertetal2014)
+concs$log_s_concrete_Brysbaertetal2014 = log(3 + concs$s_concrete_Brysbaertetal2014)
 
-fit_concrete_Brysbaertetal2014_concs <- lm(concs$log_s_concrete_Brysbaertetal2014 ~ 
-concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
+fit_concrete_Brysbaertetal2014_concs = lm(concs$log_s_concrete_Brysbaertetal2014 ~ 
+                                            concs$s_Auditory + concs$s_Haptic + concs$s_Visual, data = concs)
 
 # check residuals again
 stat.desc(fit_concrete_Brysbaertetal2014_concs$residuals, norm = TRUE)
@@ -2198,10 +2191,10 @@ mean(vif(fit_concrete_Brysbaertetal2014_concs))
 1/vif(fit_concrete_Brysbaertetal2014_concs)
 # RESULTS: all good
 
-step_concrete_Brysbaertetal2014_concs_AIC <- 
-stepAIC(fit_concrete_Brysbaertetal2014_concs, direction="both")
-step_concrete_Brysbaertetal2014_concs_F <- 
-stepAIC(fit_concrete_Brysbaertetal2014_concs, direction="both", test="F")
+step_concrete_Brysbaertetal2014_concs_AIC = 
+  stepAIC(fit_concrete_Brysbaertetal2014_concs, direction="both")
+step_concrete_Brysbaertetal2014_concs_F = 
+  stepAIC(fit_concrete_Brysbaertetal2014_concs, direction="both", test="F")
 summary(fit_concrete_Brysbaertetal2014_concs)
 
 
