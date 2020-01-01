@@ -526,7 +526,7 @@ allNL$Range = mapvalues(allNL$Range, from = c(0, 1, 2, 3, 4),
 allNL$cat = recode(allNL$cat, Concept = "Concepts", Property = "Properties")
 
 # Set order to display properties first, instead of alphabetical 'Concepts-Properties' order
-allNL$cat = factor(allNL$cat, levels=rev(levels(allNL$cat)))
+allNL$cat = factor(allNL$cat, levels = rev(levels(allNL$cat)))
 
 p = ggplot(allNL) +
   geom_bar(mapping = aes(x = main, fill = Range), position = position_stack(reverse = TRUE)) +
