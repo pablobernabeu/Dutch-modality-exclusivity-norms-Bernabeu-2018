@@ -22,6 +22,7 @@ library(car)
 library(contrast)
 library(corpcor)
 library(doBy)
+library(plyr)  # Load before `dplyr` (https://github.com/tidyverse/dplyr/issues/347)
 library(dplyr)
 library(flexdashboard)
 library(formattable)
@@ -44,7 +45,6 @@ library(MASS)
 library(pander)
 library(pastecs)
 library(plotly)
-library(plyr)
 library(png)
 library(psych)
 library(QuantPsyc)
@@ -64,10 +64,12 @@ library(tidyr)
 
 panderOptions('keep.trailing.zeros', TRUE)
 
+knitr::opts_chunk$set(cache = FALSE, fig.align='center')
+
 ```
 
 
-<!-- Begin definition of setup parameters -->
+<!-- Begin definition of layout parameters -->
 <head>
 <style type="text/css">
 
@@ -155,48 +157,117 @@ section-properties, section-concepts, section-cf-lc-english-norms, section-sound
 }
 
 
-
 <!-- Define CSS style for customising output to specific screen sizes -->
 
-  .desktop-only {display: inline;}
+.desktop-only {display: inline;}
   /* Smartphone Portrait and Landscape */
   @media only screen
     and (max-width : 765px){
      .desktop-only {display: none;}
-  }
+}
 
-  .mobile-only {display: inline;}
+.mobile-only {display: inline;}
   /* Smartphone Portrait and Landscape */
   @media only screen
     and (min-width : 766px){
       .mobile-only {display: none;}
+}
+
+
+<!-- Define CSS style for fonts -->
+
+body{ /* Normal  */
+      font-size: 16px;
   }
   
-/* modal dialog closing button */
-.swal-button {
-  padding: 7px 19px;
-  border-radius: 2px;
-  color: #72715B;
-  background-color: #EAE9D8;
+td {  /* Table  */
+  font-size: 14px;
+}
+
+h1.title {
+  font-size: 38px;
+  font-weight: bold;
+  color: #28002E
+}
+
+h1 { /* Header 1 */
+  font-size: 28px;
+  font-weight: bold;
+  color: #28002E
+}
+
+h2 { /* Header 2 */
+  font-size: 22px;
+  font-weight: bold;
+  color: #28002E
+}
+
+h3 { /* Header 3 */
+  font-size: 18px;
+  font-weight: bold;
+}
+
+h4 { /* Header 4 */
+  font-size: 16px;
+}
+
+h5 { /* Header 5 */
+  font-size: 15px;
+}
+
+h6 { /* Header 6 */
+  font-size: 14px;
+}
+
+code.r{ /* Code block */
   font-size: 12px;
-  border: 1px solid #3e549a;
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
+pre { /* Code-fromatted output */
+  font-size: 14px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: -15px;
+  margin-bottom: 18px;
+}
+
+
+
+<!-- Define CSS style for splitting columns -->
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 </style>
 
 
-<!-- Load CSS libraries for icons -->
+<!-- Setting for splitting columns -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Load Bootstrap libraries for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
 
-<!-- CSS style to enable a hovering tooltip -->
+<!-- Javascript function to enable a hovering tooltip -->
 <script>
 $(document).ready(function(){
     $('[data-toggle="tooltip1"]').tooltip();
 });
 </script>
-
 
 </head>
 
@@ -224,6 +295,8 @@ all$SD_Haptic = as.numeric(all$SD_Haptic)
 all$SD_Visual = as.numeric(all$SD_Visual)
 
 
+
+
 # PROPERTIES
 
 # Principal component analysis on the three modalities
@@ -231,9 +304,9 @@ all$SD_Visual = as.numeric(all$SD_Visual)
 # Check conditions for a PCA
 
 # matrix
-prop <- all[all$cat == 'Property' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
+prop = all[all$cat == 'Property' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
 #nrow(prop)
-prop_matrix <- cor(prop, use = 'complete.obs')
+prop_matrix = cor(prop, use = 'complete.obs')
 #prop_matrix
 #round(prop_matrix, 2)
 # POOR: correlations not apt for a PCA, with too many below .3
@@ -253,7 +326,7 @@ prop_matrix <- cor(prop, use = 'complete.obs')
 # GOOD: > 0.00001
 
 # start off with unrotated PCA
-pc1_prop <- psych::principal(prop, nfactors = 3, rotate = "none")
+pc1_prop = psych::principal(prop, nfactors = 3, rotate = "none")
 #pc1_prop
 # RESULT: Only PC1, with eigenvalue > 1, should be extracted, 
 # acc to Kaiser's criterion (Jolliffe's threshold of 0.7 way too lax; 
@@ -267,7 +340,7 @@ pc1_prop <- psych::principal(prop, nfactors = 3, rotate = "none")
 # Always preferable because it captures explained variance best. 
 # Compare eigenvalues w/ 1 & 2 factors
 
-pc2_prop <- psych::principal(prop, nfactors = 2, rotate = "varimax", scores = TRUE)
+pc2_prop = psych::principal(prop, nfactors = 2, rotate = "varimax", scores = TRUE)
 #pc2_prop
 #pc2_prop$loadings
 # good to extract 2 factors, as they both explain quite the same variance,
@@ -283,9 +356,9 @@ pc2_prop <- psych::principal(prop, nfactors = 2, rotate = "varimax", scores = TR
 # Communalities good, all > .7 (av = .83). 
 
 # subset and add PCs
-props <- all[all$cat == 'Property' & !is.na(all$word), ]
+props = all[all$cat == 'Property' & !is.na(all$word),]
 #nrow(props)
-props <- cbind(props, pc2_prop$scores)
+props = cbind(props, pc2_prop$scores)
 #nrow(props)
 
 # Extend initial of main modality into full word
@@ -300,6 +373,7 @@ props$word = as.character(props$word)
 props[is.na(props$phonemes_DUTCHPOND), 'phonemes_DUTCHPOND'] = 0
 props[is.na(props$freq_lg10CD_SUBTLEXNL), 'freq_lg10CD_SUBTLEXNL'] = 0
 props[is.na(props$freq_lg10WF_SUBTLEXNL), 'freq_lg10WF_SUBTLEXNL'] = 0
+props[is.na(props$inflected_adj_freq_lg10CD_SUBTLEXNL), 'inflected_adj_freq_lg10CD_SUBTLEXNL'] = 0
 props[is.na(props$freq_CELEX_lem), 'freq_CELEX_lem'] = 0
 props[is.na(props$orth_neighbours_DUTCHPOND), 'orth_neighbours_DUTCHPOND'] = 0
 props[is.na(props$phon_neighbours_DUTCHPOND), 'phon_neighbours_DUTCHPOND'] = 0
@@ -319,9 +393,9 @@ props$Exclusivity = props$Exclusivity * 100
 
 # Check conditions for a PCA
 # matrix
-conc <- all[all$cat == 'Concept' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
+conc = all[all$cat == 'Concept' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
 #nrow(conc)
-conc_matrix <- cor(conc, use = 'complete.obs')
+conc_matrix = cor(conc, use = 'complete.obs')
 #conc_matrix
 #round(conc_matrix, 2)
 # POOR: correlations not apt for a PCA, with too many below .3
@@ -341,7 +415,7 @@ conc_matrix <- cor(conc, use = 'complete.obs')
 # GOOD: > 0.00001
 
 # start off with unrotated PCA
-pc1_conc <- psych::principal(conc, nfactors = 3, rotate = "none")
+pc1_conc = psych::principal(conc, nfactors = 3, rotate = "none")
 #pc1_conc
 # RESULT good: PC1 and PC2, with eigenvalue > 1, should be extracted, 
 # acc to Kaiser's criterion (Jolliffe's threshold of 0.7 way too lax; 
@@ -355,7 +429,7 @@ pc1_conc <- psych::principal(conc, nfactors = 3, rotate = "none")
 # Always preferable because it captures explained variance best. 
 # Compare eigenvalues w/ 1 & 2 Principal Components
 
-pc2_conc <- psych::principal(conc, nfactors = 2, rotate = "varimax", scores = TRUE)
+pc2_conc = psych::principal(conc, nfactors = 2, rotate = "varimax", scores = TRUE)
 #pc2_conc
 #pc2_conc$loadings
 
@@ -370,9 +444,9 @@ pc2_conc <- psych::principal(conc, nfactors = 2, rotate = "varimax", scores = TR
 # values > 0.05. Model fit good, > .90. Communalities good, all > .7 (av = .82). 
 
 # subset and add PCs
-concs <- all[all$cat == 'Concept' & !is.na(all$word), ]
+concs = all[all$cat == 'Concept' & !is.na(all$word),]
 #nrow(concs)
-concs <- cbind(concs, pc2_conc$scores)
+concs = cbind(concs, pc2_conc$scores)
 #nrow(concs)
 
 # Extend initial of main modality into full word
@@ -385,8 +459,8 @@ concs$word = as.character(concs$word)
 
 # Replace NAs in corpora with 0 to allow selection
 concs[is.na(concs$phonemes_DUTCHPOND), 'phonemes_DUTCHPOND'] = 0
-concs[is.na(concs$freq_lg10CD_SUBTLEXNL), 'freq_lg10CD_SUBTLEXNL'] = 0
 concs[is.na(concs$freq_lg10WF_SUBTLEXNL), 'freq_lg10WF_SUBTLEXNL'] = 0
+concs[is.na(concs$freq_lg10CD_SUBTLEXNL), 'freq_lg10CD_SUBTLEXNL'] = 0
 concs[is.na(concs$freq_CELEX_lem), 'freq_CELEX_lem'] = 0
 concs[is.na(concs$orth_neighbours_DUTCHPOND), 'orth_neighbours_DUTCHPOND'] = 0
 concs[is.na(concs$phon_neighbours_DUTCHPOND), 'phon_neighbours_DUTCHPOND'] = 0
@@ -404,22 +478,27 @@ colours = c('firebrick1', 'dodgerblue', 'forestgreen')
 
 
 
-Info {style="background-color:#FCFCFC; data-width:100%; width: 900px; margin: 0 auto;"}
+
+
+
+<i class="fas fa-code" aria-hidden="true"></i> Info {style="background-color: #FCFCFC; data-width: 100%; width: 900px; margin: 0 auto;"}
 =======================================================================
 
-Row {style="height:1550px; background-color:#FCFCFC;"}
+Column {style="height:1300px; background-color:#FCFCFC;"}
 --------------------------------------------------------
 
-<div style = "padding-left: 60px; padding-right: 60px; padding-bottom:40px; text-align: justify; background-color: #FCFCFC;">
+<div style = "padding-left: 60px; padding-right: 60px; padding-bottom:5px; text-align: justify; background-color: #FCFCFC;">
 
-<div style="text-align: center; font-size: 18px; padding-top: 21px; margin-top: 2px; margin-bottom: 0px;"> This *RPubs* website is a reduced version of a dashboard. </div>
+<div style="text-align: center; font-size: 18px; padding-top: 31px; margin-top: 2px; margin-bottom: 0px;"> This is a reduced version of a dashboard. </div>
 
 <!-- Links -->
 <div style = "text-align: center; padding-top: 12px;">
 
 <a href="https://pablobernabeu.shinyapps.io/Dutch-modality-exclusivity-norms/" target="_blank" style='color:#827182; border-bottom:none !important; font-size: 17px; font-weight: bold; font-family: "Courier New", Courier, monospace;'> <i class="fas fa-drafting-compass" aria-hidden="true" style='padding-top:4px; padding-bottom:6px; font-size:19px; color:#5A647B;'></i> See complete dashboard </a>
 
-<a href="https://github.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/blob/master/Dutch-modality-exclusivity-norms-RPubs.Rmd" target="_blank" style="color:#9FB05F; border-bottom:none !important;font-size: 15px; font-weight: bold; font-family: 'Courier New', Courier, monospace;"> <i class='fas fa-database' aria-hidden="true" style='font-size:20px; color:#577787'></i> <i class='fab fa-r-project' aria-hidden="true" style='font-size:20px; color:#526772'></i> Data and code for analyses and dashboard </a>
+<a href="https://osf.io/58gzs/" target="_blank" style="color:#577787; border-bottom:none !important;font-size: 18px; font-weight: bold; font-family: 'Courier New', Courier, monospace;"> <i class='fas fa-database' aria-hidden="true" style='font-size:16px; color:#577787'></i> Data </a>
+
+<a href="https://github.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/blob/master/Dutch-modality-exclusivity-norms-RPubs.Rmd" target="_blank" style="color:#577787; border-bottom:none !important;font-size: 18px; font-weight: bold; font-family: 'Courier New', Courier, monospace;"> <i class='fab fa-r-project' aria-hidden="true" style='font-size:16px; color:#577787'></i><i class='fas fa-code' aria-hidden="true" style='font-size:9px; color:#526772'></i> Code </a>
 
 </div>
 
@@ -427,121 +506,553 @@ Row {style="height:1550px; background-color:#FCFCFC;"}
 <a href="http://creativecommons.org/licenses/by/4.0/" rel="Attribution licence" style="color:#CEC7BF; font-size:13px;"> Licence <img style="border-width:0;" src="https://i.creativecommons.org/l/by/4.0/80x15.png" alt="Creative Commons License"></img> </a>
 </div>
 
-
 <!-- Enable this once the Binder feature is enabled (https://github.com/jupyter/repo2docker/issues/799) -->
 <!-- <div style="text-align: center; color: #A9AEC1; font-size: 12px; padding-top: 21px; margin-top: 2px; margin-bottom: 2px;"> In case of downtime, please [visit here](https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=shiny/Shiny-app/){target="_blank"}. </div> -->
 
-
-#### Information
-
-This dashboard presents the data and analyses of a set of modality exclusivity norms for Dutch. Various tabs and interactive plots are available. In addition, the data set is available in [CSV format](https://osf.io/ge7pn/){target="_blank"} and [Excel format including column definitions](https://osf.io/58gzs/){target="_blank"}.
-
-The norms, which are ratings of linguistic stimuli, served a twofold purpose: first, the creation of linguistic stimuli (see also Speed & Majid, 2017), and second, a conceptual replication of Lynott and Connell's (2009, 2013) analyses. In the collection of the ratings, forty-two respondents completed surveys for the properties or the concepts separately. Each word was rated by eight participants on average, with a minimum of five (e.g., for *bevriezend*) and a maximum of ten ratings per word (e.g., for *donzig*). The [instructions to participants](https://osf.io/ungey/){target="_blank"} were similar to those used by Lynott and Connell (2009, 2013), except that we elicited three modalities (auditory, haptic, visual) instead of five.
-
-> <div style = "text-align: justify; font-size: 14px; background-color: #FCFCFC;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
-
-These norms were validated in an experiment showing that shifts across trials with different dominant modalities incurred semantic processing costs ([Bernabeu, Willems, & Louwerse, 2017](https://mindmodeling.org/cogsci2017/papers/0318/index.html){target="_blank"}). All data for that study are [available](https://osf.io/97unm/wiki/home/){target="_blank"}, including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/){target="_blank"} (in case of downtime of the dashboard site, please see [this alternative](https://mybinder.org/v2/gh/pablobernabeu/Modality-switch-effects-emerge-early-and-increase-throughout-conceptual-processing/master?urlpath=shiny/Shiny-app/){target="_blank"}).
-
-The [properties](#properties){style='background-color:#F9FFFF'} and the [concepts](#concepts){style='background-color:#F9FFFF'} were differentiated during their collection and analysis. They may also be consulted together [on a table](#table){style='background-color:#F9FFFF'}. The properties were found to be more strongly perceptual than concepts. Distinct relationships also emerged among the modalities, with the visual and haptic modalities being closely related, and the auditory modality being relatively independent ([cf. Lynott & Connell's data for English](#cf-lc-english-norms){style='background-color:#F9FDFF'}). This ties in with findings that, in conceptual processing, modalities can be collated based on language statistics (Louwerse & Connell, 2011).
-
-<div style = "padding-top: 5px; padding-left: 25px; padding-bottom: 8px; float: right; width: 22%; font-size: 85%;">
-<div style = "text-align: center !important; padding-right: 0 !important; padding-left: 0 !important; padding-bottom: 0 !important;"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Booba-Kiki.svg" alt="Bouba-Kiki" width=80px height=55px></img></div>
-<div style="text-align: justify !important; padding-top: 0 !important;"> When people are asked to match the pseudowords *bouba* and *kiki* to the above objects, most name the rounded object *bouba* and the spiky one *kiki*. This has been interpreted as sound symbolism, insofar as pronouncing *bouba* puts the lips into a more rounded shape than pronouncing *kiki* does (Köhler, 1929; Sourav et al., 2019). </div>
-<div style="font-size:65%; padding-top:6px;"> https://commons.wikimedia.org/wiki/File:Booba-Kiki.svg. Monochrome version 1 June 2007 by BendžVectorized with Inkscape --Qef (talk) 21:21, 23 June 2008 (UTC) [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)] </div> 
 </div>
 
-The norms also served to investigate [sound symbolism](#sound-symbolism){style='background-color:#F9FFFF'}, which is the relation between the form of words and their meaning. The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would. Lynott and Connell's (2013) findings were replicated, as auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings.
 
-The present analyses and further ones will be reported in a forthcoming paper. All data and analysis code for the norms are [available for re-use](https://osf.io/brkjw/wiki/home/){target="_blank"} under a [CC-BY licence](https://creativecommons.org/licenses/by/4.0/){target="_blank"}, provided acknowledgment of the following publication:
+<div style = "padding-left: 60px; padding-right: 60px; text-align: justify; background-color:#FCFCFC; font-size: 16px; line-height: 1.6;">
 
-> <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 14.1px; background-color: #FCFCFC;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). [Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs.](https://mindmodeling.org/cogsci2017/papers/0318/index.html){target="_blank"} In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society.</div>
+## Information
 
+This dashboard presents the data and analyses of a set of modality exclusivity norms for Dutch. Various tabs and interactive plots are available. In addition, the data set is available in [CSV format](https://osf.io/ge7pn/) and [Excel format including column definitions](https://osf.io/58gzs/).
 
-#### Definitions (as in Lynott & Connell, 2009, 2013)
+The norms, which are ratings of linguistic stimuli, served a twofold purpose: first, the creation of linguistic stimuli (see also Speed & Majid, 2017), and second, a conceptual replication of Lynott and Connell's (2009, 2013) analyses. In the collection of the ratings, forty-two respondents completed surveys for the properties or the concepts separately. Each word was rated by eight participants on average, with a minimum of five (e.g., for *bevriezend*) and a maximum of ten ratings per word (e.g., for *donzig*). The [instructions to participants](https://osf.io/ungey/) were similar to those used by Lynott and Connell (2009, 2013), except that we elicited three modalities (auditory, haptic, visual) instead of five.
+
+> <div style = "text-align: justify; background-color: #FCFCFC; font-size: 15px;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
+
+### Definitions (as in Lynott & Connell, 2009, 2013)
 
 * Dominant modality: Highest-rated modality;
-
 * Modality exclusivity: Range of the three modality ratings divided by the sum;
-
 * Perceptual strength: Highest rating across modalities.
 
 
-#### External corpora
+```{r out.width=500}
+
+allNL = all[!is.na(all$main),]
+
+allNL$Range = floor(allNL$Exclusivity * 4)
+allNL$Range = mapvalues(allNL$Range, from = c(0, 1, 2, 3, 4),
+                        to = c("0-20%", "20-40%", "40-60%", "60-80%", "80-100%"))
+
+allNL$cat = recode(allNL$cat, Concept = "Concepts", Property = "Properties")
+
+# Set order to display properties first, instead of alphabetical 'Concepts-Properties' order
+allNL$cat = factor(allNL$cat, levels = rev(levels(allNL$cat)))
+
+ggplot(allNL) +
+  geom_bar(mapping = aes(x = main, fill = Range), position = position_stack(reverse = TRUE)) +
+  scale_fill_grey(start=.9, end=0, labels = c("0-20%", "20-40%", "40-60%", "60-80%", "80-100%"),
+                  guide = guide_legend(reverse = TRUE, override.aes = list(size = 9))) +
+  scale_x_discrete(expand = c(.24,0)) + scale_y_continuous(expand = expand_scale(mult = c(0, .05))) +
+  facet_grid(. ~ cat) + labs(fill = "Modality\nExclusivity", x = 'Dominant Modality',  y = 'Number of Words') +
+  theme_bw() + theme(legend.position = c(.17, .59), legend.title = element_text(size = 14, face = 'bold'),
+                     legend.text = element_text(size = 12), legend.background = element_rect(fill=alpha('white', 0)),
+                     axis.title = element_text(size = 17, face = "bold"), axis.text = element_text(size = 15),
+                     axis.title.x = element_text(margin = margin(.09, 0, 0, 0, "cm")),
+                     axis.text.x = element_text(margin = margin(.09, 0, 0, 0, "cm")),
+                     panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"),
+                     strip.text = element_text(size = 17, face = 'bold', vjust = .7,
+                                               margin = margin(.3, 0, .3, 0, "cm")),
+                     axis.ticks.x = element_blank())
+
+```
+
+##### Figure 1. Number of words in the norms per word category, dominant modality, and modality exclusivity. <br> [<i class='fas fa-external-link-alt' aria-hidden=TRUE style='font-size:7'></i> Github](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/stacked_exc.png). {style='text-align:justify; padding-left:5px; padding-right:5px; line-height: 1.4;'}
+
+
+These norms were validated in an experiment demonstrating that shifts across trials with different dominant modalities incurred semantic processing costs ([Bernabeu, Willems, & Louwerse, 2017](https://mindmodeling.org/cogsci2017/papers/0318/index.html)). All data for that study are [available](https://osf.io/97unm/wiki/home/), including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/) (in case of downtime of the dashboard site, please see [this alternative](https://mybinder.org/v2/gh/pablobernabeu/Modality-switch-effects-emerge-early-and-increase-throughout-conceptual-processing/master?urlpath=shiny/Shiny-app/)).
+
+The [**properties**](#properties){style='background-color:#FDFFFF'} and the [**concepts**](#concepts){style='background-color:#FDFFFF'} may also be consulted together on a [**table**](#table){style='background-color:#FDFFFF'}. Distinct relationships emerged among the modalities, with the visual and haptic modalities being more related to each other than to the auditory modality. This ties in with findings that, in conceptual processing, modalities can be collated based on language statistics (Louwerse & Connell, 2011). Furthermore, properties were found to be more strongly perceptual than concepts ([**cf. English norms by Lynott & Connell, 2009, 2013**](#section-cf-lc-english-norms){style='background-color:#FDFFFF'}).
+
+```{r out.width=775, out.length=775}
+
+# ENGLISH PROPERTIES
+
+# check conditions for a PCA
+# matrix
+
+eng_prop = all[all$cat == 'Property', c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013')]
+# nrow(eng_prop)
+eng_prop_matrix = cor(eng_prop, use = 'complete.obs')
+# eng_prop_matrix
+# round(eng_prop_matrix, 2)
+# OK: correlations good for a PCA, with enough < .3
+
+# now on the raw vars:
+# nrow(eng_prop)
+# cortest.bartlett(eng_prop)
+# GOOD: Bartlett's test significant 
+
+# KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
+# KMO(eng_prop_matrix)
+# Result: .56 = mediocre. PCA not strongly recommended. But we still do it
+# because the purpose is graphical only.
+
+# check determinant
+# det(eng_prop_matrix)
+# GOOD: > 0.00001
+
+# start off with unrotated PCA
+pc1_eng_prop = psych::principal(eng_prop, nfactors = 3, rotate = "none")
+# pc1_eng_prop
+# RESULT: Extract either one PC, acc to Kaiser's criterion, or two RCs, acc to 
+# Joliffe's (Field, Miles, & Field, 2012)
+
+# Unrotated: scree plot
+# plot(pc1_eng_prop$values, type = "b")
+# Result: again one or two RCs should be extracted
+
+# Now with varimax rotation, Kaiser-normalized (by default)
+pc2_eng_prop = psych::principal(eng_prop, nfactors = 2, rotate = "varimax", scores = TRUE)
+# pc2_eng_prop
+# pc2_eng_prop$loadings
+# two components are good, as they both have eigenvalues over 1
+
+# pc2_eng_prop$residual
+# pc2_eng_prop$fit
+# pc2_eng_prop$communality
+# Results based on a Kaiser-normalizalized orthogonal (varimax) rotation
+# (by default in psych::stats). Residuals bad: more than 50% have absolute 
+# values > 0.05. Model fit good, > .90. Communalities good, all > .7. 
+
+# subset and add PCs
+eng_props = all[all$cat == 'Property', ]
+# nrow(eng_props)
+eng_props = cbind(eng_props, pc2_eng_prop$scores)
+# nrow(eng_props)
+# 
+# head(eng_props)
+
+# Finally, plot
+
+# Set sample words to show on plot (first word in each modality)
+auditory_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_2009_2013=='Auditory', 'English_Word_Lynott_Connell_2009_2013'])[1])
+haptic_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_2009_2013=='Haptic', 'English_Word_Lynott_Connell_2009_2013'])[1])
+visual_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_2009_2013=='Visual', 'English_Word_Lynott_Connell_2009_2013'])[1])
+w_set = c(auditory_w, haptic_w, visual_w)
+
+eng_props$English_Main_Lynott_Connell_2009_2013 = recode(eng_props$English_Main_Lynott_Connell_2009_2013, Auditory = "a", Haptic = "h", Visual = "v")
+
+Engprops = ggplot(eng_props,
+                  aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + 
+  stat_density2d(color = "gray87") +
+  geom_text(size = ifelse(eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set, 4, 2.3),
+            fontface = ifelse(eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
+  geom_point(data=eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], 
+             pch=21, fill=NA, size=4, stroke=2, alpha=.6) +
+  ggtitle('English properties (Lynott & Connell, 2009)') +
+  labs(x = "", y = "Varimax-rotated Principal Component 2") +	theme_bw() +
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'),
+         axis.title.x = element_text(colour = 'black', size = 7, margin=margin(2,2,2,2)),
+         axis.title.y = element_text(colour = 'black', size = 7, margin=margin(2,2,2,2)),
+         axis.text.x = element_text(size=5), axis.text.y  = element_text(size=5),
+         plot.title = element_text(hjust = 0.5, size = 10, margin=margin(4,4,4,4)),
+         plot.margin=unit(c(0,0,0,0), "lines")) +
+  geom_label_repel(data = eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], 
+                   aes(label = English_Word_Lynott_Connell_2009_2013), size = 3,
+                   alpha = 0.77, color = 'black', box.padding = 1.5 )
+
+
+
+
+# ENGLISH CONCEPTS
+
+# check conditions for a PCA
+# matrix
+eng_conc = all[all$cat == 'Concept', c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013')]
+# nrow(eng_conc)
+eng_conc_matrix = cor(eng_conc, use = 'complete.obs')
+# eng_conc_matrix
+# round(eng_conc_matrix, 2)
+# POOR: correlations not apt for a PCA, with too many below .3
+
+# now on the raw data:
+# nrow(eng_conc)
+# cortest.bartlett(eng_conc)
+# GOOD: Bartlett's test significant 
+
+# KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
+# KMO(eng_conc_matrix)
+# Result: .48 = poor. PCA not strongly recommended. But we still do it
+# because the purpose is graphical really.
+
+# check determinant
+# det(eng_conc_matrix)
+# GOOD: > 0.00001
+
+# start off with unrotated PCA
+pc1_eng_conc = psych::principal(eng_conc, nfactors = 3, rotate = "none")
+# pc1_eng_conc
+# RESULT: Extract either one PC, acc to Kaiser's criterion, or two RCs, acc to 
+# Joliffe's (Field, Miles, & Field, 2012)
+
+# Unrotated: scree plot
+# plot(pc1_eng_conc$values, type = "b")
+# Result: two PCs obtain.
+
+# Now with varimax rotation, Kaiser-normalized (by default):
+# always preferable because it captures explained variance best. 
+pc2_eng_conc = psych::principal(eng_conc, nfactors = 2, rotate = "varimax", scores = TRUE)
+# pc2_eng_conc
+# pc2_eng_conc$loadings
+# 
+# 
+# pc2_eng_conc$residual
+# pc2_eng_conc$fit
+# pc2_eng_conc$communality
+# Results based on a Kaiser-normalizalized orthogonal (varimax) rotation 
+# (by default in psych::stats). Residuals bad: over 50% have absolute 
+# values > 0.05. Model fit good, > .90. Communalities good, all > .7.
+
+# subset and add PCs
+eng_concs = all[all$cat == 'Concept', ]
+# nrow(eng_concs)
+eng_concs = cbind(eng_concs, pc2_eng_conc$scores)
+# summary(eng_concs$RC1, eng_concs$RC2)
+eng_concs = eng_concs[eng_concs$normed == 'Dut_Eng' | eng_concs$normed == 'English',]
+# nrow(eng_concs)
+# summary(eng_concs$RC1, eng_concs$RC2)
+
+
+# Finally, plot
+
+# Set sample words to show on plot (first word in each modality)
+auditory_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_2009_2013=='Auditory', 'English_Word_Lynott_Connell_2009_2013'])[1])
+haptic_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_2009_2013=='Haptic', 'English_Word_Lynott_Connell_2009_2013'])[1])
+visual_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_2009_2013=='Visual', 'English_Word_Lynott_Connell_2009_2013'])[1])
+w_set = c(auditory_w, haptic_w, visual_w)
+
+eng_concs$English_Main_Lynott_Connell_2009_2013 = recode(eng_concs$English_Main_Lynott_Connell_2009_2013, Auditory = "a", Haptic = "h", Visual = "v")
+
+Engconcs = ggplot(eng_concs,
+                  aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) +
+  stat_density2d(color = "gray87") +
+  geom_text(size = ifelse(eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set, 4, 2.3),
+            fontface = ifelse(eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
+  geom_point(data=eng_concs[eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set,], 
+             pch=21, fill=NA, size=4, stroke=2, alpha=.6) +
+  ggtitle('English concepts (Lynott & Connell, 2013)') +
+  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
+  theme_bw() +
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'),
+         axis.title.x = element_text(colour = 'black', size = 7, margin=margin(2,2,2,2)),
+         axis.title.y = element_text(colour = 'black', size = 7, margin=margin(2,2,2,2)),
+         axis.text.x = element_text(size=5), axis.text.y  = element_text(size=5),
+         plot.title = element_text(hjust = 0.5, size = 10, margin=margin(4,4,4,4)),
+         plot.margin=unit(c(0,0,0,0), "lines")) +
+  geom_label_repel(data = eng_concs[eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set,], 
+                   aes(label = English_Word_Lynott_Connell_2009_2013), size = 3,
+                   alpha = 0.77, color = 'black', box.padding = 1.5 )
+
+
+
+
+# DUTCH
+# Properties
+# check conditions for a PCA
+
+# matrix
+Property = all[all$cat == 'Property' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
+# nrow(Property)
+prop_matrix = cor(Property, use = 'complete.obs')
+# prop_matrix
+# round(prop_matrix, 2)
+# POOR: correlations not apt for a PCA, with too many below .3
+
+# now on the raw vars:
+# nrow(Property)
+# cortest.bartlett(Property)
+# GOOD: Bartlett's test significant 
+
+# KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
+# KMO(prop_matrix)
+# Result: .56 = mediocre. PCA not strongly recommended. But we still do it
+# because the purpose is graphical only.
+
+# check determinant
+# det(prop_matrix)
+# GOOD: > 0.00001
+
+# start off with unrotated PCA
+pc1_prop = psych::principal(Property, nfactors = 3, rotate = "none")
+# pc1_prop
+# RESULT: Only PC1, with eigenvalue > 1, should be extracted, 
+# acc to Kaiser's criterion (Jolliffe's threshold of 0.7 way too lax; 
+# Field, Miles, & Field, 2012)
+
+# Unrotated: scree plot
+# plot(pc1_prop$values, type = "b")
+# Result: one or two RCs should be extracted, converging with eigenvalues
+
+# Now with varimax rotation, Kaiser-normalized (by default). 
+# Always preferable because it captures explained variance best. 
+# Compare eigenvalues w/ 1 & 2 factors
+
+pc2_prop = psych::principal(Property, nfactors = 2, rotate = "varimax", scores = TRUE)
+# pc2_prop
+# pc2_prop$loadings
+# good to extract 2 factors, as they both explain quite the same variance,
+# and both surpass 1 eigenvalue
+
+
+# pc2_prop$residual
+# pc2_prop$fit
+# pc2_prop$communality
+# Results based on a Kaiser-normalizalized orthogonal (varimax) rotation
+# (by default in psych::stats). Residuals OK: fewer than 50% have absolute 
+# values > 0.05 (exactly 50% do).Model fit good, > .90. 
+# Communalities good, all > .7 (av = .83). 
+
+# subset and add PCs
+properties = all[all$cat == 'Property' & !is.na(all$word), ]
+# nrow(properties)
+properties = cbind(properties, pc2_prop$scores)
+# nrow(properties)
+
+# Finally, plot: letters+density (cf. Lynott & Connell, 2009, 2013)
+
+# Set sample words to show on plot (first word in each modality)
+auditory_w = as.character(sort(properties[properties$main=='Auditory', 'word'])[1])
+haptic_w = as.character(sort(properties[properties$main=='Haptic', 'word'])[1])
+visual_w = as.character(sort(properties[properties$main=='Visual', 'word'])[1])
+w_set = c(auditory_w, haptic_w, visual_w)
+
+properties$main = recode(properties$main, Auditory = "a", Haptic = "h", Visual = "v")
+
+NLprops = ggplot(properties,
+                 aes(RC1, RC2, label = as.character(main))) +
+  stat_density2d(color = "gray87") +
+  geom_text(size = ifelse(props$word %in% w_set, 4, 2.3),
+            fontface = ifelse(props$word %in% w_set, 'bold', 'plain')) +
+  geom_point(data=props[props$word %in% w_set,], 
+             pch=21, fill=NA, size=4, stroke=2, alpha=.6) +
+  ggtitle('Dutch properties') +
+  labs(x = "", y = "") +	
+  theme_bw() +
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'),
+         axis.title.x = element_text(colour = 'black', size = 7, margin=margin(2,2,2,2)),
+         axis.title.y = element_text(colour = 'black', size = 7, margin=margin(2,2,2,2)),
+         axis.text.x = element_text(size=5), axis.text.y  = element_text(size=5),
+         plot.title = element_text(hjust = 0.5, size = 10, margin=margin(4,4,4,4)),
+         plot.margin=unit(c(0,0,0,0), "lines")) +
+  geom_label_repel(data = props[props$word %in% w_set,], 
+                   aes(label = word), size = 3,
+                   alpha = 0.77, color = 'black', box.padding = 1.5 )
+
+
+
+
+# CONCEPTS
+
+# check conditions for a PCA
+# matrix
+Concept = all[all$cat == 'Concept' & !is.na(all$word), c('Auditory', 'Haptic', 'Visual')]
+# nrow(Concept)
+conc_matrix = cor(Concept, use = 'complete.obs')
+# conc_matrix
+# round(conc_matrix, 2)
+# POOR: correlations not apt for a PCA, with too many below .3
+
+# now on the raw data:
+# nrow(Concept)
+# cortest.bartlett(Concept)
+# GOOD: Bartlett's test significant 
+
+# KMO: Kaiser-Meyer-Olkin Measure of Sampling Adequacy
+# KMO(conc_matrix)
+# Result: .49 = poor. PCA not strongly recommended. But we still do it
+# because the purpose is graphical really.
+
+# check determinant
+# det(conc_matrix)
+# GOOD: > 0.00001
+
+# start off with unrotated PCA
+pc1_conc = psych::principal(Concept, nfactors = 3, rotate = "none")
+# pc1_conc
+# RESULT good: PC1 and PC2, with eigenvalue > 1, should be extracted, 
+# acc to Kaiser's criterion (Jolliffe's threshold of 0.7 way too lax; 
+# Field, Miles, & Field, 2012)
+
+# Unrotated: scree plot
+# plot(pc1_conc$values, type = "b")
+# Result: with no point of inflexion along the y axis, two PCs would obtain.
+
+# Now with varimax rotation, Kaiser-normalized (by default):
+# Always preferable because it captures explained variance best. 
+# Compare eigenvalues w/ 1 & 2 Principal Components
+
+pc2_conc = psych::principal(Concept, nfactors = 2, rotate = "varimax", scores = TRUE)
+# pc2_conc
+# pc2_conc$loadings
+
+# good to extract 2 Principal Components, as they both explain quite the same variance, 
+# and both surpass 1 eigenvalue
+
+# pc2_conc$residual
+# pc2_conc$fit
+# pc2_conc$communality
+# Results based on a Kaiser-normalizalized orthogonal (varimax) rotation
+# (by default in psych::stats). Residuals bad: over 50% have absolute 
+# values > 0.05. Model fit good, > .90. Communalities good, all > .7 (av = .82). 
+
+# subset and add PCs
+concepts = all[all$cat == 'Concept' & !is.na(all$word), ]
+# nrow(concepts)
+concepts = cbind(concepts, pc2_conc$scores)
+# nrow(concepts)
+
+# Finally, plot
+
+# Set sample words to show on plot (first word in each modality)
+auditory_w = as.character(sort(concepts[concepts$main=='Auditory', 'word'])[1])
+haptic_w = as.character(sort(concepts[concepts$main=='Haptic', 'word'])[1])
+visual_w = as.character(sort(concepts[concepts$main=='Visual', 'word'])[1])
+w_set = c(auditory_w, haptic_w, visual_w)
+
+concepts$main = recode(concepts$main, Auditory = "a", Haptic = "h", Visual = "v")
+
+NLconcs = ggplot(concepts,
+                 aes(RC1, RC2, label = as.character(main))) +
+  stat_density2d(color = "gray87") +
+  geom_text(size = ifelse(concs$word %in% w_set, 4, 2.3),
+            fontface = ifelse(concs$word %in% w_set, 'bold', 'plain')) +
+  geom_point(data=concs[concs$word %in% w_set,], 
+             pch=21, fill=NA, size=4, stroke=2, alpha=.6) +
+  ggtitle('Dutch concepts') +
+  labs(x = "Varimax-rotated Principal Component 1", y = "") +	
+  theme_bw() +
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'),
+         axis.title.x = element_text(colour = 'black', size = 7, margin=margin(2,2,2,2)),
+         axis.title.y = element_text(colour = 'black', size = 7, margin=margin(2,2,2,2)),
+         axis.text.x = element_text(size=5), axis.text.y  = element_text(size=5),
+         plot.title = element_text(hjust = 0.5, size = 10, margin=margin(4,4,4,4)),
+         plot.margin=unit(c(0,0,0,0), "lines")) +
+  geom_label_repel(data = concs[concs$word %in% w_set,], 
+                   aes(label = word), size = 3,
+                   alpha = 0.77, color = 'black', box.padding = 1.5 )
+
+# Four plots on a grid
+multiplot(Engprops, Engconcs, NLprops, NLconcs, cols = 2)
+
+```
+
+##### Figure 2. Dutch norms compared to English norms (reanalysis of Lynott & Connell, 2009, 2013, narrowed to three modalities) based on a principal component analysis of the auditory, haptic, and visual ratings for each word. Letters indicate the dominant modality of each word (*a* = auditory, *h* = haptic, *v* = visual), and contours further display the degree of consistency of the modalities. [<i class='fas fa-external-link-alt' aria-hidden=TRUE style='font-size:7'></i> Github](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png). {style='text-align:justify; padding-left:5px; padding-right:5px; line-height:1.4;'}
+
+
+
+<!-- Begin two-column format -->
+<div class="row">
+  <div class="column" style="width: 65%;">
+<div>
+The norms also served to investigate [**sound symbolism**](#sound-symbolism){style='background-color:#FDFFFF'}, which is the relation between the form of words and their meaning. The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would. Lynott and Connell's (2013) findings were replicated, as auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings. The present analyses and further ones will be reported in a forthcoming paper.
+
+All data and code are [available for re-use](https://osf.io/brkjw/wiki/home/) under a [CC BY licence](https://creativecommons.org/licenses/by/4.0/), by citing the source:
+</div>
+  </div>
+
+  <div class="column" style="width: 35%; padding-left: 8px;">
+<div style = "padding-top: 5px; padding-bottom: 8px; float: right; font-size: 13px; display: inline-block; background-color: #FAFAFA;">
+<div style = "text-align: center !important; padding-bottom: 0 !important;"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Booba-Kiki.svg" alt="Bouba-Kiki" width=80px height=55px></img></div>
+<div style="text-align: justify !important; padding-top: 0 !important; padding-right: 5px; padding-left: 5px;"> Sound symbolism is a psycholinguistic effect whereby sound properties of words influence their meaning. For instance, when people are asked to match the pseudowords *bouba* and *kiki* to the above objects, most name the rounded object *bouba* and the spiky one *kiki* (Köhler, 1929; Sourav et al., 2019). </div>
+<div style="font-size:65%; padding-top:4px; padding-right: 5px; padding-left: 5px; text-align:left;"> Image: https://commons.wikimedia.org/wiki/File:Booba-Kiki.svg. Monochrome version 1 June 2007 by Bendž. Vectorized with Inkscape--Qef (talk) 21:21, 23 June 2008 (UTC) [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)].</div>
+</div>
+  </div>
+<!-- End two-column format -->
+</div>
+
+> <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 16px; background-color: #FCFCFC; font-size: 15px;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs [Online dashboard with stimulus data]. Retrieved from https://pablobernabeu.shinyapps.io/dutch-modality-exclusivity-norms/.</div>
+
+
+### External corpora
 
 * Concreteness and age of acquisition: Norms by Brysbaert, Warriner, and Kuperman (2014);
-
 * Phonological and orthographic neighbours: DutchPOND (Marian et al., 2012);
-
 * Word frequency and contextual diversity: SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010);
-
 * Lemma frequency: CELEX (Baayen, Piepenbrock, & van Rijn, 1993).
 
 
-#### Acknowledgements {style='padding-top:5px;'}
+### Acknowledgements {style='padding-top:5px;'}
 
 This research was greatly supported by the help of Tilburg University, which provided funding; Wendy Leijten, who provided linguistic advice; and the forty-two Tilburg University students who completed the surveys.
 
 
-#### References {style='padding-top:5px;'}
+### References {style='padding-top:5px;'}
 
-<div style = "text-align: justify; text-indent:-2em; margin-left:2em; background-color:#FCFCFC;">
+<div style = "text-align: justify; text-indent:-2em; margin-left:2em; background-color:#FCFCFC; font-size:15px;">
 
 Baayen, R. H., Piepenbrock, R., & van Rijn, H. (1993). *The CELEX Lexical Database* [CD-ROM]. Philadelphia: Linguistic Data Consortium, University of Pennsylvania.
 
-Brysbaert, M., Warriner, A.B., & Kuperman, V. (2014). Concreteness ratings for 40 thousand generally known English word lemmas. *Behavior Research Methods, 46*, 3, 904-911. [https://doi.org/10.3758/s13428-013-0403-5](https://doi.org/10.3758/s13428-013-0403-5){target="_blank"}.
+Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs. In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society. https://mindmodeling.org/cogsci2017/papers/0318/index.html.
+
+Brysbaert, M., Warriner, A.B., & Kuperman, V. (2014). Concreteness ratings for 40 thousand generally known English word lemmas. *Behavior Research Methods, 46*, 3, 904-911. <br>
+[https://doi.org/10.3758/s13428-013-0403-5](https://doi.org/10.3758/s13428-013-0403-5).
 
 Field, A. P., Miles, J., & Field, Z. (2012). *Discovering Statistics Using R*. London, UK: Sage.
 
-Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measure for Dutch words based on film subtitles. *Behavior Research Methods, 42*, 3, 643-650. [https://doi.org/10.3758/BRM.42.3.643](https://doi.org/10.3758/BRM.42.3.643){target="_blank"}.
+Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measure for Dutch words based on film subtitles. *Behavior Research Methods, 42*, 3, 643-650. [https://doi.org/10.3758/BRM.42.3.643](https://doi.org/10.3758/BRM.42.3.643).
 
 Köhler, W. (1929). *Gestalt Psychology*. New York: Liveright.
 
-Louwerse, M., & Connell, L. (2011). A taste of words: linguistic context and perceptual simulation predict the modality of words. *Cognitive Science, 35*, 2, 381-98. [https://doi.org/10.1111/j.1551-6709.2010.01157.x](https://doi.org/10.1111/j.1551-6709.2010.01157.x){target="_blank"}.
+Louwerse, M., & Connell, L. (2011). A taste of words: Linguistic context and perceptual simulation predict the modality of words. *Cognitive Science, 35*, 2, 381-98. [https://doi.org/10.1111/j.1551-6709.2010.01157.x](https://doi.org/10.1111/j.1551-6709.2010.01157.x).
 
-Lynott, D., & Connell, L. (2009). Modality exclusivity norms for 423 object concepts. *Behavior Research Methods, 41*, 2, 558-564. [https://doi.org/10.3758/BRM.41.2.558](https://doi.org/10.3758/BRM.41.2.558){target="_blank"}.
+Lynott, D., & Connell, L. (2009). Modality exclusivity norms for 423 object concepts. *Behavior Research Methods, 41*, 2, 558-564. [https://doi.org/10.3758/BRM.41.2.558](https://doi.org/10.3758/BRM.41.2.558).
 
-Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The relationship between perceptual experience and surface word form. *Behavior Research Methods, 45*, 2, 516-526. [https://doi.org/10.3758/s13428-012-0267-0](https://doi.org/10.3758/s13428-012-0267-0){target="_blank"}.
+Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The relationship between perceptual experience and surface word form. *Behavior Research Methods, 45*, 2, 516-526. <br>
+[https://doi.org/10.3758/s13428-012-0267-0](https://doi.org/10.3758/s13428-012-0267-0).
 
-Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. [https://doi.org/10.1371/journal.pone.0043230](https://doi.org/10.1371/journal.pone.0043230){target="_blank"}.
+Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. <br>
+[https://doi.org/10.1371/journal.pone.0043230](https://doi.org/10.1371/journal.pone.0043230).
 
-Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. [https://doi.org/10.3758/s13428-017-0852-3](https://doi.org/10.3758/s13428-017-0852-3){target="_blank"}.
+Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. [https://doi.org/10.3758/s13428-017-0852-3](https://doi.org/10.3758/s13428-017-0852-3).
 
-Sourav, S., Kekunnaya, R., Shareef, I., Banerjee, S., Bottari, D., & Röder, B. (2019). A protracted sensitive period regulates the development of cross-modal sound–shape associations in humans. *Psychological Science*. [https://doi.org/10.1177/0956797619866625](https://doi.org/10.1177/0956797619866625){target="_blank"}.
+Sourav, S., Kekunnaya, R., Shareef, I., Banerjee, S., Bottari, D., & Röder, B. (2019). A protracted sensitive period regulates the development of cross-modal sound–shape associations in humans. *Psychological Science, 30*, 10, 1473–1482. [https://doi.org/10.1177/0956797619866625](https://doi.org/10.1177/0956797619866625).
 
 </div>
 
-<div>
 
-#### Contact {style='padding-top:5px;'}
+## Contact {style='padding-top:5px;'}
 
 Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
 
-[Webpage](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu){target="_blank"}
+[Webpage](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu)
+
+<br/>
 
 </div>
 
-</div>
 
 
 
 
 
-
-<i class="fas fa-table" title='Tab with table containing both property and concept words'></i> Norms {#table style="position:absolute !important; background-color:#FCFCFC; data-width:100%;"}
+Table {#table style="background-color:#FCFCFC;"}
 =======================================================================
 
-Column  {style="height:26500px"}
+Column {style="data-width:100%; position:static; height:1000px;"}
 -----------------------------------------------------------------------
 
-### **Filterable table containing both property and concept words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched below the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.
+### <span style = 'font-size: 15px;'> **Property and concept words**. Please scroll horizontally and vertically. Column information available by hovering on header. Columns may be simultaneously filtered and sorted (e.g., to find out range), and words may be searched under the header. [CSV](https://osf.io/ge7pn/){target="_blank"} and [Excel spreadsheet](https://osf.io/58gzs/){target="_blank"} also available.</span> {style="margin-top:17px; padding-top:25px; text-align:justify;"}
 
-<div style = "padding-top: 0px; padding-left: 30px; padding-right: 38px; text-align: justify; background-color:#FCFCFC;">
+<div style = "text-align: justify; background-color: #FCFCFC;">
 
 ```{r}
 
 # Arrange data set and create reactive version taking sidebar input
 
-table_data = all[!is.na(all$word), c('cat', 'conc_cat', 'word', 'inflected_prop', 'main', 'Exclusivity', 'Perceptualstrength', 'Auditory',
+table_data = all[!is.na(all$word), c('word', 'cat', 'inflected_prop', 'conc_cat', 'main', 'Exclusivity', 'Perceptualstrength', 'Auditory',
                                      'Haptic', 'Visual', 'SD_Auditory', 'SD_Haptic', 'SD_Visual', 'concrete_Brysbaertetal2014', 'letters', 
                                      'phonemes_DUTCHPOND', 'freq_lg10CD_SUBTLEXNL', 'inflected_adj_freq_lg10CD_SUBTLEXNL', 
                                      'freq_lg10WF_SUBTLEXNL', 'freq_CELEX_lem', 'phon_neighbours_DUTCHPOND', 'orth_neighbours_DUTCHPOND', 
@@ -579,7 +1090,7 @@ with_tooltip <- function(value, tooltip) {
 
 # Table. Begin by creating structure for descriptive bars inside cells.
 
-bar_chart <- function(label, width = "100%", height = "16px", fill = "#00bfc4", background = NULL) {
+bar_chart <- function(label, width = "100%", height = "8px", fill = "#00bfc4", background = NULL) {
   bar <- div(style = list(background = fill, width = width, height = height, marginRight = "6px"))
   chart <- div(style = list(flexGrow = 1, marginLeft = "8px", background = background), bar)
   div(style = list(display = "flex", alignItems = "center"), label, chart)
@@ -590,20 +1101,20 @@ reactable(table_data,
             
             defaultSorted = list(cat = 'desc', word = 'asc'),
             defaultColDef = colDef(footerStyle = list(fontWeight = "bold")),
-            striped = TRUE, pagination = FALSE, highlight = TRUE, compact = TRUE,
+            height = 840, striped = TRUE, pagination = FALSE, highlight = TRUE,
 
             columns = list(
 
-              cat = colDef(header = with_tooltip('Word category', 'Property / Concept')),
-              
-              conc_cat = colDef(header = with_tooltip('Definite article', "Definite article 'de' is used for feminine and masculine nouns, whereas 'het' is used for neuter nouns.")),
-              
               word = colDef(name='Word', filterable=TRUE, minWidth = 160,
                             style = list(fontWeight='bold', color='#453246')),
+
+              cat = colDef(header = with_tooltip('Word category', 'Property / Concept')),
               
               inflected_prop = colDef(filterable=TRUE, minWidth = 140,
                                       header = with_tooltip('Inflected adjective',
                                                             "Adjectives inflected for masculine and feminine nouns.")),
+
+              conc_cat = colDef(header = with_tooltip('Definite article', "Definite article 'de' is used for feminine and masculine nouns, whereas 'het' is used for neuter nouns.")),
 
               main = colDef(header = with_tooltip('Dominant Modality',
                                                   'Highest-rated modality (as defined in Lynott & Connell, 2009, 2013). Values: Auditory, Haptic, Visual.')),
@@ -724,8 +1235,8 @@ reactable(table_data,
 <i class="fas fa-chart-bar" aria-hidden="true"></i> Properties {data-orientation=rows style="position: absolute !important;"}
 =======================================================================
 
-Inputs {.sidebar}
------------------------------------------------------------------------
+<!-- Inputs {.sidebar} -->
+<!-- ----------------------------------------------------------------------- -->
 
 <!-- <div style="padding-top: 25px; padding-bottom: 10px;"> -->
 
@@ -831,7 +1342,7 @@ Inputs {.sidebar}
 
 
 <!-- Chunk right below removed from mobiles because it's badly displayed -->
-#### {.desktop-only}
+<!-- #### {.desktop-only} -->
 
 ```{r}
 
@@ -843,7 +1354,7 @@ Inputs {.sidebar}
 
 
 <!-- Show again on all devices -->
-####
+<!-- #### -->
 
 ```{r}
 
@@ -978,37 +1489,37 @@ Inputs {.sidebar}
 ```
 
 
-<div style = "padding-top: 10px; font-size = 0.6em; text-align: left">
+<!-- <div style = "padding-top: 10px; font-size = 0.6em; text-align: left"> -->
 
-#### **Definitions**
+<!-- #### **Definitions** -->
 
-**Principal component analysis (PCA):** Method for reducing dimensionality of data while retaining the main patterns ([read more](https://www.nature.com/articles/nmeth.4346){target="_blank"}).
+<!-- **Principal component analysis (PCA):** Method for reducing dimensionality of data while retaining the main patterns ([read more](https://www.nature.com/articles/nmeth.4346){target="_blank"}). -->
 
-<div><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Dominant modality: </b></span> Highest-rated modality. </div>
+<!-- <div><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Dominant modality: </b></span> Highest-rated modality. </div> -->
 
-<div style="padding-top:5px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Modality exclusivity: </b></span> Range of the three modality ratings divided by the sum. </div>
+<!-- <div style="padding-top:5px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Modality exclusivity: </b></span> Range of the three modality ratings divided by the sum. </div> -->
 
-<div style="padding-top:5px; padding-bottom:6px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Perceptual strength: </b> </span> Highest rating across modalities. </div>
+<!-- <div style="padding-top:5px; padding-bottom:6px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Perceptual strength: </b> </span> Highest rating across modalities. </div> -->
 
 
-#### **Corpora**
+<!-- #### **Corpora** -->
 
-**Concreteness and age of acquisition:** [Norms by Brysbaert, Warriner, and Kuperman (2014)](#info).
+<!-- **Concreteness and age of acquisition:** [Norms by Brysbaert, Warriner, and Kuperman (2014)](#info). -->
 
-**Phonological and orthographic neighbours**: [DutchPOND (Marian et al., 2012)](#info).
+<!-- **Phonological and orthographic neighbours**: [DutchPOND (Marian et al., 2012)](#info). -->
 
-**Word frequency and contextual diversity**: [SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010)](#info).
+<!-- **Word frequency and contextual diversity**: [SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010)](#info). -->
 
-**Lemma frequency**: [CELEX (Baayen, Piepenbrock, & van Rijn, 1993)](#info).
+<!-- **Lemma frequency**: [CELEX (Baayen, Piepenbrock, & van Rijn, 1993)](#info). -->
 
-</div style="padding-bottom:14px;">
+<!-- </div style="padding-bottom:14px;"> -->
 
 
 
 Row {data-height=1000 padding-bottom=7}
 -----------------------------------------------------------------------
 
-### <span style = 'font-size: 16px !important;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings below; cf. <a href="#cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). <a href="https://osf.io/ge7pn/" target="_blank">CSV</a> and <a href="https://osf.io/58gzs/" target="_blank">Excel spreadsheet</a> also available.</span> {style="text-align:justify; padding-top: 17px !important; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
+### <span style = 'font-size: 16px !important;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings below; cf. <a href="#section-cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). <a href="https://osf.io/ge7pn/" target="_blank">CSV</a> and <a href="https://osf.io/58gzs/" target="_blank">Excel spreadsheet</a> also available.</span> {style="text-align:justify; padding-top: 30px !important; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:6px;"> </div>
@@ -1177,8 +1688,8 @@ properties_modality_loadings %>%
 <i class="fas fa-chart-bar" aria-hidden="true"></i> Concepts {data-orientation=rows style="position: absolute !important;"}
 =======================================================================
 
-Inputs {.sidebar}
------------------------------------------------------------------------
+<!-- Inputs {.sidebar} -->
+<!-- ----------------------------------------------------------------------- -->
 
 <!-- <div style="padding-top: 25px; padding-bottom: 10px;"> -->
 
@@ -1283,7 +1794,7 @@ Inputs {.sidebar}
 
 
 <!-- Chunk right below removed from mobiles because it's badly displayed -->
-#### {.desktop-only}
+<!-- #### {.desktop-only} -->
 
 ```{r}
 
@@ -1295,7 +1806,7 @@ Inputs {.sidebar}
 
 
 <!-- Show again on all devices -->
-####
+<!-- #### -->
 
 ```{r}
 
@@ -1430,37 +1941,37 @@ Inputs {.sidebar}
 ```
 
 
-<div style = "padding-top: 10px; font-size = 0.6em; text-align: left">
+<!-- <div style = "padding-top: 10px; font-size = 0.6em; text-align: left"> -->
 
-#### **Definitions**
+<!-- #### **Definitions** -->
 
-**Principal component analysis (PCA):** Method for reducing dimensionality of data while retaining the main patterns ([read more](https://www.nature.com/articles/nmeth.4346){target="_blank"}).
+<!-- **Principal component analysis (PCA):** Method for reducing dimensionality of data while retaining the main patterns ([read more](https://www.nature.com/articles/nmeth.4346){target="_blank"}). -->
 
-<div><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Dominant modality: </b></span> Highest-rated modality. </div>
+<!-- <div><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Dominant modality: </b></span> Highest-rated modality. </div> -->
 
-<div style="padding-top:5px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Modality exclusivity: </b></span> Range of the three modality ratings divided by the sum. </div>
+<!-- <div style="padding-top:5px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Modality exclusivity: </b></span> Range of the three modality ratings divided by the sum. </div> -->
 
-<div style="padding-top:5px; padding-bottom:6px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Perceptual strength: </b> </span> Highest rating across modalities. </div>
+<!-- <div style="padding-top:5px; padding-bottom:6px;"><span data-toggle="tooltip1" data-placement="bottom" title=" &nbsp; Computed as in Lynott and Connell (2009, 2013). " style="border-bottom: 0.9px dotted grey"><b> Perceptual strength: </b> </span> Highest rating across modalities. </div> -->
 
 
-#### **Corpora**
+<!-- #### **Corpora** -->
 
-**Concreteness and age of acquisition:** [Norms by Brysbaert, Warriner, and Kuperman (2014)](#info).
+<!-- **Concreteness and age of acquisition:** [Norms by Brysbaert, Warriner, and Kuperman (2014)](#info). -->
 
-**Phonological and orthographic neighbours**: [DutchPOND (Marian et al., 2012)](#info).
+<!-- **Phonological and orthographic neighbours**: [DutchPOND (Marian et al., 2012)](#info). -->
 
-**Word frequency and contextual diversity**: [SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010)](#info).
+<!-- **Word frequency and contextual diversity**: [SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010)](#info). -->
 
-**Lemma frequency**: [CELEX (Baayen, Piepenbrock, & van Rijn, 1993)](#info).
+<!-- **Lemma frequency**: [CELEX (Baayen, Piepenbrock, & van Rijn, 1993)](#info). -->
 
-</div style="padding-bottom:14px;">
+<!-- </div style="padding-bottom:14px;"> -->
 
 
 
 Row {data-height=1000 padding-bottom=7}
 -----------------------------------------------------------------------
 
-### <span style = 'font-size: 16px !important;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings below; cf. <a href="#cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). <a href="https://osf.io/ge7pn/" target="_blank">CSV</a> and <a href="https://osf.io/58gzs/" target="_blank">Excel spreadsheet</a> also available.</span> {style="text-align:justify; padding-top: 17px !important; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
+### <span style = 'font-size: 16px !important;'> Principal component analysis (PCA) reflecting different relationships among the modalities. The visual and haptic modalities were related, whereas the auditory modality was more independent (see PCA loadings below; cf. <a href="#section-cf-lc-english-norms">Lynott & Connell's 2009 data for English</a>). <a href="https://osf.io/ge7pn/" target="_blank">CSV</a> and <a href="https://osf.io/58gzs/" target="_blank">Excel spreadsheet</a> also available.</span> {style="text-align:justify; padding-top: 30px !important; padding-bottom: 5px !important; padding-left: 4px !important; padding-right: 4px !important;"}
 
 <!-- create margin -->
 <div style="font-size:8px; padding-top:6px;"> </div>
@@ -1629,7 +2140,7 @@ concepts_modality_loadings %>%
 Cf. L&C English Norms
 =======================================================================
 
-<div style = "background-color: #FCFCFC; text-align: center; font-size: 15px; padding-top: 16px; padding-bottom: 5px; margin-bottom:4px">
+<div style = "background-color: #FCFCFC; text-align: center; font-size: 15px; padding-top:37px; padding-bottom: 5px; margin-bottom:4px">
 <b> Comparison with Lynott and Connell's (2009, 2013) English norms ([see complete data](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html){target="_blank"}).</b> In both languages, properties were visibly more perceptual than concepts.
 </div>
 
@@ -1920,7 +2431,7 @@ ggplotly( ggplot(concepts_Dutch,
 Sound Symbolism {data-orientation=rows background-color=#FBFBFB style='width:950px; margin:0 auto;'}
 =======================================================================
 
-Row {data-height=260 padding-top=9 padding-bottom=14px}
+Row {data-height=260 padding-top=30 padding-bottom=14px}
 -----------------------------------------------------------------------
 
 ```{r include = FALSE}
@@ -3805,7 +4316,7 @@ levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$
 
 
 
-<div style = "background-color: #FCFCFC; text-align: justify; padding-top: 27px; padding-right: 60px; padding-left: 60px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
+<div style = "background-color: #FCFCFC; text-align: justify; padding-top: 39px; padding-right: 60px; padding-left: 60px; padding-bottom: 38px; margin-top: 0; margin-bottom: 7px;">
 
 **Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would ([see external corpora](#info)). By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4){target="_blank"}), we found that auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings, thus supporting sound symbolism. Standardised coefficients ($\beta$) presented below, with asterisks indicating significance (<sup>\*</sup>*p* < .05; <sup>\*\*</sup>*p* < .01; <sup>\*\*\*</sup>*p* < .001). Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). 'PC' = Kaiser-normalised, varimax-rotated principal component.
 
