@@ -943,14 +943,14 @@ All data and code are [available for re-use](https://osf.io/brkjw/wiki/home/) un
   <div class="column" style="width: 35%; padding-left: 8px;">
 <div style = "padding-top: 5px; padding-bottom: 8px; float: right; font-size: 13px; display: inline-block; background-color: #FAFAFA;">
 <div style = "text-align: center !important; padding-bottom: 0 !important;"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Booba-Kiki.svg" alt="Bouba-Kiki" width=80px height=55px></img></div>
-<div style="text-align: justify !important; padding-top: 0 !important; padding-right: 5px; padding-left: 5px;"> Sound symbolism is a psycholinguistic effect whereby sound properties of words influence their meaning. For instance, when people are asked to match the pseudowords *bouba* and *kiki* to the above objects, most name the rounded object *bouba* and the spiky one *kiki* (Köhler, 1929; Sourav et al., 2019). </div>
+<div style="text-align: justify !important; padding-top: 0 !important; padding-right: 5px; padding-left: 5px;"> Sound symbolism is a psycholinguistic effect whereby the pronunciation and the meaning of words bear a non-arbitrary relationship. For instance, when people are asked to match the pseudowords *bouba* and *kiki* to the above objects, the vast majority name the angular object *kiki* and the smooth one *bouba* (Köhler, 1929; Sourav et al., 2019). </div>
 <div style="font-size:65%; padding-top:4px; padding-right: 5px; padding-left: 5px; text-align:left;"> Image: https://commons.wikimedia.org/wiki/File:Booba-Kiki.svg. Monochrome version 1 June 2007 by Bendž. Vectorized with Inkscape--Qef (talk) 21:21, 23 June 2008 (UTC) [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)].</div>
 </div>
   </div>
 <!-- End two-column format -->
 </div>
 
-> <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 16px; background-color: #FCFCFC; font-size: 15px;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs [Online dashboard with stimulus data]. Retrieved from https://pablobernabeu.shinyapps.io/dutch-modality-exclusivity-norms/.</div>
+> <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 16px; background-color: #FCFCFC; font-size: 15px;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs [Online dashboard with stimulus data]. Retrieved from https://pablobernabeu.shinyapps.io/Dutch-Modality-Exclusivity-Norms/.</div>
 
 
 ### External corpora
