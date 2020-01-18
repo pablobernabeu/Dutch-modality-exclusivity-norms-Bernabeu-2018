@@ -30,10 +30,8 @@
 # Libraries: please ensure every library loads, and otherwise install it via 
 # 	install.packages("")
 # Preprocessing
-# Translation-dependent results
-# Critical results
-# 	Modality
-#     Sound-symbolism
+# Modality
+#   Sound-symbolism
 
 
 
@@ -119,18 +117,18 @@ file6 = read.csv('file6_gral.csv')
 
 # What percentage of modality ratings was not provided by respondents? Missing divided by total:
 
- ( sum(is.na(file1)) + sum(is.na(file2)) + sum(is.na(file3)) +
-   sum(is.na(file4[,-c(1:4)])) +   # first participant removed because they completed only first half survey
-   sum(is.na(file5)) + sum(is.na(file6)) ) /
-
- ( ncol(file1[,-1]) * nrow(file1[,-1]) +
-   ncol(file2[,-1]) * nrow(file2[,-1]) +
-   ncol(file3[,-1]) * nrow(file3[,-1]) +
-   ncol(file4[,-c(1:4)]) * nrow(file4[,-c(1:4)]) +	# first participant removed as above
-   ncol(file5[,-1]) * nrow(file5[,-1]) +
-   ncol(file6[,-1]) * nrow(file6[,-1]) ) *
-
- 100	 # percentage
+( sum(is.na(file1)) + sum(is.na(file2)) + sum(is.na(file3)) +
+    sum(is.na(file4[,-c(1:4)])) +   # first participant removed because they completed only first half survey
+    sum(is.na(file5)) + sum(is.na(file6)) ) /
+  
+  ( ncol(file1[,-1]) * nrow(file1[,-1]) +
+      ncol(file2[,-1]) * nrow(file2[,-1]) +
+      ncol(file3[,-1]) * nrow(file3[,-1]) +
+      ncol(file4[,-c(1:4)]) * nrow(file4[,-c(1:4)]) +	# first participant removed as above
+      ncol(file5[,-1]) * nrow(file5[,-1]) +
+      ncol(file6[,-1]) * nrow(file6[,-1]) ) *
+  
+  100	 # percentage
 
 # 3.82% missing ratings
 
@@ -199,31 +197,31 @@ resample = function(x, ...) x[sample.int(length(x), ...)]
 
 
 getMain =
-function(rater, i.col){
-
- for(i.row in 1:nrow(all.Dutch)){
-
-    # For cases in which no rating was provided to any modality, assign NA
-    if( length(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)]))) == 0) {
-	result = NA
+  function(rater, i.col){
     
-    # For tied modalities, randomly select one of them
-    } else if( !length(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)]))) > 1) {
-	result = ifelse( sample(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])), size=1) == 1, 'Auditory',
-	  ifelse( sample(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])), size=1) == 2, 'Haptic',
-	    'Visual' ) )
-    
-    # For plain cases with one dominant modality, assign that modality
-    } else{
-	result = ifelse( which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])) == 1, 'Auditory',
-	  ifelse( which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])) == 2, 'Haptic',
-	    'Visual' ) )
+    for(i.row in 1:nrow(all.Dutch)){
+      
+      # For cases in which no rating was provided to any modality, assign NA
+      if( length(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)]))) == 0) {
+        result = NA
+        
+        # For tied modalities, randomly select one of them
+      } else if( !length(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)]))) > 1) {
+        result = ifelse( sample(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])), size=1) == 1, 'Auditory',
+                         ifelse( sample(which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])), size=1) == 2, 'Haptic',
+                                 'Visual' ) )
+        
+        # For plain cases with one dominant modality, assign that modality
+      } else{
+        result = ifelse( which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])) == 1, 'Auditory',
+                         ifelse( which(all.Dutch[i.row, c(i.col)]==max(all.Dutch[i.row, c(i.col)])) == 2, 'Haptic',
+                                 'Visual' ) )
+      }
+      
+      results = rbind(results, c(rater, as.character(all.Dutch[i.row, 'id']), result))
     }
-
-  results = rbind(results, c(rater, as.character(all.Dutch[i.row, 'id']), result))
- }
- results <= results[!is.na(results$rater),]
-}
+    results <= results[!is.na(results$rater),]
+  }
 
 
 getMain(1, c('a1','h1','v1'))
@@ -273,7 +271,7 @@ all = all[,c(1:58, 67:76, 59:66)]
 
 # Fleiss' Kappa (Fleiss, 1971)
 kappam.fleiss(all[,c('main1', 'main2', 'main3', 'main4', 'main5', 'main6', 'main7', 
-   'main8', 'main9', 'main10')], detail=TRUE)
+                     'main8', 'main9', 'main10')], detail=TRUE)
 
 
 
@@ -311,8 +309,6 @@ icc(v_props, "oneway", "consistency")
 
 
 
-# TRANSLATION-DEPENDENT RESULTS
-
 # Read in the general norms file, 'all'
 
 all = read.csv('all.csv')
@@ -333,7 +329,7 @@ summaryBy(Perceptualstrength ~ cat, FUN=stat.desc, data=all)
 
 # English
 summaryBy(English_Perceptualstrength_Lynott_Connell_2009_2013 ~ cat, FUN=stat.desc, 
-data=all[!is.na(all$English_Perceptualstrength_Lynott_Connell_2009_2013),])
+          data=all[!is.na(all$English_Perceptualstrength_Lynott_Connell_2009_2013),])
 
 # The differences make sense considering the sampling method applied in the different
 # norms. The difference between the English and the Dutch norms is a bit larger for 
@@ -420,7 +416,6 @@ nrow(props[concs$main=='Visual' & !is.na(concs$Exclusivity),])
 
 
 
-# CRITICAL RESULTS: not translation-influenced
 
 # Relation between modality strength, dominant modalities, and mod exclusivitY
 # ENGLISH
@@ -476,31 +471,31 @@ psych::describe(concs$Exclusivity)  # M = 0.29
 # ENGLISH
 # PROPERTIES
 rcor.test(props[, c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013', 'English_Exclusivity_Lynott_Connell_2009_2013')], use = 
-'complete.obs')
+            'complete.obs')
 corr3 = rcor.test(props[, c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013', 'English_Exclusivity_Lynott_Connell_2009_2013')], 
-use = 'complete.obs')
+                  use = 'complete.obs')
 #write.csv(corr3$cor.mat, file = "corr3.csv",na="") # saved for manuscript
 
 # CONCEPTS
 rcor.test(concs[, c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013', 'English_Exclusivity_Lynott_Connell_2009_2013')], use = 'complete.obs')
 corr4 = rcor.test(concs[, c('English_Auditory_Lynott_Connell_2009_2013', 'English_Haptic_Lynott_Connell_2009_2013', 'English_Visual_Lynott_Connell_2009_2013', 'English_Exclusivity_Lynott_Connell_2009_2013')], use = 
-'complete.obs')
+                    'complete.obs')
 #write.csv(corr4$cor.mat, file = "corr4.csv",na="") # saved for manuscript
 
 
 # DUTCH
 # PROPERTIES
 rcor.test(props[, c('Auditory', 'Haptic', 'Visual', 'Exclusivity')], use = 
-'complete.obs')
+            'complete.obs')
 corr1 = rcor.test(props[, c('Auditory', 'Haptic', 'Visual', 'Exclusivity')], 
-use = 'complete.obs')
+                  use = 'complete.obs')
 #write.csv(corr1$cor.mat, file = "corr1.csv",na="") # saved for manuscript
 
 # CONCEPTS
 rcor.test(concs[, c('Auditory', 'Haptic', 'Visual', 'Exclusivity')], use = 
-'complete.obs')
+            'complete.obs')
 corr2 = rcor.test(concs[, c('Auditory', 'Haptic', 'Visual', 'Exclusivity')], use = 
-'complete.obs')
+                    'complete.obs')
 #write.csv(corr2$cor.mat, file = "corr2.csv",na="") # saved for manuscript
 
 
@@ -669,7 +664,7 @@ nrow(all)   # 747 used in Dutch norms + 12 from English not used
 # (http://www.lancaster.ac.uk/people/connelll/lab/norms.html). 
 
 
-# ENGLISH PROPERTIES
+# English Properties
 
 # check conditions for a PCA
 # matrix
@@ -737,21 +732,21 @@ w_set = c(auditory_w, haptic_w, visual_w)
 eng_props$English_Main_Lynott_Connell_2009_2013 = recode(eng_props$English_Main_Lynott_Connell_2009_2013, Auditory = "a", Haptic = "h", Visual = "v")
 
 Engprops = ggplot(eng_props,
-                            aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + stat_density2d (color = "gray87") +
-            geom_text(size = ifelse(eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set, 12, 7),
-                      fontface = ifelse(eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
-            geom_point(data=eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
-            labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
-            theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-                   panel.grid.minor = element_blank(), panel.border = element_blank(),
-                   axis.line = element_line(color = 'black'),
-                   axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-                   axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
-                   axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
-                   plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
-                   plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
-            geom_label_repel(data = eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_Word_Lynott_Connell_2009_2013), size = 8, 
-                             alpha = 0.77, color = 'black', box.padding = 1.5 )
+                  aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + stat_density2d (color = "gray87") +
+  geom_text(size = ifelse(eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set, 12, 7),
+            fontface = ifelse(eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
+  geom_point(data=eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
+  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'),
+         axis.title.x = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+         axis.title.y = element_text(colour = 'black', size = 23, margin=margin(15,15,15,15)),
+         axis.text.x = element_text(size=16), axis.text.y  = element_text(size=16),
+         plot.title = element_text(hjust = 0.5, size = 32, face = "bold", margin=margin(15,15,15,15)),
+         plot.subtitle = element_text(hjust = 0.5, size = 20, margin=margin(2,15,15,15)) ) +
+  geom_label_repel(data = eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_Word_Lynott_Connell_2009_2013), size = 8, 
+                   alpha = 0.77, color = 'black', box.padding = 1.5 )
 
 plot(Engprops)  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 
@@ -764,25 +759,25 @@ plot(Engprops)  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 
 Engprops4 = ggplot(eng_props,
                    aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + stat_density2d (color = "gray87") +
-                    geom_text(size = ifelse(eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set, 8, 5),
-                              fontface = ifelse(eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
-                    geom_point(data=eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=8, stroke=2, alpha=.6) +
-                    ggtitle('English properties (Lynott & Connell, 2009)') + 
-                    labs(x = "", y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
-                    theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-                           panel.grid.minor = element_blank(), panel.border = element_blank(),
-                           axis.line = element_line(color = 'black'),
-                           axis.title.x = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
-                           axis.title.y = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
-                           axis.text.x = element_text(size=9), axis.text.y  = element_text(size=9),
-                           plot.title = element_text(hjust = 0.5, size = 17, margin=margin(7,7,7,7)) ) +
-                    geom_label_repel(data = eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_Word_Lynott_Connell_2009_2013), size = 6, 
-                                     alpha = 0.77, color = 'black', box.padding = 1.5 )
+  geom_text(size = ifelse(eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set, 8, 5),
+            fontface = ifelse(eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
+  geom_point(data=eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=8, stroke=2, alpha=.6) +
+  ggtitle('English Properties (Lynott & Connell, 2009)') + 
+  labs(x = "", y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'),
+         axis.title.x = element_text(colour = 'black', size = 14, margin=margin(7,0,0,0)),
+         axis.title.y = element_text(colour = 'black', size = 14, margin=margin(7,0,0,0)),
+         axis.text.x = element_text(size=9), axis.text.y  = element_text(size=9),
+         plot.title = element_text(hjust = 0.5, size = 17, margin=margin(0,0,7,0)) ) +
+  geom_label_repel(data = eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_Word_Lynott_Connell_2009_2013), size = 6, 
+                   alpha = 0.77, color = 'black', box.padding = 1.5 )
 
 
 
 
-# ENGLISH CONCEPTS
+# English Concepts
 
 # check conditions for a PCA
 # matrix
@@ -820,7 +815,7 @@ plot(pc1_eng_conc$values, type = "b")
 # Now with varimax rotation, Kaiser-normalized (by default):
 # always preferable because it captures explained variance best. 
 pc2_eng_conc = psych::principal(eng_conc, nfactors = 2, rotate = "varimax", 
-scores = TRUE)
+                                scores = TRUE)
 pc2_eng_conc
 pc2_eng_conc$loadings
 
@@ -838,7 +833,7 @@ nrow(eng_concs)
 eng_concs = cbind(eng_concs, pc2_eng_conc$scores)
 summary(eng_concs$RC1, eng_concs$RC2)
 eng_concs = eng_concs[eng_concs$normed == 'Dut_Eng' | eng_concs$normed == 
-'English',]
+                        'English',]
 nrow(eng_concs)
 summary(eng_concs$RC1, eng_concs$RC2)
 
@@ -855,21 +850,21 @@ eng_concs$English_Main_Lynott_Connell_2009_2013 = recode(eng_concs$English_Main_
 
 Engconcs = ggplot(eng_concs,
                   aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + stat_density2d (color = "gray87") +
-                  geom_text(size = ifelse(eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set, 8, 5),
-                            fontface = ifelse(eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
-                  geom_point(data=eng_concs[eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=8, stroke=2, alpha=.6) +
-                  ggtitle('English concepts (Lynott & Connell, 2013)') +
-                  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-                  theme_bw() +
-                  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-                         panel.grid.minor = element_blank(), panel.border = element_blank(),
-                         axis.line = element_line(color = 'black'),
-                         axis.title.x = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
-                         axis.title.y = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
-                         axis.text.x = element_text(size=9), axis.text.y  = element_text(size=9),
-                         plot.title = element_text(hjust = 0.5, size = 17, margin=margin(7,7,7,7)) ) +
-                  geom_label_repel(data = eng_concs[eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_Word_Lynott_Connell_2009_2013), size = 6,
-                                   alpha = 0.77, color = 'black', box.padding = 1.5 )
+  geom_text(size = ifelse(eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set, 8, 5),
+            fontface = ifelse(eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set, 'bold', 'plain')) +
+  geom_point(data=eng_concs[eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set,], pch=21, fill=NA, size=8, stroke=2, alpha=.6) +
+  ggtitle('English Concepts (Lynott & Connell, 2013)') +
+  labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
+  theme_bw() +
+  theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+         panel.grid.minor = element_blank(), panel.border = element_blank(),
+         axis.line = element_line(color = 'black'),
+         axis.title.x = element_text(colour = 'black', size = 14, margin=margin(7,0,0,0)),
+         axis.title.y = element_text(colour = 'black', size = 14, margin=margin(7,0,0,0)),
+         axis.text.x = element_text(size=9), axis.text.y  = element_text(size=9),
+         plot.title = element_text(hjust = 0.5, size = 17, margin=margin(0,0,7,0)) ) +
+  geom_label_repel(data = eng_concs[eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_Word_Lynott_Connell_2009_2013), size = 6,
+                   alpha = 0.77, color = 'black', box.padding = 1.5 )
 
 Engconcs  # ! THE PLOT IS SHOWN BADLY ON HERE. PLEASE SEE THE SAVED PLOTS
 
@@ -959,7 +954,7 @@ NLprops = ggplot(props,
   geom_text(size = ifelse(props$word %in% w_set, 12, 7),
             fontface = ifelse(props$word %in% w_set, 'bold', 'plain')) +
   geom_point(data=props[props$word %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
-  ggtitle('Dutch properties') +
+  ggtitle('Dutch Properties') +
   labs(x = "Varimax-rotated Principal Component 1", 
        y = "Varimax-rotated Principal Component 2") +	theme_bw() +   
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
@@ -989,7 +984,7 @@ NLprops2 = ggplot(props,
   geom_text(size = ifelse(props$word %in% w_set, 12, 7),
             fontface = ifelse(props$word %in% w_set, 'bold', 'plain')) +
   geom_point(data=props[props$word %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
-  ggtitle('Dutch properties') +  labs(x = "", y = "") +  theme_bw() +   
+  ggtitle('Dutch Properties') +  labs(x = "", y = "") +  theme_bw() +   
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
          panel.grid.minor = element_blank(), panel.border = element_blank(),
          axis.line = element_line(color = 'black'),
@@ -1009,14 +1004,14 @@ NLprops4 = ggplot(props,
   geom_text(size = ifelse(props$word %in% w_set, 8, 5),
             fontface = ifelse(props$word %in% w_set, 'bold', 'plain')) +
   geom_point(data=props[props$word %in% w_set,], pch=21, fill=NA, size=8, stroke=2, alpha=.6) +
-  ggtitle('Dutch properties') +  labs(x = "", y = "") +  theme_bw() +   
+  ggtitle('Dutch Properties') +  labs(x = "", y = "") +  theme_bw() +   
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
          panel.grid.minor = element_blank(), panel.border = element_blank(),
          axis.line = element_line(color = 'black'),
-         axis.title.x = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
-         axis.title.y = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
+         axis.title.x = element_text(colour = 'black', size = 14, margin=margin(7,0,0,0)),
+         axis.title.y = element_text(colour = 'black', size = 14, margin=margin(7,0,0,0)),
          axis.text.x = element_text(size=9), axis.text.y  = element_text(size=9),
-         plot.title = element_text(hjust = 0.5, size = 18, margin=margin(7,7,7,7)) ) +
+         plot.title = element_text(hjust = 0.5, size = 18, margin=margin(0,0,7,0)) ) +
   geom_label_repel(data = props[props$word %in% w_set,], aes(label = word), size = 6, 
                    alpha = 0.77, color = 'black', box.padding = 1.5 )
 
@@ -1098,7 +1093,7 @@ NLconcs = ggplot(concs,
   geom_text(size = ifelse(concs$word %in% w_set, 12, 7),
             fontface = ifelse(concs$word %in% w_set, 'bold', 'plain')) +
   geom_point(data=concs[concs$word %in% w_set,], pch=21, fill=NA, size=14, stroke=2, alpha=.6) +
-  ggtitle('Dutch concepts') +
+  ggtitle('Dutch Concepts') +
   labs(x = "Varimax-rotated Principal Component 1", y = "") +  theme_bw() +   
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
          panel.grid.minor = element_blank(), panel.border = element_blank(),
@@ -1126,15 +1121,15 @@ NLconcs2 = ggplot(concs,
   geom_text(size = ifelse(concs$word %in% w_set, 8, 5),
             fontface = ifelse(concs$word %in% w_set, 'bold', 'plain')) +
   geom_point(data=concs[concs$word %in% w_set,], pch=21, fill=NA, size=8, stroke=2, alpha=.6) +
-  ggtitle('Dutch concepts') +
+  ggtitle('Dutch Concepts') +
   labs(x = "Varimax-rotated Principal Component 1", y = "") +  theme_bw() +   
   theme( plot.background = element_blank(), panel.grid.major = element_blank(),
          panel.grid.minor = element_blank(), panel.border = element_blank(),
          axis.line = element_line(color = 'black'),
-         axis.title.x = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
-         axis.title.y = element_text(colour = 'black', size = 14, margin=margin(4,4,4,4)),
+         axis.title.x = element_text(colour = 'black', size = 14, margin=margin(7,0,0,0)),
+         axis.title.y = element_text(colour = 'black', size = 14, margin=margin(7,0,0,0)),
          axis.text.x = element_text(size=9), axis.text.y  = element_text(size=9),
-         plot.title = element_text(hjust = 0.5, size = 18, margin=margin(7,7,7,7)) ) +
+         plot.title = element_text(hjust = 0.5, size = 18, margin=margin(0,0,7,0)) ) +
   geom_label_repel(data = concs[concs$word %in% w_set,], aes(label = word), size = 6,
                    alpha = 0.77, color = 'black', box.padding = 1.5 )
 
@@ -1147,11 +1142,11 @@ NLconcs2 = ggplot(concs,
 # Below, run first line, get back and run next.
 # High resolution (may be changed at 'res='). Beware of high memory usage.
 
-png(file="allfour_highres.png", units="in", width=18, height=18, res=1000)
+png(file="allfour_highres.png", units="in", width=13, height=13, res=700)
 multiplot(Engprops4, Engconcs, NLprops4, NLconcs2, cols = 2)
 dev.off()
 
-png(file="allfour_lowres.png", units="in", width=18, height=18, res=200)
+png(file="allfour_lowres.png", units="in", width=13, height=13, res=400)
 multiplot(Engprops4, Engconcs, NLprops4, NLconcs2, cols = 2)
 dev.off()
 
