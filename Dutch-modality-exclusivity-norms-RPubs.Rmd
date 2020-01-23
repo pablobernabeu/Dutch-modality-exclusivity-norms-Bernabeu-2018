@@ -239,7 +239,7 @@ pre { /* Code-fromatted output */
   box-sizing: border-box;
 }
 
-/* Create two equal columns that floats next to each other */
+/* Create two equal columns that float next to each other */
 .column {
   float: left;
   padding: 10px;
