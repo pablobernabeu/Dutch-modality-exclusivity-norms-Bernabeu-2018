@@ -236,7 +236,7 @@ pre { /* Code-fromatted output */
   box-sizing: border-box;
 }
 
-/* Create two equal columns that floats next to each other */
+/* Create two equal columns that float next to each other */
 .column {
   float: left;
   padding: 10px;
@@ -251,9 +251,6 @@ pre { /* Code-fromatted output */
 
 </style>
 
-
-<!-- Setting for splitting columns -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Load Bootstrap libraries for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -950,7 +947,7 @@ All data and code are [available for re-use](https://osf.io/brkjw/wiki/home/) un
 <!-- End two-column format -->
 </div>
 
-> <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 16px; background-color: #FCFCFC; font-size: 15px;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs [Online dashboard with stimulus data]. Retrieved from https://pablobernabeu.shinyapps.io/Dutch-Modality-Exclusivity-Norms/.</div>
+> <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 16px; background-color: #FCFCFC; font-size: 15px;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs [Data dashboard for modality exclusivity norms]. Retrieved from https://pablobernabeu.shinyapps.io/Dutch-Modality-Exclusivity-Norms/.</div>
 
 
 ### External corpora
