@@ -941,7 +941,7 @@ All data and code are [available for re-use](https://osf.io/brkjw/wiki/home/) un
 <div style = "padding-top: 5px; padding-bottom: 8px; float: right; font-size: 13px; display: inline-block; background-color: #FAFAFA;">
 <div style = "text-align: center !important; padding-bottom: 0 !important;"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Booba-Kiki.svg" alt="Bouba-Kiki" width=80px height=55px></img></div>
 <div style="text-align: justify !important; padding-top: 0 !important; padding-right: 5px; padding-left: 5px;"> Sound symbolism is a psycholinguistic effect whereby the pronunciation and the meaning of words bear a non-arbitrary relationship. For instance, when people are asked to match the pseudowords *bouba* and *kiki* to the above objects, the vast majority name the angular object *kiki* and the smooth one *bouba* (Köhler, 1929; Sourav et al., 2019). </div>
-<div style="font-size:65%; padding-top:4px; padding-right: 5px; padding-left: 5px; text-align:left;"> Image: https://commons.wikimedia.org/wiki/File:Booba-Kiki.svg. Monochrome version 1 June 2007 by Bendž. Vectorized with Inkscape--Qef (talk) 21:21, 23 June 2008 (UTC) [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)].</div>
+<div style="font-size:65%; padding-top:4px; padding-right: 5px; padding-left: 5px; text-align:left;"> Image: <a href="https://commons.wikimedia.org/wiki/File:Booba-Kiki.svg" title="via Wikimedia Commons">Monochrome version 1 June 2007 by BendžVectorized with Inkscape --Qef (talk) 21:21, 23 June 2008 (UTC)</a> [<a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA</a>].</div>
 </div>
   </div>
 <!-- End two-column format -->
@@ -2965,7 +2965,7 @@ ggplotly( ggplot(concepts_Dutch,
 Sound Symbolism {data-orientation=rows data-padding=0.5 background-color=#FBFBFB style='width: 950px; margin: 0 auto;'}
 =======================================================================
 
-Row {data-height=390px data-padding=0.5}
+Row {data-height=420px data-padding=0.5}
 -----------------------------------------------------------------------
 
 ```{r include = FALSE}
@@ -4874,7 +4874,9 @@ observeEvent(input$properties_lexicals_loadings, {
 
 <div style = "background-color: #FCFCFC; text-align: justify; padding-top: 37px; padding-right: 45px; padding-left: 45px; padding-bottom: 38px; margin-top: 10; margin-bottom: 7px; line-height: 1.6; font-size: 16px;">
 
-**Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would ([see external corpora](#info)). By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings, thus supporting sound symbolism. Standardised coefficients ($\beta$) presented below, with asterisks indicating significance (<sup>\*</sup>*p* < .05; <sup>\*\*</sup>*p* < .01; <sup>\*\*\*</sup>*p* < .001). Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). 'PC' = Kaiser-normalised, varimax-rotated principal component.
+**Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would ([see external corpora](#info)). By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4){target="_blank"}), we found that auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings, thus supporting sound symbolism.
+
+Standardised coefficients ($\beta$) presented below, followed by asterisks indicating significance (<sup>\*</sup>*p* < .05; <sup>\*\*</sup>*p* < .01; <sup>\*\*\*</sup>*p* < .001), and the standard error below. Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). 'PC' = Kaiser-normalised, varimax-rotated principal component.
 
 </div>
 
@@ -4968,30 +4970,28 @@ Row {style="data-width:100%; margin-bottom:25px;"}
 ```{r}
 
 # Properties results table
-
 properties_Dutch2_results =
   results_total[results_total$Category=='Properties' &
 	!results_total$Variable=='(Intercept)' &
 	!results_total$Variable=='Residuals',
-	c('Dependent', 'Variable', 'Estimate', 't_p.asterisks')]
+	c('Dependent', 'Variable', 'Estimate', 't_p.asterisks', 'SE')]
 
-# Append asterisks to beta coefficients (leave 'N.S.' cases blank first)
-
+# Don't display any symbol with non-significant effects (i.e., remove 'N.S.')
 properties_Dutch2_results$t_p.asterisks_clean = str_remove_all(properties_Dutch2_results$t_p.asterisks, 'N.S.')
 
-properties_Dutch2_results$betas_and_asterisks =
+# Display Beta coefficients, followed by asterisks indicating significance, and SE below
+properties_Dutch2_results$coefficients_and_asterisks =
 	ifelse(!is.na(properties_Dutch2_results$Estimate) & !is.na(properties_Dutch2_results$t_p.asterisks_clean),
-	paste0(properties_Dutch2_results$Estimate, properties_Dutch2_results$t_p.asterisks_clean),
+	paste0(properties_Dutch2_results$Estimate, properties_Dutch2_results$t_p.asterisks_clean, '<br>', '(', properties_Dutch2_results$SE, ')'),
 	NA)
 
 # Kable table
-
 HTML(
   kable(
-    spread(properties_Dutch2_results[,c('Dependent', 'Variable', 'betas_and_asterisks')],
-           Variable, betas_and_asterisks)
+    spread(properties_Dutch2_results[,c('Dependent', 'Variable', 'coefficients_and_asterisks')],
+           Variable, coefficients_and_asterisks), escape = FALSE
 	) %>%
-    kable_styling('striped', full_width = F, position = "left")
+    kable_styling('striped', full_width = F)
   )
 
 ```
@@ -5008,29 +5008,28 @@ HTML(
 ```{r}
 
 # Concepts results table
-
 concepts_Dutch2_results =
   results_total[results_total$Category=='Concepts' &
 	!results_total$Variable=='(Intercept)' &
 	!results_total$Variable=='Residuals',
-	c('Dependent', 'Variable', 'Estimate', 't_p.asterisks')]
+	c('Dependent', 'Variable', 'Estimate', 't_p.asterisks', 'SE')]
 
-# Append asterisks to beta coefficients (leave 'N.S.' cases blank first)
-
+# Don't display any symbol with non-significant effects (i.e., remove 'N.S.')
 concepts_Dutch2_results$t_p.asterisks_clean = str_remove_all(concepts_Dutch2_results$t_p.asterisks, 'N.S.')
 
-concepts_Dutch2_results$betas_and_asterisks =
+# Display Beta coefficients, followed by asterisks indicating significance, and SE below
+concepts_Dutch2_results$coefficients_and_asterisks =
 	ifelse(!is.na(concepts_Dutch2_results$Estimate) & !is.na(concepts_Dutch2_results$t_p.asterisks_clean),
-	paste0(concepts_Dutch2_results$Estimate, concepts_Dutch2_results$t_p.asterisks_clean),
+	paste0(concepts_Dutch2_results$Estimate, concepts_Dutch2_results$t_p.asterisks_clean, '<br>', '(', concepts_Dutch2_results$SE, ')'),
 	NA)
 
 # Kable table
-
 HTML(
   kable(
-    spread(concepts_Dutch2_results[,c('Dependent', 'Variable', 'betas_and_asterisks')],
-           Variable, betas_and_asterisks)) %>%
-    kable_styling('striped', full_width = F, position = "left")
+    spread(concepts_Dutch2_results[,c('Dependent', 'Variable', 'coefficients_and_asterisks')],
+           Variable, coefficients_and_asterisks), escape = FALSE
+	) %>%
+    kable_styling('striped', full_width = F)
   )
 
 ```
