@@ -23,13 +23,13 @@ This study is a cross-linguistic, conceptual replication of Lynott and Connellâ€
 
 Further links:
 
-- #### [**Dashboard presenting the data and analyses**](https://pablobernabeu.shinyapps.io/dutch-modality-exclusivity-norms/) (in case of downtime, please see [alternative site](http://rpubs.com/pcbernabeu/Dutch-modality-exclusivity-norms))
+#### [**Dashboard presenting the data and analyses**](https://pablobernabeu.shinyapps.io/dutch-modality-exclusivity-norms/) (in case of downtime, please see [alternative site](http://rpubs.com/pcbernabeu/Dutch-modality-exclusivity-norms))
  
-![The relation among auditory, haptic, and visual modalities in property and concept words, in English and Dutch.](https://i.imgur.com/gS1vpcM.gif)
+![](https://i.imgur.com/gS1vpcM.gif)
 
-- #### [**Summarised report**](https://www.linkedin.com/pulse/modality-exclusivity-norms-336-properties-411-dutch-english-bernabeu)
+#### [**Summarised report**](https://www.linkedin.com/pulse/modality-exclusivity-norms-336-properties-411-dutch-english-bernabeu)
 
-![Dashboard](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png)
+![The relation among auditory, haptic, and visual modalities in property and concept words, in English and Dutch.](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png)
 
 - Online [RStudio environment with data and code](https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=rstudio).
 
