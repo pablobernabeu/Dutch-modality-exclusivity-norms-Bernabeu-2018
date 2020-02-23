@@ -1,5 +1,5 @@
 ---
-title: Dutch modality exclusivity norms
+title: '&nbsp; &nbsp; Dutch modality exclusivity norms'
 author: '<a href="#section-info" style="color:#E4E5E8 !important; text-decoration:none !important; font-size:10px">Bernabeu et al. (2017)</a>'
 output:
   flexdashboard::flex_dashboard:
