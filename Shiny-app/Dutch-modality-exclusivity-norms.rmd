@@ -2662,7 +2662,7 @@ concepts_png = reactive({ ggplot(selected_concs(), aes(RC1, RC2, color = main, l
 Cf. L&C English Norms
 =======================================================================
 
-<div style = "background-color: #FCFCFC; text-align: justify; font-size: 15px; margin-top: 10px; padding-top: 30px; padding-bottom: 5px;">
+<div style = "background-color: #FCFCFC; text-align: justify; font-size: 15px; margin-top: 10px; padding-top: 30px; padding-bottom: 5px; padding-left: 20px; padding-right: 20px;">
 <b> Comparison with Lynott and Connell's (2009, 2013) English norms ([see complete data](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html)).</b> In both languages, the visual and the haptic modalities were more related to each than to the auditory modality. Properties were more strongly perceptual than concepts.
 </div>
 
