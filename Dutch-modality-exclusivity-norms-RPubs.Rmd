@@ -2137,7 +2137,7 @@ concepts_modality_loadings %>%
 Cf. L&C English Norms
 =======================================================================
 
-<div style = "background-color: #FCFCFC; text-align: center; font-size: 15px; padding-top:37px; padding-bottom: 5px; margin-bottom:4px">
+<div style = "background-color: #FCFCFC; text-align: center; font-size: 15px; padding-top:37px; padding-bottom: 5px; margin-bottom:4px; padding-left: 20px; padding-right: 20px;">
 <b> Comparison with Lynott and Connell's (2009, 2013) English norms ([see complete data](http://www.lancaster.ac.uk/staff/connelll/lab/norms.html){target="_top"}).</b> In both languages, properties were visibly more perceptual than concepts.
 </div>
 
