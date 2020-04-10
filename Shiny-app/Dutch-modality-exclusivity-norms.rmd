@@ -1083,7 +1083,7 @@ reactive(cat(paste0(nrow(selected_words()[selected_words()$cat=='Property',]), '
 
 ```{r}
 
-# Download selected on sidebar as a CSV file
+# Download data selected on sidebar as a CSV file
 
 # Create placeholder for download link
 uiOutput("table_csv_link")
@@ -1615,7 +1615,7 @@ reactive(cat(paste0(nrow(selected_props()), ' Property words')))
 
 ```{r}
 
-# Download selected on sidebar as a CSV file
+# Download data selected on sidebar as a CSV file
 
 # Create placeholder for download link
 uiOutput("properties_csv_link")
@@ -2199,7 +2199,7 @@ reactive(cat(paste0(nrow(selected_concs()), ' Concept words')))
 
 ```{r}
 
-# Download selected on sidebar as a CSV file
+# Download data selected on sidebar as a CSV file
 
 # Create placeholder for download link
 uiOutput("concepts_csv_link")
