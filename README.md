@@ -31,7 +31,7 @@ Further links:
 
 ![The relation among auditory, haptic, and visual modalities in property and concept words, in English and Dutch.](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png)
 
-- Online [RStudio environment with data and code](https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/6fb5807de6b6f0a13769daff7def7e694df4ed1b?urlpath=rstudio).
+- Online [RStudio environment with data and code](https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/b67eeda0254722e083baaf228c2d2334cd978c10?urlpath=rstudio).
 
 
 ### **Definitions** (as in Lynott & Connell, 2009, 2013)
