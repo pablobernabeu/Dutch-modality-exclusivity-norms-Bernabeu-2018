@@ -27,7 +27,7 @@ Further links:
  
 ![](https://i.imgur.com/gS1vpcM.gif)
 
-#### [**Paper**](https://psyarxiv.com/s2c5h)
+#### [**Paper (Bernabeu, 2018)**](https://psyarxiv.com/s2c5h)
 
 ![The relation among auditory, haptic, and visual modalities in property and concept words, in English and Dutch.](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png)
 
