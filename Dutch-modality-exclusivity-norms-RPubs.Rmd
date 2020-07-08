@@ -537,6 +537,10 @@ allNL$Range = mapvalues(allNL$Range, from = c(0, 1, 2, 3, 4),
 
 allNL$cat = dplyr::recode(allNL$cat, Concept = "Concepts", Property = "Properties")
 
+# Set order to display properties first, instead of alphabetical 'Concepts-Properties' order
+allNL$cat = as.factor(allNL$cat)
+allNL$cat = factor(allNL$cat, levels = rev(levels(allNL$cat)))
+
 ggplot(allNL) +
   geom_bar(mapping = aes(x = main, fill = Range), position = position_stack(reverse = TRUE)) +
   scale_fill_grey(start=.9, end=0, labels = c("0-20%", "20-40%", "40-60%", "60-80%", "80-100%"),
