@@ -519,9 +519,10 @@ allNL$Range = floor(allNL$Exclusivity * 4)
 allNL$Range = mapvalues(allNL$Range, from = c(0, 1, 2, 3, 4),
                         to = c("0-20%", "20-40%", "40-60%", "60-80%", "80-100%"))
 
-allNL$cat = recode(allNL$cat, Concept = "Concepts", Property = "Properties")
+allNL$cat = dplyr::recode(allNL$cat, Concept = "Concepts", Property = "Properties")
 
 # Set order to display properties first, instead of alphabetical 'Concepts-Properties' order
+allNL$cat = as.factor(allNL$cat)
 allNL$cat = factor(allNL$cat, levels = rev(levels(allNL$cat)))
 
 p = ggplot(allNL) +
@@ -619,7 +620,7 @@ haptic_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_200
 visual_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_2009_2013=='Visual', 'English_Word_Lynott_Connell_2009_2013'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
-eng_props$English_Main_Lynott_Connell_2009_2013 = recode(eng_props$English_Main_Lynott_Connell_2009_2013, Auditory = "a", Haptic = "h", Visual = "v")
+eng_props$English_Main_Lynott_Connell_2009_2013 = dplyr::recode(eng_props$English_Main_Lynott_Connell_2009_2013, Auditory = "a", Haptic = "h", Visual = "v")
 
 Engprops = ggplot(eng_props,
                   aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + stat_density2d (color = "gray87") +
@@ -708,7 +709,7 @@ haptic_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_200
 visual_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_2009_2013=='Visual', 'English_Word_Lynott_Connell_2009_2013'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
-eng_concs$English_Main_Lynott_Connell_2009_2013 = recode(eng_concs$English_Main_Lynott_Connell_2009_2013, Auditory = "a", Haptic = "h", Visual = "v")
+eng_concs$English_Main_Lynott_Connell_2009_2013 = dplyr::recode(eng_concs$English_Main_Lynott_Connell_2009_2013, Auditory = "a", Haptic = "h", Visual = "v")
 
 Engconcs = ggplot(eng_concs,
                   aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + stat_density2d (color = "gray87") +
@@ -801,7 +802,7 @@ haptic_w = as.character(sort(properties[properties$main=='Haptic', 'word'])[1])
 visual_w = as.character(sort(properties[properties$main=='Visual', 'word'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
-properties$main = recode(properties$main, Auditory = "a", Haptic = "h", Visual = "v")
+properties$main = dplyr::recode(properties$main, Auditory = "a", Haptic = "h", Visual = "v")
 
 NLprops = ggplot(properties,
                  aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
@@ -890,7 +891,7 @@ haptic_w = as.character(sort(concepts[concepts$main=='Haptic', 'word'])[1])
 visual_w = as.character(sort(concepts[concepts$main=='Visual', 'word'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
-concepts$main = recode(concepts$main, Auditory = "a", Haptic = "h", Visual = "v")
+concepts$main = dplyr::recode(concepts$main, Auditory = "a", Haptic = "h", Visual = "v")
 
 NLconcs = ggplot(concepts,
                  aes(RC1, RC2, label = as.character(main))) + stat_density2d (color = "gray87") +
