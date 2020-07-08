@@ -522,9 +522,9 @@ The norms, which are ratings of linguistic stimuli, served a twofold purpose: fi
 
 ### Definitions (as in Lynott & Connell, 2009, 2013)
 
-* Dominant modality: Highest-rated modality;
-* Modality exclusivity: Range of the three modality ratings divided by the sum;
-* Perceptual strength: Highest rating across modalities.
+* Dominant modality: highest-rated modality;
+* Modality exclusivity: range of the three modality ratings divided by the sum;
+* Perceptual strength: highest rating across modalities.
 
 
 ```{r out.width=500}
@@ -977,7 +977,7 @@ All data and code are [available for re-use](https://osf.io/brkjw/wiki/home/){ta
 
 ### External corpora
 
-* Concreteness and age of acquisition: Norms by Brysbaert, Warriner, and Kuperman (2014);
+* Concreteness and age of acquisition: norms by Brysbaert, Warriner, and Kuperman (2014);
 * Phonological and orthographic neighbours: DutchPOND (Marian et al., 2012);
 * Word frequency and contextual diversity: SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010);
 * Lemma frequency: CELEX (Baayen, Piepenbrock, & van Rijn, 1993).
@@ -3327,7 +3327,7 @@ results_total = rbind(results_total, results)
 
 
 
-# RESULTS: iconicity properties: 
+# Iconicity in properties 
 # Auditory strength either was the strongest predictor or presented an opposite 
 # polarity from the main predictor. This held for all lexical DVs except age of 
 # acquisition.
@@ -4233,14 +4233,15 @@ names(results_total)
 results_total = results_total[, c(1:8, 13, 9:12, 14)]
 
 # Clarify variable names
-levels(results_total$Variable)[levels(results_total$Variable)=="properties_Dutch2$s_Auditory"] <- "Auditory"
-levels(results_total$Variable)[levels(results_total$Variable)=="properties_Dutch2$s_Haptic"] <- "Haptic"
-levels(results_total$Variable)[levels(results_total$Variable)=="properties_Dutch2$s_Visual"] <- "Visual"
-levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$s_Auditory"] <- "Auditory"
-levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$s_Haptic"] <- "Haptic"
-levels(results_total$Variable)[levels(results_total$Variable)=="concepts_Dutch2$s_Visual"] <- "Visual"
+results_total$Variable = dplyr::recode(results_total$Variable, 
+                                       `properties_Dutch2$s_Auditory` = 'Auditory',
+                                       `properties_Dutch2$s_Haptic` = 'Haptic',
+                                       `properties_Dutch2$s_Visual` = 'Visual',
+                                       `concepts_Dutch2$s_Auditory` = 'Auditory',
+                                       `concepts_Dutch2$s_Haptic` = 'Haptic',
+                                       `concepts_Dutch2$s_Visual` = 'Visual')
 
-# Results: Iconicity of concepts and comparison with properties: 
+# Iconicity of concepts and comparison with properties
 # The properties sample was characterized by smaller advantages for Auditory 
 # predictor, compared to the concepts sample. The tendency of either larger or 
 # opposite scores for the Auditory strength was less evident, even though it was 
