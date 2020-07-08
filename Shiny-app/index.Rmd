@@ -946,7 +946,7 @@ All data and code are [available for re-use](https://osf.io/brkjw/wiki/home/) un
 <!-- End two-column format -->
 </div>
 
-> <div style = "text-align: justify; text-indent:-1.5em; margin-left:1.5em; font-size: 16px; background-color: #FCFCFC; font-size: 15px;"> Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs [Data dashboard for modality exclusivity norms]. Retrieved from https://pablobernabeu.shinyapps.io/Dutch-Modality-Exclusivity-Norms/.</div>
+> <div style = 'text-align: justify; text-indent: -1.5em; margin-left: 1.5em; font-size: 16px; background-color: #FCFCFC; font-size: 15px;'> Bernabeu, P. (2018). Dutch modality exclusivity norms for 336 properties and 411 concepts [Data dashboard]. Retrieved from https://pablobernabeu.shinyapps.io/Dutch-Modality-Exclusivity-Norms/.</div>
 
 
 ### External corpora
