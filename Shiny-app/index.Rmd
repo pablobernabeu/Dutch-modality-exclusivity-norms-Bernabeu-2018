@@ -1595,6 +1595,8 @@ selectizeInput("highlighted_properties", label = NULL, choices = sort(props$word
 
 ```
 
+</div>
+
 
 ##### Data selected below
 
@@ -2178,6 +2180,8 @@ selectizeInput("highlighted_concepts", label = NULL, choices = sort(concs$word),
                options = list(placeholder = 'Words to highlight on plot      '))
 
 ```
+
+</div>
 
 
 ##### Data selected below
