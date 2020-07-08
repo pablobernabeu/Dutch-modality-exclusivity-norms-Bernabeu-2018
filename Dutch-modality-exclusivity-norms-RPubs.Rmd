@@ -535,10 +535,7 @@ allNL$Range = floor(allNL$Exclusivity * 4)
 allNL$Range = mapvalues(allNL$Range, from = c(0, 1, 2, 3, 4),
                         to = c("0-20%", "20-40%", "40-60%", "60-80%", "80-100%"))
 
-allNL$cat = recode(allNL$cat, Concept = "Concepts", Property = "Properties")
-
-# Set order to display properties first, instead of alphabetical 'Concepts-Properties' order
-allNL$cat = factor(allNL$cat, levels = rev(levels(allNL$cat)))
+allNL$cat = dplyr::recode(allNL$cat, Concept = "Concepts", Property = "Properties")
 
 ggplot(allNL) +
   geom_bar(mapping = aes(x = main, fill = Range), position = position_stack(reverse = TRUE)) +
@@ -633,7 +630,7 @@ haptic_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_200
 visual_w = as.character(sort(eng_props[eng_props$English_Main_Lynott_Connell_2009_2013=='Visual', 'English_Word_Lynott_Connell_2009_2013'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
-eng_props$English_Main_Lynott_Connell_2009_2013 = recode(eng_props$English_Main_Lynott_Connell_2009_2013, Auditory = "a", Haptic = "h", Visual = "v")
+eng_props$English_Main_Lynott_Connell_2009_2013 = dplyr::recode(eng_props$English_Main_Lynott_Connell_2009_2013, Auditory = "a", Haptic = "h", Visual = "v")
 
 Engprops = ggplot(eng_props,
                   aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) + 
@@ -726,7 +723,7 @@ haptic_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_200
 visual_w = as.character(sort(eng_concs[eng_concs$English_Main_Lynott_Connell_2009_2013=='Visual', 'English_Word_Lynott_Connell_2009_2013'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
-eng_concs$English_Main_Lynott_Connell_2009_2013 = recode(eng_concs$English_Main_Lynott_Connell_2009_2013, Auditory = "a", Haptic = "h", Visual = "v")
+eng_concs$English_Main_Lynott_Connell_2009_2013 = dplyr::recode(eng_concs$English_Main_Lynott_Connell_2009_2013, Auditory = "a", Haptic = "h", Visual = "v")
 
 Engconcs = ggplot(eng_concs,
                   aes(RC1, RC2, label = as.character(English_Main_Lynott_Connell_2009_2013))) +
@@ -823,7 +820,7 @@ haptic_w = as.character(sort(properties[properties$main=='Haptic', 'word'])[1])
 visual_w = as.character(sort(properties[properties$main=='Visual', 'word'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
-properties$main = recode(properties$main, Auditory = "a", Haptic = "h", Visual = "v")
+properties$main = dplyr::recode(properties$main, Auditory = "a", Haptic = "h", Visual = "v")
 
 NLprops = ggplot(properties,
                  aes(RC1, RC2, label = as.character(main))) +
@@ -918,7 +915,7 @@ haptic_w = as.character(sort(concepts[concepts$main=='Haptic', 'word'])[1])
 visual_w = as.character(sort(concepts[concepts$main=='Visual', 'word'])[1])
 w_set = c(auditory_w, haptic_w, visual_w)
 
-concepts$main = recode(concepts$main, Auditory = "a", Haptic = "h", Visual = "v")
+concepts$main = dplyr::recode(concepts$main, Auditory = "a", Haptic = "h", Visual = "v")
 
 NLconcs = ggplot(concepts,
                  aes(RC1, RC2, label = as.character(main))) +
@@ -971,7 +968,7 @@ All data and code are [available for re-use](https://osf.io/brkjw/wiki/home/){ta
 <!-- End two-column format -->
 </div>
 
-> <div style = 'text-align: justify; text-indent: -1.5em; margin-left: 1.5em; font-size: 16px; background-color: #FCFCFC; font-size: 15px;'> Bernabeu, P. (2018). Dutch modality exclusivity norms for 336 properties and 411 concepts [Data dashboard]. Retrieved from https://pablobernabeu.shinyapps.io/Dutch-Modality-Exclusivity-Norms/.</div>
+> <div style = 'text-align: justify; text-indent: -1.5em; margin-left: 1.5em; font-size: 16px; background-color: #FCFCFC; font-size: 15px;'> Bernabeu, P. (2018). Dutch modality exclusivity norms for 336 properties and 411 concepts [Data dashboard]. Retrieved from [https://pablobernabeu.shinyapps.io/Dutch-Modality-Exclusivity-Norms/](https://pablobernabeu.shinyapps.io/Dutch-Modality-Exclusivity-Norms/){target="_top"}.</div>
 
 
 ### External corpora
@@ -993,7 +990,7 @@ This research was greatly supported by the help of Tilburg University, which pro
 
 Baayen, R. H., Piepenbrock, R., & van Rijn, H. (1993). *The CELEX Lexical Database* [CD-ROM]. Philadelphia: Linguistic Data Consortium, University of Pennsylvania.
 
-Bernabeu, P. (2018). *Dutch modality exclusivity norms for 336 properties and 411 concepts* [Unpublished manuscript]. School of Humanities, Tilburg University, the Netherlands. https://psyarxiv.com/s2c5h.
+Bernabeu, P. (2018). *Dutch modality exclusivity norms for 336 properties and 411 concepts* [Unpublished manuscript]. School of Humanities, Tilburg University, the Netherlands. [https://psyarxiv.com/s2c5h](https://psyarxiv.com/s2c5h){target="_top"}.
 
 Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs. In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society. [https://mindmodeling.org/cogsci2017/papers/0318/index.html](https://mindmodeling.org/cogsci2017/papers/0318/index.html){target="_top"}.
 
