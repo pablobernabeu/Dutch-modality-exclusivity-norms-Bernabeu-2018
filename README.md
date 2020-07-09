@@ -1,4 +1,4 @@
-## Modality exclusivity norms for 747 Dutch properties and concepts in Dutch: a replication of English
+## Dutch modality exclusivity norms for 336 properties and 411 concepts
 
 This repository contains all experimental data, including every respondent's survey, the final data set in [Excel](https://github.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/blob/master/norms.xlsx) or [CSV](https://github.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/blob/master/all.csv) format, and the analysis code in R ([norms.R](https://github.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/blob/master/norms.R)).
 
