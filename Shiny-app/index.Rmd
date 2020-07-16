@@ -500,7 +500,7 @@ Column {style="height:1300px; background-color:#FCFCFC;"}
 
 This dashboard presents the data and analyses of a set of modality exclusivity norms for Dutch. Various tabs and interactive plots are available. In addition, the data set is available in [CSV format](https://osf.io/ge7pn/) and [Excel format including column definitions](https://osf.io/58gzs/).
 
-The norms, which are ratings of linguistic stimuli, served a twofold purpose: first, the creation of linguistic stimuli (Bernabeu, 2018; see also Speed & Majid, 2017), and second, a conceptual replication of Lynott and Connell's (2009, 2013) analyses. In the collection of the ratings, forty-two respondents completed surveys for the properties or the concepts separately. Each word was rated by eight participants on average, with a minimum of five (e.g., for *bevriezend*) and a maximum of ten ratings per word (e.g., for *donzig*). The [instructions to participants](https://osf.io/ungey/) were similar to those used by Lynott and Connell (2009, 2013), except that we elicited three modalities (auditory, haptic, visual) instead of five.
+The norms, which are ratings of linguistic stimuli, served a twofold purpose: first, the creation of linguistic stimuli ([Bernabeu, 2018](https://psyarxiv.com/s2c5h); see also Speed & Majid, 2017), and second, a conceptual replication of Lynott and Connell's (2009, 2013) analyses. In the collection of the ratings, forty-two respondents completed surveys for the properties or the concepts separately. Each word was rated by eight participants on average, with a minimum of five (e.g., for *bevriezend*) and a maximum of ten ratings per word (e.g., for *donzig*). The [instructions to participants](https://osf.io/ungey/) were similar to those used by Lynott and Connell (2009, 2013), except that we elicited three modalities (auditory, haptic, visual) instead of five.
 
 > <div style = "text-align: justify; background-color: #FCFCFC; font-size: 15px;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
 
@@ -960,7 +960,7 @@ All data and code are [available for re-use](https://osf.io/brkjw/wiki/home/) un
 
 ### Acknowledgements {style='padding-top:5px;'}
 
-This research was greatly supported by the help of Tilburg University, which provided funding; Wendy Leijten, who provided linguistic advice; and the forty-two Tilburg University students who completed the surveys.
+This research was greatly supported by the supervision from Max Louwerse and Roel Willems; the financial help from Tilburg University; Wendy Leijten's help with the translations; and the forty-two students from Tilburg University and Radboud University who completed the surveys.
 
 
 ### References {style='padding-top:5px;'}
