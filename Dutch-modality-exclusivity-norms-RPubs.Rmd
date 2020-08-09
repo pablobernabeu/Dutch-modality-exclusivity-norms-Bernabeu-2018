@@ -2,16 +2,12 @@
 title: '&nbsp; &nbsp; Dutch modality exclusivity norms'
 author: '<a href="#section-info" style="color:#E4E5E8 !important; text-decoration:none !important; font-size:10px"> Bernabeu (2018) </a>'
 
-knit: (function(inputFile, encoding) {
-  rmarkdown::render(inputFile, encoding = encoding) })
-
 output:
   flexdashboard::flex_dashboard:
     theme: 'spacelab'
     orientation: columns
     vertical_layout: scroll
     favicon: https://i.ibb.co/bB9fCfr/norms-favicon.png
-runtime: shiny
 ---
 
 
