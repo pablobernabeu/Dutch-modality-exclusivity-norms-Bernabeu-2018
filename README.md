@@ -6,7 +6,7 @@ The norms, which are ratings of linguistic stimuli, served a twofold purpose: fi
 
 > <span style = "font-size: 14px;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </span>
 
-These norms were validated in an experiment showing that shifts across trials with different dominant modalities incurred semantic processing costs ([Bernabeu, Willems, & Louwerse, 2017](https://mindmodeling.org/cogsci2017/papers/0318/index.html)). All data for that study are [available](https://osf.io/97unm/wiki/home/), including a [dashboard](https://mybinder.org/v2/gh/pablobernabeu/Modality-switch-effects-emerge-early-and-increase-throughout-conceptual-processing/0a5542658914a6ed01cf8e96252c48bb5bcf8f18?urlpath=shiny/Shiny-app/) (in case of downtime of the dashboard site, please see [this alternative](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/)).
+These norms were validated in an experiment showing that shifts across trials with different dominant modalities incurred semantic processing costs ([Bernabeu, Willems, & Louwerse, 2017](https://mindmodeling.org/cogsci2017/papers/0318/index.html)). All data for that study are [available](https://osf.io/97unm/wiki/home/), including a [dashboard](https://mybinder.org/v2/gh/pablobernabeu/Modality-switch-effects-emerge-early-and-increase-throughout-conceptual-processing/master?urlpath=shiny/Shiny-app/) (in case of downtime of the dashboard site, please see [this alternative](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/)).
 
 The properties and the concepts were analysed separately. Properties were more strongly perceptual than concepts. Distinct relationships also emerged among the modalities, with the visual and haptic modalities being closely related, and the auditory modality being relatively independent (cf. Lynott & Connell's data for English. This ties in with findings that, in conceptual processing, modalities can be collated based on language statistics (Louwerse & Connell, 2011).
 
@@ -31,7 +31,7 @@ Further links:
 
 ![The relation among auditory, haptic, and visual modalities in property and concept words, in English and Dutch.](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png)
 
-- Online [RStudio environment with data and code](https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/b67eeda0254722e083baaf228c2d2334cd978c10?urlpath=rstudio).
+- Online [RStudio environment with data and code](https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=rstudio).
 
 
 ### **Definitions** (as in Lynott & Connell, 2009, 2013)
