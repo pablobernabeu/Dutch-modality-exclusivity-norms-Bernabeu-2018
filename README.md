@@ -23,7 +23,7 @@ Part of the toolkit of language researchers is formed of stimuli that have been 
 
 Further links:
 
-#### [**Dashboard presenting the data and analyses**](https://pablobernabeu.shinyapps.io/dutch-modality-exclusivity-norms/) (in case of downtime, please see [alternative site](http://rpubs.com/pcbernabeu/Dutch-modality-exclusivity-norms))
+#### [**Dashboard presenting the data and analyses**](https://pablobernabeu.shinyapps.io/dutch-modality-exclusivity-norms/) (in case of downtime, please see [alternative site](https://mybinder.org/v2/gh/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master?urlpath=shiny))
  
 ![](https://i.imgur.com/gS1vpcM.gif)
 
