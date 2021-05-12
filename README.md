@@ -58,7 +58,7 @@ Further links:
 
 Baayen, R. H., Piepenbrock, R., & van Rijn, H. (1993). *The CELEX Lexical Database* [CD-ROM]. Philadelphia: Linguistic Data Consortium, University of Pennsylvania.
 
-Bernabeu, P.  (2018). *Dutch  modality  exclusivity  norms  for  336  properties  and  411  concepts* [Unpublished manuscript]. School of Humanities, Tilburg University. Tilburg, Netherlands. https://psyarxiv.com/s2c5h.
+Bernabeu, P.  (2018). *Dutch  modality  exclusivity  norms  for  336  properties  and  411  concepts*. PsyArXiv. https://psyarxiv.com/s2c5h.
 
 Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs. In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society. https://mindmodeling.org/cogsci2017/papers/0318/index.html.
 
