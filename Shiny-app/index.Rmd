@@ -480,8 +480,10 @@ colours = c('firebrick1', 'dodgerblue', 'forestgreen')
 Column {style="height:1300px; background-color:#FCFCFC;"}
 --------------------------------------------------------
 
+<h2> Information </h2>
+
 <!-- Links -->
-<div style = "text-align: right; padding-top: 60px; padding-bottom: 0; padding-right: 60px;">
+<div style = "text-align: right; padding-top: 35px; padding-bottom: 30px; padding-right: 60px;">
 
 <a href="https://osf.io/58gzs/" style="color:#5C746D; border-bottom:none;font-size: 20px; font-weight: bold; font-family: 'Courier New', Courier, monospace;"> <i class='fas fa-database' aria-hidden="true" style='font-size:20px; color:#577787'></i> Data</a>
 
@@ -496,7 +498,6 @@ Column {style="height:1300px; background-color:#FCFCFC;"}
 
 <div style = "padding-left: 60px; padding-right: 60px; text-align: justify; background-color:#FCFCFC; font-size: 16px; line-height: 1.6;">
 
-## Information
 
 This dashboard presents the data and analyses of a set of modality exclusivity norms for Dutch. Various tabs and interactive plots are available. In addition, the data set is available in [CSV format](https://osf.io/ge7pn/) and [Excel format including column definitions](https://osf.io/58gzs/).
 
@@ -504,7 +505,7 @@ The norms, which are ratings of linguistic stimuli, served a twofold purpose: fi
 
 > <div style = "text-align: justify; background-color: #FCFCFC; font-size: 15px;"> 'This is a stimulus validation for a future experiment. The task is to rate how much you experience everyday' [properties/concepts] 'using three different perceptual senses: feeling by touch, hearing and seeing. Please rate every word on each of the three senses, from 0 (not experienced at all with that sense) to 5 (experienced greatly with that sense). If you do not know the meaning of a word, leave it blank.' </div>
 
-### Definitions (as in Lynott & Connell, 2009, 2013)
+<h3> Definitions (as in Lynott & Connell, 2009, 2013) </h3>
 
 * Dominant modality: highest-rated modality;
 * Modality exclusivity: range of the three modality ratings divided by the sum;
@@ -546,7 +547,7 @@ renderPlot(p)
 
 ```
 
-##### Figure 1. Number of words in the norms per word category, dominant modality, and modality exclusivity. <br> [<i class='fas fa-external-link-alt' aria-hidden=TRUE style='font-size:7'></i> Github](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/stacked_exc.png) {style='text-align:justify; padding-left:5px; padding-right:5px; line-height: 1.4;'}
+<h5 style='text-align:justify; padding-left:5px; padding-right:5px; line-height: 1.4;'> Figure 1. Number of words in the norms per word category, dominant modality, and modality exclusivity. <br> [<i class='fas fa-external-link-alt' aria-hidden=TRUE style='font-size:7'></i> Github](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/stacked_exc.png) </h5>
 
 
 These norms were validated in an experiment demonstrating that shifts across trials with different dominant modalities incurred semantic processing costs ([Bernabeu, Willems, & Louwerse, 2017](https://mindmodeling.org/cogsci2017/papers/0318/index.html)). All data for that study are [available](https://osf.io/97unm/wiki/home/), including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/) (in case of downtime of the dashboard site, please see [this alternative](https://mybinder.org/v2/gh/pablobernabeu/Modality-switch-effects-emerge-early-and-increase-throughout-conceptual-processing/master?urlpath=shiny/Shiny-app/)).
@@ -923,7 +924,7 @@ div(
 
 ```
 
-##### Figure 2. Dutch norms compared to English norms (reanalysis of Lynott & Connell, 2009, 2013, narrowed to three modalities) based on a principal component analysis of the auditory, haptic, and visual ratings for each word. Letters indicate the dominant modality of each word (*a* = auditory, *h* = haptic, *v* = visual), and contours further display the degree of consistency of the modalities. [<i class='fas fa-external-link-alt' aria-hidden=TRUE style='font-size:7'></i> Github](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png) {style='text-align:justify; padding-left:5px; padding-right:5px; line-height:1.4;'}
+<h5 style='text-align:justify; padding-left:5px; padding-right:5px; line-height:1.4;'> Figure 2. Dutch norms compared to English norms (reanalysis of Lynott & Connell, 2009, 2013, narrowed to three modalities) based on a principal component analysis of the auditory, haptic, and visual ratings for each word. Letters indicate the dominant modality of each word (*a* = auditory, *h* = haptic, *v* = visual), and contours further display the degree of consistency of the modalities. [<i class='fas fa-external-link-alt' aria-hidden=TRUE style='font-size:7'></i> Github](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png)
 
 
 
@@ -950,7 +951,7 @@ All data and code are [available for re-use](https://osf.io/brkjw/wiki/home/) un
 > <div style = 'text-align: justify; text-indent: -1.5em; margin-left: 1.5em; font-size: 16px; background-color: #FCFCFC; font-size: 15px;'> Bernabeu, P. (2018). Dutch modality exclusivity norms for 336 properties and 411 concepts [Data dashboard]. Retrieved from https://pablobernabeu.shinyapps.io/Dutch-Modality-Exclusivity-Norms/.</div>
 
 
-### External corpora
+<h3> External corpora </h3>
 
 * Concreteness and age of acquisition: norms by Brysbaert, Warriner, and Kuperman (2014);
 * Phonological and orthographic neighbours: DutchPOND (Marian et al., 2012);
@@ -958,18 +959,18 @@ All data and code are [available for re-use](https://osf.io/brkjw/wiki/home/) un
 * Lemma frequency: CELEX (Baayen, Piepenbrock, & van Rijn, 1993).
 
 
-### Acknowledgements {style='padding-top:5px;'}
+<h3 style='padding-top:5px;'> Acknowledgements </h3>
 
 This research was greatly supported by the supervision from Max Louwerse and Roel Willems; the financial help from Tilburg University; Wendy Leijten's help with the translations; and the forty-two students from Tilburg University and Radboud University who completed the surveys.
 
 
-### References {style='padding-top:5px;'}
+<h3 style='padding-top:5px;'> References </h3>
 
 <div style = "text-align: justify; text-indent:-2em; margin-left:2em; background-color:#FCFCFC; font-size:15px;">
 
 Baayen, R. H., Piepenbrock, R., & van Rijn, H. (1993). *The CELEX Lexical Database* [CD-ROM]. Philadelphia: Linguistic Data Consortium, University of Pennsylvania.
 
-Bernabeu, P. (2018). *Dutch modality exclusivity norms for 336 properties and 411 concepts* [Unpublished manuscript]. School of Humanities, Tilburg University, the Netherlands. https://psyarxiv.com/s2c5h.
+Bernabeu, P. (2018). *Dutch modality exclusivity norms for 336 properties and 411 concepts*. PsyArXiv. https://psyarxiv.com/s2c5h.
 
 Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs. In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society. https://mindmodeling.org/cogsci2017/papers/0318/index.html.
 
@@ -999,7 +1000,7 @@ Sourav, S., Kekunnaya, R., Shareef, I., Banerjee, S., Bottari, D., & R&ouml;der,
 </div>
 
 
-## Contact {style='padding-top:5px;'}
+<h2 style='padding-top:5px;'> Contact </h2>
 
 Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
 
@@ -1024,7 +1025,7 @@ Inputs {.sidebar style='position:fixed; padding-top: 65px; padding-bottom:30px;'
 
 # Modal dialogs containing definitions and corpora
 
-actionLink('table_DefinitionsCorporaLink', HTML('<div style="font-size: 14px; font-weight:bold; border-bottom:none;"><i class="far fa-clipboard" aria-hidden="true"></i> Definitions and corpora </div>'))
+actionLink('table_DefinitionsCorporaLink', HTML('<span style="font-size: 14px; font-weight:bold; border-bottom:none;"><i class="far fa-clipboard" aria-hidden="true"></i> Definitions and corpora </span>'))
 
 observeEvent(input$table_DefinitionsCorporaLink, {
   sendSweetAlert(session, type = NULL, title = NULL, html = TRUE,
@@ -1499,7 +1500,7 @@ Inputs {.sidebar style='position:fixed; padding-top: 65px; padding-bottom:30px;'
 
 # Modal dialogs containing definitions and corpora
 
-actionLink('properties_DefinitionsCorporaLink', HTML('<div style="font-size: 14px; font-weight:bold; border-bottom:none; margin-bottom: 6px;"><i class="far fa-clipboard" aria-hidden="true"></i> Definitions and corpora </div>'))
+actionLink('properties_DefinitionsCorporaLink', HTML('<span style="font-size: 14px; font-weight:bold; border-bottom:none; margin-bottom: 6px;"><i class="far fa-clipboard" aria-hidden="true"></i> Definitions and corpora </span>'))
 
 observeEvent(input$properties_DefinitionsCorporaLink, {
   sendSweetAlert(session, type = NULL, title = NULL, html = TRUE,
@@ -2085,7 +2086,7 @@ Inputs {.sidebar style='position:fixed; padding-top: 65px; padding-bottom:30px;'
 
 # Modal dialogs containing definitions and corpora
 
-actionLink('concepts_DefinitionsCorporaLink', HTML('<div style="font-size: 14px; font-weight:bold; border-bottom:none; margin-bottom: 6px;"><i class="far fa-clipboard" aria-hidden="true"></i> Definitions and corpora </div>'))
+actionLink('concepts_DefinitionsCorporaLink', HTML('<span style="font-size: 14px; font-weight:bold; border-bottom:none; margin-bottom: 6px;"><i class="far fa-clipboard" aria-hidden="true"></i> Definitions and corpora </span>'))
 
 observeEvent(input$concepts_DefinitionsCorporaLink, {
   sendSweetAlert(session, type = NULL, title = NULL, html = TRUE,
@@ -4852,7 +4853,8 @@ rownames(properties_lexicals_loadings) = NULL
 # Modal dialog showing loadings of principal components for properties
 
 actionLink("properties_lexicals_loadings",
-           HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding-top:3px; padding-bottom:0px; padding-left:6px; padding-right:6px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Principal component loadings for properties.</p>'), style = 'border-bottom:none !important')
+           HTML('<span style = "background-color:#F9F9F9; padding-top:3px; padding-bottom:0px; padding-left:6px; padding-right:6px;"><i class="glyphicon glyphicon-th" aria-hidden="true"></i> See principal component loadings for properties</span>'))
+
 observeEvent(input$properties_lexicals_loadings, {
   showModal(modalDialog(
     title = HTML('<div style="padding-bottom:0px; padding-left:2px; font-size:14px; text-align:justify;"> <b>Loadings of principal components for properties (see \'PC\' dependent variables), in the form of correlations.</b> Coefficients above <i>r</i> = &plusmn;.70 (i.e., 50% shared variance) shown in bold. </div>'),
@@ -4938,7 +4940,8 @@ rownames(concepts_lexicals_loadings) = NULL
 # Modal dialog showing loadings of principal components for concepts
 
 actionLink("concepts_lexicals_loadings",
-           HTML('<p style = "background-color:#F9F9F9; outline:#C3AEAE dotted 0.8px; padding-top:3px; padding-bottom:0px; padding-left:6px; padding-right:6px;"> <span class="glyphicon glyphicon-th" aria-hidden="true"></span> Principal component loadings for concepts.</p>'), style = 'border-bottom:none !important')
+           HTML('<span style = "background-color:#F9F9F9; padding-top:3px; padding-bottom:0px; padding-left:6px; padding-right:6px;"><i class="glyphicon glyphicon-th" aria-hidden="true"></i> See principal component loadings for concepts</span>'))
+
 observeEvent(input$concepts_lexicals_loadings, {
   showModal(modalDialog(
     title = HTML('<div style="padding-bottom:0px; padding-left:2px; font-size:14px; text-align:justify;"> <b>Loadings of principal components for concepts (see \'PC\' dependent variables), in the form of correlations.</b> Coefficients above <i>r</i> = &plusmn;.70 (i.e., 50% shared variance) shown in bold. </div>'),
