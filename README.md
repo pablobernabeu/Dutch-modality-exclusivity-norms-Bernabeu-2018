@@ -14,7 +14,7 @@ The norms also served to investigate sound symbolism, which is the relation betw
 
 The present analyses were reported in Bernabeu (2018). All data and analysis code for the norms are [available for re-use](https://osf.io/brkjw/wiki/home/) under a [CC-BY licence](https://creativecommons.org/licenses/by/4.0/), provided acknowledgment of the following publication:
 
-> <span style = "font-size: 14.1px;"> Bernabeu, P. (2018). *Dutch modality exclusivity norms for 336 properties and 411 concepts* [Unpublished manuscript]. School of Humanities, Tilburg University, the Netherlands. https://psyarxiv.com/s2c5h. </span>
+> <span style = "font-size: 14.1px;"> Bernabeu, P. (2018). *Dutch modality exclusivity norms for 336 properties and 411 concepts*. PsyArXiv. https://psyarxiv.com/s2c5h </span>
 
 
 **Abstract**
