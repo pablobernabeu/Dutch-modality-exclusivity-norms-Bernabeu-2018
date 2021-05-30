@@ -13,28 +13,48 @@ runtime: shiny
 
 ```{r packages, include = FALSE}
 
+library(arules)
 library(car)
 library(contrast)
+library(corpcor)
 library(plyr)  # Load before `dplyr` (https://github.com/tidyverse/dplyr/issues/347)
 library(dplyr)
 library(flexdashboard)
+library(formattable)
+library(gdata)
 library(ggplot2)
 library(ggrepel)
 library(GPArotation)
+library(grid)
+library(gridExtra)
+library(gtools)
+library(Hmisc)
 library(htmltools)
 library(irr)
 library(kableExtra)
 library(knitr)
+library(lattice)
+library(leaflet)
+library(ltm)
+library(MASS)
 library(pander)
+library(pastecs)
 library(plotly)
 library(png)
 library(psych)
 library(QuantPsyc)
 library(RColorBrewer)
+library(RCurl)
 library(reactable)
+library(reshape)
+library(rmarkdown)
+library(Rmisc)
+library(rsconnect)
+library(scales)
 library(shiny)
 library(shinyWidgets)
 library(stringr)
+library(tibble)
 library(tidyr)
 
 panderOptions('keep.trailing.zeros', TRUE)
@@ -943,6 +963,8 @@ All data and code are [available for re-use](https://osf.io/brkjw/wiki/home/) un
 This research was greatly supported by the supervision from Max Louwerse and Roel Willems; the financial help from Tilburg University; Wendy Leijten's help with the translations; and the forty-two students from Tilburg University and Radboud University who completed the surveys.
 
 
+<a name="section-references"></a>
+
 <h3 style='padding-top:5px;'> References </h3>
 
 <div style = "text-align: justify; text-indent:-2em; margin-left:2em; background-color:#FCFCFC; font-size:15px;">
@@ -1220,13 +1242,13 @@ reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$AoA_B
 
 #### **Corpora**
 
-**Concreteness and age of acquisition:** [Norms by Brysbaert, Warriner, and Kuperman (2014)](#info).
+**Concreteness and age of acquisition:** [Norms by Brysbaert, Warriner, and Kuperman (2014)](#references).
 
-**Phonological and orthographic neighbours**: [DutchPOND (Marian et al., 2012)](#info).
+**Phonological and orthographic neighbours**: [DutchPOND (Marian et al., 2012)](#references).
 
-**Word frequency and contextual diversity**: [SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010)](#info).
+**Word frequency and contextual diversity**: [SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010)](#references).
 
-**Lemma frequency**: [CELEX (Baayen, Piepenbrock, & van Rijn, 1993)](#info).
+**Lemma frequency**: [CELEX (Baayen, Piepenbrock, & van Rijn, 1993)](#references).
 
 </div>
 
@@ -1764,13 +1786,13 @@ reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$AoA_B
 
 #### **Corpora**
 
-**Concreteness and age of acquisition:** [Norms by Brysbaert, Warriner, and Kuperman (2014)](#info).
+**Concreteness and age of acquisition:** [Norms by Brysbaert, Warriner, and Kuperman (2014)](#references).
 
-**Phonological and orthographic neighbours**: [DutchPOND (Marian et al., 2012)](#info).
+**Phonological and orthographic neighbours**: [DutchPOND (Marian et al., 2012)](#references).
 
-**Word frequency and contextual diversity**: [SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010)](#info).
+**Word frequency and contextual diversity**: [SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010)](#references).
 
-**Lemma frequency**: [CELEX (Baayen, Piepenbrock, & van Rijn, 1993)](#info).
+**Lemma frequency**: [CELEX (Baayen, Piepenbrock, & van Rijn, 1993)](#references).
 
 </div>
 
@@ -2362,13 +2384,13 @@ reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_concs()$AoA_B
 
 #### **Corpora**
 
-**Concreteness and age of acquisition:** [Norms by Brysbaert, Warriner, and Kuperman (2014)](#info).
+**Concreteness and age of acquisition:** [Norms by Brysbaert, Warriner, and Kuperman (2014)](#references).
 
-**Phonological and orthographic neighbours**: [DutchPOND (Marian et al., 2012)](#info).
+**Phonological and orthographic neighbours**: [DutchPOND (Marian et al., 2012)](#references).
 
-**Word frequency and contextual diversity**: [SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010)](#info).
+**Word frequency and contextual diversity**: [SUBTLEX-NL (Keuleers, Brysbaert, & New, 2010)](#references).
 
-**Lemma frequency**: [CELEX (Baayen, Piepenbrock, & van Rijn, 1993)](#info).
+**Lemma frequency**: [CELEX (Baayen, Piepenbrock, & van Rijn, 1993)](#references).
 
 </div>
 
@@ -4865,9 +4887,9 @@ observeEvent(input$properties_lexicals_loadings, {
 
 <div style = "background-color: #FCFCFC; text-align: justify; padding-top: 37px; padding-right: 45px; padding-left: 45px; padding-bottom: 38px; margin-top: 10; margin-bottom: 7px; line-height: 1.6; font-size: 16px;">
 
-**Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would ([see external corpora](#info)). By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings, thus supporting sound symbolism.
+**Sound symbolism is the relation between the form of words and their meaning.** The form of words rests on their sound more than on their visual or tactile properties (at least in spoken language). Therefore, auditory ratings should more reliably predict the lexical properties of words (length, frequency, distinctiveness) than haptic or visual ratings would ([see external corpora](#references)). By means of regression analyses following Lynott and Connell (2013; see [Table 6](https://link.springer.com/article/10.3758%2Fs13428-012-0267-0#Sec4)), we found that auditory ratings were either the best predictor of lexical properties, or yielded an effect that was opposite in polarity to the effects of haptic and visual ratings, thus supporting sound symbolism.
 
-Standardised coefficients ($\beta$) presented below, followed by asterisks indicating significance (<sup>\*</sup>*p* < .05; <sup>\*\*</sup>*p* < .01; <sup>\*\*\*</sup>*p* < .001), and the standard error below. Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#info)). 'PC' = Kaiser-normalised, varimax-rotated principal component.
+Standardised coefficients ($\beta$) presented below, followed by asterisks indicating significance (<sup>\*</sup>*p* < .05; <sup>\*\*</sup>*p* < .01; <sup>\*\*\*</sup>*p* < .001), and the standard error below. Regression assumptions observed, i.e., normal distribution of residuals (transformations attempted), largest variance inflation factor < 10 and its mean around 1, tolerance > 0.2 ([Field, Miles, & Field, 2012](#references)). 'PC' = Kaiser-normalised, varimax-rotated principal component.
 
 </div>
 
