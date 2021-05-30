@@ -962,7 +962,7 @@ All data and code are [available for re-use](https://osf.io/brkjw/wiki/home/) un
 
 This research was greatly supported by the supervision from Max Louwerse and Roel Willems; the financial help from Tilburg University; Wendy Leijten's help with the translations; and the forty-two students from Tilburg University and Radboud University who completed the surveys.
 
-
+<!-- Create heading anchor for the References section below -->
 <a name="section-references"></a>
 
 <h3 style='padding-top:5px;'> References </h3>
