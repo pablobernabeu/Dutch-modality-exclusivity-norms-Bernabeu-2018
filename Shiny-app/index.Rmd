@@ -216,7 +216,7 @@ code.r{ /* Code block */
 font-size: 12px;
 }
 
-pre { /* Code-fromatted output */
+pre { /* Code-formatted output */
 font-size: 14px;
 padding-top: 2px;
 padding-bottom: 2px;
@@ -248,9 +248,8 @@ clear: both;
 </style>
 
 
-<!-- Load Bootstrap libraries for icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+<!-- Load library of icons -->
+<script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"></script>
 
 <!-- Javascript function to enable a hovering tooltip -->
 <script>
@@ -351,11 +350,6 @@ props = all[all$cat == 'Property' & !is.na(all$word),]
 props = cbind(props, pc2_prop$scores)
 #nrow(props)
 
-# Extend initial of main modality into full word
-levels(props$main)[levels(props$main) == 'Auditory'] = 'Auditory'
-levels(props$main)[levels(props$main) == 'Haptic'] = 'Haptic'
-levels(props$main)[levels(props$main) == 'Visual'] = 'Visual'
-
 # Set to character format
 props$word = as.character(props$word)
 
@@ -439,11 +433,6 @@ concs = all[all$cat == 'Concept' & !is.na(all$word),]
 concs = cbind(concs, pc2_conc$scores)
 #nrow(concs)
 
-# Extend initial of main modality into full word
-levels(concs$main)[levels(concs$main) == 'Auditory'] = 'Auditory'
-levels(concs$main)[levels(concs$main) == 'Haptic'] = 'Haptic'
-levels(concs$main)[levels(concs$main) == 'Visual'] = 'Visual'
-
 # Set to character format
 concs$word = as.character(concs$word)
 
@@ -461,7 +450,7 @@ concs[is.na(concs$concrete_Brysbaertetal2014), 'concrete_Brysbaertetal2014'] = 0
 concs$Exclusivity = concs$Exclusivity * 100
 
 # Colors for plots
-colours = c('firebrick1', 'dodgerblue', 'forestgreen')
+colours = c('Auditory' = 'firebrick1', 'Haptic' = 'dodgerblue', 'Visual' = 'forestgreen')
 
 ```
 
@@ -508,6 +497,7 @@ The norms, which are ratings of linguistic stimuli, served a twofold purpose: fi
 * Modality exclusivity: range of the three modality ratings divided by the sum;
 * Perceptual strength: highest rating across modalities.
 
+<br>
 
 ```{r}
 
@@ -544,12 +534,14 @@ renderPlot(p)
 
 ```
 
-<h5 style='text-align:justify; padding-left:5px; padding-right:5px; line-height: 1.4;'> Figure 1. Number of words in the norms per word category, dominant modality, and modality exclusivity. <br> [<i class='fas fa-external-link-alt' aria-hidden=TRUE style='font-size:7'></i> Github](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/stacked_exc.png) </h5>
+<h5 style='text-align:justify; padding-left:5px; padding-right:5px; padding-bottom:10px; line-height: 1.4;'> Figure 1. Number of words in the norms per word category, dominant modality, and modality exclusivity. <br> [<i class='fas fa-external-link-alt' aria-hidden=TRUE style='font-size:7'></i> Github](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/stacked_exc.png) </h5>
 
 
 These norms were validated in an experiment demonstrating that shifts across trials with different dominant modalities incurred semantic processing costs ([Bernabeu, Willems, & Louwerse, 2017](https://mindmodeling.org/cogsci2017/papers/0318/index.html)). All data for that study are [available](https://osf.io/97unm/wiki/home/), including a [dashboard](https://pablobernabeu.shinyapps.io/ERP-waveform-visualization_CMS-experiment/) (in case of downtime of the dashboard site, please see [this alternative](https://mybinder.org/v2/gh/pablobernabeu/Modality-switch-effects-emerge-early-and-increase-throughout-conceptual-processing/master?urlpath=shiny/Shiny-app/)).
 
 The [**properties**](#properties){style='background-color:#FDFFFF'} and the [**concepts**](#concepts){style='background-color:#FDFFFF'} may also be consulted together on a [**table**](#table){style='background-color:#FDFFFF'}. Distinct relationships emerged among the modalities, with the visual and haptic modalities being more related to each other than to the auditory modality. This ties in with findings that, in conceptual processing, modalities can be collated based on language statistics (Louwerse & Connell, 2011). Furthermore, properties were found to be more strongly perceptual than concepts ([**cf. English norms by Lynott & Connell, 2009, 2013**](#section-cf-lc-english-norms){style='background-color:#FDFFFF'}).
+
+<br>
 
 ```{r}
 
@@ -921,7 +913,7 @@ div(
 
 ```
 
-<h5 style='text-align:justify; padding-left:5px; padding-right:5px; line-height:1.4;'> Figure 2. Dutch norms compared to English norms (reanalysis of Lynott & Connell, 2009, 2013, narrowed to three modalities) based on a principal component analysis of the auditory, haptic, and visual ratings for each word. Letters indicate the dominant modality of each word (*a* = auditory, *h* = haptic, *v* = visual), and contours further display the degree of consistency of the modalities. [<i class='fas fa-external-link-alt' aria-hidden=TRUE style='font-size:7'></i> Github](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png)
+<h5 style='text-align:justify; padding-left:5px; padding-right:5px; padding-bottom:3px; line-height:1.4;'> Figure 2. Dutch norms compared to English norms (reanalysis of Lynott & Connell, 2009, 2013, narrowed to three modalities) based on a principal component analysis of the auditory, haptic, and visual ratings for each word. Letters indicate the dominant modality of each word (*a* = auditory, *h* = haptic, *v* = visual), and contours further display the degree of consistency of the modalities. [<i class='fas fa-external-link-alt' aria-hidden=TRUE style='font-size:7'></i> Github](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png)
 
 
 
@@ -993,18 +985,18 @@ Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The 
 Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. <br>
 [https://doi.org/10.1371/journal.pone.0043230](https://doi.org/10.1371/journal.pone.0043230).
 
-Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. [https://doi.org/10.3758/s13428-017-0852-3](https://doi.org/10.3758/s13428-017-0852-3).
-
 Sourav, S., Kekunnaya, R., Shareef, I., Banerjee, S., Bottari, D., & R&ouml;der, B. (2019). A protracted sensitive period regulates the development of cross-modal sound-shape associations in humans. *Psychological Science, 30*, 10, 1473-1482. [https://doi.org/10.1177/0956797619866625](https://doi.org/10.1177/0956797619866625).
+
+Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. [https://doi.org/10.3758/s13428-017-0852-3](https://doi.org/10.3758/s13428-017-0852-3).
 
 </div>
 
 
 <h2 style='padding-top:5px;'> Contact </h2>
 
-Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
+Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk
 
-[Webpage](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu)
+[Website](https://pablobernabeu.github.io/)
 
 <br/>
 
@@ -1284,15 +1276,6 @@ table_data[is.na(table_data$concrete_Brysbaertetal2014),'concrete_Brysbaertetal2
 table_data[is.na(table_data$phonemes_DUTCHPOND),'phonemes_DUTCHPOND'] = 0
 table_data[is.na(table_data$orth_neighbours_DUTCHPOND),'orth_neighbours_DUTCHPOND'] = 0
 table_data[is.na(table_data$phon_neighbours_DUTCHPOND),'phon_neighbours_DUTCHPOND'] = 0
-
-# Extend initial of main modality into full word
-levels(table_data$main)[levels(table_data$main) == 'Auditory'] = 'Auditory'
-levels(table_data$main)[levels(table_data$main) == 'Haptic'] = 'Haptic'
-levels(table_data$main)[levels(table_data$main) == 'Visual'] = 'Visual'
-
-# Extend abbreviation of category
-levels(table_data$cat)[levels(table_data$cat) == 'Concept'] = 'Concept'
-levels(table_data$cat)[levels(table_data$cat) == 'Property'] = 'Property'
 
 # Turn modality exclusivity into percentage format
 table_data$Exclusivity = table_data$Exclusivity * 100
@@ -1577,7 +1560,7 @@ observeEvent(input$properties_loadings, {
                PC2 = ifelse(abs(as.numeric(PC2)) > .7, cell_spec(PC2, "html", bold = TRUE, color = 'black'), 
                             cell_spec(PC2, "html")) ) %>%
         kable(format = "html", escape = FALSE) %>%
-        kable_styling('striped', full_width = F, position = "left")
+        kable_styling('striped', full_width = FALSE, position = "left")
     ),
     size = 'm', easyClose = TRUE, footer = modalButton('Close')
   ))
@@ -2165,7 +2148,7 @@ observeEvent(input$concepts_loadings, {
                PC2 = ifelse(abs(as.numeric(PC2)) > .7, cell_spec(PC2, "html", bold = TRUE, color = 'black'), 
                             cell_spec(PC2, "html")) ) %>%
         kable(format = "html", escape = FALSE) %>%
-        kable_styling('striped', full_width = F, position = "left")
+        kable_styling('striped', full_width = FALSE, position = "left")
     ),
     size = 'm', easyClose = TRUE, footer = modalButton('Close')
   ))
@@ -2743,11 +2726,6 @@ eng_props = cbind(eng_props, pc2_eng_prop$scores)
 # Set word factor to character format
 eng_props$English_Word_Lynott_Connell_2009_2013 = as.character(eng_props$English_Word_Lynott_Connell_2009_2013)
 
-# Extend initial of main modality into full word
-levels(eng_props$English_Main_Lynott_Connell_2009_2013)[levels(eng_props$English_Main_Lynott_Connell_2009_2013) == 'Auditory'] = 'Auditory'
-levels(eng_props$English_Main_Lynott_Connell_2009_2013)[levels(eng_props$English_Main_Lynott_Connell_2009_2013) == 'Haptic'] = 'Haptic'
-levels(eng_props$English_Main_Lynott_Connell_2009_2013)[levels(eng_props$English_Main_Lynott_Connell_2009_2013) == 'Visual'] = 'Visual'
-
 ```
 
 ```{r}
@@ -2848,11 +2826,6 @@ eng_concs = eng_concs[eng_concs$normed == 'Dut_Eng' | eng_concs$normed ==
 
 # Set word factor to character format
 eng_concs$English_Word_Lynott_Connell_2009_2013 = as.character(eng_concs$English_Word_Lynott_Connell_2009_2013)
-
-# Extend initial of main modality into full word
-levels(eng_concs$English_Main_Lynott_Connell_2009_2013)[levels(eng_concs$English_Main_Lynott_Connell_2009_2013) == 'Auditory'] = 'Auditory'
-levels(eng_concs$English_Main_Lynott_Connell_2009_2013)[levels(eng_concs$English_Main_Lynott_Connell_2009_2013) == 'Haptic'] = 'Haptic'
-levels(eng_concs$English_Main_Lynott_Connell_2009_2013)[levels(eng_concs$English_Main_Lynott_Connell_2009_2013) == 'Visual'] = 'Visual'
 
 ```
 
@@ -4872,7 +4845,7 @@ observeEvent(input$properties_lexicals_loadings, {
                PC3 = ifelse(abs(as.numeric(PC3)) > .7, cell_spec(PC3, "html", bold = TRUE, color = 'black'),
                             cell_spec(PC3, "html")) ) %>%
         kable(format = "html", escape = FALSE) %>%
-        kable_styling('striped', full_width = F, position = "left")
+        kable_styling('striped', full_width = FALSE, position = "left")
     ),
     size = 'm', easyClose = TRUE, footer = modalButton("Close")
   ))
@@ -4959,7 +4932,7 @@ observeEvent(input$concepts_lexicals_loadings, {
                PC3 = ifelse(abs(as.numeric(PC3)) > .7, cell_spec(PC3, "html", bold = TRUE, color = 'black'),
                             cell_spec(PC3, "html")) ) %>%
         kable(format = "html", escape = FALSE) %>%
-        kable_styling('striped', full_width = F, position = "left")
+        kable_styling('striped', full_width = FALSE, position = "left")
     ),
     size = 'm', easyClose = TRUE, footer = modalButton("Close")
   ))
@@ -5004,7 +4977,7 @@ HTML(
     spread(properties_Dutch2_results[,c('Dependent', 'Variable', 'coefficients_and_asterisks')],
            Variable, coefficients_and_asterisks), escape = FALSE
   ) %>%
-    kable_styling('striped', full_width = F)
+    kable_styling('striped', full_width = FALSE)
 )
 
 ```
@@ -5042,7 +5015,7 @@ HTML(
     spread(concepts_Dutch2_results[,c('Dependent', 'Variable', 'coefficients_and_asterisks')],
            Variable, coefficients_and_asterisks), escape = FALSE
   ) %>%
-    kable_styling('striped', full_width = F)
+    kable_styling('striped', full_width = FALSE)
 )
 
 ```
