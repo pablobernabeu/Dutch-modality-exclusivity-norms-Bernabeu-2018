@@ -225,7 +225,6 @@ margin-bottom: 18px;
 }
 
 
-
 <!-- Define CSS style for splitting columns -->
 
 * {
