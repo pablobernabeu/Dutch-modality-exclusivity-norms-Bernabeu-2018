@@ -1588,8 +1588,7 @@ ggplotly(
            axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
            axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,5)),
            axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
-           legend.background = element_rect(size = 2), legend.position = 'none',
-           legend.title = element_blank(),
+           legend.background = element_rect(size = 2), legend.title = element_blank(),
            legend.text = element_text(colour = colours, size = 13) ),
   tooltip = 'text'
 )
@@ -2040,8 +2039,7 @@ ggplotly(
            axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
            axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,5)),
            axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
-           legend.background = element_rect(size = 2), legend.position = 'none',
-           legend.title = element_blank(),
+           legend.background = element_rect(size = 2), legend.title = element_blank(),
            legend.text = element_text(colour = colours, size = 15) ),
   tooltip = 'text'
 )
