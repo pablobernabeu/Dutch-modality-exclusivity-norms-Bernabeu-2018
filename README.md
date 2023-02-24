@@ -88,7 +88,7 @@ Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating p
 
 ### Contact
 
-Pablo Bernabeu. Email: p.bernabeu@lancaster.ac.uk.
+Pablo Bernabeu. Email: pcbernabeu@gmail.com
 
-[Webpage](http://www.research.lancs.ac.uk/portal/en/people/pablo-de-juan-bernabeu)
+[Webpage](https://pablobernabeu.github.io/)
 
