@@ -1648,7 +1648,7 @@ output$properties_png = downloadHandler(
   filename = function() {
     paste0('Selected-Dutch-modality-norms-Bernabeu-et-al-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.png') },
   content = function(file){
-    png(file, units='in', width=13, height=11, res=900)
+    png(file, units='in', width=11, height=9.8, res=700)
     print(properties_png())
     dev.off()},
   contentType = 'image/png' 
@@ -2237,7 +2237,7 @@ output$concepts_png = downloadHandler(
   filename = function() {
     paste0('Selected-Dutch-modality-norms-Bernabeu-et-al-', str_replace_all(format(Sys.time(), '%d-%b-%Y_%X-%Z'), ':', '-'), '.png') },
   content = function(file){
-    png(file, units='in', width=13, height=11, res=900)
+    png(file, units='in', width=11, height=9.8, res=700)
     print(concepts_png())
     dev.off()},
   contentType = 'image/png'
