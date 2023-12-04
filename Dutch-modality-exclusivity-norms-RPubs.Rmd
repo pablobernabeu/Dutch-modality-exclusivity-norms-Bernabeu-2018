@@ -986,32 +986,32 @@ This research was greatly supported by the supervision from Max Louwerse and Roe
 
 Baayen, R. H., Piepenbrock, R., & van Rijn, H. (1993). *The CELEX Lexical Database* [CD-ROM]. Philadelphia: Linguistic Data Consortium, University of Pennsylvania
 
-Bernabeu, P. (2018). *Dutch modality exclusivity norms for 336 properties and 411 concepts*. PsyArXiv. https://psyarxiv.com/s2c5h
+Bernabeu, P. (2018). *Dutch modality exclusivity norms for 336 properties and 411 concepts* [Unpublished manuscript]. School of Humanities, Tilburg University, the Netherlands. [https://psyarxiv.com/s2c5h](https://psyarxiv.com/s2c5h){target="_top"}
 
-Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs. In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society. https://doi.org/10.31234/osf.io/a5pcz
+Bernabeu, P., Willems, R. M., & Louwerse, M. M. (2017). Modality switch effects emerge early and increase throughout conceptual processing: Evidence from ERPs. In G. Gunzelmann, A. Howes,  T. Tenbrink, & E. J. Davelaar (Eds.), *Proceedings of the 39th Annual Conference of the Cognitive Science Society* (pp. 1629-1634). Austin, TX: Cognitive Science Society. [https://doi.org/10.31234/osf.io/a5pcz](https://doi.org/10.31234/osf.io/a5pcz){target="_top"}
 
 Brysbaert, M., Warriner, A.B., & Kuperman, V. (2014). Concreteness ratings for 40 thousand generally known English word lemmas. *Behavior Research Methods, 46*, 3, 904-911. <br>
-[https://doi.org/10.3758/s13428-013-0403-5](https://doi.org/10.3758/s13428-013-0403-5)
+[https://doi.org/10.3758/s13428-013-0403-5](https://doi.org/10.3758/s13428-013-0403-5){target="_top"}
 
 Field, A. P., Miles, J., & Field, Z. (2012). *Discovering Statistics Using R*. London, UK: Sage
 
-Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measure for Dutch words based on film subtitles. *Behavior Research Methods, 42*, 3, 643-650. [https://doi.org/10.3758/BRM.42.3.643](https://doi.org/10.3758/BRM.42.3.643)
+Keuleers, E., Brysbaert, M. & New, B. (2010). SUBTLEX-NL: A new frequency measure for Dutch words based on film subtitles. *Behavior Research Methods, 42*, 3, 643-650. [https://doi.org/10.3758/BRM.42.3.643](https://doi.org/10.3758/BRM.42.3.643){target="_top"}
 
 K&ouml;hler, W. (1929). *Gestalt Psychology*. New York: Liveright
 
-Louwerse, M., & Connell, L. (2011). A taste of words: Linguistic context and perceptual simulation predict the modality of words. *Cognitive Science, 35*, 2, 381-98. [https://doi.org/10.1111/j.1551-6709.2010.01157.x](https://doi.org/10.1111/j.1551-6709.2010.01157.x)
+Louwerse, M., & Connell, L. (2011). A taste of words: Linguistic context and perceptual simulation predict the modality of words. *Cognitive Science, 35*, 2, 381-98. [https://doi.org/10.1111/j.1551-6709.2010.01157.x](https://doi.org/10.1111/j.1551-6709.2010.01157.x){target="_top"}
 
-Lynott, D., & Connell, L. (2009). Modality exclusivity norms for 423 object concepts. *Behavior Research Methods, 41*, 2, 558-564. [https://doi.org/10.3758/BRM.41.2.558](https://doi.org/10.3758/BRM.41.2.558)
+Lynott, D., & Connell, L. (2009). Modality exclusivity norms for 423 object concepts. *Behavior Research Methods, 41*, 2, 558-564. [https://doi.org/10.3758/BRM.41.2.558](https://doi.org/10.3758/BRM.41.2.558){target="_top"}
 
 Lynott, D., & Connell, L. (2013). Modality exclusivity norms for 400 nouns: The relationship between perceptual experience and surface word form. *Behavior Research Methods, 45*, 2, 516-526. <br>
-[https://doi.org/10.3758/s13428-012-0267-0](https://doi.org/10.3758/s13428-012-0267-0)
+[https://doi.org/10.3758/s13428-012-0267-0](https://doi.org/10.3758/s13428-012-0267-0){target="_top"}
 
 Marian, V., Bartolotti, J., Chabal, S., & Shook, A. (2012). CLEARPOND: Cross-Linguistic Easy-Access Resource for Phonological and Orthographic Neighborhood Densities. *PLoS ONE, 7*, 8: e43230. <br>
-[https://doi.org/10.1371/journal.pone.0043230](https://doi.org/10.1371/journal.pone.0043230)
+[https://doi.org/10.1371/journal.pone.0043230](https://doi.org/10.1371/journal.pone.0043230){target="_top"}
 
-Sourav, S., Kekunnaya, R., Shareef, I., Banerjee, S., Bottari, D., & R&ouml;der, B. (2019). A protracted sensitive period regulates the development of cross-modal sound-shape associations in humans. *Psychological Science, 30*, 10, 1473-1482. [https://doi.org/10.1177/0956797619866625](https://doi.org/10.1177/0956797619866625)
+Sourav, S., Kekunnaya, R., Shareef, I., Banerjee, S., Bottari, D., & R&ouml;der, B. (2019). A protracted sensitive period regulates the development of cross-modal sound-shape associations in humans. *Psychological Science, 30*, 10, 1473-1482. [https://doi.org/10.1177/0956797619866625](https://doi.org/10.1177/0956797619866625){target="_top"}
 
-Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. [https://doi.org/10.3758/s13428-017-0852-3](https://doi.org/10.3758/s13428-017-0852-3)
+Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating perceptual modality in space. *Behavior Research Methods, 49*, 6, 2204-2218. [https://doi.org/10.3758/s13428-017-0852-3](https://doi.org/10.3758/s13428-017-0852-3){target="_top"}
 
 </div>
 
@@ -1020,7 +1020,7 @@ Speed, L. J., & Majid, A. (2017). Dutch modality exclusivity norms: Simulating p
 
 Pablo Bernabeu. Email: pcbernabeu@gmail.com
 
-[Webpage](https://pablobernabeu.github.io){target="top"}
+[Webpage](https://pablobernabeu.github.io){target="_top"}
 
 <br/>
 
@@ -1577,18 +1577,19 @@ ggplotly(
                                    '</b><br><span style="color:#EEEEEE"> Age of acquisition (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">', 
                                    sprintf("%.2f", round(AoA_Brysbaertetal2014, 2)), ' '
                      ) ) ) +
-    geom_text(size = 3) +
+    geom_text(size = 3) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
     geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
-    scale_colour_manual(values = colours, drop = FALSE) + theme_bw() + ggtitle('Property words') +
+    ggtitle('Property words') +
     labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
-    guides(color = guide_legend(title = 'Main<br>modality')) +
+    theme_bw() + 
     theme( plot.background = element_blank(), panel.grid.major = element_blank(),
            panel.grid.minor = element_blank(), panel.border = element_blank(),
            axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
            axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
            axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,5)),
            axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
-           legend.background = element_rect(size = 2), legend.title = element_blank(),
+           legend.background = element_rect(size = 2), 
+           legend.title = element_text(colour = colours, size = 15), 
            legend.text = element_text(colour = colours, size = 13) ),
   tooltip = 'text'
 )
@@ -2028,19 +2029,20 @@ ggplotly(
                                    round(orth_neighbours_DUTCHPOND, 2), ' ',
                                    '</b><br><span style="color:#EEEEEE; padding-bottom:3px;"> Age of acquisition (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">', 
                                    round(AoA_Brysbaertetal2014, 2), ' '  ) ) ) +
-    geom_text(size = 3) +
+    geom_text(size = 3) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
     geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
-    scale_colour_manual(values = colours, drop = FALSE) + theme_bw() + ggtitle('Concept words') +
+    ggtitle('Concept words') +
     labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
-    guides(color = guide_legend(title = 'Main<br>modality')) +
+    theme_bw() + 
     theme( plot.background = element_blank(), panel.grid.major = element_blank(),
            panel.grid.minor = element_blank(), panel.border = element_blank(),
            axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
            axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
            axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,5)),
            axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
-           legend.background = element_rect(size = 2), legend.title = element_blank(),
-           legend.text = element_text(colour = colours, size = 15) ),
+           legend.background = element_rect(size = 2), 
+           legend.title = element_text(colour = colours, size = 15), 
+           legend.text = element_text(colour = colours, size = 13) ),
   tooltip = 'text'
 )
 
@@ -2207,20 +2209,21 @@ ggplotly( ggplot(eng_props,
                                    '</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(English_Visual_Lynott_Connell_2009_2013, 2)), ' '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-            geom_text(size = 2.8, show.legend=FALSE) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
-            guides(color = guide_legend(title = 'Main<br>modality', override.aes = list(size = 7, alpha = 1))) +
+            theme_bw() +
             theme( plot.background = element_blank(), panel.grid.major = element_blank(),
                    panel.grid.minor = element_blank(), panel.border = element_blank(),
                    axis.line = element_line(color = 'black'),
                    axis.title.x = element_text(colour = 'black', size = 9),
                    axis.title.y = element_text(colour = 'black', size = 9),
                    axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
-                   legend.title = element_blank(), plot.title = element_blank() ),
+                   plot.title = element_blank(),
+                   legend.title = element_text(colour = colours, size = 10), 
+                   legend.text = element_text(colour = colours, size = 9) ),
           tooltip = 'text' )
 
 ```
-
 
 
 
@@ -2304,16 +2307,18 @@ ggplotly( ggplot(eng_concs,
                                    '</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(English_Visual_Lynott_Connell_2009_2013, 2)), ' '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-            geom_text(size = 2.8, show.legend=FALSE) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
-            guides(color = guide_legend(title = 'Main<br>modality', override.aes = list(size = 7, alpha = 1))) +
+            theme_bw() +
             theme( plot.background = element_blank(), panel.grid.major = element_blank(),
                    panel.grid.minor = element_blank(), panel.border = element_blank(),
                    axis.line = element_line(color = 'black'),
                    axis.title.x = element_text(colour = 'black', size = 9),
                    axis.title.y = element_text(colour = 'black', size = 9),
                    axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
-                   legend.title = element_blank(), plot.title = element_blank() ),
+                   plot.title = element_blank(),
+                   legend.title = element_text(colour = colours, size = 10), 
+                   legend.text = element_text(colour = colours, size = 9) ),
           tooltip = 'text' )
 
 ```
@@ -2344,19 +2349,21 @@ ggplotly( ggplot(properties_Dutch,
                                    sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE) + 
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
-            theme_bw() + theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-                                panel.grid.minor = element_blank(), panel.border = element_blank(),
-                                axis.line = element_line(color = 'black'),
-                                axis.title.x = element_text(colour = 'black', size = 9),
-                                axis.title.y = element_text(colour = 'black', size = 9),
-                                axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
-                                legend.title = element_blank(), plot.title = element_blank() ),
+            theme_bw() + 
+            theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+                   panel.grid.minor = element_blank(), panel.border = element_blank(),
+                   axis.line = element_line(color = 'black'),
+                   axis.title.x = element_text(colour = 'black', size = 9),
+                   axis.title.y = element_text(colour = 'black', size = 9),
+                   axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
+                   plot.title = element_blank(),
+                   legend.title = element_text(colour = colours, size = 10), 
+                   legend.text = element_text(colour = colours, size = 9) ),
           tooltip = 'text' )
 
 ```
-
 
 
 
@@ -2381,20 +2388,21 @@ ggplotly( ggplot(concepts_Dutch,
                                    sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") + 
-            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE) + 
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
-            theme_bw() + theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-                                panel.grid.minor = element_blank(), panel.border = element_blank(),
-                                axis.line = element_line(color = 'black'),
-                                axis.title.x = element_text(colour = 'black', size = 9),
-                                axis.title.y = element_text(colour = 'black', size = 9),
-                                axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
-                                legend.title = element_blank(), plot.title = element_blank() ),
+            theme_bw() + 
+            theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+                   panel.grid.minor = element_blank(), panel.border = element_blank(),
+                   axis.line = element_line(color = 'black'),
+                   axis.title.x = element_text(colour = 'black', size = 9),
+                   axis.title.y = element_text(colour = 'black', size = 9),
+                   axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
+                   plot.title = element_blank(),
+                   legend.title = element_text(colour = colours, size = 10), 
+                   legend.text = element_text(colour = colours, size = 9) ),
           tooltip = 'text' )
 
 ```
-
-
 
 
 
