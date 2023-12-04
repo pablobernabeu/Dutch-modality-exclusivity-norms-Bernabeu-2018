@@ -1589,7 +1589,7 @@ ggplotly(
            axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,5)),
            axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
            legend.background = element_rect(size = 2), 
-           legend.title = element_text(colour = colours, size = 15), 
+           legend.title = element_blank(),
            legend.text = element_text(colour = colours, size = 13) ),
   tooltip = 'text'
 )
@@ -2041,7 +2041,7 @@ ggplotly(
            axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,5)),
            axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
            legend.background = element_rect(size = 2), 
-           legend.title = element_text(colour = colours, size = 15), 
+           legend.title = element_blank(),
            legend.text = element_text(colour = colours, size = 13) ),
   tooltip = 'text'
 )
@@ -2219,7 +2219,7 @@ ggplotly( ggplot(eng_props,
                    axis.title.y = element_text(colour = 'black', size = 9),
                    axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
                    plot.title = element_blank(),
-                   legend.title = element_text(colour = colours, size = 10), 
+                   legend.title = element_blank(),
                    legend.text = element_text(colour = colours, size = 9) ),
           tooltip = 'text' )
 
@@ -2317,7 +2317,7 @@ ggplotly( ggplot(eng_concs,
                    axis.title.y = element_text(colour = 'black', size = 9),
                    axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
                    plot.title = element_blank(),
-                   legend.title = element_text(colour = colours, size = 10), 
+                   legend.title = element_blank(),
                    legend.text = element_text(colour = colours, size = 9) ),
           tooltip = 'text' )
 
@@ -2359,7 +2359,7 @@ ggplotly( ggplot(properties_Dutch,
                    axis.title.y = element_text(colour = 'black', size = 9),
                    axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
                    plot.title = element_blank(),
-                   legend.title = element_text(colour = colours, size = 10), 
+                   legend.title = element_blank(),
                    legend.text = element_text(colour = colours, size = 9) ),
           tooltip = 'text' )
 
@@ -2398,7 +2398,7 @@ ggplotly( ggplot(concepts_Dutch,
                    axis.title.y = element_text(colour = 'black', size = 9),
                    axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
                    plot.title = element_blank(),
-                   legend.title = element_text(colour = colours, size = 10), 
+                   legend.title = element_blank(),
                    legend.text = element_text(colour = colours, size = 9) ),
           tooltip = 'text' )
 
