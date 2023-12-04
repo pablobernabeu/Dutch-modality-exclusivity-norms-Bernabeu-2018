@@ -1577,7 +1577,7 @@ ggplotly(
                                    '</b><br><span style="color:#EEEEEE"> Age of acquisition (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">', 
                                    sprintf("%.2f", round(AoA_Brysbaertetal2014, 2)), ' '
                      ) ) ) +
-    geom_text(size = 3) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
+    geom_text(size = 3) + scale_colour_manual(values = colours, drop = FALSE, name = '') + 
     geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
     ggtitle('Property words') +
     labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
@@ -2029,7 +2029,7 @@ ggplotly(
                                    round(orth_neighbours_DUTCHPOND, 2), ' ',
                                    '</b><br><span style="color:#EEEEEE; padding-bottom:3px;"> Age of acquisition (Brysbaert et al., 2014): </span><b style="color:#EEEEEE">', 
                                    round(AoA_Brysbaertetal2014, 2), ' '  ) ) ) +
-    geom_text(size = 3) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
+    geom_text(size = 3) + scale_colour_manual(values = colours, drop = FALSE, name = '') + 
     geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
     ggtitle('Concept words') +
     labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
@@ -2209,7 +2209,7 @@ ggplotly( ggplot(eng_props,
                                    '</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(English_Visual_Lynott_Connell_2009_2013, 2)), ' '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = '') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
             theme_bw() +
             theme( plot.background = element_blank(), panel.grid.major = element_blank(),
@@ -2307,7 +2307,7 @@ ggplotly( ggplot(eng_concs,
                                    '</b><br><span style="color:#EEEEEE"> Visual rating: </span><b style="color:#EEEEEE">', sprintf("%.2f", round(English_Visual_Lynott_Connell_2009_2013, 2)), ' '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = '') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
             theme_bw() +
             theme( plot.background = element_blank(), panel.grid.major = element_blank(),
@@ -2349,7 +2349,7 @@ ggplotly( ggplot(properties_Dutch,
                                    sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = '') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
             theme_bw() + 
             theme( plot.background = element_blank(), panel.grid.major = element_blank(),
@@ -2388,7 +2388,7 @@ ggplotly( ggplot(concepts_Dutch,
                                    sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") + 
-            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = '') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
             theme_bw() + 
             theme( plot.background = element_blank(), panel.grid.major = element_blank(),
