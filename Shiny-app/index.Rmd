@@ -2018,7 +2018,7 @@ renderPlotly({
                               ifelse(is.null(highlighted_properties()), 3, 2.8)),
                 fontface = ifelse(selected_props()$word %in% highlighted_properties(), 'bold', 'plain')) +
       geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
-      scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
+      scale_colour_manual(values = colours, drop = FALSE, name = '') + 
       ggtitle('Property words') +
       labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
       theme_bw() + 
@@ -2610,7 +2610,7 @@ renderPlotly({
                               ifelse(is.null(highlighted_concepts()), 3, 2.8)),
                 fontface = ifelse(selected_concs()$word %in% highlighted_concepts(), 'bold', 'plain')) +
       geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
-      scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
+      scale_colour_manual(values = colours, drop = FALSE, name = '') + 
       ggtitle('Concept words') +
       labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
       theme_bw() + 
@@ -2749,7 +2749,7 @@ ggplotly( ggplot(eng_props,
                                    sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' ', '<br> '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = '') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
             theme_bw() +
             theme( plot.background = element_blank(), panel.grid.major = element_blank(),
@@ -2850,7 +2850,7 @@ ggplotly( ggplot(eng_concs,
                                    sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' ', '<br> '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = '') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
             theme_bw() +
             theme( plot.background = element_blank(), panel.grid.major = element_blank(),
@@ -2895,7 +2895,7 @@ ggplotly( ggplot(properties_Dutch,
                                    sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' ', '<br> '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = '') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
             theme_bw() +
             theme( plot.background = element_blank(), panel.grid.major = element_blank(),
@@ -2934,7 +2934,7 @@ ggplotly( ggplot(concepts_Dutch,
                                    sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' ', '<br> '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") + 
-            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = '') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
             theme_bw() +
             theme( plot.background = element_blank(), panel.grid.major = element_blank(),
