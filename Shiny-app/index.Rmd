@@ -623,7 +623,7 @@ Engprops = ggplot(eng_props,
          axis.line = element_line(color = 'black'),
          axis.title.x = element_text(colour = 'black', size = 14, margin=margin(1,1,1,1)),
          axis.title.y = element_text(colour = 'black', size = 14, margin=margin(1,1,1,1)),
-         axis.text.x = element_text(size=9), axis.text.y  = element_text(size=9),
+         axis.text.x = element_text(size=9), axis.text.y = element_text(size=9),
          plot.title = element_text(hjust = 0.5, size = 17, margin=margin(1,1,1,1)) ) +
   geom_label_repel(data = eng_props[eng_props$English_Word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_Word_Lynott_Connell_2009_2013), size = 6, 
                    alpha = 0.77, color = 'black', box.padding = 1.5 )
@@ -713,7 +713,7 @@ Engconcs = ggplot(eng_concs,
          axis.line = element_line(color = 'black'),
          axis.title.x = element_text(colour = 'black', size = 14, margin=margin(1,1,1,1)),
          axis.title.y = element_text(colour = 'black', size = 14, margin=margin(1,1,1,1)),
-         axis.text.x = element_text(size=9), axis.text.y  = element_text(size=9),
+         axis.text.x = element_text(size=9), axis.text.y = element_text(size=9),
          plot.title = element_text(hjust = 0.5, size = 17, margin=margin(1,1,1,1)) ) +
   geom_label_repel(data = eng_concs[eng_concs$English_Word_Lynott_Connell_2009_2013 %in% w_set,], aes(label = English_Word_Lynott_Connell_2009_2013), size = 6,
                    alpha = 0.77, color = 'black', box.padding = 1.5 )
@@ -804,7 +804,7 @@ NLprops = ggplot(properties,
          axis.line = element_line(color = 'black'),
          axis.title.x = element_text(colour = 'black', size = 14, margin=margin(1,1,1,1)),
          axis.title.y = element_text(colour = 'black', size = 14, margin=margin(1,1,1,1)),
-         axis.text.x = element_text(size=9), axis.text.y  = element_text(size=9),
+         axis.text.x = element_text(size=9), axis.text.y = element_text(size=9),
          plot.title = element_text(hjust = 0.5, size = 17, margin=margin(1,1,1,1)) ) +
   geom_label_repel(data = properties[properties$word %in% w_set,], aes(label = word), size = 6, 
                    alpha = 0.77, color = 'black', box.padding = 1.5 )
@@ -894,7 +894,7 @@ NLconcs = ggplot(concepts,
          axis.line = element_line(color = 'black'),
          axis.title.x = element_text(colour = 'black', size = 14, margin=margin(1,1,1,1)),
          axis.title.y = element_text(colour = 'black', size = 14, margin=margin(1,1,1,1)),
-         axis.text.x = element_text(size=9), axis.text.y  = element_text(size=9),
+         axis.text.x = element_text(size=9), axis.text.y = element_text(size=9),
          plot.title = element_text(hjust = 0.5, size = 17, margin=margin(1,1,1,1)) ) +
   geom_label_repel(data = concepts[concepts$word %in% w_set,], aes(label = word), size = 6,
                    alpha = 0.77, color = 'black', box.padding = 1.5 )
@@ -2018,15 +2018,16 @@ renderPlotly({
                               ifelse(is.null(highlighted_properties()), 3, 2.8)),
                 fontface = ifelse(selected_props()$word %in% highlighted_properties(), 'bold', 'plain')) +
       geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
-      scale_colour_manual(values = colours, drop = FALSE) + theme_bw() + ggtitle('Property words') +
+      scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
+      ggtitle('Property words') +
       labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
-      guides(color = guide_legend(title = 'Main<br>modality')) +
+      theme_bw() + 
       theme( plot.background = element_blank(), panel.grid.major = element_blank(),
              panel.grid.minor = element_blank(), panel.border = element_blank(),
              axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
              axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
              axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,5)),
-             axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
+             axis.text.x = element_text(size = 8), axis.text.y = element_text(size = 8),
              legend.background = element_rect(size = 2), legend.position = 'none',
              legend.title = element_blank(),
              legend.text = element_text(colour = colours, size = 13) ),
@@ -2050,15 +2051,12 @@ properties_png = reactive({ ggplot(selected_props(), aes(RC1, RC2, color = main,
            axis.line = element_line(color = 'black'), plot.title = element_text(size = 17, hjust = .5, margin = margin(3,3,7,3)),
            axis.title.x = element_text(colour = 'black', size = 12, margin = margin(10,10,2,10)),
            axis.title.y = element_text(colour = 'black', size = 12, margin = margin(10,10,10,5)),
-           axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
+           axis.text.x = element_text(size = 8), axis.text.y = element_text(size = 8),
            legend.background = element_rect(size = 2), legend.position = 'right',
            legend.title = element_blank(), legend.text = element_text(size = 15))
 })
 
 ```
-
-
-
 
 
 
@@ -2612,18 +2610,19 @@ renderPlotly({
                               ifelse(is.null(highlighted_concepts()), 3, 2.8)),
                 fontface = ifelse(selected_concs()$word %in% highlighted_concepts(), 'bold', 'plain')) +
       geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
-      scale_colour_manual(values = colours, drop = FALSE) + theme_bw() + ggtitle('Concept words') +
+      scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
+      ggtitle('Concept words') +
       labs(x = 'Varimax-rotated Principal Component 1', y = 'Varimax-rotated Principal Component 2') +
-      guides(color = guide_legend(title = 'Main<br>modality')) +
+      theme_bw() + 
       theme( plot.background = element_blank(), panel.grid.major = element_blank(),
              panel.grid.minor = element_blank(), panel.border = element_blank(),
              axis.line = element_line(color = 'black'), plot.title = element_text(size = 14, hjust = .5),
              axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
              axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,5)),
-             axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
+             axis.text.x = element_text(size = 8), axis.text.y = element_text(size = 8),
              legend.background = element_rect(size = 2), legend.position = 'none',
              legend.title = element_blank(),
-             legend.text = element_text(colour = colours, size = 15) ),
+             legend.text = element_text(colour = colours, size = 13) ),
     tooltip = 'text'
   )
 })
@@ -2645,7 +2644,7 @@ concepts_png = reactive({ ggplot(selected_concs(), aes(RC1, RC2, color = main, l
            axis.line = element_line(color = 'black'), plot.title = element_text(size = 17, hjust = .5, margin = margin(3,3,7,3)),
            axis.title.x = element_text(colour = 'black', size = 12, margin = margin(10,10,2,10)),
            axis.title.y = element_text(colour = 'black', size = 12, margin = margin(10,10,10,5)),
-           axis.text.x = element_text(size = 8), axis.text.y  = element_text(size = 8),
+           axis.text.x = element_text(size = 8), axis.text.y = element_text(size = 8),
            legend.background = element_rect(size = 2), legend.position = 'right',
            legend.title = element_blank(), legend.text = element_text(size = 15) )
 })
@@ -2750,20 +2749,21 @@ ggplotly( ggplot(eng_props,
                                    sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' ', '<br> '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-            geom_text(size = 2.8, show.legend=FALSE) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
-            guides(color = guide_legend(title = 'Main<br>modality', override.aes = list(size = 7, alpha = 1))) +
+            theme_bw() +
             theme( plot.background = element_blank(), panel.grid.major = element_blank(),
                    panel.grid.minor = element_blank(), panel.border = element_blank(),
                    axis.line = element_line(color = 'black'),
                    axis.title.x = element_text(colour = 'black', size = 9),
                    axis.title.y = element_text(colour = 'black', size = 9),
-                   axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
-                   legend.title = element_blank(), plot.title = element_blank() ),
+                   axis.text.x = element_text(size = 6), axis.text.y = element_text(size = 6),
+                   plot.title = element_blank(),
+                   legend.title = element_blank(),
+                   legend.text = element_text(colour = colours, size = 9) ),
           tooltip = 'text' )
 
 ```
-
 
 
 
@@ -2850,16 +2850,18 @@ ggplotly( ggplot(eng_concs,
                                    sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' ', '<br> '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-            geom_text(size = 2.8, show.legend=FALSE) + scale_colour_manual(values = colours, drop = FALSE) + theme_bw() +
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
-            guides(color = guide_legend(title = 'Main<br>modality', override.aes = list(size = 7, alpha = 1))) +
+            theme_bw() +
             theme( plot.background = element_blank(), panel.grid.major = element_blank(),
                    panel.grid.minor = element_blank(), panel.border = element_blank(),
                    axis.line = element_line(color = 'black'),
                    axis.title.x = element_text(colour = 'black', size = 9),
                    axis.title.y = element_text(colour = 'black', size = 9),
-                   axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
-                   legend.title = element_blank(), plot.title = element_blank() ),
+                   axis.text.x = element_text(size = 6), axis.text.y = element_text(size = 6),
+                   plot.title = element_blank(),
+                   legend.title = element_blank(),
+                   legend.text = element_text(colour = colours, size = 9) ),
           tooltip = 'text' )
 
 ```
@@ -2893,19 +2895,21 @@ ggplotly( ggplot(properties_Dutch,
                                    sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' ', '<br> '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") +
-            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE) + 
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
-            theme_bw() + theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-                                panel.grid.minor = element_blank(), panel.border = element_blank(),
-                                axis.line = element_line(color = 'black'),
-                                axis.title.x = element_text(colour = 'black', size = 9),
-                                axis.title.y = element_text(colour = 'black', size = 9),
-                                axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
-                                legend.title = element_blank(), plot.title = element_blank() ),
+            theme_bw() +
+            theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+                   panel.grid.minor = element_blank(), panel.border = element_blank(),
+                   axis.line = element_line(color = 'black'),
+                   axis.title.x = element_text(colour = 'black', size = 9),
+                   axis.title.y = element_text(colour = 'black', size = 9),
+                   axis.text.x = element_text(size = 6), axis.text.y = element_text(size = 6),
+                   plot.title = element_blank(),
+                   legend.title = element_blank(),
+                   legend.text = element_text(colour = colours, size = 9) ),
           tooltip = 'text' )
 
 ```
-
 
 
 
@@ -2930,20 +2934,21 @@ ggplotly( ggplot(concepts_Dutch,
                                    sprintf("%.2f", round(concrete_Brysbaertetal2014, 2)), ' ', '<br> '
                      ) ) ) +
             labs(x = "Varimax-rotated Principal Component 1", y = "Varimax-rotated Principal Component 2") + 
-            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE) + 
+            geom_text(size = 2.8) + scale_colour_manual(values = colours, drop = FALSE, name = 'Main<br>modality') + 
             geom_point(alpha = 0) +  # This geom_point helps to colour the tooltip according to the dominant modality
-            theme_bw() + theme( plot.background = element_blank(), panel.grid.major = element_blank(),
-                                panel.grid.minor = element_blank(), panel.border = element_blank(),
-                                axis.line = element_line(color = 'black'),
-                                axis.title.x = element_text(colour = 'black', size = 9),
-                                axis.title.y = element_text(colour = 'black', size = 9),
-                                axis.text.x = element_text(size = 6), axis.text.y  = element_text(size = 6),
-                                legend.title = element_blank(), plot.title = element_blank() ),
+            theme_bw() +
+            theme( plot.background = element_blank(), panel.grid.major = element_blank(),
+                   panel.grid.minor = element_blank(), panel.border = element_blank(),
+                   axis.line = element_line(color = 'black'),
+                   axis.title.x = element_text(colour = 'black', size = 9),
+                   axis.title.y = element_text(colour = 'black', size = 9),
+                   axis.text.x = element_text(size = 6), axis.text.y = element_text(size = 6),
+                   plot.title = element_blank(),
+                   legend.title = element_blank(),
+                   legend.text = element_text(colour = colours, size = 9) ),
           tooltip = 'text' )
 
 ```
-
-
 
 
 
