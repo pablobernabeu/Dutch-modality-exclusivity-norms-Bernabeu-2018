@@ -528,10 +528,11 @@ allNL$cat = factor(allNL$cat, levels = rev(levels(allNL$cat)))
 p = ggplot(allNL) +
   geom_bar(mapping = aes(x = main, fill = Range), position = position_stack(reverse = TRUE)) +
   scale_fill_grey(start=.9, end=0, labels = c("0-20%", "20-40%", "40-60%", "60-80%", "80-100%"),
-                  guide = guide_legend(reverse = TRUE, override.aes = list(size = 11))) +
+                  guide = guide_legend(reverse = TRUE)) +
   scale_x_discrete(expand = c(.24,0)) + scale_y_continuous(expand = expand_scale(mult = c(0, .05))) +
   facet_grid(. ~ cat) + labs(fill = "Modality\nExclusivity", x = 'Dominant Modality',  y = 'Number of Words') +
   theme_bw() + theme(legend.position = c(.17, .6), legend.title = element_text(size = 20, face = 'bold'),
+                     legend.key.size = unit(1.1, 'cm'),
                      legend.text = element_text(size = 18), legend.background = element_rect(fill=alpha('white', 0)),
                      axis.title = element_text(size = 21, face = "bold"), axis.text = element_text(size = 19),
                      axis.title.x = element_text(margin = margin(.09, 0, 0, 0, "cm")),
@@ -925,7 +926,7 @@ div(
 
 ```
 
-<h5 style='text-align:justify; padding-left:5px; padding-right:5px; padding-bottom:3px; line-height:1.4;'> Figure 2. Dutch norms compared to English norms (reanalysis of Lynott & Connell, 2009, 2013, narrowed to three modalities) based on a principal component analysis of the auditory, haptic, and visual ratings for each word. Letters indicate the dominant modality of each word (*a* = auditory, *h* = haptic, *v* = visual), and contours further display the degree of consistency of the modalities. [<i class='fas fa-external-link-alt' aria-hidden=TRUE style='font-size:7'></i> Github](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png)
+<h5 style='text-align:justify; padding-left:5px; padding-right:5px; padding-bottom:3px; line-height:1.4;'> Figure 2. Dutch norms compared to English norms (reanalysis of Lynott & Connell, 2009, 2013, narrowed to three modalities) based on a principal component analysis of the auditory, haptic, and visual ratings for each word. Letters indicate the dominant modality of each word (*a* = auditory, *h* = haptic, *v* = visual), and contours further display the degree of consistency of the modalities. [<i class='fas fa-external-link-alt' aria-hidden=TRUE style='font-size:7'></i> Github](https://raw.githubusercontent.com/pablobernabeu/Modality-exclusivity-norms-747-Dutch-English-replication/master/allfour_lowres.png) </h5>
 
 
 
@@ -4999,7 +5000,7 @@ properties_Dutch2_results$coefficients_and_asterisks =
 HTML(
   kable(
     spread(properties_Dutch2_results[,c('Dependent', 'Variable', 'coefficients_and_asterisks')],
-           Variable, coefficients_and_asterisks), escape = FALSE
+           Variable, coefficients_and_asterisks), format = 'html', escape = FALSE
   ) %>%
     kable_styling('striped', full_width = FALSE)
 )
@@ -5037,7 +5038,7 @@ concepts_Dutch2_results$coefficients_and_asterisks =
 HTML(
   kable(
     spread(concepts_Dutch2_results[,c('Dependent', 'Variable', 'coefficients_and_asterisks')],
-           Variable, coefficients_and_asterisks), escape = FALSE
+           Variable, coefficients_and_asterisks), format = 'html', escape = FALSE
   ) %>%
     kable_styling('striped', full_width = FALSE)
 )
