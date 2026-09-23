@@ -451,6 +451,19 @@ concs$Exclusivity = concs$Exclusivity * 100
 # Colors for plots
 colours = c('Auditory' = 'firebrick1', 'Haptic' = 'dodgerblue', 'Visual' = 'forestgreen')
 
+# Sidebar mean for 'CD Inflected adjective', used in the Table and Properties tabs.
+# WHY: the mean is taken over the selected words that have an inflected adjective
+# form, which in these data means every property and no concept. Concepts hold a
+# zero only as a placeholder (see the column tooltip in the table), so they are left
+# out. Properties whose inflected form is absent from SUBTLEX-NL keep their zero,
+# because log10(CD + 1) is truly zero for them, and the 'Contextual diversity' mean
+# above treats absent words in the same way. The divisor follows the selection,
+# whereas it used to be fixed at 336, which understated the mean after any filtering.
+mean_inflected_CD = function(words) {
+  has_inflected_form = !is.na(words$inflected_prop) & words$inflected_prop != ''
+  paste0('Mean = ', sprintf("%.2f", round(mean(words$inflected_adj_freq_lg10CD_SUBTLEXNL[has_inflected_form]), 2)))
+}
+
 ```
 
 
@@ -1186,7 +1199,7 @@ sliderInput("table_ContextualDiversity", "Contextual diversity (CD)", min = 0, m
 reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$freq_lg10CD_SUBTLEXNL),2)))))
 
 sliderInput("table_InflectedContextualDiversity", "CD Inflected adjective", min = 0, max = 4, value = c(0, 4), step = 0.1)
-reactive(cat(paste0('Mean = ', sprintf("%.2f", round(sum(selected_words()$inflected_adj_freq_lg10CD_SUBTLEXNL)/336,2)))))
+reactive(cat(mean_inflected_CD(selected_words())))
 
 sliderInput("table_WF_SUBTLEXNL", "Word frequency", min = 0, max = 5, value = c(0, 5), step = 0.1)
 reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_words()$freq_lg10WF_SUBTLEXNL),2)))))
@@ -1722,7 +1735,7 @@ sliderInput("properties_ContextualDiversity", "Contextual diversity (CD)", min =
 reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$freq_lg10CD_SUBTLEXNL),2)))))
 
 sliderInput("properties_InflectedContextualDiversity", "CD Inflected adjective", min = 0, max = 4, value = c(0, 4), step = 0.1)
-reactive(cat(paste0('Mean = ', sprintf("%.2f", round(sum(selected_props()$inflected_adj_freq_lg10CD_SUBTLEXNL)/336,2)))))
+reactive(cat(mean_inflected_CD(selected_props())))
 
 sliderInput("properties_WF_SUBTLEXNL", "Word frequency", min = 0, max = 5, value = c(0, 5), step = 0.1)
 reactive(cat(paste0('Mean = ', sprintf("%.2f", round(mean(selected_props()$freq_lg10WF_SUBTLEXNL),2)))))
@@ -2028,7 +2041,7 @@ renderPlotly({
              axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
              axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,5)),
              axis.text.x = element_text(size = 8), axis.text.y = element_text(size = 8),
-             legend.background = element_rect(size = 2), 
+             legend.background = element_rect(linewidth = 2), 
              legend.title = element_blank(),
              legend.text = element_text(colour = colours, size = 13) ),
     tooltip = 'text'
@@ -2052,7 +2065,7 @@ properties_png = reactive({ ggplot(selected_props(), aes(RC1, RC2, color = main,
            axis.title.x = element_text(colour = 'black', size = 12, margin = margin(10,10,2,10)),
            axis.title.y = element_text(colour = 'black', size = 12, margin = margin(10,10,10,5)),
            axis.text.x = element_text(size = 8), axis.text.y = element_text(size = 8),
-           legend.background = element_rect(size = 2), legend.position = 'right',
+           legend.background = element_rect(linewidth = 2), legend.position = 'right',
            legend.title = element_blank(), legend.text = element_text(size = 15))
 })
 
@@ -2620,7 +2633,7 @@ renderPlotly({
              axis.title.x = element_text(colour = 'black', size = 12, margin = margin(15,15,0,15)),
              axis.title.y = element_text(colour = 'black', size = 12, margin = margin(0,15,15,5)),
              axis.text.x = element_text(size = 8), axis.text.y = element_text(size = 8),
-             legend.background = element_rect(size = 2), 
+             legend.background = element_rect(linewidth = 2), 
              legend.title = element_blank(),
              legend.text = element_text(colour = colours, size = 13) ),
     tooltip = 'text'
@@ -2645,7 +2658,7 @@ concepts_png = reactive({ ggplot(selected_concs(), aes(RC1, RC2, color = main, l
            axis.title.x = element_text(colour = 'black', size = 12, margin = margin(10,10,2,10)),
            axis.title.y = element_text(colour = 'black', size = 12, margin = margin(10,10,10,5)),
            axis.text.x = element_text(size = 8), axis.text.y = element_text(size = 8),
-           legend.background = element_rect(size = 2), legend.position = 'right',
+           legend.background = element_rect(linewidth = 2), legend.position = 'right',
            legend.title = element_blank(), legend.text = element_text(size = 15) )
 })
 
