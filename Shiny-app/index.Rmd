@@ -457,8 +457,9 @@ colours = c('Auditory' = 'firebrick1', 'Haptic' = 'dodgerblue', 'Visual' = 'fore
 # zero only as a placeholder (see the column tooltip in the table), so they are left
 # out. Properties whose inflected form is absent from SUBTLEX-NL keep their zero,
 # because log10(CD + 1) is truly zero for them, and the sidebar mean for
-# 'Contextual diversity (CD)' treats absent words in the same way. The divisor follows the selection,
-# whereas it used to be fixed at 336, which understated the mean after any filtering.
+# 'Contextual diversity (CD)' treats absent words in the same way. The divisor
+# follows the selection, whereas it used to be fixed at 336, which understated the
+# mean after any filtering.
 mean_inflected_CD = function(words) {
   has_inflected_form = !is.na(words$inflected_prop) & words$inflected_prop != ''
   # With only concepts selected there is nothing to average, and 'NaN' would read as a fault
